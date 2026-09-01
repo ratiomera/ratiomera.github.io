@@ -1405,6 +1405,67 @@ if (!file.exists(download_renderer_path)) {
   }
 }
 
+linkedin_channel <- manifest$official_social_channels$linkedin
+canonical_linkedin_url <- "https://www.linkedin.com/company/ratiomera/"
+linkedin_footer_class <- "footer-linkedin-item"
+if (is.null(linkedin_channel)) {
+  fail("The parity manifest must define the official Ratiomera LinkedIn channel.")
+} else {
+  linkedin_variable_reference <- as.character(linkedin_channel$url_variable)
+  linkedin_variable_path <- sub("#.*$", "", linkedin_variable_reference)
+  if (!identical(linkedin_variable_reference, "_variables.yml#social.linkedin")) {
+    fail("The LinkedIn manifest entry must reference _variables.yml#social.linkedin.")
+  } else if (!file.exists(linkedin_variable_path)) {
+    fail(sprintf("Missing public social-variable file: %s", linkedin_variable_path))
+  } else {
+    public_variables <- yaml::read_yaml(linkedin_variable_path)
+    configured_linkedin_url <- trimws(as.character(public_variables$social$linkedin))
+    if (length(configured_linkedin_url) != 1L ||
+        !identical(configured_linkedin_url, canonical_linkedin_url)) {
+      fail("_variables.yml must define the canonical Ratiomera LinkedIn URL exactly once.")
+    }
+  }
+
+  if (!identical(as.character(linkedin_channel$canonical_url), canonical_linkedin_url)) {
+    fail("The LinkedIn manifest URL does not match the canonical Ratiomera company-page URL.")
+  }
+  if (!identical(as.character(linkedin_channel$placement), "global_footer_and_localized_contact_pages")) {
+    fail("The LinkedIn channel must be declared for the global footer and all localized contact pages.")
+  }
+  if (!identical(as.character(linkedin_channel$footer_item_class), linkedin_footer_class)) {
+    fail(sprintf("The LinkedIn footer item must use .%s.", linkedin_footer_class))
+  }
+  if (!identical(linkedin_channel$external_widget_or_tracker, FALSE)) {
+    fail("The official LinkedIn channel must remain a plain link without a widget or tracker.")
+  }
+
+  contact_page_index <- which(page_ids == "ratiomera-contact")
+  if (length(contact_page_index) != 1L) {
+    fail("The page inventory must contain exactly one localized Ratiomera contact triplet.")
+  } else {
+    contact_page <- pages[[contact_page_index]]
+    linkedin_variable_shortcode <- "{{< var social.linkedin >}}"
+    for (locale in locales) {
+      contact_path <- as.character(contact_page$paths[[locale]])
+      if (!file.exists(contact_path)) next
+      contact_text <- paste(readLines(contact_path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+      shortcode_matches <- gregexpr(linkedin_variable_shortcode, contact_text, fixed = TRUE)[[1]]
+      shortcode_count <- if (identical(shortcode_matches[[1]], -1L)) 0L else length(shortcode_matches)
+      if (shortcode_count != 1L) {
+        fail(sprintf("%s must use the canonical LinkedIn variable exactly once.", contact_path))
+      }
+      for (token in c("contact-channel-link", "target=\"_blank\"", "rel=\"noopener noreferrer\"")) {
+        if (!grepl(token, contact_text, fixed = TRUE)) {
+          fail(sprintf("%s lacks required LinkedIn link semantics: %s.", contact_path, token))
+        }
+      }
+      if (grepl(canonical_linkedin_url, contact_text, fixed = TRUE)) {
+        fail(sprintf("%s hardcodes the LinkedIn URL instead of using the shared variable.", contact_path))
+      }
+    }
+  }
+}
+
 footer <- manifest$footer_language_selector
 quarto_path <- as.character(footer$quarto_config)
 switcher_path <- as.character(footer$mapping_script)
@@ -1437,6 +1498,19 @@ if (!file.exists(switcher_path)) {
   if (!grepl("page-visit-counter", switcher_text, fixed = TRUE) ||
       !grepl("counter_route_map", switcher_text, fixed = TRUE)) {
     fail(sprintf("%s does not inject route-mapped page-visit counters.", switcher_path))
+  }
+  if (!is.null(linkedin_channel)) {
+    for (token in c(
+      linkedin_footer_class, canonical_linkedin_url, "linkedin_aria",
+      "target=\"_blank\"", "rel=\"noopener noreferrer\""
+    )) {
+      if (!grepl(token, switcher_text, fixed = TRUE)) {
+        fail(sprintf("%s lacks required official LinkedIn footer semantics: %s.", switcher_path, token))
+      }
+    }
+    if (!identical(as.character(linkedin_channel$footer_injector), switcher_path)) {
+      fail("The LinkedIn footer injector must match the configured footer mapping script.")
+    }
   }
 
   route_environment <- new.env(parent = globalenv())
@@ -1509,4 +1583,4 @@ if (length(failures)) {
   quit(save = "no", status = 1L)
 }
 
-cat("PASS: route triplets, metadata, Unicode-safe figure rendering, internal links, inline math, em dashes, structural parity, static Theory figures, interactive Simulated Example figures, downloads, assets, terminology, footer language mapping, and counter configuration.\n")
+cat("PASS: route triplets, metadata, Unicode-safe figure rendering, internal links, inline math, em dashes, structural parity, static Theory figures, interactive Simulated Example figures, downloads, assets, terminology, footer language and official social mapping, and counter configuration.\n")

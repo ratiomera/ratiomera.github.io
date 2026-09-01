@@ -61,6 +61,19 @@ Përdor kontaktin e përgjithshëm për pyetje rreth projektit Ratiomera në të
 
 ---
 
+## LinkedIn
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Ndiq Ratiomera</h3>
+<p>Ndiq Ratiomera në LinkedIn për njoftime rreth projektit, të publikuara në anglisht, gjermanisht dhe shqip. Për pyetje, korrigjime ose kërkesa për bashkëpunim, përdor adresat e emailit në këtë faqe.</p>
+<span class="contact-label">Faqja zyrtare</span>
+[Vizito Ratiomera në LinkedIn]({{< var social.linkedin >}}){.contact-channel-link target="_blank" rel="noopener noreferrer" aria-label="Vizito Ratiomera në LinkedIn (hapet në një skedë të re)"}
+</article>
+</div>
+
+---
+
 ## Ekipi
 
 Krenar Sherifi dhe Donat Ismaili aktualisht kontribuojnë në Ratiomera Statistics. Profesionet dhe përfshirja e tyre e tanishme në degë paraqiten më poshtë.

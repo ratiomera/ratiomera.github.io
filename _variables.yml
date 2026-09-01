@@ -7,6 +7,11 @@ contact:
   volunteering: "volunteering@ratiomera.ch"
   informatics: "informatics@ratiomera.ch"
 
+# Canonical public social channels. These are ordinary external links; the
+# website does not load platform widgets, tracking scripts, or social APIs.
+social:
+  linkedin: "https://www.linkedin.com/company/ratiomera/"
+
 # Canonical public labels for the shared development-status system.
 status:
   not_started: "Not Started"

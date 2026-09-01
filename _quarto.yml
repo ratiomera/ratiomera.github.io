@@ -279,9 +279,11 @@ website:
   # ── Footer ─────────────────────────────────────────────────
   # The bar at the bottom of every page.
   # Left side: copyright text. Center: EN | DE | SQ language navigation.
-  # Right side: Legal Notice link plus a subtle page-visit counter. The
-  # post-render step localizes all three areas, maps each language link to the
-  # corresponding current page, and adds the counter only on canonical pages.
+  # Right side: Legal Notice, the official LinkedIn page, and a subtle
+  # page-visit counter. The post-render step localizes all three areas, maps
+  # each language link to the corresponding current page, adds the external
+  # LinkedIn link without a widget or tracker, and adds the counter only on
+  # canonical pages.
   # ───────────────────────────────────────────────────────────
   page-footer:
     left: "© 2025–2026 Ratiomera. Free education in mathematics and statistics."

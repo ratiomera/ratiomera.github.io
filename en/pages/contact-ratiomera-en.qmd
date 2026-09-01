@@ -60,6 +60,19 @@ Use the general contact for questions about Ratiomera as a project, collaboratio
 
 ---
 
+## LinkedIn
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Follow Ratiomera</h3>
+<p>Follow Ratiomera on LinkedIn for project updates published in English, German, and Albanian. For questions, corrections, or collaboration inquiries, use the email routes on this page.</p>
+<span class="contact-label">Official page</span>
+[Visit Ratiomera on LinkedIn]({{< var social.linkedin >}}){.contact-channel-link target="_blank" rel="noopener noreferrer" aria-label="Visit Ratiomera on LinkedIn (opens in a new tab)"}
+</article>
+</div>
+
+---
+
 ## Team
 
 Krenar Sherifi and Donat Ismaili currently contribute to Ratiomera Statistics. Their professions and current branch involvement are shown below.

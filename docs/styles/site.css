@@ -3889,6 +3889,16 @@ caption {
   overflow-wrap: anywhere;
 }
 
+.contact-channel-link {
+  display: inline-flex;
+  margin-top: var(--space-2);
+  align-items: center;
+  color: var(--ratiomera-navy);
+  font-size: 0.9rem;
+  font-weight: 680;
+  overflow-wrap: anywhere;
+}
+
 .contact-label,
 .placeholder-label {
   display: inline-flex;

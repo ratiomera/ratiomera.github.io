@@ -27,11 +27,19 @@ if (!nzchar(output_list)) {
 
 counter_config_path <- file.path(project_dir, "config/counters.yml")
 counter_manifest_path <- file.path(project_dir, "config/content-parity.yml")
+public_variables_path <- file.path(project_dir, "_variables.yml")
 if (!file.exists(counter_config_path)) stop("Missing counter configuration: ", counter_config_path, call. = FALSE)
 if (!file.exists(counter_manifest_path)) stop("Missing counter route manifest: ", counter_manifest_path, call. = FALSE)
+if (!file.exists(public_variables_path)) stop("Missing public variables: ", public_variables_path, call. = FALSE)
 
 counter_config <- yaml::read_yaml(counter_config_path)
 counter_manifest <- yaml::read_yaml(counter_manifest_path)
+public_variables <- yaml::read_yaml(public_variables_path)
+linkedin_url <- trimws(as.character(public_variables$social$linkedin))
+if (length(linkedin_url) != 1L ||
+    !identical(linkedin_url, "https://www.linkedin.com/company/ratiomera/")) {
+  stop("_variables.yml must define the canonical Ratiomera LinkedIn URL.", call. = FALSE)
+}
 
 make_counter_id <- function(template, values) {
   identifier <- as.character(template)
@@ -163,6 +171,7 @@ labels <- list(
     breadcrumb = "Breadcrumb", toggle_nav = "Toggle navigation",
     toggle_sidebar = "Toggle learning-sequence navigation", legal = "Legal Notice",
     language_nav = "Language selection",
+    linkedin_aria = "Ratiomera on LinkedIn, opens in a new tab",
     copyright = "© 2025–2026 Ratiomera. Free education in mathematics and statistics."
   ),
   de = c(
@@ -174,6 +183,7 @@ labels <- list(
     breadcrumb = "Pfadnavigation", toggle_nav = "Navigation ein- oder ausblenden",
     toggle_sidebar = "Navigation der Lernsequenz ein- oder ausblenden", legal = "Impressum",
     language_nav = "Sprachauswahl",
+    linkedin_aria = "Ratiomera auf LinkedIn, öffnet sich in einem neuen Tab",
     copyright = "© 2025–2026 Ratiomera. Freie Bildung in Mathematik und Statistik."
   ),
   sq = c(
@@ -185,6 +195,7 @@ labels <- list(
     breadcrumb = "Gjurmë navigimi", toggle_nav = "Hap ose mbyll navigimin",
     toggle_sidebar = "Hap ose mbyll navigimin e renditjes mësimore", legal = "Njoftimi ligjor",
     language_nav = "Zgjedhja e gjuhës",
+    linkedin_aria = "Ratiomera në LinkedIn, hapet në një skedë të re",
     copyright = "© 2025–2026 Ratiomera. Arsim i lirë në matematikë dhe statistikë."
   )
 )
@@ -612,6 +623,27 @@ rewrite_navbar <- function(file) {
     xml2::xml_set_text(footer_right_text, text[["legal"]])
   }
 
+  footer_right_items <- required_node(
+    footer,
+    ".//*[contains(concat(' ', normalize-space(@class), ' '), ' nav-footer-right ')]//ul",
+    "footer right item list"
+  )
+  existing_linkedin_items <- xml2::xml_find_all(
+    footer,
+    ".//*[contains(concat(' ', normalize-space(@class), ' '), ' footer-linkedin-item ')]"
+  )
+  if (length(existing_linkedin_items)) {
+    stop("Footer already contains a LinkedIn item: ", relative_file, call. = FALSE)
+  }
+  linkedin_markup <- xml2::read_xml(paste0(
+    '<li class="nav-item footer-linkedin-item">',
+    '<a class="nav-link" href="', xml_escape(linkedin_url, attribute = TRUE), '"',
+    ' target="_blank" rel="noopener noreferrer"',
+    ' aria-label="', xml_escape(text[["linkedin_aria"]], attribute = TRUE), '">',
+    '<p>LinkedIn</p></a></li>'
+  ))
+  xml2::xml_add_child(footer_right_items, linkedin_markup)
+
   footer_center <- required_node(
     footer,
     ".//*[contains(concat(' ', normalize-space(@class), ' '), ' nav-footer-center ')]",
@@ -680,11 +712,6 @@ rewrite_navbar <- function(file) {
       stop("Footer already contains a page visit counter: ", output_route, call. = FALSE)
     }
 
-    footer_right_items <- required_node(
-      footer,
-      ".//*[contains(concat(' ', normalize-space(@class), ' '), ' nav-footer-right ')]//ul",
-      "footer right item list"
-    )
     counter_labels <- counter_config$locales[[counter_entry$locale]]
     counter_aria <- paste0(counter_labels$visits, ": ", counter_labels$unavailable)
     counter_markup <- xml2::read_xml(paste0(

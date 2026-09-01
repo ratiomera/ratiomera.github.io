@@ -15,6 +15,14 @@ footer_language_selector:
   mapping_script: scripts/rewrite-navbar.R
   selector_class: footer-language-selector
   mapping_function: localized_output_path
+official_social_channels:
+  linkedin:
+    url_variable: _variables.yml#social.linkedin
+    canonical_url: https://www.linkedin.com/company/ratiomera/
+    placement: global_footer_and_localized_contact_pages
+    footer_injector: scripts/rewrite-navbar.R
+    footer_item_class: footer-linkedin-item
+    external_widget_or_tracker: false
 usage_counters:
   configuration: config/counters.yml
   client: js/counters.html
@@ -131,7 +139,7 @@ pages:
     content_status: {en: review, de: review, sq: review}
     parity_mode: full
     last_synchronized: 2026-09-01
-    notes: The project-wide Contact page distinguishes general, branch-specific, and volunteering inquiries; identifies Krenar Sherifi as a psychologist and Donat Ismaili as a teacher; marks both as current Ratiomera Statistics contributors; publishes the active info, statistics, mathematics, and volunteering role addresses as mail links; and explains response limits, useful message details, and the absence of tutoring or urgent support in every locale.
+    notes: The project-wide Contact page distinguishes general, branch-specific, and volunteering inquiries; identifies Krenar Sherifi as a psychologist and Donat Ismaili as a teacher; marks both as current Ratiomera Statistics contributors; publishes the active info, statistics, mathematics, and volunteering role addresses as mail links; links the single official Ratiomera LinkedIn page for English, German, and Albanian project updates while directing inquiries back to email; and explains response limits, useful message details, and the absence of tutoring or urgent support in every locale.
   - id: ratiomera-support
     page_type: page
     branch: ratiomera
