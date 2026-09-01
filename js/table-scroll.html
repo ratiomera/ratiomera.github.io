@@ -1,0 +1,210 @@
+<script>
+/* Give wide lesson figures and tables a visible, localized, keyboard-friendly
+   horizontal-scroll treatment while keeping captions in the reading column. */
+(function () {
+  'use strict';
+
+  function regionLabel(table) {
+    var language = (document.documentElement.lang || 'en').toLowerCase();
+    var prefix = language.indexOf('de') === 0
+      ? 'Horizontal scrollbare Tabelle'
+      : language.indexOf('sq') === 0
+        ? 'Tabelë me lëvizje horizontale'
+        : 'Horizontally scrollable table';
+    var caption = table.querySelector('caption');
+    var section = table.closest('section');
+    var heading = section && section.querySelector(':scope > h2, :scope > h3, :scope > h4');
+    var context = caption && caption.textContent.trim()
+      ? caption.textContent.trim()
+      : heading && heading.textContent.trim()
+        ? heading.textContent.trim()
+        : '';
+
+    return context ? prefix + ': ' + context : prefix;
+  }
+
+  function directFloatCaption(region) {
+    var figure = region.closest('figure.quarto-float-tbl');
+    if (!figure) return null;
+
+    return Array.prototype.find.call(figure.children, function (child) {
+      return child.matches('figcaption.quarto-float-tbl');
+    }) || null;
+  }
+
+  function combinedDataTableCaption(wrapper) {
+    var table = wrapper.querySelector('table');
+    var caption = table && table.querySelector('caption');
+    var numberCaption = directFloatCaption(wrapper);
+    var number = numberCaption && numberCaption.textContent.trim();
+    var description = caption && caption.textContent.trim();
+
+    if (number && description) return number + ': ' + description;
+    return description || number || '';
+  }
+
+  function dataTableLabel(wrapper) {
+    var language = (document.documentElement.lang || 'en').toLowerCase();
+    var prefix = language.indexOf('de') === 0
+      ? 'Horizontal scrollbare Datentabelle der simulierten Studie'
+      : language.indexOf('sq') === 0
+        ? 'Tabelë e të dhënave të studimit të simuluar me lëvizje horizontale'
+        : 'Horizontally scrollable simulated-study data table';
+    var caption = combinedDataTableCaption(wrapper);
+
+    return caption ? prefix + ': ' + caption : prefix;
+  }
+
+  function overflowHint(kind) {
+    var language = (document.documentElement.lang || 'en').toLowerCase();
+    if (language.indexOf('de') === 0) {
+      return kind === 'figure'
+        ? '↔ Horizontal scrollen, um die vollständige Abbildung zu sehen.'
+        : '↔ Horizontal scrollen, um alle Spalten zu sehen.';
+    }
+    if (language.indexOf('sq') === 0) {
+      return kind === 'figure'
+        ? '↔ Lëviz horizontalisht për ta parë figurën e plotë.'
+        : '↔ Lëviz horizontalisht për t\'i parë të gjitha kolonat.';
+    }
+    return kind === 'figure'
+      ? '↔ Scroll horizontally to see the full figure.'
+      : '↔ Scroll horizontally to see all columns.';
+  }
+
+  function ensureTableShell(region) {
+    var shell = region.parentElement && region.parentElement.classList.contains('table-scroll-shell')
+      ? region.parentElement
+      : null;
+    if (!shell) {
+      shell = document.createElement('div');
+      shell.className = 'table-scroll-shell';
+      region.parentNode.insertBefore(shell, region);
+      shell.appendChild(region);
+    }
+
+    var table = region.querySelector('table');
+    var caption = table && table.querySelector('caption');
+    var visibleCaption = Array.prototype.find.call(
+      shell.children,
+      function (child) { return child.classList.contains('table-caption-visible'); }
+    );
+    if (caption) {
+      caption.classList.add('table-caption-source');
+      if (!visibleCaption) {
+        visibleCaption = document.createElement('p');
+        visibleCaption.className = 'table-caption table-caption-visible';
+        visibleCaption.setAttribute('aria-hidden', 'true');
+        shell.appendChild(visibleCaption);
+      }
+
+      while (visibleCaption.firstChild) visibleCaption.removeChild(visibleCaption.firstChild);
+      var numberCaption = region.classList.contains('dataTables_wrapper')
+        ? directFloatCaption(region)
+        : null;
+      var number = numberCaption && numberCaption.textContent.trim();
+      if (numberCaption && number) {
+        numberCaption.classList.add('table-caption-source', 'datatable-number-source');
+        numberCaption.setAttribute('aria-hidden', 'true');
+        var numberElement = document.createElement('span');
+        numberElement.className = 'table-caption-number';
+        numberElement.textContent = number + ':';
+        visibleCaption.appendChild(numberElement);
+        visibleCaption.appendChild(document.createTextNode(' '));
+      }
+      Array.prototype.forEach.call(caption.childNodes, function (node) {
+        visibleCaption.appendChild(node.cloneNode(true));
+      });
+    }
+    return shell;
+  }
+
+  function ensureOverflowHint(region, kind) {
+    var host = kind === 'table' ? ensureTableShell(region) : region;
+    var hint = Array.prototype.find.call(
+      host.children,
+      function (child) { return child.classList.contains('horizontal-scroll-hint'); }
+    );
+    if (!hint) {
+      hint = document.createElement('p');
+      hint.className = 'horizontal-scroll-hint';
+      hint.setAttribute('role', 'note');
+      hint.hidden = true;
+      host.insertBefore(hint, kind === 'table' ? region : host.firstChild);
+    }
+    hint.textContent = overflowHint(kind);
+    return hint;
+  }
+
+  function updateOverflowState(region, kind) {
+    var hint = ensureOverflowHint(region, kind);
+    hint.hidden = true;
+    region.classList.remove('has-horizontal-overflow');
+    if (kind === 'table' && region.parentElement) {
+      region.parentElement.classList.remove('has-horizontal-overflow');
+    }
+
+    if (!region.getClientRects().length) return;
+
+    var hasOverflow = region.scrollWidth > region.clientWidth + 2;
+    region.classList.toggle('has-horizontal-overflow', hasOverflow);
+    if (kind === 'table' && region.parentElement) {
+      region.parentElement.classList.toggle('has-horizontal-overflow', hasOverflow);
+    }
+    hint.hidden = !hasOverflow;
+  }
+
+  function refreshOverflowStates() {
+    document.querySelectorAll('.topic-figure-scroll').forEach(function (region) {
+      updateOverflowState(region, 'figure');
+    });
+    document.querySelectorAll('.table-scroll-region, .dataTables_wrapper').forEach(function (region) {
+      updateOverflowState(region, 'table');
+    });
+  }
+
+  function enhanceDataTables() {
+    document.querySelectorAll('.dataTables_wrapper').forEach(function (wrapper) {
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('tabindex', '0');
+      ensureTableShell(wrapper);
+      wrapper.setAttribute('aria-label', dataTableLabel(wrapper));
+    });
+  }
+
+  document.querySelectorAll('.panel-tabset table.table').forEach(function (table) {
+    if (table.closest('.table-scroll-region') || table.classList.contains('dataTable')) return;
+
+    var region = document.createElement('div');
+    region.className = 'table-scroll-region';
+    region.setAttribute('role', 'region');
+    region.setAttribute('tabindex', '0');
+    region.setAttribute('aria-label', regionLabel(table));
+    table.parentNode.insertBefore(region, table);
+    region.appendChild(table);
+    ensureTableShell(region);
+  });
+
+  /* HTML widgets initialize after the include runs, and a hidden tab may
+     complete layout only when selected. These bounded follow-ups cover both
+     cases without leaving a permanent document-wide mutation observer. */
+  [0, 500, 2000, 5000].forEach(function (delay) {
+    window.setTimeout(function () {
+      enhanceDataTables();
+      refreshOverflowStates();
+    }, delay);
+  });
+  document.addEventListener('shown.bs.tab', function () {
+    window.setTimeout(function () {
+      enhanceDataTables();
+      refreshOverflowStates();
+    }, 0);
+  });
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(refreshOverflowStates, 160);
+  });
+}());
+</script>

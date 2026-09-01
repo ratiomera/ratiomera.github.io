@@ -1,0 +1,90 @@
+---
+title: "Einführung in die Statistik"
+subtitle: "Grundlagen statistischen Denkens für Geistes- und Sozialwissenschaften"
+pagetitle: "Einführung in die Statistik | Ratiomera Statistics"
+title-prefix: ""
+description: "Eine begleitete Einführung in deskriptive Statistik, Wahrscheinlichkeit, Inferenz, Korrelation, Regression und Varianzanalyse für Geistes- und Sozialwissenschaften."
+lang: de-CH
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Stell dir vor, eine Studie berichtet, dass eine Therapie Angstsymptome stärker lindert als eine andere. Was bedeutet «stärker»? War der Unterschied gross genug, um praktisch bedeutsam zu sein, verbesserte sich die Mehrheit der Teilnehmenden oder nur eine kleine Gruppe, und könnte das Muster durch gewöhnliche Zufallsschwankungen entstanden sein? Dieselben Fragen stellen sich, wenn eine Nachricht Umfragewerte vergleicht, eine App deinen Schlaf zusammenfasst oder die Forschung untersucht, ob soziale Unterstützung und Wohlbefinden zusammenhängen.
+
+Statistik gibt uns einen geordneten Weg von Beobachtungen zu Antworten, ohne so zu tun, als wäre die Unsicherheit verschwunden. Diese Einführung beginnt mit der Sprache von Variablen, Verteilungen und sorgfältiger Beschreibung. Danach führt sie zu Wahrscheinlichkeit, Inferenz, Zusammenhängen, Vorhersage, statistischer Bereinigung und Gruppenvergleichen. Jedes Thema eröffnet eine neue Art von Frage und behält dieselbe Verantwortung im Blick: Verstehe, welche Aussage die Daten tragen, und sage ebenso deutlich, welche sie nicht tragen.
+:::
+
+## Warum diese Ideen wichtig sind
+
+Wir leben in einer Zeit, in der uns datenbasierte Aussagen begegnen, lange bevor die meisten von uns gelernt haben, sie zu prüfen. Nachrichten fassen Umfragen und wirtschaftliche Veränderungen zusammen, öffentliche Dashboards verfolgen soziale und gesundheitliche Kennzahlen, digitale Plattformen empfehlen Inhalte, die uns interessieren könnten, und die Forschung nutzt Stichproben für Aussagen über wesentlich grössere Gruppen. Zahlen können in all diesen Bereichen sehr überzeugend wirken, auch wenn ihre Erhebung oder Darstellung wichtige Fragen offenlässt. Statistik gibt dir die Möglichkeit, diesen Prozess zu verlangsamen und hinter die fertige Aussage zu schauen.
+
+Hier kann Statistik wirklich spannend werden. Sie gibt Fragen eine Form, die deine Neugier ohnehin stellt: Woher wissen wir das? Womit wird verglichen? Wie stark unterscheiden sich Menschen? Könnte dasselbe Muster durch Zufall entstehen? Was könnte es sonst erklären? Mit solchen Fragen verbinden Tabellen und Abbildungen den Kursstoff mit menschlichem Verhalten, gesellschaftlichen Bedingungen, Bildungserfahrungen, öffentlichen Entscheidungen und der Evidenz hinter unserem Alltag. Dieses Gefühl von Sinn kann die intrinsische Motivation stärken und dazu anregen, sich auch auf die anspruchsvolleren Methoden einzulassen.
+
+Eine Zahl interpretiert sich trotzdem nicht von selbst. Wenn eine Therapiegruppe im Mittel einen niedrigeren Angstwert aufweist, musst du weiterhin wissen, wie Angst gemessen wurde, wie stark sich die Werte innerhalb der Gruppen unterschieden, wie die Teilnehmenden ausgewählt wurden und wie unsicher der geschätzte Unterschied ist. Wenn sich zwei Variablen gemeinsam verändern, bleibt zu klären, ob eine die andere verursacht, ob eine dritte Variable das Muster mit erklärt oder ob sich der Zusammenhang über den Wertebereich verändert. Die Statistik macht aus solchen Bedenken Fragen, die sich sorgfältig untersuchen lassen.
+
+Diese Gewohnheit ist weit über die Forschung hinaus wichtig. Prozentwerte prägen Schlagzeilen, Mittelwerte erscheinen in politischen Diskussionen, Risikoschätzungen beeinflussen persönliche Entscheidungen und Diagramme können schwache Evidenz überzeugend aussehen lassen. Statistische Mündigkeit hilft dir, im richtigen Moment innezuhalten. Was wurde genau gemessen? Welche Personen oder Fälle wurden beobachtet? Was variiert in den Daten? Was könnte der Zufall allein erzeugen? Welche Erklärungen bleiben möglich? Solche Fragen schaffen die Grundlage für begründetes Vertrauen, weil sie dir helfen einzuschätzen, wie viel Sicherheit eine Aussage verdient hat.
+
+Warum diese Gewohnheit so wichtig ist, bringt eine **Aussage auf den Punkt, die häufig mit H. G. Wells verbunden wird**:
+
+::: {.course-guiding-quote}
+> **«Statistisches Denken wird eines Tages für eine wirksame Teilhabe an der Gesellschaft ebenso notwendig sein wie die Fähigkeit zu lesen und zu schreiben.»**
+:::
+
+Der genaue Ursprung und der Wortlaut dieser häufig wiedergegebenen Aussage sind umstritten. Wir geben sie als leitende Idee wieder und lassen die historische Zuschreibung offen. Berechnungen sind ein Teil des Statistiklernens. Darüber hinaus lernst du, Evidenz zu lesen, Unsicherheit zu erkennen und Schlussfolgerungen zurückzuweisen, welche die vorhandenen Daten nicht tragen.
+
+Über die acht Themen hinweg lernst du, Daten verantwortungsvoll zu beschreiben, mit Wahrscheinlichkeiten zu argumentieren, Schätzung und Hypothesentests zu unterscheiden, Beziehungen zwischen Variablen zu untersuchen, Gruppen zu vergleichen und Ergebnisse in klarer Sprache zu vermitteln. Zusammen entwickeln diese Themen eine verbundene Denkweise. Die sorgfältige Beschreibung bereitet dich darauf vor, über Unsicherheit nachzudenken. Dieses Denken ermöglicht dir anschliessend, Zusammenhänge, Vorhersagen und Gruppenunterschiede zu untersuchen, ohne Annahmen oder Kontext aus dem Blick zu verlieren. Formeln sind wichtig, weil sie dieses Denken präzise machen. Ihr tieferer Wert liegt darin, dass du bessere Fragen stellen, Evidenz fairer beurteilen und deine Erkenntnisse mit angemessener Sicherheit erklären kannst.
+
+---
+
+## Wie Ratiomera dein Lernen unterstützen soll
+
+Ratiomera soll **Vorlesungen, Unterricht, Pflichtlektüre und deine eigenen Notizen begleiten**. Deine Lehrperson, die Dozierenden und die offiziellen Materialien bleiben die wichtigsten Bezugspunkte für den Kurs, den du besuchst. Wenn eine Erklärung dort noch nicht ganz verständlich war, kannst du die Idee im Reiter **Theorie** auf einem anderen Weg erschliessen. Im **Simulierten Beispiel** beobachtest du danach, wie sie von der ersten Frage bis zur abschliessenden Interpretation angewendet wird. Du kannst ein ganzes Thema der Reihe nach bearbeiten oder direkt zu der Stelle zurückkehren, an der dein Verständnis unsicher wurde.
+
+Die **Übungen und Lösungen** erfüllen denselben unterstützenden Zweck. Sie enthalten verbreitete und plausible Arten, nach einer Idee zu fragen, sowie Aufgaben, die dein begriffliches Verständnis und deine Rechenfertigkeit vertiefen. Sie können nicht vorhersagen, welche Fragen in einer bestimmten Prüfung vorkommen werden. Deshalb bleiben die Hinweise deiner Dozentin oder deines Dozenten und die offiziellen Prüfungsinformationen deines Kurses massgebend. Ratiomera hilft dir, den Stoff so gut zu verstehen, dass du eine Frage auch dann erkennst und begründet bearbeiten kannst, wenn sie ungewohnt formuliert ist.
+
+Wir entwickeln jede Seite sorgfältig und streben die höchstmögliche Genauigkeit an. Trotzdem können Fehler bestehen bleiben. Falls eine Definition, Schreibweise, Methode oder Anweisung bei Ratiomera von den Angaben deiner Lehrperson oder den offiziellen Kursmaterialien abweicht, halte dich für deinen Kurs an die offiziellen Inhalte und bitte deine Lehrperson um Klärung. Teile uns die Abweichung ebenfalls mit, damit wir sie prüfen und die Seite verbessern können.
+
+Für die vollständige Erfahrung nutzt du diese Lernsequenz am besten in einem aktuellen Webbrowser. Die Browserversion verbindet die Themenreihenfolge, interaktive simulierte Beispiele, responsive Tabellen, Querverweise und die Sprachnavigation. Die PDF- und Word-Dateien sind Ergänzungen zum Drucken, für Anmerkungen, zum Üben ohne Internetverbindung und zum Wiederholen. Als statische Dokumente lassen sie einige Verbindungen und interaktive Erklärungen der Website weg.
+
+---
+
+## Aufbau der Themenseiten
+
+Jedes Thema verwendet dieselben vier Reiter in derselben Reihenfolge. Dank dieses vertrauten Aufbaus kannst du dich beim Öffnen einer neuen Seite sofort auf das Lernen konzentrieren.
+
+**Theorie** beginnt mit der Frage, die ein Verfahren beantworten hilft. Der Reiter entwickelt die Idee von der Alltagssprache zur statistischen Fachsprache, erklärt bei jeder benötigten Formel die einzelnen Symbole und verbindet jeden neuen Abschnitt mit dem vorherigen.
+
+**Simuliertes Beispiel** bearbeitet eine realistische sozialwissenschaftliche Situation mit computergenerierten Lehrdaten. Es werden keine Messungen realer Teilnehmender verwendet. Eine Simulation ist ein geplanter Computerablauf, der anhand festgelegter Regeln Werte erzeugt. So kann eine Analyse gefahrlos untersucht und genau wiederholt werden. Jedes Beispiel erklärt zuerst, weshalb die Situation nützlich ist, und führt dich danach mit leitenden Fragen durch jede Entscheidung, Berechnung, Tabelle und Abbildung. Am Ende kehrt es zur Theorie zurück und zeigt genau, welche Ideen angewendet wurden, was das künstliche Ergebnis bedeutet und wo die Grenzen dieser Interpretation liegen.
+
+**Übungen und Lösungen** enthält zwei umfangreiche Materialien: das Übungsblatt und die vollständigen Lösungen. Beide stehen direkt im Reiter als druckfreundliches PDF und als bearbeitbare Word-Datei bereit. Das Blatt prüft zuerst, ob du die Ideen erklären kannst, und fordert dich danach zum Rechnen, Vergleichen und Interpretieren auf. Bearbeite es, bevor du die Lösungen öffnest. Dort wird für jede Antwort der vollständige Gedankengang Schritt für Schritt bis zum Ergebnis entwickelt.
+
+**Zusammenfassung** bündelt die zentralen Ideen, Formeln, visuellen Erklärungen, Tabellen und Interpretationshilfen. Eine PDF-Datei eignet sich zum Lesen und Drucken. In der bearbeitbaren Word-Fassung kannst du eigene Notizen ergänzen. Nutze die Zusammenfassung nach dem vollständigen Thema, zur Prüfungsvorbereitung oder wenn du nach einer Pause wieder einsteigst.
+
+---
+
+## Empfohlene Reihenfolge
+
+Bearbeite die Themen beim ersten Durchgang der Reihe nach. Die Reihenfolge folgt einem bewussten Aufbau, bei dem jedes Thema eine Frage beantwortet, die sich mit den zuvor erarbeiteten Ideen sinnvoll stellen lässt.
+
+::: {.course-sequence-wide}
+<ol class="course-sequence">
+  <li><p class="course-sequence-title"><a href="t01_descriptive.html">Deskriptive Statistik</a></p><p>Beginne mit Variablen und Skalenniveaus und lerne, wie du eine Verteilung zusammenfasst sowie Tabellen und Abbildungen liest. Alle späteren Verfahren setzen dieses Vokabular und die Gewohnheit voraus, Daten vor jeder Schlussfolgerung genau zu prüfen.</p></li>
+  <li><p class="course-sequence-title"><a href="t02_probability.html">Wahrscheinlichkeit</a></p><p>Sobald du beschreiben kannst, was beobachtet wurde, stellt sich die Frage, wie sich Zufall verhält. Die Wahrscheinlichkeitsrechnung gibt dir die Sprache für mögliche Ergebnisse und die Unsicherheit, welche die statistische Inferenz benötigt.</p></li>
+  <li><p class="course-sequence-title"><a href="t03_hypothesis-testing.html">Hypothesentests und Konfidenzintervalle</a></p><p>Nun wird Wahrscheinlichkeit zu einem Werkzeug, mit dem du aus einer Stichprobe lernen kannst. Du untersuchst, wie gut ein Ergebnis mit einer Hypothese vereinbar ist und wie genau die Stichprobe einen unbekannten Wert der Grundgesamtheit schätzt.</p></li>
+  <li><p class="course-sequence-title"><a href="t04_cov-corr.html">Kovarianz und Korrelation</a></p><p>Mit der Inferenz als Grundlage kannst du untersuchen, wie sich zwei quantitative Variablen gemeinsam verändern. Punktwolke, Kovarianz und Korrelation schaffen die Sprache für Zusammenhänge, welche die übrigen Themen benötigen.</p></li>
+  <li><p class="course-sequence-title"><a href="t05_simple-regression.html">Einfache lineare Regression</a></p><p>Die Regression gibt dem Zusammenhang eine Richtung: Eine Variable wird zur Zielvariable und eine zum Prädiktor. Eine angepasste Gerade unterstützt danach die Interpretation und vorsichtig eingegrenzte Vorhersagen in den ursprünglichen Einheiten.</p></li>
+  <li><p class="course-sequence-title"><a href="t06_partial-corr.html">Partielle Korrelation</a></p><p>Ein Zusammenhang zwischen zwei Variablen kann sich verändern, sobald eine dritte Variable berücksichtigt wird. Die partielle Korrelation fragt mit Regressionsresiduen, welcher lineare Zusammenhang nach dieser Bereinigung verbleibt.</p></li>
+  <li><p class="course-sequence-title"><a href="t07_multiple-regression.html">Multiple Regression</a></p><p>Jetzt kannst du mehrere Prädiktoren in einem Modell zusammenführen. Die multiple Regression verbindet Korrelation, einfache Regression und statistische Kontrolle. So lässt sich jeder Prädiktor interpretieren, während die anderen konstant gehalten werden.</p></li>
+  <li><p class="course-sequence-title"><a href="t08_anova.html">Varianzanalyse</a></p><p>Zum Abschluss fragst du, ob sich mehrere Gruppenmittelwerte unterscheiden. Dazu wird die Variation zwischen den Gruppen mit der Variation innerhalb der Gruppen verglichen. Das Thema kehrt zur Varianz aus Thema 1 zurück und macht ihre enge Verbindung mit den zuvor entwickelten Regressionsideen sichtbar.</p></li>
+</ol>
+:::
+
+::: {.course-start}
+::: {.course-start-copy}
+[Dein erster Schritt]{.course-start-eyebrow}
+
+Beginne mit Thema 1, bevor du die weiteren Themen der Reihe nach bearbeitest. Die deskriptive Statistik vermittelt dir das nötige Vokabular und die Gewohnheit, Daten sorgfältig zu lesen. Beides setzen alle späteren Themen voraus.
+:::
+
+[Mit deskriptiver Statistik beginnen](t01_descriptive.qmd){.course-start-link}
+:::

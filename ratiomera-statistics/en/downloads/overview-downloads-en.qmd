@@ -1,0 +1,58 @@
+---
+title: "Downloads"
+pagetitle: "Downloads | Ratiomera Statistics"
+title-prefix: ""
+description: "Download the complete Introduction to Statistics collection, one topic package, or individual PDF and Word materials."
+toc: false
+aliases:
+  - /practice/index.html
+---
+
+::: {.downloads-lead .fade-in}
+::: {.downloads-lead-copy}
+## Built around the learning sequence
+
+The library is organized by learning sequence and then by topic. Connected materials stay together, while future Statistics and Mathematics collections retain a clear place of their own. Use the collection link in the sidebar to jump directly to its materials.
+
+Introduction to Statistics currently contains eight topics. Choose the complete package for the full learning sequence, choose one topic package for its six documents, or open a topic's individual-file choice when you need only one PDF or Word file.
+:::
+
+::: {.downloads-material-key}
+### Included for every topic
+
+**Summary**  
+A source-grounded reference with three pages for your own notes.
+
+**Exercise Sheet**  
+Theory and conceptual questions followed by calculator practice.
+
+**Complete Solutions**  
+The same task identifiers, with reasoning and calculations explained step by step.
+:::
+
+::: {.downloads-lead-note}
+**Formats and packages.** Every learning document remains available as a printable PDF and an editable Word file. Topic ZIPs keep the six files for one topic together. The complete ZIP arranges all eight topics in chronological folders. Smaller summary-only, exercise-only, and solution-only collections remain available in the secondary choice.
+
+**Honest package totals.** The nine visible fields belong to the eight topic ZIPs and the one complete ZIP. When a release provider is connected, each field will report completed downloads of that exact ZIP asset. It will not represent unique people, page views, local clicks, or the individual PDF and Word links. While the site runs locally, the restrained dash is only a placeholder.
+:::
+:::
+
+```{r}
+#| label: download-library
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_downloads(
+  "../../_shared/downloads.yml",
+  "en",
+  "../../../config/counters.yml"
+)
+```
+
+::: {.downloads-overview-cta}
+## Prefer the guided learning path?
+
+The Introduction overview explains why the eight topics follow this order and how each one prepares the next. Return there when you want the learning context rather than a file list.
+
+[Open the Introduction overview](../intro-stats/overview-intro-stats-en.qmd){.downloads-overview-link}
+:::

@@ -1,0 +1,241 @@
+<script>
+/* Keep the selected lesson tab visible when keyboard navigation changes tabs. */
+(function () {
+  'use strict';
+
+  function revealSelectedTab(tab) {
+    if (!tab || !tab.matches('.panel-tabset .nav-tabs .nav-link')) return;
+
+    var strip = tab.closest('.nav-tabs');
+    if (!strip || strip.scrollWidth <= strip.clientWidth) return;
+
+    var stripBox = strip.getBoundingClientRect();
+    var tabBox = tab.getBoundingClientRect();
+    var edgeSpace = 8;
+
+    if (tabBox.left < stripBox.left + edgeSpace) {
+      strip.scrollLeft -= stripBox.left + edgeSpace - tabBox.left;
+    } else if (tabBox.right > stripBox.right - edgeSpace) {
+      strip.scrollLeft += tabBox.right - stripBox.right + edgeSpace;
+    }
+  }
+
+  function wrapPlotlyTitle(value, width) {
+    if (!value || !width) return value;
+
+    function wrapPlainText(plainText, lineWidth) {
+      var words = plainText
+        .replace(/<br\s*\/?>/gi, ' ')
+        .replace(/<[^>]+>/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ');
+      var lines = [];
+      var line = '';
+      words.forEach(function (word) {
+        if (!word) return;
+        var candidate = line ? line + ' ' + word : word;
+        if (line && candidate.length > lineWidth) {
+          lines.push(line);
+          line = word;
+        } else {
+          line = candidate;
+        }
+      });
+      if (line) lines.push(line);
+      return lines.join('<br>');
+    }
+
+    /* Native Plotly figures can combine a bold title and a smaller subtitle
+       in one title field. Preserve those two roles while wrapping them; the
+       earlier generic pass made the subtitle bold and consumed plot space. */
+    var boldMatch = value.match(/<b>([\s\S]*?)<\/b>/i);
+    var supMatch = value.match(/<sup>([\s\S]*?)<\/sup>/i);
+    if (boldMatch && supMatch) {
+      return '<b>' + wrapPlainText(boldMatch[1], width) + '</b><br><sup>' +
+        wrapPlainText(supMatch[1], width + 8) + '</sup>';
+    }
+
+    var isBold = /^\s*<b>/i.test(value);
+    var plain = value
+      .replace(/<br\s*\/?>/gi, ' ')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!plain) return value;
+
+    var output = wrapPlainText(plain, width);
+    return isBold ? '<b>' + output + '</b>' : output;
+  }
+
+  function fitPlotlyTitle(figure) {
+    if (!window.Plotly || !window.Plotly.relayout || !figure.layout ||
+        !figure.layout.title || !figure.layout.title.text) return;
+
+    if (!figure.__topicTitleState) {
+      figure.__topicTitleState = {
+        text: figure.layout.title.text,
+        top: figure.layout.margin && Number.isFinite(figure.layout.margin.t)
+          ? figure.layout.margin.t
+          : 80
+      };
+    }
+
+    var state = figure.__topicTitleState;
+    var figureWidth = figure.getBoundingClientRect().width;
+    var wrapWidth = figureWidth < 360 ? 20
+      : figureWidth < 560 ? 28
+        : figureWidth < 720 ? 36
+          : null;
+    var title = wrapWidth ? wrapPlotlyTitle(state.text, wrapWidth) : state.text;
+    var originalLines = (state.text.match(/<br\s*\/?>/gi) || []).length + 1;
+    var fittedLines = (title.match(/<br\s*\/?>/gi) || []).length + 1;
+    var top = state.top + Math.max(0, fittedLines - originalLines) * 19;
+
+    if (figure.layout.title.text === title &&
+        figure.layout.margin && figure.layout.margin.t === top) return;
+
+    window.Plotly.relayout(figure, {
+      'title.text': title,
+      'margin.t': top
+    });
+  }
+
+  function resizeFiguresInSelectedPane(tab) {
+    if (!tab) return;
+
+    var targetSelector = tab.getAttribute('data-bs-target');
+    if (!targetSelector || targetSelector.charAt(0) !== '#') return;
+
+    var pane = document.querySelector(targetSelector);
+    if (!pane) return;
+
+    /* A Plotly widget rendered inside an inactive Bootstrap pane initially
+       has no usable width. Wait until the selected pane has completed its
+       display change, then resize every figure against its real container. */
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        if (window.Plotly && window.Plotly.Plots) {
+          pane.querySelectorAll('.js-plotly-plot').forEach(function (figure) {
+            fitPlotlyTitle(figure);
+            window.Plotly.Plots.resize(figure);
+          });
+        }
+
+        /* DataTables can also initialize while their Bootstrap pane has no
+           measurable width. Recalculate their columns after the pane becomes
+           visible so the raw-data table cannot remain collapsed or blank. */
+        if (window.jQuery && window.jQuery.fn && window.jQuery.fn.dataTable) {
+          pane.querySelectorAll('table.dataTable').forEach(function (table) {
+            if (window.jQuery.fn.dataTable.isDataTable(table)) {
+              window.jQuery(table).DataTable().columns.adjust();
+            }
+          });
+        }
+      });
+    });
+  }
+
+  function resizeVisibleFigures(root) {
+    if (!window.Plotly || !window.Plotly.Plots) return;
+
+    (root || document).querySelectorAll('.js-plotly-plot').forEach(function (figure) {
+      /* getClientRects() excludes figures in inactive Bootstrap panes. Those
+         figures are resized when their tab is selected instead. */
+      if (!figure.getClientRects().length) return;
+
+      try {
+        fitPlotlyTitle(figure);
+        window.Plotly.Plots.resize(figure);
+      } catch (error) {
+        /* A figure must never make the surrounding lesson unusable. Plotly
+           can finish attaching itself between these guarded retries. */
+      }
+    });
+  }
+
+  function scheduleVisibleFigureResize() {
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        resizeVisibleFigures(document);
+      });
+    });
+
+    /* HTML widgets and web fonts can settle after the first paint. These
+       modest retries cover a Simulated Example opened directly through a
+       fragment link as well as widgets exposed during initial restoration. */
+    window.setTimeout(function () {
+      resizeVisibleFigures(document);
+    }, 120);
+    window.setTimeout(function () {
+      resizeVisibleFigures(document);
+    }, 420);
+  }
+
+  document.addEventListener('shown.bs.tab', function (event) {
+    revealSelectedTab(event.target);
+    resizeFiguresInSelectedPane(event.target);
+  });
+
+  function tabTriggerForPane(pane) {
+    if (!pane || !pane.id) return null;
+
+    return Array.prototype.find.call(
+      document.querySelectorAll('.panel-tabset .nav-tabs [data-bs-target]'),
+      function (trigger) {
+        return trigger.getAttribute('data-bs-target') === '#' + pane.id;
+      }
+    ) || null;
+  }
+
+  function revealHashTarget() {
+    if (!window.location.hash || window.location.hash.length < 2) return;
+
+    var rawId = window.location.hash.slice(1);
+    var targetId;
+
+    try {
+      targetId = decodeURIComponent(rawId);
+    } catch (error) {
+      targetId = rawId;
+    }
+
+    var target = document.getElementById(targetId);
+    if (!target) return;
+
+    var pane = target.classList.contains('tab-pane')
+      ? target
+      : target.closest('.panel-tabset .tab-pane');
+    if (!pane || pane.classList.contains('active')) return;
+
+    var trigger = tabTriggerForPane(pane);
+    if (!trigger || !window.bootstrap || !window.bootstrap.Tab) return;
+
+    trigger.addEventListener('shown.bs.tab', function () {
+      target.scrollIntoView({ block: 'start' });
+    }, { once: true });
+
+    window.bootstrap.Tab.getOrCreateInstance(trigger).show();
+  }
+
+  window.addEventListener('hashchange', revealHashTarget);
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(scheduleVisibleFigureResize, 120);
+  });
+
+  window.addEventListener('load', scheduleVisibleFigureResize, { once: true });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      revealHashTarget();
+      scheduleVisibleFigureResize();
+    }, { once: true });
+  } else {
+    revealHashTarget();
+    scheduleVisibleFigureResize();
+  }
+}());
+</script>

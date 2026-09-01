@@ -1,0 +1,14 @@
+---
+title: "Ratiomera"
+pagetitle: "Ratiomera"
+title-prefix: ""
+description: "Ratiomera ofron mësim të hapur në statistikë dhe matematikë."
+lang: sq
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=home-ratiomera-sq.html">
+---
+
+Kjo adresë është zhvendosur. Vazhdo te [Ratiomera](home-ratiomera-sq.qmd).

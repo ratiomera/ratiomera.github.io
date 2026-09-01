@@ -1,0 +1,702 @@
+---
+title: "Partielle Korrelation"
+subtitle: "Einführung in die Statistik · Thema 6"
+pagetitle: "Partielle Korrelation | Ratiomera Statistics"
+title-prefix: ""
+description: "Partielle Korrelation anhand des Denkens über Drittvariablen, experimentelle und statistische Kontrolle, Residualisierung und die direkte Formel mit drei Korrelationen."
+lang: de-CH
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "de"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t06-partial-corr-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Themenabschnitte</h2>
+
+::: {.panel-tabset}
+
+## Theorie
+
+### Einführung: Der Blick über zwei Variablen hinaus {.cs-heading}
+
+Thema 4 führte die bivariate Korrelation ein, also eine Korrelation, die für zwei Variablen berechnet wird. In Thema 5 kam das *Residuum* hinzu, die Differenz zwischen einem beobachteten Wert und dem von einer Regressionsgeraden angepassten Wert. Die partielle Korrelation verbindet diese beiden Ideen.
+
+Stell dir vor, dass die wöchentliche Übungszeit und ein Punktwert im statistischen Denken gemeinsam ansteigen. Nehmen wir nun an, dass Lernende mit stärkerem Vorwissen tendenziell auch mehr üben und höhere Punktwerte erreichen. Die ursprüngliche Korrelation zwischen zwei Variablen bleibt eine richtige Beschreibung der beobachteten Paare, fasst aber mehrere Wege zusammen. Als Nächstes können wir fragen, ob sich Übungszeit und statistisches Denken noch immer gemeinsam verändern, nachdem ihre linearen Verbindungen mit dem Vorwissen dargestellt wurden.
+
+Nehmen wir an, die Variablen $X$ und $Y$ sind korreliert. Eine dritte Variable $Z$ kann ebenfalls mit beiden zusammenhängen. Die bivariate Korrelation $r_{XY}$ fasst die gesamte sichtbare lineare gemeinsame Bewegung von $X$ und $Y$ zusammen. Dazu gehört auch die Bewegung, die beide Variablen mit $Z$ teilen. Eine *partielle Korrelation* stellt eine enger gefasste Frage:
+
+> **Leitfrage:** Wie stark sind $X$ und $Y$ linear miteinander verbunden, nachdem der mit $Z$ verbundene lineare Teil berücksichtigt wurde?
+
+Die Formulierung *berücksichtigt wurde* ist wichtig. Eine statistische Bereinigung hält $Z$ nicht physisch konstant, beseitigt keine Ursache und erschafft nachträglich kein Experiment. Sie verwendet ein Modell, um bei jeder gemessenen Variable den mit $Z$ verbundenen linearen Teil von jenem Teil zu trennen, der durch $Z$ nicht angepasst wird.
+
+Dieses Thema lässt sich gut als Folge von drei vertrauten Fragen verstehen:
+
+| Frage | Bereits eingeführtes Werkzeug | Was das Werkzeug zeigt |
+|---|---|---|
+| Bewegen sich $X$ und $Y$ in einem geradlinigen Muster gemeinsam? | Pearson-Korrelation aus Thema 4 | Den unbereinigten Zusammenhang zwischen zwei Variablen |
+| Welchen Wert von $X$ oder $Y$ würde eine aus $Z$ angepasste Gerade vorhersagen? | Einfache Regression aus Thema 5 | Den durch $Z$ dargestellten Teil jeder interessierenden Variable |
+| Bewegen sich die beiden Teile aus beobachtetem minus angepasstem Wert weiterhin gemeinsam? | Partielle Korrelation in diesem Thema | Den linearen Zusammenhang, der nach der Bereinigung beider Variablen um $Z$ verbleibt |
+
+: Die partielle Korrelation verbindet die Korrelationsidee aus Thema 4 mit der Residuenidee aus Thema 5. {#tbl-partial-correlation-bridge}
+
+Die Zeilen beschreiben keine drei konkurrierenden Analysen. Sie bilden eine zusammenhängende Kette. Zuerst beschreiben wir den ursprünglichen Zusammenhang. Danach machen wir die Bereinigung mithilfe zweier Regressionsgeraden sichtbar. Zum Schluss korrelieren wir, was übrig bleibt. Wenn du diese Kette im Blick behältst, wirken die Formeln später auf der Seite deutlich weniger rätselhaft.
+
+::: {.callout-tip title="Kernidee"}
+Berichte sowohl die ursprüngliche bivariate Korrelation als auch die partielle Korrelation. Ihre Differenz gehört zum Ergebnis, weil sie zeigt, wie sich der numerische Zusammenhang verändert, wenn die gemessene Drittvariable in die Analyse aufgenommen wird.
+:::
+
+### Lernziele {.cs-heading}
+
+Nach Abschluss dieses Themas solltest du:
+
+- erklären können, wie eine Drittvariable zu einer bivariaten Korrelation beitragen kann;
+- experimentelle Kontrolle von statistischer Kontrolle unterscheiden können;
+- Residualisierung in verständlicher Sprache erklären können;
+- eine partielle Korrelation durch die Korrelation zweier Residuenmengen berechnen können;
+- denselben Koeffizienten aus drei bivariaten Korrelationen berechnen können;
+- einen rohen und einen bereinigten linearen Zusammenhang vergleichen können;
+- erkennen, dass eine Bereinigung einen Koeffizienten verkleinern oder vergrössern kann;
+- die wichtigsten Bedingungen und Grenzen einer partiellen Korrelationsanalyse prüfen können; und
+- erklären können, weshalb eine partielle Korrelation allein keine Kausalität belegt.
+
+---
+
+### Weshalb eine Drittvariable die Geschichte verändern kann {.cs-heading}
+
+Eine *Drittvariable* ist ein weiteres gemessenes Merkmal, das helfen kann, den beobachteten Zusammenhang zwischen $X$ und $Y$ zu erklären. Stelle sich zum Beispiel vor, dass sowohl $X$ als auch $Y$ tendenziell zunehmen, wenn $Z$ zunimmt. Wenn wir $Z$ ignorieren, kann diese gemeinsame Bewegung zu einer positiven $X$-$Y$-Korrelation beitragen.
+
+Eine *Scheinkorrelation* ist ein scheinbarer Zusammenhang, dessen Interpretation sich verändert, weil eine Drittvariable zum Muster beiträgt. Das Wort *scheinbar* bedeutet nicht, dass die berechnete Korrelation numerisch falsch ist. Es bedeutet, dass es irreführend wäre, den bivariaten Koeffizienten als vollständige Erklärung zu behandeln.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbares konzeptuelles Diagramm einer Drittvariable, die zu einem beobachteten Zusammenhang beiträgt"}
+
+```{r}
+#| label: fig-third-variable-structure
+#| fig-alt: "Ein konzeptuelles Diagramm stellt die Drittvariable Z oberhalb der Variablen X und Y dar. Pfeile führen von Z zu beiden Variablen. Eine gestrichelte Linie zwischen X und Y kennzeichnet ihren beobachteten Zusammenhang."
+#| fig-cap: "Eine mögliche Drittvariablenerklärung für einen beobachteten bivariaten Zusammenhang. Die Pfeile sind eine zu untersuchende Hypothese und keine Schlussfolgerung, die allein aus einer Korrelation folgt."
+#| fig-width: 8
+#| fig-height: 4.4
+p_third_variable
+```
+
+:::
+
+Das Diagramm zeigt nur eine mögliche Erklärung. Die Richtung könnte stattdessen von $X$ zu $Y$, von $Y$ zu $X$, in beide Richtungen oder über weitere Variablen verlaufen. Ein Korrelationskoeffizient kann nicht zwischen diesen Möglichkeiten entscheiden.
+
+Lies die Abbildung von oben nach unten. Die beiden durchgezogenen Pfeile sagen aus, dass $Z$ möglicherweise sowohl zu $X$ als auch zu $Y$ beiträgt. Wenn höhere Werte von $Z$ tendenziell mit höheren Werten beider interessierenden Variablen einhergehen, können $X$ und $Y$ gemeinsam zu variieren scheinen, noch bevor ein eigenständiger $X$-$Y$-Zusammenhang betrachtet wird. Die gestrichelte Verbindung kennzeichnet den Zusammenhang, den wir beobachten und verstehen möchten. Sie ist gestrichelt, weil das Diagramm nicht verrät, welcher Prozess ihn hervorgebracht hat. Die Abbildung ist somit eine Landkarte einer Frage, kein Beweis für einen kausalen Pfad.
+
+Zählwerte aus verschiedenen Städten bieten ein konkretes Beispiel. Grössere Städte haben in der Regel mehr Einwohnerinnen und Einwohner, mehr Polizeikräfte und mehr registrierte Delikte. Eine positive Korrelation zwischen der Anzahl Polizeikräfte und der Anzahl registrierter Delikte kann daher zu einem grossen Teil entstehen, weil beide Zählwerte mit der Bevölkerungsgrösse zunehmen. Sie ist kein Beleg dafür, dass mehr Polizeikräfte mehr Kriminalität verursachen. Ein Vergleich von Städten innerhalb ähnlicher Bevölkerungsgruppen stellt eine enger gefasste Frage, bleibt aber ebenfalls assoziativ.
+
+Die nächste Abbildung verwendet neu konstruierte Zählwerte und keine Aufzeichnungen realer Städte. Die gestrichelte dunkle Gerade fasst den rohen Zusammenhang über alle konstruierten Städte zusammen. Die farbigen Geraden vergleichen Städte nur innerhalb derselben groben Bevölkerungsgruppe.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare Abbildung mit konstruierten städtischen Zählwerten, einem Gesamtzusammenhang und Vergleichen innerhalb von Bevölkerungsgruppen"}
+
+```{r}
+#| label: fig-police-crime-population
+#| fig-alt: "Ein Streudiagramm zeigt neu konstruierte Zahlen von Polizeikräften und registrierten Delikten für kleinere, mittelgrosse und grössere Städte. Eine gestrichelte Regressionsgerade über alle Städte steigt an, während die getrennten Geraden innerhalb jeder Bevölkerungsgruppe abfallen."
+#| fig-cap: "Konstruierte städtische Zählwerte zeigen, weshalb die Bevölkerungsgrösse die Interpretation einer rohen Korrelation zwischen Polizeikräften und registrierten Delikten verändern kann. Die Geraden innerhalb der Gruppen sind deskriptiv und belegen keinen kausalen Effekt der Anzahl Polizeikräfte."
+#| fig-width: 9
+#| fig-height: 5.2
+p_police_crime_population
+```
+
+:::
+
+Die sichtbare Umkehr zwischen der Gesamtgeraden und den Geraden innerhalb der Gruppen ist beabsichtigt. Sie zeigt, weshalb der rohe Koeffizient keine vollständige Erklärung liefert. Sie zeigt nicht, dass eine Erhöhung der Anzahl Polizeikräfte die Zahl registrierter Delikte senken würde. Dieser konstruierte Vergleich ist kein randomisiertes Experiment, und viele weitere Merkmale einer Stadt könnten eine Rolle spielen.
+
+Ein zweites vertrautes Beispiel vermittelt dieselbe Lektion ganz ohne Zahlen. Stell dir vor, dass Glacekonsum und Ertrinkungsfälle während derselben Jahreszeit zunehmen. Es wäre verlockend, eine direkte Geschichte von der einen zur anderen Variable zu erzählen. Eine plausiblere Frage nach einer Drittvariable richtet den Blick auf Wetter und Jahreszeit. Heisseres Wetter kann den Glacekonsum erhöhen und zugleich dazu führen, dass mehr Menschen schwimmen oder sich am Wasser aufhalten. Dadurch sind mehr Menschen Situationen ausgesetzt, in denen ein Ertrinkungsrisiko besteht.
+
+Das nächste Diagramm ist vollständig hypothetisch. Es enthält keine Beobachtungen, keine geschätzte Korrelation und keine empirische Aussage über die Grösse eines Zusammenhangs.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbares hypothetisches Drittvariablendiagramm zu Glacekonsum, Wetter, Aufenthalt am Wasser und Ertrinkungsfällen"}
+
+```{r}
+#| label: fig-icecream-third-variable
+#| fig-alt: "Ein hypothetisches Diagramm stellt heisseres Wetter oder die Sommersaison oberhalb von Glacekonsum und Schwimmen oder Aufenthalt am Wasser dar. Durchgezogene Pfeile verbinden Wetter oder Jahreszeit mit beiden Aktivitäten und den Aufenthalt am Wasser mit Ertrinkungsfällen. Eine gestrichelte Linie verbindet Glacekonsum mit Ertrinkungsfällen und kennzeichnet einen möglichen beobachteten Zusammenhang, der nicht bedeutet, dass Glace Ertrinkungsfälle verursacht."
+#| fig-cap: "Eine hypothetische Geschichte mit einer Drittvariable: Wetter oder Jahreszeit können sowohl den Glacekonsum als auch den Aufenthalt am Wasser erhöhen. Ein positiver bivariater Zusammenhang mit Ertrinkungsfällen würde deshalb nicht zeigen, dass Glace diese Fälle verursacht."
+#| fig-width: 9
+#| fig-height: 5.2
+p_icecream_third_variable
+```
+
+:::
+
+Lies die durchgezogenen Pfeile als eine prüfenswerte Erklärung und nicht als Effekte, die durch eine Korrelation belegt wurden. Wetter oder Jahreszeit können den Glacekonsum erhöhen. Dasselbe Wetter oder dieselbe Jahreszeit kann auch zu mehr Schwimmen und mehr Aufenthalt am Wasser führen, was für Ertrinkungsfälle unmittelbar relevant ist. Die gestrichelte Verbindung markiert die irreführende bivariate Geschichte, die zuerst ins Auge fallen könnte. Das Diagramm zeigt, weshalb diese Geschichte eine Analyse der Drittvariable benötigt. Gleichzeitig erinnert es daran, dass eine statistische Bereinigung allein auch den vollständig eingezeichneten kausalen Weg nicht beweisen würde.
+
+Diese Grenze führt zu zwei verschiedenen Bedeutungen des Wortes *Kontrolle*. Die eine gehört zum Studiendesign, die andere zur statistischen Analyse.
+
+---
+
+### Experimentelle und statistische Kontrolle {.cs-heading}
+
+In einem Experiment können Forschende Drittvariablen bereits bei der Planung und Durchführung der Studie berücksichtigen. Du kannst eine Bedingung bewusst konstant halten, beispielsweise dieselbe Raumtemperatur beibehalten, oder eine Zufallszuweisung verwenden. *Zufallszuweisung* bedeutet, dass der Zufall bestimmt, welche Bedingung eine teilnehmende Person erhält. Solche Entscheidungen im Design sollen verhindern, dass sich Drittvariablen systematisch zwischen den Bedingungen unterscheiden.
+
+Wenn ein relevantes Merkmal nicht durch das Design kontrolliert werden kann, können Forschende es messen und statistisch dafür bereinigen. In diesem Thema bedeutet *statistische Kontrolle*, dass wir jene Teile von $X$ und $Y$ vergleichen, die verbleiben, nachdem jede Variable mithilfe einer linearen Regression aus $Z$ angepasst wurde.
+
+| Merkmal | Experimentelle Kontrolle | Statistische Kontrolle mit partieller Korrelation |
+|---|---|---|
+| Wann findet sie statt? | Während der Studienplanung und Datenerhebung | Während der Analyse, nachdem Variablen gemessen wurden |
+| Was wird gemacht? | Bedingungen werden konstant gehalten oder durch Zufall zugewiesen | Der lineare Zusammenhang des gemessenen $Z$ mit $X$ und $Y$ wird modelliert |
+| Was wird damit berücksichtigt? | Im Design erzeugte Unterschiede zwischen Bedingungen | Das aufgezeichnete lineare Muster, an dem das ausgewählte $Z$ beteiligt ist |
+| Wichtigste Grenze | Nicht jede Bedingung lässt sich immer kontrollieren | Nicht gemessene, ungenau gemessene oder falsch modellierte Drittvariablen bleiben ungeklärt |
+| Kann sie eine kausale Schlussfolgerung stützen? | Ja, wenn das gesamte Versuchsdesign und seine Durchführung geeignet sind | Nein, statistische Bereinigung allein bleibt assoziativ |
+
+: Experimentelle und statistische Kontrolle lösen verschiedene Probleme und sind nicht austauschbar. {#tbl-control-comparison}
+
+Die erste Tabellenzeile ist der einfachste Weg, die beiden Bedeutungen auseinanderzuhalten. Experimentelle Kontrolle ist darin eingebaut, wie Beobachtungen entstehen. Statistische Kontrolle erfolgt erst, nachdem gemessene Werte vorliegen. Die mittleren Zeilen erklären, weshalb sich auch die Schlussfolgerungen unterscheiden: Ein Design kann systematische Unterschiede zwischen Bedingungen verhindern, während eine partielle Korrelation nur das aufgezeichnete lineare Muster für das ausgewählte $Z$ bereinigen kann. Die letzte Zeile zeigt die praktische Folge. Ein sorgfältig durchgeführtes randomisiertes Experiment kann eine kausale Schlussfolgerung stützen, eine partielle Korrelation allein jedoch nicht.
+
+Eine statistische Bereinigung kann nur Variablen verwenden, die gemessen wurden. Forschende müssen deshalb bereits bei der Studienplanung über plausible Drittvariablen nachdenken. Selbst eine sorgfältige Analyse kann nach abgeschlossener Datenerhebung nicht jede ausgelassene Erklärung ausschliessen.
+
+Die Berechnung wird verständlicher, wenn wir zum Residuum aus Thema 5 zurückkehren.
+
+---
+
+### Residualisierung: Was nach einer linearen Anpassung verbleibt {.cs-heading}
+
+Um beide interessierenden Variablen um $Z$ zu bereinigen, passen wir zwei getrennte einfache Regressionen an:
+
+1. Wir regressieren $X$ auf $Z$.
+2. Wir regressieren $Y$ auf $Z$.
+
+Für Fall $i$ liefert die erste Regression den angepassten Wert $\hat X_i$, also den aus dem $Z$-Wert dieses Falls vorhergesagten Wert von $X$. Das zugehörige Residuum lautet
+
+$$
+\hat e_{Xi}=X_i-\hat X_i.
+$$
+
+Die zweite Regression liefert den angepassten Wert $\hat Y_i$ und das Residuum
+
+$$
+\hat e_{Yi}=Y_i-\hat Y_i.
+$$
+
+Dieser zweistufige Vorgang heisst *Residualisierung*. Jedes Residuum beantwortet eine Frage zu einem einzelnen Fall:
+
+- $\hat e_{Xi}$ fragt, wie weit das beobachtete $X_i$ oberhalb oder unterhalb des aus $Z_i$ angepassten Werts liegt.
+- $\hat e_{Yi}$ fragt, wie weit das beobachtete $Y_i$ oberhalb oder unterhalb des aus $Z_i$ angepassten Werts liegt.
+
+Ein positives Residuum bedeutet, dass der beobachtete Wert oberhalb seiner angepassten Geraden liegt. Ein negatives Residuum bedeutet, dass er darunter liegt. Ein Residuum nahe null bedeutet, dass der beobachtete und der angepasste Wert nahe beieinanderliegen.
+
+Das vollständige Verfahren lässt sich leichter verfolgen, wenn die beiden Regressionen nebeneinander sichtbar bleiben. Das nächste Diagramm hält jede Spalte und jeden Rechenschritt in der richtigen Reihenfolge.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollbarer Ablauf der Residualisierung von X und Y über die Bereinigung um Z bis zur partiellen Korrelation"}
+
+```{r}
+#| label: fig-residualization-flow
+#| fig-alt: "Ein zweizeiliges Ablaufdiagramm beginnt mit beobachtetem X und beobachtetem Y. Jede Variable wird getrennt aus Z angepasst. Beobachtet minus angepasst erzeugt eine Spalte mit X-Residuen und eine Spalte mit Y-Residuen. Diese Spalten werden fallweise gepaart, und die Pearson-Korrelation der gepaarten Residuen ergibt die partielle Korrelation."
+#| fig-cap: "Die Residualisierung bereinigt beide interessierenden Variablen um dasselbe Z; die partielle Korrelation ist danach die Pearson-Korrelation zwischen den beiden entstandenen Residuenspalten."
+#| fig-width: 11
+#| fig-height: 5.2
+p_residualization_flow_en
+```
+
+:::
+
+Lies die obere und die untere Zeile parallel. Die obere Zeile passt $X$ aus $Z$ an und zieht für jeden Fall den angepassten Wert vom beobachteten $X$-Wert ab. Die untere Zeile führt denselben Schritt für $Y$ aus. Jeder ursprüngliche Fall erzeugt dadurch zwei Residuen, eines in jedem grünen Kasten. Die Pfeile führen diese beiden Residuenspalten anschliessend zusammen, ohne zu verändern, welches Paar zum selben Fall gehört.
+
+Der letzte Kasten wendet die vertraute Pearson-Korrelation auf die gepaarten Residuen an. Wenn Fälle, die oberhalb ihrer $X$-aus-$Z$-Geraden liegen, tendenziell auch oberhalb ihrer $Y$-aus-$Z$-Geraden liegen, ist die partielle Korrelation positiv. Wenn Residuen oberhalb der Geraden bei einer Variablen tendenziell mit Residuen unterhalb der Geraden bei der anderen Variablen auftreten, ist sie negativ. Bleibt kein lineares Muster zwischen den Residuen zurück, liegt sie nahe null.
+
+Der Ablauf trennt die Berechnung von ihren Grenzen. Die grünen Residuenkästen enthalten, was diese beiden angepassten Geraden in dieser Stichprobe nicht dargestellt haben. Sie sind keine reinen Versionen von $X$ und $Y$. Der abschliessende Koeffizient belegt weder, dass $Z$ den ursprünglichen Zusammenhang verursacht hat, noch dass jeder Einfluss von $Z$ verschwunden ist.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+Ein Residuum ist jener Teil, der in dieser Stichprobe durch die angegebene lineare Regression nicht angepasst wird. Es ist weder ein reiner, fehlerfreier Bestandteil der Variable noch ein Beweis dafür, dass jeder Einfluss von $Z$ entfernt wurde.
+:::
+
+Nachdem beide Residuen für jeden Fall berechnet wurden, können wir fragen, ob Fälle oberhalb der $X$-aus-$Z$-Geraden tendenziell auch oberhalb der $Y$-aus-$Z$-Geraden liegen. Genau das ist die Frage der partiellen Korrelation.
+
+---
+
+### Partielle Korrelation als Korrelation von Residuen {.cs-heading}
+
+Die partielle Korrelation zwischen $X$ und $Y$ bei Bereinigung um $Z$ wird so geschrieben:
+
+$$
+r_{XY\mathbin{\cdot}Z}.
+$$
+
+Der Punkt vor $Z$ kann als "unter Kontrolle von $Z$" gelesen werden. Der Koeffizient ist die Pearson-Korrelation zwischen den beiden Residuenmengen:
+
+$$
+r_{XY\mathbin{\cdot}Z}=r_{\hat e_X\hat e_Y}.
+$$
+
+Die Interpretation folgt der Pearson-Korrelation:
+
+- Das Vorzeichen beschreibt die Richtung des verbleibenden linearen Zusammenhangs.
+- Der Absolutwert beschreibt, wie eng die gepaarten Residuen einem geradlinigen Muster folgen.
+- Der Koeffizient liegt zwischen $-1$ und $+1$.
+- Null bedeutet nach der angegebenen Bereinigung keinen verbleibenden **linearen** Zusammenhang. Null bedeutet weder Unabhängigkeit noch den Beweis, dass keinerlei Beziehung besteht.
+
+Die partielle Korrelation ist symmetrisch. Wenn beide Variablen um $Z$ bereinigt und ihre Residuen korreliert werden, ergibt sich derselbe Koeffizient, wenn die Bezeichnungen $X$ und $Y$ vertauscht werden. Auch diese Symmetrie spricht dagegen, den Koeffizienten als Pfeil von einer interessierenden Variable zur anderen zu interpretieren.
+
+Die Residualisierung macht die Idee sichtbar. Die nächste Formel bietet eine schnellere Berechnung, wenn die drei benötigten bivariaten Korrelationen bereits vorliegen.
+
+---
+
+### Die direkte Formel mit drei Korrelationen {.cs-heading}
+
+Es seien
+
+- $r_{XY}$ die bivariate Korrelation zwischen $X$ und $Y$;
+- $r_{XZ}$ die bivariate Korrelation zwischen $X$ und $Z$; und
+- $r_{YZ}$ die bivariate Korrelation zwischen $Y$ und $Z$.
+
+Dann gilt
+
+$$
+r_{XY\mathbin{\cdot}Z}
+=
+\frac{r_{XY}-r_{XZ}r_{YZ}}
+{\sqrt{1-r_{XZ}^2}\sqrt{1-r_{YZ}^2}}.
+$$
+
+Du musst nicht den ganzen Ausdruck auf einmal erfassen. Folge vier kleinen Schritten:
+
+1. Beginne mit der unbereinigten Korrelation $r_{XY}$.
+2. Multipliziere $r_{XZ}$ mit $r_{YZ}$. Dieses Produkt bildet den Korrekturterm im Zähler.
+3. Ziehe dieses Produkt von $r_{XY}$ ab. So entsteht der bereinigte Zähler.
+4. Teile durch die beiden Wurzelausdrücke. Sie bringen den bereinigten Wert wieder auf eine Korrelationsskala, indem sie berücksichtigen, wie viel lineare Variation in $X$ und $Y$ nach ihren getrennten Beziehungen mit $Z$ verbleibt.
+
+Hier ist eine kleine Rechnung mit bewusst einfachen Zahlen. Die drei Korrelationen sind veranschaulichende Werte, die nur den Rechenweg zeigen. Sie stammen nicht aus empirischen Daten. Nehmen wir an,
+
+$$
+r_{XY}=0.60,\qquad r_{XZ}=0.60,\qquad r_{YZ}=0.50.
+$$
+
+Berechne zuerst den Zähler. Der Korrekturterm beträgt $0.60\times0.50=0.30$. Damit gilt
+
+$$
+r_{XY}-r_{XZ}r_{YZ}=0.60-0.30=0.30.
+$$
+
+Berechne als Nächstes den Nenner:
+
+$$
+\sqrt{1-0.60^2}\sqrt{1-0.50^2}
+=
+\sqrt{0.64}\sqrt{0.75}
+\approx
+0.80\times0.866
+=
+0.693.
+$$
+
+Wenn wir beide Teile zusammensetzen, erhalten wir
+
+$$
+r_{XY\mathbin{\cdot}Z}
+=
+\frac{0.30}{0.693}
+\approx
+0.43.
+$$
+
+Die unbereinigte Korrelation betrug $r_{XY}=0.60$, die partielle Korrelation dagegen ungefähr $0.43$. In diesem konstruierten Beispiel bleibt der positive lineare Zusammenhang nach der Bereinigung bestehen, ist aber schwächer. Dieser Vergleich beschreibt, was mit dem Koeffizienten geschehen ist. Er zeigt für sich allein weder, weshalb er sich verändert hat, noch belegt er eine kausale Beziehung.
+
+Die Formel ist eine kompakte Berechnung und kein neues Konzept. Ihre Logik bleibt dieselbe wie beim Weg über die Residuen: Beide interessierenden Variablen werden um $Z$ bereinigt. Danach wird beschrieben, wie sich ihre verbleibenden Teile gemeinsam bewegen.
+
+Die Residuenmethode und diese direkte Formel sind zwei Wege zum selben Koeffizienten, wenn sie dieselben Fälle und gewöhnliche lineare Regressionen mit einem Achsenabschnitt verwenden. Der Residuenweg erklärt die Idee meist anschaulicher. Die direkte Formel ist effizient für die Berechnung und bietet eine nützliche Gegenprüfung.
+
+Wenn $X$ oder $Y$ durch $Z$ perfekt linear bestimmt wird, verbleibt für diese Variable keine Residualvariation. Der Nenner ist dann null und die gesuchte partielle Korrelation ist nicht definiert. Ein Koeffizient setzt voraus, dass in beiden Residuen Variation übrig bleibt.
+
+---
+
+### Eine Bereinigung kann den Koeffizienten abschwächen oder verstärken {.cs-heading}
+
+Es liegt nahe anzunehmen, dass eine Bereinigung eine Korrelation immer verkleinern muss. Das ist nicht richtig. Die partielle Korrelation kann schwächer oder stärker sein als die bivariate Korrelation.
+
+Wenn $Z$ zu einer ähnlichen Bewegung von $X$ und $Y$ beiträgt, kann die rohe Korrelation dieses gemeinsame Muster enthalten. Die Bereinigung um $Z$ kann den Koeffizienten dann verringern. Wenn $Z$ in entgegengesetzten Richtungen mit $X$ und $Y$ zusammenhängt, kann sein Muster einen Teil ihres verbleibenden Zusammenhangs verdecken. Die Bereinigung kann den Koeffizienten dann vergrössern.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare Koeffizientengrafik, die zeigt, dass eine partielle Korrelation kleiner oder grösser als eine bivariate Korrelation sein kann"}
+
+```{r}
+#| label: fig-adjustment-directions
+#| fig-alt: "Eine Koeffizientengrafik zeigt zwei konstruierte Muster. Im ersten sinkt die Korrelation nach der Bereinigung von ungefähr 0,63 auf 0,31. Im zweiten steigt sie von ungefähr 0,23 auf 0,62."
+#| fig-cap: "Eine Bereinigung kann eine Korrelation verkleinern oder vergrössern. Die Richtung hängt davon ab, wie die Drittvariable linear mit beiden interessierenden Variablen zusammenhängt."
+#| fig-width: 9
+#| fig-height: 4.6
+p_adjustment_directions
+```
+
+:::
+
+Diese Werte stammen aus neu konstruierten Mustern und nicht aus einer realen Studie. Es geht nicht darum vorherzusagen, in welche Richtung die Bereinigung wirkt. Vergleiche stattdessen die beiden Koeffizienten und erkläre die Veränderung anhand der gemessenen Korrelationen und des Forschungsdesigns.
+
+In der ersten Zeile der Abbildung zeigt der Pfeil nach links: Ein stärkerer bivariater Koeffizient wird zu einem schwächeren partiellen Koeffizienten. Dieses Muster erwarten Lernende häufig, wenn $Z$ zu einer ähnlichen Bewegung beider interessierenden Variablen beiträgt. Die zweite Zeile ist genauso wichtig. Ihr Pfeil zeigt nach rechts, weil die Bereinigung einen Zusammenhang sichtbar macht, den das Muster von $Z$ teilweise verdeckt hatte. Keiner der Pfeile stellt eine Diagnose dar. Er zeigt, wohin sich der Koeffizient bewegt hat, und gibt Anlass zu untersuchen, weshalb dies geschah.
+
+---
+
+### Bedingungen und diagnostische Prüfungen {.cs-heading}
+
+Eine partielle Korrelationsberechnung kann immer eine Zahl liefern, sofern ihr Nenner existiert. Eine sinnvolle Interpretation erfordert jedoch mehr als Arithmetik. Prüfe vor dem Berichten Folgendes:
+
+1. **Dieselben gepaarten Fälle.** Die drei Variablen und alle drei Korrelationen müssen sich auf dieselben Beobachtungseinheiten beziehen. Unterschiedliche Muster fehlender Daten können die direkte Formel sonst inkonsistent machen.
+2. **Geeignete numerische Variablen.** Diese Lektion verwendet Pearson-Korrelationen und lineare Regressionen. Die aufgezeichneten Werte müssen deshalb sinnvolle quantitative Differenzen erlauben.
+3. **Lineare Beziehungen.** Untersuche die Streudiagramme für $X$-$Y$, $X$-$Z$ und $Y$-$Z$. Kurven werden durch geradlinige Modelle weder vollständig entfernt noch vollständig zusammengefasst.
+4. **Ungewöhnliche und einflussreiche Fälle.** Ein einzelner extremer Fall kann eine Regressionsgerade, ihre Residuen und alle drei Korrelationen verändern.
+5. **Variation verbleibt.** Beide residualisierten Variablen benötigen genügend Variation, damit eine sinnvolle Korrelation berechnet werden kann.
+6. **Das ausgewählte $Z$ ist begründbar.** Erkläre, weshalb es gemessen wurde und weshalb die Bereinigung die Forschungsfrage beantwortet. Eine bequem verfügbare Variable ist nicht automatisch die richtige Variable.
+7. **Die Messqualität ist wichtig.** Wird $Z$ ungenau gemessen, kann die Regression einen Teil seines aufgezeichneten linearen Musters unberücksichtigt lassen.
+8. **Stichprobe und Design bleiben wichtig.** Selektionsverzerrung, abhängige Beobachtungen und ausgelassene Drittvariablen werden nicht allein dadurch behoben, dass $Z$ in eine Berechnung aufgenommen wird.
+
+Grafiken bleiben unverzichtbar. Untersuche die ursprünglichen paarweisen Darstellungen, beide für die Residualisierung verwendeten Regressionsanpassungen und das Residuen-Residuen-Streudiagramm. Ein einzelner bereinigter Koeffizient kann nichtlineare Strukturen oder ungewöhnliche Fälle genauso verdecken wie ein einzelner bivariater Koeffizient.
+
+---
+
+### Was eine partielle Korrelation nicht belegt {.cs-heading}
+
+Eine partielle Korrelation beschreibt einen bereinigten linearen Zusammenhang in den beobachteten Daten. Sie zeigt nicht, dass $Z$ eine der interessierenden Variablen verursacht, dass $Z$ die einzige relevante Drittvariable ist oder dass eine Veränderung von $X$ eine Veränderung von $Y$ bewirken würde.
+
+Auch wenn $r_{XY\mathbin{\cdot}Z}$ nahe null liegt, bleiben mehrere Interpretationen möglich. Der ursprüngliche Zusammenhang könnte weitgehend mit dem gemessenen $Z$ verbunden gewesen sein. Es könnten aber auch Messfehler, ausgelassene Variablen, Nichtlinearität oder ein eingeschränkter beobachteter Wertebereich eine Rolle spielen. Ein Koeffizient nahe null beweist keine vollständige kausale Erklärung.
+
+Ebenso ist eine partielle Korrelation ungleich null kein direkter Effekt. Sie ist die Korrelation zwischen zwei Modellresiduen. Stärkere kausale Aussagen erfordern ein geeignetes Design, sorgfältige Messungen, einen plausiblen zeitlichen Ablauf und eine ernsthafte Auseinandersetzung mit alternativen Erklärungen.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+Residualisierung ordnet gemessene Informationen neu. Sie kann nach Abschluss der Studie keine experimentelle Kontrolle erzeugen und nicht für eine relevante Variable bereinigen, die nie gemessen wurde.
+:::
+
+---
+
+::: {.callout-warning title="Mögliche Stolperfallen"}
+- **Statistische Kontrolle wie experimentelle Kontrolle behandeln.** Die Residualisierung verändert eine Analyse gemessener Werte. Sie verändert nicht, wie die Beobachtungen entstanden sind.
+- **Behaupten, jeder Einfluss von $Z$ sei entfernt worden.** Die Berechnung stellt nur den angepassten linearen Zusammenhang mit der gemessenen Version von $Z$ dar.
+- **Unterschiedliche Fallmengen vermischen.** Die drei Eingangskorrelationen und beide Residuenregressionen müssen dieselben vollständigen Fälle verwenden.
+- **Annehmen, eine Bereinigung müsse den Koeffizienten verkleinern.** Je nach den drei Korrelationen kann die partielle Korrelation schwächer oder stärker sein als die bivariate Korrelation.
+- **Eine partielle Korrelation nahe null als Unabhängigkeit lesen.** Sie bedeutet, dass unter der angegebenen Bereinigung nur wenig linearer Zusammenhang zwischen den Residuen verbleibt.
+- **Die partielle Korrelation in einen kausalen Effekt übersetzen.** Der Koeffizient bleibt symmetrisch und assoziativ, sofern kein geeignetes Design eine stärkere Aussage stützt.
+:::
+
+---
+
+### Ein zuverlässiger Ablauf für partielle Korrelationen {.cs-heading}
+
+Gehe in der folgenden Reihenfolge vor:
+
+1. Formuliere die interessierende $X$-$Y$-Frage und begründe die vorgeschlagene Drittvariable $Z$.
+2. Beschreibe das Studiendesign und unterscheide experimentelle von statistischer Kontrolle.
+3. Prüfe, ob alle drei Variablen zu denselben Fällen gehören.
+4. Stelle alle drei Variablenpaare grafisch dar und untersuche Linearität, Wertebereich, Gruppen und ungewöhnliche Beobachtungen.
+5. Berichte $r_{XY}$, $r_{XZ}$ und $r_{YZ}$.
+6. Regressiere $X$ auf $Z$ und $Y$ auf $Z$. Prüfe anschliessend beide Anpassungen und ihre Residuen.
+7. Korreliere die beiden Residuen oder wende die direkte Formel an.
+8. Vergleiche die partielle Korrelation mit der bivariaten Korrelation.
+9. Interpretiere den bereinigten Zusammenhang eng und nenne die Grenzen des Designs.
+
+Dieses Thema bereinigt beide interessierenden Variablen um eine gemessene Drittvariable. Thema 7 entwickelt den Rahmen der multiplen Regression und die damit verbundenen Möglichkeiten weiter, Informationen mehrerer Prädiktoren voneinander zu trennen.
+
+## Simuliertes Beispiel
+
+### Simulierte Studie: Übung und Beurteilungsleistung {.cs-heading}
+
+Nun wenden wir den vollständigen Ablauf auf eine künstliche Kohorte an. Eine *Kohorte* ist eine Gruppe von Fällen, die gemeinsam untersucht werden. Thema 1 führte Simulationen, Zufallszahlengeneratoren, feste Startwerte und Reproduzierbarkeit ein. Dieses Beispiel verwendet dieselbe bekannte Grundlage: Das gespeicherte Rezept und der Startwert erzeugen bei jedem Aufbau der Seite wieder dieselben künstlichen Werte. Die Daten umfassen 140 konstruierte Fälle und enthalten keine Angaben zu realen Teilnehmenden.
+
+Auf den ersten Blick kann eine positive Korrelation zwischen Übung und Beurteilung wie ein vollständiges Ergebnis wirken. Dieses Beispiel ist wichtig, weil die Ausgangsvorbereitung mit beiden Variablen verbunden ist. Der rohe Koeffizient fasst deshalb mehr als ein Muster zusammen. Unsere zentrale Frage lautet:
+
+> Wie hängen wöchentliche Übungsstunden und Beurteilungspunktwerte zusammen, nachdem ihre getrennten linearen Zusammenhänge mit der Ausgangsvorbereitung berücksichtigt wurden?
+
+Zwei ergänzende Fragen machen die Bereinigung sichtbar. Was bedeutet es, wenn ein Fall mehr übt oder einen höheren Punktwert erreicht, als anhand der Ausgangsvorbereitung angepasst wurde? Ergibt die Korrelation dieser Residuen aus beobachtetem minus angepasstem Wert dieselbe Antwort wie die direkte Formel der partiellen Korrelation?
+
+Die Simulation erzeugt bewusst zuerst die Ausgangsvorbereitung und danach die beiden anderen Variablen. Die Ausgangsvorbereitung trägt sowohl zu den wöchentlichen Übungsstunden als auch zum Beurteilungspunktwert bei. Zudem trägt die Übung zum erzeugten Beurteilungspunktwert bei. Weil das künstliche Rezept bekannt ist, eignet es sich als klares Lehrbeispiel. Bei realen Beobachtungsdaten ist das wahre Rezept nicht sichtbar.
+
+| Variable | Bedeutung in der Simulation | Rolle in der Analyse |
+|---|---|---|
+| `participant_id` | Anonyme Zeilenbezeichnung | Hält die drei Werte jedes Falls zusammen |
+| `baseline_preparation` | Konstruierter Punktwert von 0 bis 100 | Drittvariable $Z$ |
+| `practice_hours` | Konstruierte wöchentliche Stundenzahl | Interessierende Variable $X$ |
+| `assessment_score` | Konstruierter Punktwert von 0 bis 100 | Interessierende Variable $Y$ |
+
+: Variablen in der reproduzierbaren Lehrkohorte für Thema 6. {#tbl-t06-simulation-variables}
+
+Die rechte Spalte ordnet die Symbole zu, die wir in der gesamten Berechnung verwenden. Die wöchentliche Übung ist $X$, der Beurteilungspunktwert ist $Y$ und die Ausgangsvorbereitung ist $Z$. Die Teilnehmenden-ID wird nicht als numerische Variable analysiert. Sie verhindert lediglich, dass Werte verschiedener Zeilen versehentlich miteinander gepaart werden. Das Beispiel führt von den ursprünglichen Zeilen und paarweisen Korrelationen zu zwei Regressionen, zwei Residuenmengen und einer bereinigten Korrelation.
+
+---
+
+**Schritt 1: Fälle und ihre Messrollen untersuchen**
+
+Jede Zeile enthält alle drei Messungen für eine künstliche Person. Die durchsuchbare Tabelle mit Seitennavigation enthält die vollständige konstruierte Kohorte.
+
+```{r}
+#| label: tbl-t06-simulated-data
+datatable(
+  sim_display_data,
+  colnames = c(
+    "Teilnehmenden-ID",
+    "Ausgangsvorbereitung",
+    "Wöchentliche Übungsstunden",
+    "Beurteilungspunktwert"
+  ),
+  options = topic_dt_options(topic_locale),
+  class = "compact stripe hover",
+  rownames = FALSE,
+  caption = paste0(
+    "Konstruierte Daten zur partiellen Korrelation für alle ",
+    sim_n,
+    " gepaarten Fälle."
+  )
+)
+```
+
+Wenn du eine beliebige Zeile von links nach rechts liest, erkennst du die Beobachtungseinheit: Zu einer Teilnehmenden-ID gehören je ein Wert für $Z$, $X$ und $Y$. Suche und Seitennavigation verändern nur, welche Zeilen gerade sichtbar sind. Sie verändern nicht, welche Zeilen in die Berechnungen eingehen. Alle folgenden Berechnungen verwenden sämtliche `r sim_n` gepaarten Fälle.
+
+Die vollständige Kohorte umfasst `r sim_n` Fälle. Ihre wichtigsten deskriptiven Zusammenfassungen lauten:
+
+```{r}
+#| label: tbl-t06-simulation-summary
+sim_summary_table |>
+  kable(
+    caption = "Deskriptive Zusammenfassungen für die konstruierte Kohorte aus Thema 6.",
+    col.names = c("Kennzahl", "Wert"),
+    align = c("l", "r")
+  )
+```
+
+Die Zeilen mit Mittelwerten zeigen das Zentrum jeder künstlichen Variable. Die Zeilen mit Standardabweichungen beschreiben die typische Streuung um dieses Zentrum. Anhand dieser Zusammenfassungen prüfen wir, ob die Variablen genügend variieren, um analysiert zu werden. Zudem bleiben die Einheiten sichtbar, bevor sie durch die Korrelationen entfernt werden. Die Werte sind nur begrenzt, damit die künstlichen Skalen plausibel bleiben. Sie sind keine Schätzungen für eine reale Population. Nachdem Variablen und Fälle geklärt sind, betrachten wir als Nächstes ihre unbereinigten Korrelationen.
+
+---
+
+**Schritt 2: Die drei bivariaten Korrelationen berechnen**
+
+Eine *bivariate Korrelation* beschreibt den linearen Zusammenhang zwischen zwei Variablen, bevor eine Drittvariable hinzukommt. Die direkte Formel benötigt drei solche Korrelationen. Alle drei werden aus denselben `r sim_n` Fällen berechnet.
+
+```{r}
+#| label: tbl-t06-pairwise-correlations
+pairwise_correlation_table |>
+  kable(
+    caption = "Die drei bivariaten Korrelationen, die für die partielle Korrelation benötigt werden.",
+    col.names = c("Variablenpaar", "Pearson-r"),
+    align = c("l", "r")
+  )
+```
+
+Die rohe Korrelation zwischen Übung und Beurteilung ist $r_{XY}=`r format_t06(sim_r_xy, 3)`$. Sie ist positiv: Fälle mit mehr wöchentlicher Übung haben in dieser künstlichen Kohorte tendenziell höhere Beurteilungspunktwerte.
+
+Die Ausgangsvorbereitung korreliert ebenfalls positiv mit der Übung, $r_{XZ}=`r format_t06(sim_r_xz, 3)`$, und mit dem Beurteilungspunktwert, $r_{YZ}=`r format_t06(sim_r_yz, 3)`$. Der rohe $X$-$Y$-Koeffizient kann deshalb Bewegung enthalten, die beide Variablen mit der Ausgangsvorbereitung teilen.
+
+Diese drei Koeffizienten begründen eine Bereinigung. Die Residuenmethode zeigt jedoch Fall für Fall, was diese Bereinigung bewirkt.
+
+---
+
+**Schritt 3: Jede interessierende Variable auf die Ausgangsvorbereitung regressieren**
+
+Die erste Regression passt die wöchentlichen Übungsstunden aus der Ausgangsvorbereitung an. Die zweite passt den Beurteilungspunktwert aus der Ausgangsvorbereitung an. Diese Verwendung von Regressionen, um den angepassten Teil vom Teil aus beobachtetem minus angepasstem Wert zu trennen, heisst *Residualisierung*. In beiden folgenden Teilgrafiken stellen blaue Punkte beobachtete Fälle dar und die blaue Gerade zeigt angepasste Werte. Vier orange vertikale Segmente machen Residuen als Differenz zwischen beobachtetem und angepasstem Wert sichtbar.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbares Paar von Regressionsgrafiken, die die Residualisierung von Übungsstunden und Beurteilungspunktwerten zeigen"}
+
+```{r}
+#| label: fig-t06-residualization
+#| fig-alt: "Zwei Streudiagramme verwenden die Ausgangsvorbereitung auf der horizontalen Achse. Das erste passt Übungsstunden an, das zweite Beurteilungspunktwerte. Je vier orange vertikale Segmente zeigen die Distanz zwischen beobachteten Punkten und angepassten Geraden als Residuen."
+#| fig-cap: "Bei der Residualisierung wird jede interessierende Variable aus derselben Drittvariable angepasst. Ein Residuum ist der beobachtete Wert minus den angepassten Wert."
+topic6_plotly(
+  p_residualization,
+  alt_text = paste(
+    "Zwei Streudiagramme verwenden die Ausgangsvorbereitung auf der horizontalen Achse.",
+    "Das erste passt Übungsstunden an, das zweite Beurteilungspunktwerte.",
+    "Beim Überfahren eines Falls werden sein beobachteter Wert, sein angepasster Wert und sein Residuum angezeigt."
+  ),
+  tooltip_fields = "text",
+  top_margin = 132
+)
+```
+
+:::
+
+Die linke Teilgrafik beantwortet die Frage: "Wie viel Übung würde die angepasste Gerade bei diesem Ausgangswert erwarten?" Die rechte Teilgrafik stellt dieselbe Frage für die Beurteilungsleistung. In beiden Teilgrafiken hat ein Punkt oberhalb der Geraden ein positives Residuum und ein Punkt unterhalb der Geraden ein negatives Residuum. Die orangen Segmente stellen nicht vier besondere Arten von Teilnehmenden dar. Sie vergrössern vier gewöhnliche fallbezogene Subtraktionen, damit die als Residuum bezeichnete vertikale Distanz erkennbar wird.
+
+Die folgenden Zeilen machen dieselbe Subtraktion numerisch sichtbar. Das Übungsresiduum entspricht beispielsweise den beobachteten Übungsstunden minus den angepassten Übungsstunden. Das Beurteilungsresiduum wird genauso berechnet.
+
+```{r}
+#| label: tbl-t06-residual-preview
+sim_residual_preview |>
+  kable(
+    caption = "Die ersten acht Fälle mit angepassten Werten und Residuen aus beiden Bereinigungsregressionen.",
+    col.names = c(
+      "Teilnehmenden-ID",
+      "Übungsstunden",
+      "Angepasste Übung",
+      "Übungsresiduum",
+      "Beurteilungspunktwert",
+      "Angepasster Punktwert",
+      "Beurteilungsresiduum"
+    ),
+    align = c("l", "r", "r", "r", "r", "r", "r")
+  )
+```
+
+Lies jede Zeile in zwei Blöcken. Der Übungsblock führt von der beobachteten Übung über die angepasste Übung zu ihrer Differenz. Der Beurteilungsblock wiederholt dieselbe Reihenfolge für die Beurteilung. Ein positiver Eintrag in einer Residuen-Spalte bedeutet "oberhalb der Geraden für diesen Ausgangswert". Ein negativer Eintrag bedeutet "unterhalb der Geraden". Die Residuen liegen im Mittel nahe null, weil beide angepassten Regressionen einen Achsenabschnitt enthalten. Noch wichtiger ist, dass nun für jeden Fall zwei Residuen vorliegen, die gepaart und grafisch dargestellt werden können.
+
+---
+
+**Schritt 4: Die beiden Residuenmengen korrelieren**
+
+Die linke Teilgrafik unten zeigt den ursprünglichen Zusammenhang zwischen Übung und Beurteilung. Beide Variablen werden in Standardabweichungseinheiten ausgedrückt, damit sie dieselben Achsen wie die rechte Teilgrafik verwenden können. Die Standardisierung verändert die Einheiten, aber nicht die Korrelation.
+
+Die rechte Teilgrafik zeigt die standardisierten Übungs- und Beurteilungsresiduen. Ihr Koeffizient ist die partielle Korrelation.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbarer Vergleich des rohen Zusammenhangs zwischen Übung und Beurteilung mit dem Residualzusammenhang nach der Bereinigung"}
+
+```{r}
+#| label: fig-t06-raw-adjusted
+#| fig-alt: "Zwei Streudiagramme vergleichen standardisierte rohe Übungs- und Beurteilungswerte mit standardisierten Residuen, nachdem beide Variablen aus der Ausgangsvorbereitung angepasst wurden. Die rohe Korrelation beträgt ungefähr 0,607 und die partielle Korrelation ungefähr 0,337."
+#| fig-cap: "Die partielle Korrelation ist die Pearson-Korrelation zwischen den beiden residualisierten Variablen."
+topic6_plotly(
+  p_raw_adjusted,
+  alt_text = paste(
+    "Zwei Streudiagramme vergleichen standardisierte rohe Übungs- und Beurteilungswerte mit standardisierten Residuen nach der Bereinigung.",
+    "Die rohe Korrelation beträgt ungefähr 0.607 und die partielle Korrelation ungefähr 0.337.",
+    "Beim Überfahren eines Punkts werden die gepaarten standardisierten Koordinaten angezeigt."
+  ),
+  tooltip_fields = "text",
+  top_margin = 132
+)
+```
+
+:::
+
+Die linke Teilgrafik entspricht der Sichtweise aus Thema 4. Sie vergleicht die beiden ursprünglichen Variablen und enthält deshalb jedes lineare Muster, das sie teilen, einschliesslich des mit der Ausgangsvorbereitung verbundenen Teils. In der rechten Teilgrafik haben sich die Achsen verändert. Null auf einer Achse bedeutet nun "genau beim aus der Ausgangsvorbereitung angepassten Wert". Ein Punkt im oberen rechten Quadranten liegt über beiden angepassten Werten. Ein Punkt im unteren linken Quadranten liegt unter beiden. Die aufwärts gerichtete Tendenz dieser gepaarten Abweichungen ist der verbleibende positive lineare Zusammenhang.
+
+Die Residuenkorrelation lautet
+
+$$
+r_{\hat e_X\hat e_Y}=`r format_t06(sim_partial_residual, 3)`.
+$$
+
+Sie bleibt positiv, ist aber kleiner als die bivariate Korrelation von `r format_t06(sim_r_xy, 3)`. In dieser konstruierten Kohorte ist ein Teil des rohen linearen Zusammenhangs mit dem gemessenen Muster der Ausgangsvorbereitung verbunden.
+
+Diese Interpretation ist bewusst als Zusammenhang formuliert. Die Residuenberechnung allein sagt nicht, was geschehen würde, wenn sich die Übungszeit oder die Vorbereitung einer realen Person veränderte.
+
+---
+
+**Schritt 5: Das Ergebnis mit der direkten Formel überprüfen**
+
+Setzen wir die drei bivariaten Korrelationen in die Formel ein:
+
+$$
+\begin{aligned}
+r_{XY\mathbin{\cdot}Z}
+&=
+\frac{r_{XY}-r_{XZ}r_{YZ}}
+{\sqrt{1-r_{XZ}^2}\sqrt{1-r_{YZ}^2}}\\[4pt]
+&=
+\frac{`r format_t06(sim_r_xy, 5)`-
+(`r format_t06(sim_r_xz, 5)`)(`r format_t06(sim_r_yz, 5)`)}
+{\sqrt{1-`r format_t06(sim_r_xz, 5)`^2}
+\sqrt{1-`r format_t06(sim_r_yz, 5)`^2}}\\[4pt]
+&\approx `r format_t06(sim_partial_formula, 3)`.
+\end{aligned}
+$$
+
+Mit den ungerundeten Korrelationen beträgt der bereinigte Zähler `r format_t06(sim_formula_numerator, 4)` und der Nenner zur erneuten Skalierung `r format_t06(sim_formula_denominator, 4)`. Nach dem Runden ergibt ihr Quotient `r format_t06(sim_partial_formula, 3)`.
+
+```{r}
+#| label: tbl-t06-method-agreement
+method_comparison_table |>
+  kable(
+    caption = "Beide gültigen Berechnungswege ergeben dieselbe partielle Korrelation.",
+    col.names = c("Berechnungsweg", "Partielle Korrelation"),
+    align = c("l", "r")
+  )
+```
+
+Die beiden Zeilen unterscheiden sich nur durch den Berechnungsweg. Die erste verwendet die gepaarten Residuen-Spalten, die du soeben gesehen hast. Die zweite verwendet die drei Einträge aus der vorherigen Korrelationstabelle. Ihre angezeigte Gleichheit ist kein Zufall. Bei einer Drittvariable und gewöhnlicher linearer Residualisierung ist die Formel die algebraische Form der Korrelation zwischen den beiden Residuen-Spalten.
+
+---
+
+**Schritt 6: Die rohen und bereinigten Fragen vergleichen**
+
+Die beiden Koeffizienten beantworten unterschiedliche Fragen:
+
+| Koeffizient | Wert | Beantwortete Frage |
+|---|---:|---|
+| Bivariates $r_{XY}$ | `r format_t06(sim_r_xy, 3)` | Wie hängen Übungsstunden und Beurteilungspunktwerte vor der Bereinigung linear zusammen? |
+| Partielles $r_{XY\mathbin{\cdot}Z}$ | `r format_t06(sim_partial_residual, 3)` | Wie hängen ihre Residuen linear zusammen, nachdem jede Variable aus der Ausgangsvorbereitung angepasst wurde? |
+
+: Rohe und bereinigte Interpretationen für die konstruierte Kohorte. {#tbl-t06-raw-adjusted-meaning}
+
+Die Abnahme ist ein Vergleich zwischen zwei Koeffizienten und kein Prozentsatz entfernter Kausalität. Sie bedeutet nicht, dass die Ausgangsvorbereitung einen festen Anteil eines realen Effekts erklärt. Korrelationen lassen sich nicht additiv-kausal interpretieren.
+
+Auch die verbleibende positive partielle Korrelation hat eine enge Bedeutung. Fälle, die mehr übten, als ihre Werte der Ausgangsvorbereitung vorhersagten, erzielten tendenziell höhere Punktwerte als durch ihre Ausgangsvorbereitung vorhergesagt. Dieses Muster ist deskriptiv nützlich, doch weitere gemessene oder nicht gemessene Merkmale könnten weiterhin dazu beitragen.
+
+---
+
+**Schritt 7: Die gestützte Schlussfolgerung und ihre Grenzen formulieren**
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+In der konstruierten Kohorte weisen wöchentliche Übungsstunden und Beurteilungspunktwerte einen positiven bivariaten linearen Zusammenhang auf. Nachdem beide Variablen linear um die Ausgangsvorbereitung bereinigt wurden, bleibt zwischen ihren Residuen ein schwächerer positiver Zusammenhang bestehen. Die Residuenberechnung und die direkte Formel stimmen bei $r_{XY\mathbin{\cdot}Z}=`r format_t06(sim_partial_residual, 3)`$ überein.
+:::
+
+Die Schlussfolgerung gilt nur für die künstlichen Daten und die angegebene lineare Bereinigung. Es wurden keine realen Lernenden beobachtet. Selbst bei einem realen Datensatz würde diese Berechnung nicht belegen, dass zusätzliche Übung einen höheren Punktwert verursacht. Sie würde weder andere Drittvariablen noch Messfehler, nichtlineare Beziehungen, Selektionseffekte oder eine umgekehrte Richtung ausschliessen.
+
+### Mögliche Stolperfallen {.cs-heading}
+
+Diese Simulation ist sauberer als reale Forschung. Sie hat vollständige Messungen, ein bekanntes Rezept, lineare Beziehungen und keine undokumentierten Änderungen der Messung. Reale Datensätze können jede dieser Bedingungen verletzen.
+
+- **Statistische Bereinigung als experimentelle Kontrolle behandeln.** Die Berechnung verändert eine Analyse gemessener Werte und nicht den Prozess, der sie erzeugt hat.
+- **Behaupten, die Residualisierung entferne jeden möglichen Einfluss von $Z$.** Sie stellt nur den angepassten linearen Zusammenhang mit der gemessenen Version von $Z$ dar.
+- **Die drei Eingangskorrelationen aus unterschiedlichen Fallmengen berechnen.** Die Formel und beide Residuenregressionen müssen dieselben vollständigen Fälle verwenden.
+- **Nur den bereinigten Koeffizienten berichten.** Der rohe Koeffizient und die diagnostischen Grafiken bleiben notwendig, um zu verstehen, was sich verändert hat.
+- **Die partielle Korrelation in einen kausalen Effekt übersetzen.** Sie bleibt ein symmetrischer bereinigter Zusammenhang, sofern das Design keine stärkere Schlussfolgerung stützt.
+
+### Wie dieses Beispiel die Theorie zusammenführt {.cs-heading}
+
+Die sieben Schritte folgten der Bereinigungslogik aus dem Reiter Theorie: mit den drei Korrelationen beginnen, beide interessierenden Variablen aus derselben Drittvariable anpassen, die beiden Residuen-Spalten paaren, das Ergebnis mit der direkten Formel bestätigen und die bereinigte Frage mit der ursprünglichen vergleichen. An dieser Stelle greifen drei Ideen der Lernsequenz ineinander.
+
+1. **Kovarianz und Korrelation beschreiben gepaarte Bewegung.** Thema 4 fragte, ob zwei Variablen gemeinsam steigen und fallen, und legte diesen linearen Zusammenhang auf die standardisierte Skala von $-1$ bis $+1$. Keine Variable musste dabei als Zielvariable festgelegt werden.
+2. **Die einfache Regression verwandelt gepaarte Bewegung in eine angepasste Gerade.** Thema 5 gab den Variablen unterschiedliche Rollen: einen Prädiktor und eine Zielvariable. Der angepasste Wert stellte die vom Prädiktor erwartete Zielvariable dar. Das Residuum hielt fest, wie weit ein beobachteter Zielwert von dieser Geraden entfernt lag.
+3. **Die partielle Korrelation verwendet zwei einfache Regressionen, um eine Korrelation zu verfeinern.** In diesem Thema wird $X$ aus $Z$ und $Y$ aus $Z$ angepasst. Die Korrelation der beiden Residuen-Spalten fragt, ob sich die interessierenden Variablen nach Darstellung ihrer getrennten linearen Verbindungen mit $Z$ weiterhin gemeinsam bewegen.
+
+Das simulierte Beispiel macht diese Kette konkret. Die rohe Korrelation zwischen Übung und Beurteilung beantwortete die breite Frage zu zwei Variablen. Danach erzeugten die beiden Regressionen auf die Ausgangsvorbereitung einen enger gefassten modellbasierten Vergleich von Fällen mit ähnlichen angepassten Vorbereitungsmustern. Die partielle Korrelation beschrieb die verbleibende gepaarte Bewegung. Sie war kleiner, verschwand aber nicht. Keines der beiden Ergebnisse wurde kausal interpretiert.
+
+Zwischen den letzten beiden Schritten besteht zudem ein wichtiger Unterschied. Die einfache Regression ist gerichtet, weil sie eine benannte Zielvariable aus einem benannten Prädiktor vorhersagt. Die partielle Korrelation ist symmetrisch, weil sie beide interessierenden Variablen bereinigt und ihre Residuen korreliert. Werden $X$ und $Y$ vertauscht, verändert sich $r_{XY\mathbin{\cdot}Z}$ nicht. Deshalb ist die partielle Korrelation am besten als bereinigter Zusammenhang zu verstehen und nicht als Vorhersagegleichung oder Effekt.
+
+Thema 7 behält die Richtung der Regression bei und erweitert sie. Anstatt zwei getrennte Variablen aus einem $Z$ anzupassen, passt die multiple Regression eine Zielvariable aus mehreren Prädiktoren in einem einzigen Modell an. Ihre Koeffizienten beantworten bedingte Fragen, die eng mit der hier geübten Bereinigung verwandt sind. So entsteht eine zusammenhängende Abfolge: Korrelation beschreibt gemeinsame Bewegung, Regression baut einen angepassten Zusammenhang auf, partielle Korrelation isoliert bereinigte Bewegung und multiple Regression vereint mehrere bereinigte Prädiktorbeziehungen in einer Gleichung.
+
+## Übungen und Lösungen
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 6
+)
+```
+
+## Zusammenfassung
+
+{{< include ../../_shared/topic-summaries/de/t06.md >}}
+
+---
+
+### Zusammenfassung herunterladen {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 6
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Themenseitennavigation"}
+[Zurück: Einfache lineare Regression](t05_simple-regression.qmd){.text-link-arrow .previous}
+[Übersicht zur Einführung](overview-intro-stats-de.qmd){.text-link-arrow}
+[Weiter: Multiple Regression](t07_multiple-regression.qmd){.text-link-arrow .next}
+:::

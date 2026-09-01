@@ -1,0 +1,77 @@
+---
+title: "About Ratiomera"
+subtitle: "Why the platform exists and how it is meant to grow"
+pagetitle: "About Ratiomera | Ratiomera"
+title-prefix: ""
+description: "Learn why Ratiomera exists, how its open learning material is developed, and how its Statistics and Mathematics branches belong to one shared platform."
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Ratiomera is a volunteer-built learning platform for statistics and mathematics. It exists to make careful explanations, meaningful examples, substantial practice, and complete solutions available without an account, subscription, or paywall.
+
+The name brings two educational branches together. Ratiomera Statistics is the active branch, while Ratiomera Mathematics is planned for future development. Both follow the same guiding idea: difficult material becomes more approachable when no essential step is treated as obvious and when a learner can see how one idea prepares the next.
+:::
+
+---
+
+## Why Ratiomera Exists
+
+Confusion does not always mean that a learner lacks ability. Sometimes a definition arrived before its purpose was clear. Sometimes a formula was presented without showing what question it answers. Sometimes a solution moved from the first line to the last while leaving the most important reasoning in between unstated.
+
+A good explanation can change that experience. It can begin with a familiar question, introduce the necessary vocabulary only when it becomes useful, and connect symbols, calculations, tables, and figures to one understandable argument. Ratiomera was created to give that kind of explanation more space.
+
+The platform is meant to accompany lectures, classes, assigned readings, and your own notes. It does not replace the teaching context, official curriculum, or assessment guidance of a school or university. Instead, it offers another route into an idea when the first route did not quite make it click.
+
+---
+
+## How the Material Is Developed
+
+Ratiomera draws on more than one teaching approach or institutional syllabus. Its direction grows from the academic, research, teaching, tutoring, and professional experience of its members, their exchanges with learners, educators, researchers, and practitioners, and the recurring questions that reveal where an explanation needs another step.
+
+Each topic is built as a connected learning sequence. Definitions and notation are checked across pages. Examples are chosen to illuminate the idea being taught. Figures and tables must tell the same statistical or mathematical story as the surrounding text. Exercises should examine material that was actually introduced, and solutions should reveal the reasoning as clearly as the answer.
+
+English is the canonical development language. The finalized structure is then adapted into natural German for Switzerland and natural standard Albanian. Large language models can assist with organizing, comparing, and adapting material. Responsibility for source and calculation checks, language review, accessibility work, and academic judgment remains with people.
+
+---
+
+## One Platform, Two Branches
+
+**Ratiomera Statistics** develops university-level statistics for the humanities and social sciences. Its current Introduction to Statistics sequence moves from careful description and probability toward inference, relationships, prediction, statistical adjustment, and group comparison.
+
+**Ratiomera Mathematics** is planned as a future learning path from primary school through Gymnasium level. Its development will begin only when the project has the capacity, relevant curriculum guidance, and educational collaboration needed to do the work responsibly.
+
+Although the branches differ in subject and audience, they share the same open-access promise. Better explanations, advanced sections, exercises, and solutions remain part of the common learning path rather than being reserved for a paid tier. The platform rejects the broader pattern of giving learners a limited first step and then placing the connected learning path behind subscriptions, recurring payments, or other financial barriers.
+
+---
+
+## Built in Switzerland, Written for Wider Access
+
+Ratiomera is based in Switzerland and currently works in English, German, and Albanian. Each language carries the same learning goals, structure, calculations, and visual meaning. The wording is adapted into natural, supportive language so that no version reads like a difficult literal copy.
+
+The initial languages reflect the knowledge currently represented within the volunteer team. A further language can be added when volunteers are able to translate it, review its accuracy and naturalness, and help maintain it over time. If the team cannot judge a language reliably, automated translation alone is not enough to present that version as trustworthy.
+
+---
+
+## A Project That Keeps Learning
+
+Ratiomera is shaped by the people who use, question, review, and improve it. A learner who explains where a paragraph became confusing, a teacher who suggests another route into a concept, a specialist who notices an error, or a volunteer who checks language or accessibility can all reveal something the original draft missed.
+
+That participation does not transfer responsibility away from the people who maintain Ratiomera, and a conversation does not imply endorsement of every page. It does make the project better able to learn from experience. Corrections, thoughtful criticism, and clearly scoped contributions are therefore part of how the platform is meant to grow.
+
+---
+
+## Designed for the Web, Supported by Downloads
+
+Ratiomera works best in a current web browser. The web version keeps the learning sequence, responsive tables, interactive simulated examples, accessible navigation, cross-topic links, and the `EN | DE | SQ` language control together in one place. A wider desktop or laptop screen offers the most comfortable view of detailed figures and tables, while phone and tablet layouts remain supported.
+
+The PDF and Word files complement that experience. They are useful when you want to print a summary, annotate a document, work through exercises away from the browser, or keep a local copy. The website remains the home of the connected explanations and interactive elements. For the fullest learning path, begin in the browser and use the downloads where they support the way you study.
+
+::: {.platform-cta}
+### Help shape the next improvement
+
+If you found an unclear explanation, a factual concern, an accessibility problem, or an idea that could help a learner, we would be glad to hear from you. You can also read how non-financial contributions help the shared open-access project now and how optional donations could support it in the future.
+
+[Contact Ratiomera](contact-ratiomera-en.qmd){.dl-btn}
+[Support Ratiomera](support-ratiomera-en.qmd){.dl-btn .secondary}
+:::

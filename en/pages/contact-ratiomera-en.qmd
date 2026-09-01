@@ -1,0 +1,101 @@
+---
+title: "Contact"
+subtitle: "The shared contact point for Ratiomera"
+pagetitle: "Contact | Ratiomera"
+title-prefix: ""
+description: "Contact Ratiomera about organizational questions, collaboration ideas, branch content, corrections, feedback, or future curriculum suggestions."
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Ratiomera is developed and maintained by volunteers. This page separates inquiries so that a message reaches the part of the project that can respond most usefully.
+
+Use the general contact for questions about Ratiomera as a project, collaboration, institutional communication, or ideas that concern both branches. Use a branch contact for a correction, unclear explanation, content suggestion, accessibility observation, or other question tied specifically to Statistics or Mathematics. Use the volunteering contact when you want to offer time, language knowledge, subject expertise, accessibility review, design, or technical help.
+:::
+
+---
+
+## General Inquiries
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>General inquiries</h3>
+<p>For organizational questions, collaboration ideas, institutional communication, and general feedback.</p>
+<span class="contact-label">Email</span>
+[{{< var contact.info >}}](mailto:{{< var contact.info >}}){.contact-address}
+</article>
+</div>
+
+---
+
+## Branch-Specific Inquiries
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Ratiomera Statistics</h3>
+<p>For corrections, unclear explanations, curriculum feedback, accessibility observations, source questions, and other inquiries about Ratiomera Statistics.</p>
+<span class="contact-label">Email</span>
+[{{< var contact.statistics >}}](mailto:{{< var contact.statistics >}}){.contact-address}
+</article>
+<article class="contact-card">
+<h3>Ratiomera Mathematics</h3>
+<p>For future curriculum suggestions, interest from teachers or institutions, and questions about planned development.</p>
+<span class="contact-label">Email</span>
+[{{< var contact.mathematics >}}](mailto:{{< var contact.mathematics >}}){.contact-address}
+</article>
+</div>
+
+---
+
+## Volunteering
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Volunteer with Ratiomera</h3>
+<p>For offers of subject review, language support, accessibility work, design, development, testing, or another clearly described contribution.</p>
+<span class="contact-label">Email</span>
+[{{< var contact.volunteering >}}](mailto:{{< var contact.volunteering >}}){.contact-address}
+</article>
+</div>
+
+---
+
+## Team
+
+Krenar Sherifi and Donat Ismaili currently contribute to Ratiomera Statistics. Their professions and current branch involvement are shown below.
+
+<div class="team-section">
+
+<article class="team-member">
+<div class="team-bio">
+<div class="team-name">Krenar Sherifi</div>
+<div class="team-role">Psychologist</div>
+<div class="team-tags" role="list" aria-label="Branch responsibility">
+<span class="branch-tag statistics" role="listitem">Ratiomera Statistics</span>
+</div>
+</div>
+</article>
+
+<article class="team-member">
+<div class="team-bio">
+<div class="team-name">Donat Ismaili</div>
+<div class="team-role">Teacher</div>
+<div class="team-tags" role="list" aria-label="Branch responsibility">
+<span class="branch-tag statistics" role="listitem">Ratiomera Statistics</span>
+</div>
+</div>
+</article>
+
+</div>
+
+---
+
+## Volunteer Availability
+
+::: {.contact-note}
+Ratiomera is volunteer-led and does not have a permanently staffed inbox or a guaranteed response time. Once working contact addresses are published, messages will be read as the relevant volunteers have capacity, and the time needed to respond may vary with the question and the stage of each branch's development. Ratiomera is not set up for urgent requests, individual tutoring, or time-sensitive assessment advice.
+
+A clear message will help the team understand the request without unnecessary follow-up. For a correction or accessibility issue, include the exact page link and section, describe what seems unclear or incorrect, and, for a display problem, mention the device and browser you used. For a collaboration or volunteering inquiry, explain briefly what you would like to contribute, which branch or language it concerns, and whether the idea requires an answer by a particular date. Please do not send sensitive personal information, confidential student records, or unpublished assessment material.
+
+The addresses shown on this page are active and route messages to the appropriate project mailbox or folder. A delayed response reflects the practical limits of a volunteer team working carefully across several parts of the platform. Thoughtful corrections and offers of help still matter.
+:::

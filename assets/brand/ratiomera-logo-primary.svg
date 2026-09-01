@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 72" role="img" aria-labelledby="ratiomera-primary-title ratiomera-primary-desc" focusable="false">
+  <title id="ratiomera-primary-title">Ratiomera</title>
+  <desc id="ratiomera-primary-desc">The geometric Ratiomera R followed by the Ratiomera wordmark in navy.</desc>
+  <g fill="none" stroke="#183B56" stroke-linecap="round" stroke-linejoin="round">
+    <g>
+      <path d="M16 59V13h17c11 0 18 6.8 18 17s-7 17-18 17H16" stroke-width="8"/>
+      <path d="m33 47 19 12" stroke-width="8"/>
+      <path d="M28 30h13" stroke-width="4"/>
+    </g>
+    <g stroke-width="4.5">
+      <path d="M76 52V20h14c9 0 13 3.5 13 10s-4 10-13 10H76m15 0 14 12"/>
+      <path d="m113 52 13-32 13 32m-21-11h16"/>
+      <path d="M146 20h28m-14 0v32"/>
+      <path d="M184 20h14m-7 0v32m-7 0h14"/>
+      <path d="M224 20c-10 0-17 6-17 16s7 16 17 16 17-6 17-16-7-16-17-16Z"/>
+      <path d="M253 52V20l15 20 15-20v32"/>
+      <path d="M319 20h-23v32h23m-23-16h20"/>
+      <path d="M332 52V20h14c9 0 13 3.5 13 10s-4 10-13 10h-14m15 0 14 12"/>
+      <path d="m369 52 13-32 13 32m-21-11h16"/>
+    </g>
+  </g>
+</svg>

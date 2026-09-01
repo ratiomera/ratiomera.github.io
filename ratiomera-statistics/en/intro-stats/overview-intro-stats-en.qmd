@@ -1,0 +1,91 @@
+---
+title: "Introduction to Statistics"
+subtitle: "Foundations of Statistical Thinking for the Humanities and Social Sciences"
+pagetitle: "Introduction to Statistics | Ratiomera Statistics"
+title-prefix: ""
+description: "A guided introduction to descriptive statistics, probability, inference, correlation, regression, and analysis of variance for the humanities and social sciences."
+toc: false
+aliases:
+  - /stat1/index.html
+---
+
+::: {.section-intro .fade-in}
+Suppose a study reports that one therapy appears to reduce anxiety more than another. What does "more" mean? Was the difference large enough to matter, did most participants improve or only a few, and could the pattern have appeared through ordinary chance variation? The same questions arise when a news report compares survey percentages, an app summarizes your sleep, or a researcher asks whether social support and well-being are related.
+
+Statistics gives us a disciplined way to move from observations to answers without pretending that uncertainty has disappeared. This introduction begins with the language of variables, distributions, and careful description. It then builds toward probability, inference, relationships, prediction, statistical adjustment, and group comparison. Each topic adds a new kind of question while keeping the same responsibility in view: understand what the data can support, and say just as clearly what they cannot.
+:::
+
+## Why These Ideas Matter
+
+We live at a time when data-based claims reach us long before most of us have learned how to examine them. News reports summarize polls and economic changes, public dashboards track social and health indicators, digital platforms recommend what we might watch or read, and researchers use samples to make claims about much larger groups. Numbers can feel authoritative in all of these settings, even when the way they were collected or presented leaves important questions unanswered. Learning statistics gives you a way to slow that process down and look behind the finished claim.
+
+This is also where statistics becomes genuinely interesting. It gives form to questions that curiosity already asks: How do we know? Compared with what? How much do people differ? Could the same pattern arise by chance? What else might explain it? Once you can investigate those questions, a table or graph connects the course material with human behavior, social conditions, educational experiences, public decisions, and the evidence that shapes everyday life. That sense of purpose can sustain the intrinsic motivation to learn the methods that follow.
+
+A number, however, does not interpret itself. If a therapy group has a lower average anxiety score, you still need to know how anxiety was measured, how much scores differed within each group, how the participants were selected, and how uncertain the estimated difference is. If two variables move together, you must still ask whether one causes the other, whether a third variable helps explain the pattern, or whether the relationship changes across the range of the data. Statistics turns these concerns into questions that can be examined carefully.
+
+That habit matters well beyond research. Percentages shape headlines, averages enter policy discussions, risk estimates influence personal decisions, and graphics can make weak evidence look persuasive. Statistical literacy helps you pause at the right moment. What exactly was measured? Which people or cases were observed? What varies within the data? What could chance alone produce? Which explanations remain possible? These questions support informed trust by helping you decide how much confidence a claim has earned.
+
+The wider importance of this habit is captured in a **statement often associated with H. G. Wells**:
+
+::: {.course-guiding-quote}
+> **“Statistical thinking will one day be as necessary for efficient citizenship as the ability to read and write.”**
+:::
+
+The exact origin and wording of this often-repeated statement are debated. We present it as a guiding idea while leaving the historical attribution open. Calculations are one part of learning statistics. The wider practice involves reading evidence, recognizing uncertainty, and resisting conclusions that the evidence cannot carry.
+
+Across the eight topics, you will learn to describe data responsibly, reason with probability, distinguish estimation from hypothesis testing, examine relationships among variables, compare groups, and communicate results in plain language. Together, these topics build one connected way of thinking. Careful description prepares you to reason about uncertainty, and that reasoning prepares you to examine relationships, predictions, and group differences without losing sight of assumptions or context. The formulas matter because they make that reasoning precise. Their deeper value lies in helping you ask better questions, judge evidence more fairly, and explain what you have learned with appropriate confidence.
+
+---
+
+## How Ratiomera Is Meant to Support Your Learning
+
+Ratiomera is designed to **accompany lectures, classes, assigned readings, and your own notes**. Your teacher, lecturer, and official course materials remain the primary reference for the course in which you are enrolled. When an explanation there did not quite click, use the **Theory** tab to approach the same idea by another route. Then use the **Simulated Example** to watch the idea work from the first question to the final interpretation. You can move through a whole topic in order or return directly to the point where your understanding became uncertain.
+
+The **exercises and solutions** serve the same supporting purpose. They include common and plausible ways of asking about an idea, together with questions chosen to deepen conceptual understanding and calculation skills. They cannot predict the questions that will appear in a particular examination, so your lecturer's guidance and the official assessment information for your course remain authoritative. Ratiomera helps you understand the material well enough to recognize and reason through a question even when its wording is unfamiliar.
+
+We develop every page with care and aim for the highest accuracy we can achieve. Errors may still remain. If a definition, notation, method, or instruction on Ratiomera differs from what your teacher or official course material provides, follow the official material for your course and ask your teacher for clarification. Please also tell us about the discrepancy so that we can investigate it and improve the page.
+
+For the complete experience, use this learning sequence in a current web browser. The browser version keeps the topic order, interactive simulated examples, responsive tables, cross-references, and language navigation together. The PDF and Word files are companions for printing, annotation, offline practice, and review. As static documents, they omit some of the connections and interactive explanations available on the website.
+
+---
+
+## How Each Topic Page Is Structured
+
+Every topic uses the same four tabs in the same order. This familiar layout lets you concentrate on learning from the moment you open a new page.
+
+**Theory** begins with the question a method helps answer. It develops the idea from everyday language to statistical terminology, explains every symbol when a formula is needed, and connects each new section to what came before.
+
+**Simulated Example** works through a realistic social-science setting with computer-created teaching data. No measurements from real participants are involved. A simulation is a planned computer procedure that creates values from stated rules so that an analysis can be examined safely and reproduced. Each example first explains why the setting is useful, then uses guiding questions to carry you through every decision, calculation, table, and figure. It ends by returning to the Theory tab and showing exactly which ideas were put to work, what the artificial result means, and where the limits of that interpretation lie.
+
+**Exercises and Solutions** contains two substantial resources: the Exercise Sheet and its Complete Solutions. Each is available directly in the tab as a printable PDF and an editable Word document. The sheet first checks whether you can explain the ideas and then asks you to calculate, compare, and interpret. Work through it before opening the solutions, where every answer develops the full reasoning step by step through the final result.
+
+**Summary** gathers the central ideas, formulas, visual explanations, tables, and interpretation guides in a compact reference. A PDF is designed for reading or printing, and an editable Word version lets you add your own notes. Use the summary after studying the full topic, when preparing for an examination, or when returning after a break.
+
+---
+
+## Recommended Order
+
+Follow the topics in sequence on your first pass. The order follows a deliberate progression, with each topic answering a question that becomes possible once the preceding ideas are in place.
+
+::: {.course-sequence-wide}
+<ol class="course-sequence">
+  <li><p class="course-sequence-title"><a href="t01_descriptive.html">Descriptive Statistics</a></p><p>Begin by learning what variables and scale levels are, how to summarize a distribution, and how to read tables and figures. Every later method relies on this vocabulary and on the habit of examining data before drawing conclusions.</p></li>
+  <li><p class="course-sequence-title"><a href="t02_probability.html">Probability</a></p><p>Once you can describe what was observed, the next question is how chance behaves. Probability gives you the language for possible outcomes and uncertainty that statistical inference needs.</p></li>
+  <li><p class="course-sequence-title"><a href="t03_hypothesis-testing.html">Hypothesis Testing and Confidence Intervals</a></p><p>Probability now becomes a tool for learning from a sample. You will ask how compatible a result is with a hypothesis and how precisely the sample estimates an unknown population value.</p></li>
+  <li><p class="course-sequence-title"><a href="t04_cov-corr.html">Covariance and Correlation</a></p><p>With inference in place, you can examine how two quantitative variables move together. The point cloud, covariance, and correlation establish the relationship language used throughout the remaining topics.</p></li>
+  <li><p class="course-sequence-title"><a href="t05_simple-regression.html">Simple Linear Regression</a></p><p>Regression gives the relationship a direction: one variable becomes the outcome and one becomes the predictor. A fitted line then supports interpretation and carefully limited prediction in the variables' original units.</p></li>
+  <li><p class="course-sequence-title"><a href="t06_partial-corr.html">Partial Correlation</a></p><p>A two-variable association may change when a third variable enters the picture. Partial correlation uses regression residuals to ask what linear relationship remains after that third variable is taken into account.</p></li>
+  <li><p class="course-sequence-title"><a href="t07_multiple-regression.html">Multiple Regression</a></p><p>You are now ready to place several predictors in one model. Multiple regression connects correlation, simple regression, and statistical control so you can interpret each predictor while the others are held constant.</p></li>
+  <li><p class="course-sequence-title"><a href="t08_anova.html">Analysis of Variance</a></p><p>The final topic asks whether several group means differ by comparing variation between groups with variation within groups. It returns to variance from Topic 1 and reveals its close connection to the regression ideas developed along the way.</p></li>
+</ol>
+:::
+
+::: {.course-start}
+::: {.course-start-copy}
+[Your first step]{.course-start-eyebrow}
+
+Start with Topic 1 before moving through the sequence. Descriptive statistics gives you the vocabulary and the careful reading habits that every later topic assumes.
+:::
+
+[Begin with Descriptive Statistics](t01_descriptive.qmd){.course-start-link}
+:::

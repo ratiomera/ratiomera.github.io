@@ -1,0 +1,328 @@
+# ============================================================
+# _quarto.yml - Ratiomera Site Configuration
+# Version: 2.4.2
+#
+# What this file does:
+#   This is the single master configuration file for the entire
+#   website. Quarto reads it during the canonical site build and
+#   uses it to build every page, the navigation bar, the sidebars,
+#   the footer, and the visual theme.
+#
+# Site structure (v2.1.0 moved English into its own en/ folder;
+# v2.2.0 renamed every file to be self-describing):
+#   Root (/)                        -> tiny redirect stub (stays "index.qmd"; see note)
+#   en/                             → Ratiomera, the umbrella project (English)
+#   de/, sq/                        → complete German / Albanian project sites
+#   ratiomera-statistics/              → redirect stub -> ratiomera-statistics/en/
+#   ratiomera-statistics/en/           → Ratiomera Statistics, live now (English)
+#   ratiomera-statistics/de/, /sq/     → complete localized Statistics routes
+#   ratiomera-mathematics/             → redirect stub -> ratiomera-mathematics/en/
+#   ratiomera-mathematics/en|de|sq/    → localized planned-state Mathematics pages
+#
+#   File naming (v2.2.0): canonical home, overview, and page files use
+#   {purpose}-{brand}-{lang}.qmd, e.g. home-statistics-en.qmd,
+#   about-mathematics-en.qmd, support-ratiomera-de.qmd, so that the
+#   filename alone (visible in an editor tab, a flat search result,
+#   or a file list with paths truncated) tells you what it is and
+#   which language it is, without needing the full path. Topic pages retain
+#   their established tNN_slug.qmd names inside locale folders. This is
+#   what makes "update Topic 1 in English, then apply the same
+#   change to the German and Albanian files" a well-defined request:
+#   the EN/DE/SQ counterpart of a canonical page is in the matching sibling
+#   en/de/sq folder, with either the language suffix swapped or the same topic
+#   filename retained.
+#   See the repository map in README.md for the public naming contract.
+#
+#   COMPATIBILITY STUBS: true directory roots keep index.qmd so a web server
+#   can auto-serve index.html. Root-level about.qmd, contact.qmd, legal.qmd,
+#   and support.qmd plus locale index.qmd stubs retain their historical names
+#   as redirect-only routes. config/content-parity.yml is the authoritative
+#   inventory. Never rename or remove a compatibility route without updating
+#   that manifest and providing an intentional replacement.
+#
+# IMPORTANT RULE:
+#   Never edit this file without running `scripts/render-site.sh` afterward.
+#   Changes here affect every page on the site simultaneously.
+#   If the site stops building after a change here, undo your last
+#   edit. YAML is whitespace-sensitive and a single wrong indent
+#   will break the build.
+#
+# Deployment:
+#   Run `scripts/render-site.sh` locally. Output goes to docs/.
+#   Open docs/index.html in a browser to preview the site.
+#   GitHub Pages serves docs/ at the canonical origin https://ratiomera.ch.
+#   Counter providers remain disabled in config/counters.yml until a provider
+#   and its privacy details have been explicitly approved.
+# ============================================================
+
+project:
+  type: website        # Tells Quarto this is a multi-page website (not a book or presentation)
+  output-dir: docs     # All built HTML files go into the /docs folder. DO NOT edit /docs directly.
+  resources:
+    - CNAME
+    - .nojekyll
+    - assets/brand/ratiomera-mark.svg
+    - assets/brand/ratiomera-statistics-mark.svg
+    - assets/brand/ratiomera-mathematics-mark.svg
+    - assets/brand/favicon.svg
+    - assets/vendor/mathjax-3.2.2/**
+    - assets/vendor/r-widgets/**
+    - ratiomera-statistics/en/downloads/files/**
+    - ratiomera-statistics/de/downloads/files/**
+    - ratiomera-statistics/sq/downloads/files/**
+  post-render:
+    - scripts/localize-mathjax.R  # Keep formula rendering offline with the pinned local MathJax distribution
+    - scripts/rewrite-navbar.R  # Make each section's final HTML navbar correct without runtime JavaScript
+    - scripts/validate-counters.R  # Verify canonical counter coverage and exclude redirect outputs
+    - scripts/ensure-site-libs.R  # Restore and verify every shared dependency referenced by rendered HTML
+  render:
+    - "*.qmd"          # Render root-level .qmd compatibility stubs
+    - "**/*.qmd"       # Render all .qmd files in subdirectories (en/, de/, sq/, ratiomera-statistics/, ratiomera-mathematics/, etc.)
+
+website:
+  title: "Ratiomera"
+  site-url: "https://ratiomera.ch"
+  description: "Ratiomera is a multilingual educational project developing analytical thinking through mathematics, statistics, and evidence-based reasoning."
+  favicon: assets/brand/favicon.svg
+
+
+  # ── Navigation Bar ─────────────────────────────────────────
+  # The horizontal bar at the top of every page starts from one shared
+  # Quarto definition (Quarto does not support a different navbar per
+  # section or language). This definition is the complete build-time
+  # seed: global Ratiomera links plus the Statistics course link. After
+  # Quarto renders, scripts/rewrite-navbar.R turns that seed into the
+  # exact umbrella, Statistics, or Mathematics header for each output
+  # page. Branch headers retain a same-locale link to the other branch, so a
+  # reader can move directly between Statistics and Mathematics. The generated
+  # HTML is therefore correct before JavaScript runs.
+  #
+  # The post-render step identifies items from their configured hrefs
+  # before it translates or repoints them. Contact and Support always
+  # retain their root, project-wide destinations. The left-side
+  # course item remains a native Quarto navigation item, so it inherits
+  # Quarto's desktop, collapsed-mobile, keyboard, and focus behaviour.
+  #
+  # href values are paths to .qmd source files (not .html output files),
+  # always resolved relative to the project root regardless of which
+  # page they appear on. Quarto converts them to the correct .html
+  # paths in the built site.
+  # ───────────────────────────────────────────────────────────
+  navbar:
+    background: light  # White background (Bootstrap colour name)
+    foreground: dark   # Dark text ensures readable contrast on white
+    collapse-below: xl # Keep the longest localized/branch header clear at 1024px
+    logo: assets/brand/ratiomera-mark.svg
+    logo-alt: ""  # The adjacent visible brand text names the linked identity
+    left:
+      - text: Introduction to Statistics
+        href: ratiomera-statistics/en/intro-stats/overview-intro-stats-en.qmd
+      - text: Downloads
+        href: ratiomera-statistics/en/downloads/overview-downloads-en.qmd
+    right:
+      - text: About
+        href: en/pages/about-ratiomera-en.qmd
+      - text: Statistics
+        href: ratiomera-statistics/en/home-statistics-en.qmd
+      - text: Mathematics
+        href: ratiomera-mathematics/en/home-mathematics-en.qmd
+      - text: Contact
+        href: en/pages/contact-ratiomera-en.qmd
+      - text: Support
+        href: en/pages/support-ratiomera-en.qmd
+
+
+  # ── Sidebars ───────────────────────────────────────────────
+  # Sidebars appear on the LEFT of configured pages. A sidebar can
+  # provide in-page section links (Statistics home) or a page list
+  # (Introduction to Statistics and Downloads). It is activated by
+  # setting sidebar: <sidebar-id> in page or directory metadata.
+  #
+  # Configured sidebars:
+  #   statistics-home-sidebar → activated in the Statistics home frontmatter
+  #   intro-stats-sidebar → activated via each locale's intro-stats metadata
+  #   downloads-sidebar → activated via each locale's Downloads metadata
+  # The Downloads sidebar lists learning collections, while the responsive
+  # material grid stays inside the standard Statistics page width.
+  # ───────────────────────────────────────────────────────────
+  sidebar:
+    # Statistics landing-page section navigation. Its page frontmatter
+    # activates this sidebar; all entries point to anchors on that page.
+    - id: statistics-home-sidebar
+      title: "On this page"
+      style: docked
+      contents:
+        - href: ratiomera-statistics/en/home-statistics-en.qmd#overview
+          text: "Overview"
+        - href: ratiomera-statistics/en/home-statistics-en.qmd#where-to-begin
+          text: "Where to Begin"
+        - href: ratiomera-statistics/en/home-statistics-en.qmd#platform-status
+          text: "Platform Status"
+
+    - id: statistics-home-de-sidebar
+      title: "Auf dieser Seite"
+      style: docked
+      contents:
+        - href: ratiomera-statistics/de/home-statistics-de.qmd#overview
+          text: "Überblick"
+        - href: ratiomera-statistics/de/home-statistics-de.qmd#where-to-begin
+          text: "Einstieg"
+        - href: ratiomera-statistics/de/home-statistics-de.qmd#platform-status
+          text: "Plattformstatus"
+
+    - id: statistics-home-sq-sidebar
+      title: "Në këtë faqe"
+      style: docked
+      contents:
+        - href: ratiomera-statistics/sq/home-statistics-sq.qmd#overview
+          text: "Përmbledhje"
+        - href: ratiomera-statistics/sq/home-statistics-sq.qmd#where-to-begin
+          text: "Ku të fillosh"
+        - href: ratiomera-statistics/sq/home-statistics-sq.qmd#platform-status
+          text: "Gjendja e platformës"
+
+    # Introduction to Statistics sidebar, shown on all pages inside
+    # ratiomera-statistics/en/intro-stats/. Topics are listed flat (no
+    # collapsible group) so all are visible and clickable immediately.
+    - id: intro-stats-sidebar      # Referenced in ratiomera-statistics/en/intro-stats/_metadata.yml
+      title: "Introduction to Statistics"
+      style: docked                # "docked" = sidebar stays fixed while content scrolls
+      contents:
+        - href: ratiomera-statistics/en/intro-stats/overview-intro-stats-en.qmd
+          text: "Introduction Overview"
+        - href: ratiomera-statistics/en/intro-stats/t01_descriptive.qmd
+          text: "1. Descriptive Statistics"
+        - href: ratiomera-statistics/en/intro-stats/t02_probability.qmd
+          text: "2. Probability"
+        - href: ratiomera-statistics/en/intro-stats/t03_hypothesis-testing.qmd
+          text: "3. Hypothesis Testing & CI"
+        - href: ratiomera-statistics/en/intro-stats/t04_cov-corr.qmd
+          text: "4. Covariance & Correlation"
+        - href: ratiomera-statistics/en/intro-stats/t05_simple-regression.qmd
+          text: "5. Simple Linear Regression"
+        - href: ratiomera-statistics/en/intro-stats/t06_partial-corr.qmd
+          text: "6. Partial Correlation"
+        - href: ratiomera-statistics/en/intro-stats/t07_multiple-regression.qmd
+          text: "7. Multiple Regression"
+        - href: ratiomera-statistics/en/intro-stats/t08_anova.qmd
+          text: "8. Analysis of Variance"
+
+    - id: intro-stats-de-sidebar
+      title: "Einführung in die Statistik"
+      style: docked
+      contents:
+        - href: ratiomera-statistics/de/intro-stats/overview-intro-stats-de.qmd
+          text: "Übersicht zur Einführung"
+        - href: ratiomera-statistics/de/intro-stats/t01_descriptive.qmd
+          text: "1. Deskriptive Statistik"
+        - href: ratiomera-statistics/de/intro-stats/t02_probability.qmd
+          text: "2. Wahrscheinlichkeit"
+        - href: ratiomera-statistics/de/intro-stats/t03_hypothesis-testing.qmd
+          text: "3. Hypothesentests & KI"
+        - href: ratiomera-statistics/de/intro-stats/t04_cov-corr.qmd
+          text: "4. Kovarianz & Korrelation"
+        - href: ratiomera-statistics/de/intro-stats/t05_simple-regression.qmd
+          text: "5. Einfache lineare Regression"
+        - href: ratiomera-statistics/de/intro-stats/t06_partial-corr.qmd
+          text: "6. Partielle Korrelation"
+        - href: ratiomera-statistics/de/intro-stats/t07_multiple-regression.qmd
+          text: "7. Multiple Regression"
+        - href: ratiomera-statistics/de/intro-stats/t08_anova.qmd
+          text: "8. Varianzanalyse"
+
+    - id: intro-stats-sq-sidebar
+      title: "Hyrje në statistikë"
+      style: docked
+      contents:
+        - href: ratiomera-statistics/sq/intro-stats/overview-intro-stats-sq.qmd
+          text: "Pasqyra e hyrjes"
+        - href: ratiomera-statistics/sq/intro-stats/t01_descriptive.qmd
+          text: "1. Statistika përshkruese"
+        - href: ratiomera-statistics/sq/intro-stats/t02_probability.qmd
+          text: "2. Probabiliteti"
+        - href: ratiomera-statistics/sq/intro-stats/t03_hypothesis-testing.qmd
+          text: "3. Testimi i hipotezave dhe intervalet e besimit"
+        - href: ratiomera-statistics/sq/intro-stats/t04_cov-corr.qmd
+          text: "4. Kovarianca dhe korrelacioni"
+        - href: ratiomera-statistics/sq/intro-stats/t05_simple-regression.qmd
+          text: "5. Regresioni i thjeshtë linear"
+        - href: ratiomera-statistics/sq/intro-stats/t06_partial-corr.qmd
+          text: "6. Korrelacioni i pjesshëm"
+        - href: ratiomera-statistics/sq/intro-stats/t07_multiple-regression.qmd
+          text: "7. Regresioni i shumëfishtë"
+        - href: ratiomera-statistics/sq/intro-stats/t08_anova.qmd
+          text: "8. Analiza e variancës"
+
+    # Downloads sidebars list complete learning collections rather than every
+    # file. New collections can be added here and to the shared registry.
+    - id: downloads-sidebar
+      title: "Downloads"
+      style: docked
+      contents:
+        - href: ratiomera-statistics/en/downloads/overview-downloads-en.qmd#download-course-intro-statistics
+          text: "Introduction to Statistics"
+
+    - id: downloads-de-sidebar
+      title: "Downloads"
+      style: docked
+      contents:
+        - href: ratiomera-statistics/de/downloads/overview-downloads-de.qmd#download-course-intro-statistics
+          text: "Einführung in die Statistik"
+
+    - id: downloads-sq-sidebar
+      title: "Shkarkimet"
+      style: docked
+      contents:
+        - href: ratiomera-statistics/sq/downloads/overview-downloads-sq.qmd#download-course-intro-statistics
+          text: "Hyrje në Statistikë"
+
+  # ── Footer ─────────────────────────────────────────────────
+  # The bar at the bottom of every page.
+  # Left side: copyright text. Center: EN | DE | SQ language navigation.
+  # Right side: Legal Notice link plus a subtle page-visit counter. The
+  # post-render step localizes all three areas, maps each language link to the
+  # corresponding current page, and adds the counter only on canonical pages.
+  # ───────────────────────────────────────────────────────────
+  page-footer:
+    left: "© 2025–2026 Ratiomera. Free education in mathematics and statistics."
+    right:
+      - text: "Legal Notice"
+        href: en/pages/legal-ratiomera-en.qmd
+
+  search: false  # The streamlined branch headers intentionally omit global search
+
+
+# ── HTML Output Format ─────────────────────────────────────
+# Controls how every HTML page is generated.
+# These settings apply globally to all pages unless a specific
+# page overrides them in its own frontmatter.
+# ───────────────────────────────────────────────────────────
+format:
+  html:
+    # All formula-bearing pages currently live at the same intro-stats depth.
+    # The post-render validator also normalizes this path from each rendered
+    # page, removes Quarto's obsolete ES6 polyfill, and rejects remote math
+    # dependencies before the output can be published.
+    html-math-method:
+      method: mathjax
+      url: ../../../assets/vendor/mathjax-3.2.2/es5/tex-chtml-full.js
+    include-after-body:
+      - js/sidebar-anchor-close.html  # Collapse the Statistics section drawer after mobile anchor navigation
+      - js/topic-tabs.html            # Keep keyboard-selected lesson tabs visible inside the mobile tab strip
+      - js/table-scroll.html          # Make wide lesson figures and tables visibly and accessibly scrollable
+      - js/plotly-localization.html   # Localize Plotly's built-in boxplot hover statistics
+      - js/counters.html              # Upgrade static visit/download placeholders through the configured provider
+    theme:
+      light: [cosmo, styles/custom.scss]
+      # cosmo = Bootstrap 5 Cosmo theme (clean, academic look)
+      # styles/custom.scss = our overrides applied on top of cosmo
+    toc: true                  # Show table of contents on the right side of each page
+    toc-depth: 3               # Include headings up to ### level (h1, h2, h3) in the TOC
+    toc-title: "On this page"  # Label above the TOC panel
+    number-sections: false     # Do not auto-number headings (1.1, 1.2, etc.)
+    smooth-scroll: true        # Clicking a TOC link smoothly scrolls instead of jumping
+    css: styles/site.css       # Loads our custom component stylesheet on every page
+    link-external-newwindow: true   # External links open in a new browser tab
+    link-external-icon: false       # Do not show an arrow icon next to external links
+    code-fold: false           # Show R code blocks expanded by default (not collapsible)
+    code-tools: false          # Hide the code copy/view tools above code blocks

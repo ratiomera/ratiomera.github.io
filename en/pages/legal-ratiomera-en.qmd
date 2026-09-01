@@ -1,0 +1,66 @@
+---
+title: "Legal Notice"
+subtitle: "Impressum"
+pagetitle: "Legal Notice | Ratiomera"
+title-prefix: ""
+description: "Legal, privacy, hosting, educational-content, and copyright information for Ratiomera."
+toc: false
+---
+
+## Responsible Person
+
+**Krenar Sherifi** is the person responsible for Ratiomera. Ratiomera is currently a volunteer-led educational project. It is not presented as a registered association or company, an accredited educational provider, or an institutionally affiliated platform.
+
+Ratiomera does not currently publish a postal address. The website offers no goods, paid services, subscriptions, donations, or online contracting.
+
+**Contact for legal, privacy, and technical inquiries:** [{{< var contact.informatics >}}](mailto:{{< var contact.informatics >}})
+
+**Website:** [https://ratiomera.ch](https://ratiomera.ch)
+
+General, branch-specific, and volunteering addresses are listed on the [Contact](contact-ratiomera-en.qmd) page.
+
+---
+
+## Academic Context
+
+Ratiomera is a free, volunteer-built educational platform for mathematics and statistics. Ratiomera Statistics currently supports students and professionals across the humanities and social sciences at university level. No institutional endorsement, accreditation, or formal affiliation is claimed.
+
+---
+
+## Content Disclaimer
+
+All content on this platform is provided for educational purposes only. While every effort is made to ensure accuracy, no guarantee is given that the content is complete, current, or error-free. If you identify an error or an unclear explanation, please use the [Contact](contact-ratiomera-en.qmd) page.
+
+---
+
+## Copyright
+
+All original content on this platform, including text, exercises, and worked examples, is © Ratiomera contributors. Reproduction for personal study is permitted. Redistribution or commercial use requires explicit written permission.
+
+---
+
+## Usage Counters
+
+The visible visit and download fields are currently disabled placeholders. Ratiomera does not currently send requests to a counter provider or record usage through one. Page-visit counts, if enabled later, will represent page loads rather than unique people. Download counts will only display values supplied by the configured file provider.
+
+Before an external counter provider is enabled, this notice will be updated with the provider, the information sent, and the applicable retention and privacy details.
+
+---
+
+## Hosting and Privacy
+
+Ratiomera is delivered as a static website through GitHub Pages. GitHub states that when a GitHub Pages site is visited, the visitor's IP address is logged and stored for security purposes, whether or not the visitor is signed in. GitHub processes information associated with its service under the [GitHub General Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Ratiomera does not operate a separate visitor database or receive GitHub's raw Pages IP logs through this website.
+
+The current Ratiomera site code does not enable an analytics service, advertising tracker, visitor account system, contact form, or remote visit and download counter. If this changes, the relevant notice will be updated before the feature is enabled.
+
+When someone contacts Ratiomera by email, the sender address, message content, attachments, and technical delivery information are processed through Cyon's email hosting so that the message can be received, sorted, protected against abuse, and answered. Access is limited to volunteers who need the correspondence for those purposes. Messages are retained only for as long as reasonably needed to handle the inquiry and any resulting obligations. Cyon provides information about its processing and Swiss data location in its [privacy information](https://www.cyon.ch/ueber-cyon/datenschutz).
+
+Please do not send sensitive personal information, confidential student records, or unpublished assessment material. Questions about Ratiomera's handling of personal data can be sent to [{{< var contact.informatics >}}](mailto:{{< var contact.informatics >}}).
+
+---
+
+## External Links
+
+This platform may contain links to external websites. Ratiomera is not responsible for the content of external sites and does not endorse them.
+
+*Last updated: September 1, 2026.*

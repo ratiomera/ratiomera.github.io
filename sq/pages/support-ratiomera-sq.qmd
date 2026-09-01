@@ -1,0 +1,99 @@
+---
+title: "Mbështetja"
+subtitle: "Ndihmo një platformë mësimore të ndërtuar nga vullnetarë të rritet me përgjegjësi"
+pagetitle: "Mbështetja | Ratiomera"
+title-prefix: ""
+description: "Mëso si e ndihmojnë sot Ratiomera kontributet jofinanciare dhe si mund t'i mbështesin në të ardhmen materialet e hapura dhe degët dhurimet vullnetare."
+lang: sq
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Ratiomera ndërtohet dhe mirëmbahet përmes punës vullnetare. Çdo mësim, korrigjim, përkthim, figurë, ushtrim, përmirësim i qasshmërisë dhe përditësim teknik kërkon kohë. Kontributet jofinanciare e ndihmojnë projektin që sot. Nëse në të ardhmen krijohet një mënyrë transparente dhurimi, mbështetja financiare vullnetare mund t'i japë ekipit më shumë hapësirë për ta kryer këtë punë me kujdes, ndërsa materiali mësimor mbetet i hapur për të gjithë.
+:::
+
+---
+
+## Pse ka rëndësi mbështetja
+
+Zhvillimi i materialit të besueshëm arsimor kërkon shumë më tepër se një shpjegim të parë. Një temë duhet të vendoset në një renditje koherente, të shpjegohet nga disa këndvështrime, të lidhet me shembuj domethënës, të kontrollohet kundrejt burimeve, të mbështetet me figura e tabela dhe të provohet me ushtrime. Kur një nxënës vëren diçka të paqartë, fillon rishikimi tjetër. Pastaj i njëjti kuptim duhet të përshtatet me kujdes në gjuhë të tjera, pa ndryshuar matematikën ose domethënien statistikore.
+
+Edhe vetë platforma kërkon kujdes të vazhdueshëm. Faqet duhet të mbeten të përshtatshme për ekrane të ndryshme, të qasshme, të kërkueshme, teknikisht të besueshme dhe të mirëmbajtshme kur shtohen tema e degë të reja. Materiali i hapur nuk përfundon kur shfaqet për herë të parë. Ai bëhet i besueshëm përmes shqyrtimit, korrigjimit dhe kujdesit të vazhdueshëm.
+
+Mbështetja krijon më shumë kapacitet për këtë punë të heshtur. Ajo e ndihmon një projekt vullnetar të ecë me kujdes, ta përmirësojë materialin pas publikimit dhe t'u përgjigjet komenteve të dobishme pa e kthyer qasjen në një përfitim vetëm për ata që mund të paguajnë.
+
+---
+
+## Mbështetja financiare
+
+E vetmja formë e mbështetjes financiare që Ratiomera synon të pranojë është një **dhurim vullnetar**. Dhurimi nuk blen shërbim, mësim, certifikatë, përgjigje me përparësi ose material privat. Ai kontribuon në projektin e përbashkët në tërësi.
+
+Dhurimet mund të ndihmojnë në mbulimin e kostove reale, si hostimi, domenet, infrastruktura teknike, puna për qasshmërinë, kontrolli i përkthimeve, shqyrtimi i përmbajtjes, prodhimi i dokumenteve dhe mirëmbajtja afatgjatë. Ato mund t'u japin vullnetarëve më shumë hapësirë praktike për ta rishikuar Ratiomera Statistics me kujdes dhe, kur projekti të jetë gati, për ta nisur Ratiomera Mathematics me përgjegjësi.
+
+**Kjo faqe ende nuk përmban mundësi dhurimi ose integrim të një ofruesi pagesash.** Të dhënat do të publikohen vetëm pasi të jetë konfirmuar dhe konfiguruar një metodë reale e transparente. Deri atëherë, Ratiomera nuk kërkon transferta përmes kanaleve joformale ose të paverifikuara.
+
+---
+
+## Mbështetja jofinanciare
+
+Kontributet financiare janë vetëm një mënyrë për të ndihmuar. Mund **ta ndash materialin** me një student, mësimdhënës, ligjërues, koleg ose institucion që mund ta ketë të dobishëm. Mund **ta shqyrtosh një faqe** duke treguar një shpjegim të paqartë, figurë të dyshimtë, problem në paraqitje, gabim shtypi, pengesë në qasshmëri ose pasaktësi të mundshme. Mund edhe **ta provosh një ushtrim ose zgjidhje** dhe të përshkruash pikën e saktë ku arsyetimi u bë i vështirë për t'u ndjekur.
+
+Mund të **sjellësh ekspertizë** në një fushë të dakorduar qartë, si njohuritë lëndore, përvoja pedagogjike, qasshmëria, dizajni ose zhvillimi teknik. Mund të **mbështetësh një gjuhë** duke ndihmuar në përkthimin, shqyrtimin dhe mirëmbajtjen e saj me kalimin e kohës. Një gjuhë e re mund të shtohet vetëm kur ka njerëz që mund ta kontrollojnë saktësinë e kuptimit dhe natyrshmërinë e tekstit për nxënësit.
+
+Mund të **sugjerosh një nevojë mësimore** dhe **ta lidhësh Ratiomera** me një komunitet arsimor, shkollë, universitet ose rrjet profesional përkatës. Një korrigjim i vetëm mund ta përmirësojë një mësim për të gjithë ata që e lexojnë më pas. Një sugjerim i menduar mirë mund ta formësojë një rishikim të ardhshëm, ndërsa një bisedë me një nxënës ose mësimdhënës mund të zbulojë një nevojë që përndryshe do të mbetej e padukshme.
+
+---
+
+## Çfarë mundëson mbështetja
+
+:::: {.support-grid}
+::: {.support-card}
+### Ratiomera Statistics
+
+Ratiomera Statistics është aktualisht dega aktive. Mbështetja kontribuon në zgjerimin dhe shqyrtimin e kurrikulës Hyrje në Statistikë, krijimin e ushtrimeve dhe zgjidhjeve të plota, zhvillimin e materialeve për shkarkim, mirëmbajtjen e platformës dhe përgatitjen e përmbajtjes shtesë të statistikës në nivel universitar për shkencat humane dhe shoqërore.
+:::
+
+::: {.support-card}
+### Ratiomera Mathematics
+
+Ratiomera Mathematics ende nuk ka hyrë në zhvillim aktiv. Mbështetja për Ratiomera në tërësi e ndihmon projektin të arrijë në pikën ku mund të zhvillohet me përgjegjësi një kurrikulë e strukturuar e matematikës, nga shkolla fillore deri në nivelin e gjimnazit.
+:::
+::::
+
+---
+
+## Nga një projekt vullnetar te kujdesi afatgjatë
+
+Ratiomera është aktualisht një projekt vullnetar, jo një shoqatë, dhe ende nuk pranon dhurime. Detyra e parë është të përfundojë, shqyrtojë dhe publikojë materiale të dobishme, pastaj të dëgjojë me kujdes si i përdorin njerëzit në të vërtetë. Vizitat e faqeve, shkarkimet, korrigjimet, përdorimi i përsëritur dhe mesazhet e menduara mirë mund të ndihmojnë të kuptohet nëse platforma plotëson një nevojë të vazhdueshme arsimore. Këto sinjale duhen interpretuar me kujdes: një ngarkim faqeje nuk është i njëjtë me një person dhe një shkarkim nuk vërteton se dokumenti është studiuar. Megjithatë, së bashku me komentet cilësore, mund ta ndihmojnë ekipin të gjykojë nëse arsyetohet një angazhim afatgjatë.
+
+Nëse përdorimi i qëndrueshëm dhe pjesëmarrja e komunitetit tregojnë se Ratiomera duhet të bëhet një angazhim arsimor afatgjatë, ekipi synon të shqyrtojë krijimin e një shoqate zvicerane. Një shoqatë mund të krijojë përgjegjësi më të qartë, vendimmarrje transparente, vazhdimësi përtej kontribuuesve individualë dhe një kornizë të rregullt për pranimin dhe dokumentimin e dhurimeve. Statuti, drejtimi, financat dhe raportimi i saj duhet të përcaktohen hapur para se dhurimet të pranohen në këtë formë.
+
+Ky është një hap i mundshëm për të ardhmen, jo një pretendim për statusin e tanishëm ligjor të projektit Ratiomera. Vetëm përdorimi nuk do ta përcaktojë vendimin. Po aq rëndësi do të kenë cilësia e materialeve, kapaciteti për t'i mirëmbajtur, prania e vullnetarëve të përgjegjshëm dhe gatishmëria e nxënësve e specialistëve për t'i përmirësuar vazhdimisht.
+
+---
+
+## Premtimi për qasje të hapur
+
+Qasja e hapur është pjesë e qëndrueshme e qëllimit të projektit Ratiomera. Mësimi nuk duhet të varet nga mundësia për të paguar një abonim, për të kaluar nëpër një faqe pagese, për të vazhduar pagesën pas një periudhe prove falas ose për të bërë vazhdimisht blerje brenda platformës. Kur një faqe ofron falas një mësim të vetëm dhe pastaj i vendos shpjegimet, ushtrimet ose zgjidhjet përkatëse pas një pengese pagese, mësimi mund të ndërpritet pikërisht kur kuptimi po fillon të ndërtohet. Prandaj, Ratiomera po ndërtohet mbi një parim të thjeshtë: kur materiali arsimor është gati për t'u ndarë, e gjithë rruga mësimore duhet të mbetet e qasshme pa pagesë të detyrueshme.
+
+Ky premtim e formëson mënyrën si rritet platforma. Ratiomera nuk do ta ndajë një temë në një version publik të kufizuar dhe një version më të dobishëm me pagesë, nuk do t'i rezervojë shpjegimet e avancuara për një nivel premium dhe nuk do ta lidhë vazhdimin e qasjes me tarifa të përsëritura, kredi, paketa të detyrueshme ose periudha prove që skadojnë. Llogaritë ose shërbimet teknike mund të bëhen të dobishme në të ardhmen për funksione vullnetare, por nuk duhet të krijojnë pengesa financiare para mësimeve, figurave, përmbledhjeve, ushtrimeve ose zgjidhjeve.
+
+Puna e kujdesshme arsimore ka kosto reale edhe kur qasja mbetet e hapur. Ratiomera synon t'i përballojë ato kosto pa i kthyer mundësitë financiare të një nxënësi në kufi për atë që mund të kuptojë. Një dhurim vullnetar mund ta mbështesë burimin e përbashkët, ndërsa vetë materiali mbetet i qasshëm për të gjithë.
+
+Asnjë dhurim nuk e zëvendëson shqyrtimin e kujdesshëm dhe asnjë dhurues nuk i zotëron përfundimet mësimore të një teme. Vendimet për përmbajtjen vazhdojnë të udhëhiqen nga qëllimi mësimor, burimet e disponueshme, saktësia, qasshmëria dhe nevojat që dalin nga komuniteti më i gjerë.
+
+---
+
+## Faleminderit
+
+**Së pari, faleminderit** që i jep Ratiomera një vend në procesin tënd të të nxënit. Të rihapësh një temë të vështirë, të provosh një shpjegim tjetër, të punosh me një llogaritje ose të rikthehesh pasi një përvojë e mëparshme e ka bërë statistikën ose matematikën të duket e paarritshme, kërkon këmbëngulje. Platforma ekziston për ato momente.
+
+**Faleminderit kur përshkruan atë që nuk kuptove**, kur vëren se një figurë tregon historinë e gabuar ose kur dërgon një mesazh sepse një fjali krijon më shumë paqartësi sesa kuptim. Ky koment ka rëndësi, sepse mund ta shndërrojë vështirësinë e një personi në një shpjegim më të mirë për të gjithë ata që vijnë më pas.
+
+**Faleminderit mësimdhënësve, ligjëruesve, hulumtuesve, profesionistëve dhe specialistëve** që ndajnë përvojë, vënë në dyshim një interpretim, shqyrtojnë terminologjinë, provojnë materialin ose tregojnë një nevojë mësimore që ekipi ende nuk e kishte parë. **Faleminderit edhe atyre që ndihmojnë** me gjuhën, qasshmërinë, dizajnin, zhvillimin, përgatitjen e dokumenteve dhe mirëmbajtjen më pak të dukshme që e mban platformën koherente ndërsa rritet.
+
+**Faleminderit kur e rekomandon Ratiomera** pa e paraqitur si diçka që nuk është. Ratiomera është një shoqërues i ndërtuar nga vullnetarë për mjediset e vendosura mësimore. Ai rritet përmes punës së kujdesshme, korrigjimeve, bisedave dhe gatishmërisë për ta shpjeguar të njëjtën ide edhe një herë nga një drejtim tjetër. Kur e ndan me mend, e provon me sinqeritet ose i shkruan ekipit, e ndihmon këtë proces të vazhdojë.
+
+**Në fund, faleminderit që mbështet vetë natyrën e projektit Ratiomera**: një platformë e përbashkët, dy degë arsimore në zhvillim, disa versione gjuhësore dhe asnjë nivel të fshehur me material më të mirë. Qoftë përmes një korrigjimi, një shqyrtimi të përkthimit, një përmirësimi teknik, një lidhjeje me një komunitet arsimor, një emaili të shkurtër për atë që ndihmoi dhe atë që nuk ndihmoi ose një dhurimi të mundshëm pasi të jetë krijuar një mënyrë transparente, kontributi yt bëhet pjesë e përpjekjes së përbashkët pas projektit.
+
+Jemi mirënjohës që je këtu dhe për çdo ndihmë që e mban platformën Ratiomera të kujdesshme, të hapur dhe të gatshme për të mësuar nga njerëzit të cilëve u shërben.

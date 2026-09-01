@@ -1,0 +1,14 @@
+---
+title: "Kontakti"
+pagetitle: "Kontakti | Ratiomera"
+title-prefix: ""
+description: "Të dhënat e përbashkëta të kontaktit për projektin Ratiomera dhe degët e tij."
+lang: sq
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../../../sq/pages/contact-ratiomera-sq.html">
+---
+
+Kontakti tani është i përbashkët për tërë projektin Ratiomera. Vazhdo te [faqja e kontaktit për Ratiomera](../../../sq/pages/contact-ratiomera-sq.qmd).

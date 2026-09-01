@@ -1,0 +1,13 @@
+---
+title: "Support"
+pagetitle: "Support | Ratiomera"
+title-prefix: ""
+description: "Shared support information for Ratiomera and its branches."
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../../../en/pages/support-ratiomera-en.html">
+---
+
+Support is now shared across Ratiomera. Continue to the [Ratiomera Support page](../../../en/pages/support-ratiomera-en.qmd).

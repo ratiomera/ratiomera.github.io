@@ -1,0 +1,672 @@
+schema_version: 4
+locale_order: [en, de, sq]
+
+locales:
+  en:
+    collection_label: Learning sequence
+    topic_label: Topic
+    material_column: Material
+    download_column: Files
+    unavailable_text: No file published yet
+    download_action_template: "Download %s"
+    download_aria_template: "Download file: %s, %s, %s format"
+    caption_template: "Downloads for Topic %s: %s"
+    collection_caption_template: "Downloads for %s"
+    bundle_label: Complete sets
+    bundle_heading: Download several topics at once
+    bundle_description: Each ZIP keeps Topics 1 through 8 in chronological folders and includes the same localized PDF and Word files shown above.
+    format_choice_text: Choose PDF for printing or Word for editing.
+    topic_package_label: Topic package
+    topic_package_description: One ZIP with this topic's summary, exercise sheet, and complete solutions in PDF and editable Word formats.
+    topic_packages_heading: Download one complete topic
+    topic_packages_description: Each topic package keeps its six PDF and Word files together. Open the individual-file choice only when you need one specific document.
+    individual_files_summary: Choose individual PDF or Word files
+    complete_package_label: Complete learning sequence
+    complete_package_heading: Download the complete Introduction to Statistics package
+    complete_package_description: One ZIP containing all 48 localized files for Topics 1 through 8, arranged in chronological folders.
+    secondary_bundles_summary: Choose a smaller collection instead
+    secondary_bundles_description: These optional ZIP files collect only the summaries, exercise sheets, or complete solutions across all eight topics.
+  de:
+    collection_label: Lernsequenz
+    topic_label: Thema
+    material_column: Material
+    download_column: Dateien
+    unavailable_text: Noch keine Datei veröffentlicht
+    download_action_template: "%s herunterladen"
+    download_aria_template: "Datei herunterladen: %s, %s, Format %s"
+    caption_template: "Downloads für Thema %s: %s"
+    collection_caption_template: "Downloads für %s"
+    bundle_label: Vollständige Sammlungen
+    bundle_heading: Mehrere Themen gemeinsam herunterladen
+    bundle_description: Jede ZIP-Datei ordnet die Themen 1 bis 8 in chronologisch benannten Ordnern und enthält dieselben lokalisierten PDF- und Word-Dateien wie oben.
+    format_choice_text: Wähle PDF zum Drucken oder Word zum Bearbeiten.
+    topic_package_label: Themenpaket
+    topic_package_description: Eine ZIP-Datei mit der Zusammenfassung, dem Übungsblatt und den vollständigen Lösungen dieses Themas als PDF und bearbeitbare Word-Datei.
+    topic_packages_heading: Ein vollständiges Thema herunterladen
+    topic_packages_description: Jedes Themenpaket hält seine sechs PDF- und Word-Dateien zusammen. Öffne die Auswahl der Einzeldateien nur, wenn du ein bestimmtes Dokument benötigst.
+    individual_files_summary: Einzelne PDF- oder Word-Dateien auswählen
+    complete_package_label: Vollständige Lernsequenz
+    complete_package_heading: Das vollständige Paket zur Einführung in die Statistik herunterladen
+    complete_package_description: Eine ZIP-Datei mit allen 48 lokalisierten Dateien für die Themen 1 bis 8, geordnet in chronologischen Ordnern.
+    secondary_bundles_summary: Stattdessen eine kleinere Sammlung auswählen
+    secondary_bundles_description: Diese optionalen ZIP-Dateien enthalten ausschliesslich die Zusammenfassungen, Übungsblätter oder vollständigen Lösungen aller acht Themen.
+  sq:
+    collection_label: Renditja mësimore
+    topic_label: Tema
+    material_column: Materiali
+    download_column: Skedarët
+    unavailable_text: Ende nuk është publikuar asnjë skedar
+    download_action_template: "Shkarko %s"
+    download_aria_template: "Shkarko skedarin: %s, %s, formati %s"
+    caption_template: "Shkarkimet për Temën %s: %s"
+    collection_caption_template: "Shkarkimet për %s"
+    bundle_label: Paketat e plota
+    bundle_heading: Shkarko disa tema së bashku
+    bundle_description: Çdo skedar ZIP i rendit Temat 1 deri në 8 në dosje kronologjike dhe përmban të njëjtat skedarë të lokalizuar PDF dhe Word që shfaqen më sipër.
+    format_choice_text: Zgjidh PDF për shtypje ose Word për redaktim.
+    topic_package_label: Paketa e temës
+    topic_package_description: Një skedar ZIP me përmbledhjen, fletën e ushtrimeve dhe zgjidhjet e plota të kësaj teme në formatet PDF dhe Word që mund t'i redaktosh.
+    topic_packages_heading: Shkarko një temë të plotë
+    topic_packages_description: Çdo paketë teme i mban së bashku gjashtë skedarët e saj PDF dhe Word. Hape zgjedhjen e skedarëve të veçantë vetëm kur të duhet një dokument i caktuar.
+    individual_files_summary: Zgjidh skedarë të veçantë PDF ose Word
+    complete_package_label: Renditja e plotë mësimore
+    complete_package_heading: Shkarko paketën e plotë të Hyrjes në Statistikë
+    complete_package_description: Një skedar ZIP me të 48 skedarët e lokalizuar për Temat 1 deri në 8, të renditur në dosje kronologjike.
+    secondary_bundles_summary: Zgjidh një koleksion më të vogël
+    secondary_bundles_description: Këta skedarë opsionalë ZIP mbledhin vetëm përmbledhjet, fletët e ushtrimeve ose zgjidhjet e plota të të tetë temave.
+
+categories:
+  summary:
+    en: Summary
+    de: Zusammenfassung
+    sq: Përmbledhje
+  exercises:
+    en: Exercise Sheet
+    de: Übungsblatt
+    sq: Fleta e ushtrimeve
+  solutions:
+    en: Complete Solutions
+    de: Vollständige Lösungen
+    sq: Zgjidhjet e plota
+
+courses:
+  - id: intro-statistics
+    release_key: intro-statistics
+    title:
+      en: Introduction to Statistics
+      de: Einführung in die Statistik
+      sq: Hyrje në Statistikë
+    description:
+      en: Eight connected topics, each with a summary, complete exercise sheet, and step-by-step solutions in PDF and editable Word formats.
+      de: Acht verbundene Themen mit je einer Zusammenfassung, einem vollständigen Übungsblatt und vollständigen Lösungen mit schrittweisen Erklärungen als PDF und bearbeitbare Word-Datei.
+      sq: Tetë tema të lidhura, secila me përmbledhje, fletë të plotë ushtrimesh dhe zgjidhje hap pas hapi si PDF dhe dokument Word të redaktueshëm.
+    topics:
+      - id: dl-topic-1
+        number: 1
+        title:
+          en: Descriptive Statistics
+          de: Deskriptive Statistik
+          sq: Statistika përshkruese
+        package:
+          id: intro-statistics-topic-01-package
+          status: available
+          includes: [summary, exercises, solutions]
+          files:
+            - format: ZIP
+              paths:
+                en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-01-en.zip
+                de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-01-de.zip
+                sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-01-sq.zip
+        materials:
+          - id: t01-summary
+            category: summary
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-summary-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-summary-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-summary-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-summary-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-summary-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-summary-sq.docx
+          - id: t01-exercises
+            category: exercises
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-exercises-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-exercises-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-exercises-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-exercises-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-exercises-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-exercises-sq.docx
+          - id: t01-solutions
+            category: solutions
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-solutions-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-solutions-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-solutions-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-solutions-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-solutions-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-solutions-sq.docx
+      - id: dl-topic-2
+        number: 2
+        title:
+          en: Probability
+          de: Wahrscheinlichkeit
+          sq: Probabiliteti
+        package:
+          id: intro-statistics-topic-02-package
+          status: available
+          includes: [summary, exercises, solutions]
+          files:
+            - format: ZIP
+              paths:
+                en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-02-en.zip
+                de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-02-de.zip
+                sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-02-sq.zip
+        materials:
+          - id: t02-summary
+            category: summary
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-02-probability-summary-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-02-probability-summary-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-02-probability-summary-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-02-probability-summary-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-02-probability-summary-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-02-probability-summary-sq.docx
+          - id: t02-exercises
+            category: exercises
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-02-probability-exercises-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-02-probability-exercises-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-02-probability-exercises-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-02-probability-exercises-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-02-probability-exercises-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-02-probability-exercises-sq.docx
+          - id: t02-solutions
+            category: solutions
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-02-probability-solutions-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-02-probability-solutions-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-02-probability-solutions-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-02-probability-solutions-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-02-probability-solutions-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-02-probability-solutions-sq.docx
+      - id: dl-topic-3
+        number: 3
+        title:
+          en: Hypothesis Testing and Confidence Intervals
+          de: Hypothesentests und Konfidenzintervalle
+          sq: Testimi i hipotezave dhe intervalet e besimit
+        package:
+          id: intro-statistics-topic-03-package
+          status: available
+          includes: [summary, exercises, solutions]
+          files:
+            - format: ZIP
+              paths:
+                en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-03-en.zip
+                de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-03-de.zip
+                sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-03-sq.zip
+        materials:
+          - id: t03-summary
+            category: summary
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-summary-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-summary-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-summary-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-summary-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-summary-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-summary-sq.docx
+          - id: t03-exercises
+            category: exercises
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-exercises-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-exercises-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-exercises-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-exercises-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-exercises-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-exercises-sq.docx
+          - id: t03-solutions
+            category: solutions
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-solutions-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-solutions-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-solutions-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-solutions-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-solutions-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-solutions-sq.docx
+      - id: dl-topic-4
+        number: 4
+        title:
+          en: Covariance and Correlation
+          de: Kovarianz und Korrelation
+          sq: Kovarianca dhe korrelacioni
+        package:
+          id: intro-statistics-topic-04-package
+          status: available
+          includes: [summary, exercises, solutions]
+          files:
+            - format: ZIP
+              paths:
+                en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-04-en.zip
+                de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-04-de.zip
+                sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-04-sq.zip
+        materials:
+          - id: t04-summary
+            category: summary
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-summary-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-summary-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-summary-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-summary-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-summary-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-summary-sq.docx
+          - id: t04-exercises
+            category: exercises
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-exercises-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-exercises-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-exercises-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-exercises-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-exercises-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-exercises-sq.docx
+          - id: t04-solutions
+            category: solutions
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-solutions-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-solutions-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-solutions-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-solutions-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-solutions-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-solutions-sq.docx
+      - id: dl-topic-5
+        number: 5
+        title:
+          en: Simple Linear Regression
+          de: Einfache lineare Regression
+          sq: Regresioni i thjeshtë linear
+        package:
+          id: intro-statistics-topic-05-package
+          status: available
+          includes: [summary, exercises, solutions]
+          files:
+            - format: ZIP
+              paths:
+                en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-05-en.zip
+                de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-05-de.zip
+                sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-05-sq.zip
+        materials:
+          - id: t05-summary
+            category: summary
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-summary-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-summary-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-summary-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-summary-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-summary-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-summary-sq.docx
+          - id: t05-exercises
+            category: exercises
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-exercises-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-exercises-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-exercises-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-exercises-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-exercises-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-exercises-sq.docx
+          - id: t05-solutions
+            category: solutions
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-solutions-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-solutions-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-solutions-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-solutions-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-solutions-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-solutions-sq.docx
+      - id: dl-topic-6
+        number: 6
+        title:
+          en: Partial Correlation
+          de: Partielle Korrelation
+          sq: Korrelacioni i pjesshëm
+        package:
+          id: intro-statistics-topic-06-package
+          status: available
+          includes: [summary, exercises, solutions]
+          files:
+            - format: ZIP
+              paths:
+                en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-06-en.zip
+                de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-06-de.zip
+                sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-06-sq.zip
+        materials:
+          - id: t06-summary
+            category: summary
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-summary-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-summary-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-summary-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-summary-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-summary-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-summary-sq.docx
+          - id: t06-exercises
+            category: exercises
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-exercises-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-exercises-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-exercises-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-exercises-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-exercises-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-exercises-sq.docx
+          - id: t06-solutions
+            category: solutions
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-solutions-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-solutions-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-solutions-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-solutions-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-solutions-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-solutions-sq.docx
+      - id: dl-topic-7
+        number: 7
+        title:
+          en: Multiple Regression
+          de: Multiple Regression
+          sq: Regresioni i shumëfishtë
+        package:
+          id: intro-statistics-topic-07-package
+          status: available
+          includes: [summary, exercises, solutions]
+          files:
+            - format: ZIP
+              paths:
+                en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-07-en.zip
+                de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-07-de.zip
+                sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-07-sq.zip
+        materials:
+          - id: t07-summary
+            category: summary
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-summary-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-summary-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-summary-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-summary-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-summary-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-summary-sq.docx
+          - id: t07-exercises
+            category: exercises
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-exercises-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-exercises-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-exercises-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-exercises-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-exercises-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-exercises-sq.docx
+          - id: t07-solutions
+            category: solutions
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-solutions-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-solutions-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-solutions-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-solutions-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-solutions-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-solutions-sq.docx
+      - id: dl-topic-8
+        number: 8
+        title:
+          en: Analysis of Variance
+          de: Varianzanalyse
+          sq: Analiza e variancës
+        package:
+          id: intro-statistics-topic-08-package
+          status: available
+          includes: [summary, exercises, solutions]
+          files:
+            - format: ZIP
+              paths:
+                en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-08-en.zip
+                de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-08-de.zip
+                sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-08-sq.zip
+        materials:
+          - id: t08-summary
+            category: summary
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-summary-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-summary-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-summary-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-summary-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-summary-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-summary-sq.docx
+          - id: t08-exercises
+            category: exercises
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-exercises-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-exercises-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-exercises-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-exercises-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-exercises-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-exercises-sq.docx
+          - id: t08-solutions
+            category: solutions
+            status: available
+            files:
+              - format: PDF
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-solutions-en.pdf
+                  de: ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-solutions-de.pdf
+                  sq: ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-solutions-sq.pdf
+              - format: DOCX
+                label: {en: Word, de: Word, sq: Word}
+                paths:
+                  en: ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-solutions-en.docx
+                  de: ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-solutions-de.docx
+                  sq: ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-solutions-sq.docx
+    bundles:
+      - id: intro-statistics-all-summaries
+        primary: false
+        title:
+          en: All Summaries
+          de: Alle Zusammenfassungen
+          sq: Të gjitha përmbledhjet
+        description:
+          en: The summary for every topic, as PDF and editable Word files.
+          de: Die Zusammenfassung jedes Themas als PDF und bearbeitbare Word-Datei.
+          sq: Përmbledhja e secilës temë si PDF dhe dokument Word që mund ta redaktosh.
+        includes: [summary]
+        status: available
+        files:
+          - format: ZIP
+            paths:
+              en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-all-summaries-en.zip
+              de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-alle-zusammenfassungen-de.zip
+              sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-te-gjitha-permbledhjet-sq.zip
+      - id: intro-statistics-all-exercises
+        primary: false
+        title:
+          en: All Exercise Sheets
+          de: Alle Übungsblätter
+          sq: Të gjitha fletët e ushtrimeve
+        description:
+          en: The complete exercise sheet for every topic, as PDF and editable Word files.
+          de: Das vollständige Übungsblatt jedes Themas als PDF und bearbeitbare Word-Datei.
+          sq: Fleta e plotë e ushtrimeve për secilën temë si PDF dhe dokument Word që mund ta redaktosh.
+        includes: [exercises]
+        status: available
+        files:
+          - format: ZIP
+            paths:
+              en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-all-exercises-en.zip
+              de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-alle-uebungsblaetter-de.zip
+              sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-te-gjitha-ushtrimet-sq.zip
+      - id: intro-statistics-all-solutions
+        primary: false
+        title:
+          en: All Complete Solutions
+          de: Alle vollständigen Lösungen
+          sq: Të gjitha zgjidhjet e plota
+        description:
+          en: The step-by-step solutions for every topic, as PDF and editable Word files.
+          de: Die schrittweisen Lösungen jedes Themas als PDF und bearbeitbare Word-Datei.
+          sq: Zgjidhjet hap pas hapi për secilën temë si PDF dhe dokument Word që mund ta redaktosh.
+        includes: [solutions]
+        status: available
+        files:
+          - format: ZIP
+            paths:
+              en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-all-solutions-en.zip
+              de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-alle-loesungen-de.zip
+              sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-te-gjitha-zgjidhjet-sq.zip
+      - id: intro-statistics-all-materials
+        primary: true
+        title:
+          en: Everything
+          de: Alle Materialien
+          sq: Të gjitha materialet
+        description:
+          en: All summaries, exercise sheets, and complete solutions for Topics 1 through 8.
+          de: Alle Zusammenfassungen, Übungsblätter und vollständigen Lösungen für die Themen 1 bis 8.
+          sq: Të gjitha përmbledhjet, fletët e ushtrimeve dhe zgjidhjet e plota për Temat 1 deri në 8.
+        includes: [summary, exercises, solutions]
+        status: available
+        files:
+          - format: ZIP
+            paths:
+              en: ratiomera-statistics/en/downloads/files/introduction-to-statistics-everything-en.zip
+              de: ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-alle-materialien-de.zip
+              sq: ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-te-gjitha-materialet-sq.zip

@@ -1,0 +1,67 @@
+---
+title: "Njoftim ligjor"
+subtitle: "Të dhënat ligjore"
+pagetitle: "Njoftim ligjor | Ratiomera"
+title-prefix: ""
+description: "Informacion ligjor për privatësinë, hostimin, përmbajtjen arsimore dhe të drejtat e autorit në Ratiomera."
+lang: sq
+toc: false
+---
+
+## Personi përgjegjës
+
+**Krenar Sherifi** është personi përgjegjës për Ratiomera. Ratiomera aktualisht është një projekt arsimor i drejtuar nga vullnetarë. Nuk paraqitet si shoqatë ose kompani e regjistruar, ofrues i akredituar arsimor apo platformë e lidhur me ndonjë institucion.
+
+Ratiomera aktualisht nuk publikon adresë postare. Faqja nuk ofron mallra, shërbime me pagesë, abonime, donacione ose lidhje kontratash në internet.
+
+**Kontakti për çështje ligjore, të privatësisë dhe teknike:** [{{< var contact.informatics >}}](mailto:{{< var contact.informatics >}})
+
+**Faqja:** [https://ratiomera.ch](https://ratiomera.ch)
+
+Adresat për pyetje të përgjithshme, për degët dhe për punë vullnetare gjenden në faqen [Kontakti](contact-ratiomera-sq.qmd).
+
+---
+
+## Konteksti akademik
+
+Ratiomera është një platformë arsimore falas për matematikë dhe statistikë, e ndërtuar nga vullnetarë. Ratiomera Statistics aktualisht mbështet studentë dhe profesionistë në shkencat humane dhe shoqërore në nivel universitar. Nuk pretendohet asnjë miratim institucional, akreditim ose lidhje zyrtare.
+
+---
+
+## Kufizimi i përgjegjësisë për përmbajtjen
+
+E gjithë përmbajtja në këtë platformë ofrohet vetëm për qëllime arsimore. Edhe pse bëhet çdo përpjekje për të siguruar saktësinë, nuk garantohet që përmbajtja është e plotë, e përditësuar ose pa gabime. Nëse identifikon një gabim ose një shpjegim të paqartë, përdor faqen [Kontakti](contact-ratiomera-sq.qmd).
+
+---
+
+## E drejta e autorit
+
+Të drejtat e autorit për të gjithë përmbajtjen origjinale në këtë platformë, përfshirë tekstet, ushtrimet dhe shembujt e zgjidhur, u përkasin kontribuuesve të projektit Ratiomera. Lejohet riprodhimi për studim personal. Rishpërndarja ose përdorimi komercial kërkon leje të shprehur me shkrim.
+
+---
+
+## Numëruesit e përdorimit
+
+Fushat e dukshme «Vizita» dhe «Shkarkime» janë aktualisht tregues rezervë të çaktivizuar. Ratiomera tani nuk dërgon kërkesa te ndonjë shërbim numërimi dhe nuk regjistron përdorimin përmes një shërbimi të tillë. Nëse aktivizohen më vonë, numrat e vizitave do të paraqesin ngarkimet e faqeve dhe jo persona unikë. Numrat e shkarkimeve do të shfaqin vetëm vlerat që jep ofruesi i konfiguruar i skedarëve.
+
+Para se të aktivizohet një shërbim i jashtëm numërimi, këtu do të dokumentohen ofruesi, informacioni i dërguar dhe hollësitë përkatëse të ruajtjes dhe privatësisë.
+
+---
+
+## Hostimi dhe privatësia
+
+Ratiomera ofrohet si faqe statike përmes GitHub Pages. GitHub bën të ditur se, kur vizitohet një faqe e GitHub Pages, adresa IP e vizitorit regjistrohet dhe ruhet për arsye sigurie, pavarësisht nëse vizitori është i kyçur apo jo. GitHub i përpunon të dhënat që lidhen me shërbimin e vet sipas [Deklaratës së Përgjithshme të Privatësisë të GitHub](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Ratiomera nuk mban një bazë të veçantë të të dhënave të vizitorëve dhe nuk i merr regjistrat e papërpunuar të adresave IP të GitHub Pages përmes kësaj faqeje.
+
+Kodi aktual i faqes Ratiomera nuk aktivizon shërbim analitik, gjurmues reklamash, sistem llogarish për vizitorët, formular kontakti ose numërues të jashtëm për vizitat dhe shkarkimet. Nëse kjo ndryshon, njoftimi përkatës do të përditësohet para se të aktivizohet funksioni.
+
+Kur dikush kontakton Ratiomera me email, adresa e dërguesit, përmbajtja e mesazhit, bashkëngjitjet dhe informacioni teknik i dërgimit përpunohen përmes hostimit të postës elektronike nga Cyon. Kjo nevojitet që mesazhi të pranohet, të sistemohet, të mbrohet nga keqpërdorimi dhe të marrë përgjigje. Qasja kufizohet te vullnetarët që kanë nevojë për korrespondencën për këto qëllime. Mesazhet ruhen vetëm për aq kohë sa nevojiten në mënyrë të arsyeshme për trajtimin e kërkesës dhe të detyrimeve që mund të rrjedhin prej saj. Cyon jep informacion për përpunimin dhe vendndodhjen e të dhënave në Zvicër në [informacionin e vet për privatësinë](https://www.cyon.ch/ueber-cyon/datenschutz).
+
+Mos dërgo të dhëna personale të ndjeshme, të dhëna konfidenciale të studentëve ose materiale të papublikuara të vlerësimit. Pyetjet rreth përpunimit të të dhënave personale nga Ratiomera mund të dërgohen te [{{< var contact.informatics >}}](mailto:{{< var contact.informatics >}}).
+
+---
+
+## Lidhjet e jashtme
+
+Kjo platformë mund të përmbajë lidhje me faqe të jashtme. Projekti Ratiomera nuk mban përgjegjësi për përmbajtjen e faqeve të jashtme dhe nuk i miraton ato.
+
+*Përditësuar për herë të fundit: 1 shtator 2026.*

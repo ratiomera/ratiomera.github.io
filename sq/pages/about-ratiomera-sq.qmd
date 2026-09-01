@@ -1,0 +1,78 @@
+---
+title: "Rreth Ratiomera"
+subtitle: "Pse ekziston platforma dhe si synon të rritet"
+pagetitle: "Rreth Ratiomera | Ratiomera"
+title-prefix: ""
+description: "Mëso pse ekziston Ratiomera, si zhvillohen materialet e hapura mësimore dhe si bashkohen degët e Statistikës dhe Matematikës në një platformë të përbashkët."
+lang: sq
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Ratiomera është një platformë mësimore për statistikë dhe matematikë, e ndërtuar nga vullnetarë. Ekziston për të ofruar shpjegime të kujdesshme, shembuj kuptimplotë, ushtrime të plota dhe zgjidhje të hollësishme pa llogari, abonim ose kufizim me pagesë.
+
+Emri bashkon dy degë arsimore. Ratiomera Statistics është dega aktive, ndërsa Ratiomera Mathematics është planifikuar për zhvillim në të ardhmen. Të dyja ndjekin të njëjtën ide udhëheqëse: materiali i vështirë bëhet më i qasshëm kur asnjë hap thelbësor nuk merret si i vetëkuptueshëm dhe kur mund të shohësh si e përgatit një ide tjetrën.
+:::
+
+---
+
+## Pse ekziston Ratiomera
+
+Paqartësia nuk do të thotë gjithmonë se të mungon aftësia. Ndonjëherë një përkufizim paraqitet para se të bëhet i qartë qëllimi i tij. Ndonjëherë një formulë jepet pa treguar cilës pyetje i përgjigjet. Ndonjëherë një zgjidhje kalon nga rreshti i parë te i fundit dhe lë të pashprehur pikërisht arsyetimin më të rëndësishëm në mes.
+
+Një shpjegim i mirë mund ta ndryshojë këtë përvojë. Mund të nisë me një pyetje të njohur, ta paraqesë fjalorin e nevojshëm vetëm kur bëhet i dobishëm dhe t'i lidhë simbolet, llogaritjet, tabelat dhe figurat në një arsyetim të kuptueshëm. Ratiomera u krijua për t'i dhënë më shumë hapësirë kësaj mënyre të shpjegimit.
+
+Platforma është menduar si shoqëruese e ligjëratave, mësimit në klasë, leximeve të caktuara dhe shënimeve të tua. Nuk e zëvendëson kontekstin mësimor, kurrikulën zyrtare ose udhëzimet për vlerësim të një shkolle apo universiteti. Përkundrazi, ofron një rrugë tjetër drejt një ideje kur rruga e parë nuk e bëri ende plotësisht të qartë.
+
+---
+
+## Si zhvillohen materialet
+
+Ratiomera mbështetet në më shumë se një qasje mësimore ose planprogram institucional. Drejtimi i platformës lind nga përvoja akademike, kërkimore, mësimore e profesionale e anëtarëve të saj, nga puna e tyre si tutorë, nga shkëmbimet me nxënës, mësimdhënës, hulumtues e profesionistë dhe nga pyetjet që përsëriten e tregojnë ku një shpjegim ka nevojë për një hap tjetër.
+
+Çdo temë ndërtohet si një renditje e lidhur mësimore. Përkufizimet dhe shënimi kontrollohen nëpër faqe. Shembujt zgjidhen për ta ndriçuar idenë që po mësohet. Figurat dhe tabelat duhet të tregojnë të njëjtin kuptim statistikor ose matematikor si teksti përreth. Ushtrimet duhet të shqyrtojnë materialin që është paraqitur vërtet, ndërsa zgjidhjet duhet ta bëjnë arsyetimin po aq të qartë sa përgjigjen.
+
+Anglishtja është gjuha kanonike e zhvillimit. Struktura e përfunduar përshtatet më pas në një version të natyrshëm gjerman për Zvicrën dhe në një version të natyrshëm në shqipen standarde. Modelet e mëdha gjuhësore mund të ndihmojnë në organizimin, krahasimin dhe përshtatjen e materialit. Përgjegjësia për kontrollin e burimeve e llogaritjeve, shqyrtimin gjuhësor, punën për qasshmërinë dhe gjykimin akademik mbetet te njerëzit.
+
+---
+
+## Një platformë, dy degë
+
+**Ratiomera Statistics** zhvillon statistikë në nivel universitar për shkencat humane dhe shoqërore. Hyrja aktuale në Statistikë kalon nga përshkrimi i kujdesshëm dhe probabiliteti te inferenca, lidhjet, parashikimi, kontrolli statistikor dhe krahasimi i grupeve.
+
+**Ratiomera Mathematics** është planifikuar si një rrugë e ardhshme mësimore nga shkolla fillore deri në nivelin e gjimnazit. Zhvillimi do të nisë vetëm kur projekti të ketë kapacitetin, udhëzimet përkatëse të kurrikulës dhe bashkëpunimin arsimor që nevojiten për ta kryer punën me përgjegjësi.
+
+Edhe pse degët ndryshojnë në lëndë dhe audiencë, ato ndajnë të njëjtin premtim për qasje të hapur. Shpjegimet më të mira, pjesët e avancuara, ushtrimet dhe zgjidhjet mbeten pjesë e rrugës së përbashkët mësimore dhe nuk ruhen për një nivel me pagesë. Platforma e kundërshton modelin e përgjithshëm që të jep një hap të parë të kufizuar dhe pastaj e vendos rrugën mësimore përkatëse pas abonimeve, pagesave të përsëritura ose pengesave të tjera financiare.
+
+---
+
+## E zhvilluar në Zvicër, për qasje më të gjerë
+
+Ratiomera e ka bazën në Zvicër dhe aktualisht punon në anglisht, gjermanisht dhe shqip. Çdo gjuhë ruan të njëjtat objektiva mësimore, strukturë, llogaritje dhe kuptim pamor. Formulimi përshtatet në gjuhë të natyrshme e mbështetëse, që asnjë version të mos tingëllojë si një kopje e vështirë fjalë për fjalë.
+
+Gjuhët e para pasqyrojnë njohuritë që zotëron aktualisht ekipi vullnetar. Një gjuhë tjetër mund të shtohet kur vullnetarët mund ta përkthejnë, ta shqyrtojnë saktësinë dhe natyrshmërinë e saj dhe të ndihmojnë në mirëmbajtjen afatgjatë. Nëse ekipi nuk mund ta vlerësojë një gjuhë me besueshmëri, vetëm përkthimi automatik nuk mjafton për ta paraqitur atë version si të besueshëm.
+
+---
+
+## Një projekt që vazhdon të mësojë
+
+Ratiomera formësohet nga njerëzit që e përdorin, e vënë në pyetje, e shqyrtojnë dhe e përmirësojnë. Kur një nxënës tregon se ku u bë i paqartë një paragraf, kur një mësimdhënës propozon një rrugë tjetër drejt një koncepti, kur një specialist vëren një gabim ose kur një vullnetar kontrollon gjuhën apo qasshmërinë, mund të dalë në pah diçka që drafti i parë nuk e kishte parë.
+
+Kjo pjesëmarrje nuk ua kalon të tjerëve përgjegjësinë e njerëzve që mirëmbajnë Ratiomera dhe një bisedë nuk nënkupton mbështetje për çdo faqe. Megjithatë, ajo e ndihmon projektin të mësojë nga përvoja. Korrigjimet, kritika e menduar mirë dhe kontributet me fushë të qartë janë pjesë e mënyrës si synon të rritet platforma.
+
+---
+
+## E krijuar për uebin, e plotësuar me shkarkime
+
+Ratiomera funksionon më së miri në një shfletues të përditësuar. Versioni në ueb i mban në një vend renditjen mësimore, tabelat që përshtaten me ekranin, shembujt e simuluar ndërveprues, navigimin e qasshëm, lidhjet ndërmjet temave dhe zgjedhjen e gjuhës `EN | DE | SQ`. Një ekran më i gjerë kompjuteri ofron pamjen më të rehatshme për figura dhe tabela të hollësishme, por mbështeten edhe paraqitjet në telefon dhe tablet.
+
+Skedarët PDF dhe Word e plotësojnë këtë përvojë. Janë të dobishëm kur dëshiron ta shtypësh një përmbledhje, të shtosh shënime në një dokument, të punosh me ushtrimet larg shfletuesit ose të ruash një kopje në pajisjen tënde. Shpjegimet e lidhura dhe elementet ndërvepruese e kanë vendin e tyre kryesor në faqe. Për ta ndjekur rrugën më të plotë mësimore, fillo në shfletues dhe përdori shkarkimet aty ku i përshtaten mënyrës sate të të nxënit.
+
+::: {.platform-cta}
+### Ndihmo në përmirësimin e radhës
+
+Nëse gjete një shpjegim të paqartë, një shqetësim rreth saktësisë, një pengesë në qasshmëri ose një ide që mund ta ndihmojë dikë të mësojë, do të na vinte mirë të dëgjonim prej teje. Mund të lexosh edhe si kontributet jofinanciare e ndihmojnë sot projektin e përbashkët me qasje të hapur dhe si mund ta mbështesin në të ardhmen dhurimet vullnetare.
+
+[Kontakto Ratiomera](contact-ratiomera-sq.qmd){.dl-btn}
+[Mbështet Ratiomera](support-ratiomera-sq.qmd){.dl-btn .secondary}
+:::

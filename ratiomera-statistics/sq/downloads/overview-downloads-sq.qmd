@@ -1,0 +1,57 @@
+---
+title: "Shkarkimet"
+pagetitle: "Shkarkimet | Ratiomera Statistics"
+title-prefix: ""
+description: "Shkarko paketën e plotë, një paketë teme ose skedarë të veçantë PDF dhe Word për Hyrjen në Statistikë."
+lang: sq
+toc: false
+---
+
+::: {.downloads-lead .fade-in}
+::: {.downloads-lead-copy}
+## E ndërtuar sipas renditjes mësimore
+
+Biblioteka organizohet sipas renditjes mësimore dhe pastaj sipas temës. Materialet që lidhen mes tyre qëndrojnë së bashku, ndërsa koleksionet e ardhshme të statistikës dhe matematikës ruajnë vendin e tyre të qartë. Përdore lidhjen e koleksionit në menynë anësore për të kaluar drejtpërdrejt te materialet.
+
+Hyrja në Statistikë përmban tani tetë tema. Zgjidhe paketën e plotë për të gjithë renditjen mësimore, një paketë teme për gjashtë dokumentet e saj ose hape zgjedhjen e skedarëve të veçantë kur të duhet vetëm një skedar PDF ose Word.
+:::
+
+::: {.downloads-material-key}
+### Çfarë përfshin çdo temë
+
+**Përmbledhja**  
+Një pasqyrë e mbështetur në burime me tri faqe për shënimet e tua.
+
+**Fleta e ushtrimeve**  
+Pyetje teorike dhe konceptuale, të ndjekura nga ushtrime me makinë llogaritëse.
+
+**Zgjidhjet e plota**  
+Të njëjtat kode të detyrave, me arsyetimin dhe llogaritjet e shpjeguara hap pas hapi.
+:::
+
+::: {.downloads-lead-note}
+**Formatet dhe paketat.** Çdo dokument mësimor mbetet në dispozicion si PDF për shtypje dhe si skedar Word që mund ta redaktosh. Një paketë ZIP i mban së bashku gjashtë skedarët e një teme. Paketa e plotë ZIP i rendit të tetë temat në dosje kronologjike. Koleksionet më të vogla vetëm me përmbledhje, vetëm me fletë ushtrimesh ose vetëm me zgjidhje mbeten në zgjedhjen dytësore.
+
+**Numra të sinqertë për paketat.** Nëntë fushat e dukshme u përkasin tetë paketave ZIP të temave dhe një pakete të plotë ZIP. Kur të lidhet një shërbim për skedarët e publikuar, secila fushë do të tregojë shkarkimet e përfunduara pikërisht për atë skedar ZIP. Numri nuk do të përfaqësojë persona të veçantë, vizita të faqes, klikime lokale ose skedarët e veçantë PDF dhe Word. Për sa kohë faqja funksionon lokalisht, viza e thjeshtë është vetëm një shenjë rezervimi.
+:::
+:::
+
+```{r}
+#| label: download-library
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_downloads(
+  "../../_shared/downloads.yml",
+  "sq",
+  "../../../config/counters.yml"
+)
+```
+
+::: {.downloads-overview-cta}
+## Dëshiron ta ndjekësh rrugën e udhëhequr mësimore?
+
+Pasqyra e hyrjes shpjegon pse tetë temat ndjekin këtë rend dhe si secila e përgatit tjetrën. Kthehu atje kur të duhet lidhja mësimore dhe jo vetëm lista e skedarëve.
+
+[Hap pasqyrën e hyrjes](../intro-stats/overview-intro-stats-sq.qmd){.downloads-overview-link}
+:::

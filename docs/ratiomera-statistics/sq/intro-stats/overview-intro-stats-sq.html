@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sq" xml:lang="sq"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Një hyrje e udhëhequr në statistikën përshkruese, probabilitetin, inferencën, korrelacionin, regresionin dhe analizën e variancës për shkencat humane dhe shoqërore.">
+
+<title>Hyrje në Statistikë | Ratiomera Statistics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../../../assets/brand/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-3172ede4efa1d102fb485856aa5b0798.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "Nuk u gjetën rezultate",
+    "search-matching-documents-text": "dokumente që përputhen",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Pastro",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Anulo",
+    "search-submit-button-title": "Kërko",
+    "search-label": "Kërko"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../../../styles/site.css">
+<link rel="alternate" hreflang="en" href="../../../ratiomera-statistics/en/intro-stats/overview-intro-stats-en.html">
+<link rel="alternate" hreflang="de" href="../../../ratiomera-statistics/de/intro-stats/overview-intro-stats-de.html">
+<link rel="alternate" hreflang="sq" href="../../../ratiomera-statistics/sq/intro-stats/overview-intro-stats-sq.html">
+<link rel="alternate" hreflang="x-default" href="../../../ratiomera-statistics/en/intro-stats/overview-intro-stats-en.html">
+<script id="usage-counter-config" type="application/json">{"schema_version":2,"configuration_updated":"2026-08-19","disable_remote_requests_on_local_hosts":true,"placeholder":"–","loading_placeholder":"…","page_visits":{"provider":"disabled","id_template":"page-{page_id}-{locale}","included_page_types":["landing","page","landing_and_platform_status","course_overview","lesson","planned_topic","downloads"],"providers":{"disabled":{},"hits_sh":{"endpoint":"https://hits.sh","namespace":"ratiomera-education-platform","view":"total","style":"flat-square","color":"6f8492","label_color":"e7eef3"},"json":{"endpoint_template":null,"count_field":"count"}}},"download_counts":{"provider":"disabled","id_template":"download-{material_id}-{locale}","providers":{"disabled":{},"github_releases":{"api_base_url":"https://api.github.com","api_version":"2022-11-28","releases":{"intro-statistics":{"owner":null,"repository":null,"release_tag":null}}},"json":{"endpoint_template":null,"count_field":"count"}}},"locales":{"en":{"visits":"Visits","downloads":"Downloads","loading":"Loading count","unavailable":"Count unavailable"},"de":{"visits":"Besuche","downloads":"Downloads","loading":"Anzahl wird geladen","unavailable":"Anzahl nicht verfügbar"},"sq":{"visits":"Vizita","downloads":"Shkarkime","loading":"Numri po ngarkohet","unavailable":"Numri nuk është i disponueshëm"}}}</script>
+</head>
+
+<body class="nav-sidebar docked nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-xl " data-bs-theme="dark" aria-label="Navigimi kryesor">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../ratiomera-statistics/sq/home-statistics-sq.html" class="navbar-brand navbar-brand-logo" aria-label="Ratiomera Statistics faqja kryesore">
+    <img src="../../../assets/brand/ratiomera-statistics-mark.svg" alt="" class="navbar-logo light-content">
+    <img src="../../../assets/brand/ratiomera-statistics-mark.svg" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../../ratiomera-statistics/sq/home-statistics-sq.html">
+    <span class="navbar-title">Ratiomera Statistics</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Hap ose mbyll navigimin" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../ratiomera-statistics/sq/intro-stats/overview-intro-stats-sq.html" aria-current="page"> 
+<span class="menu-text">Hyrje në Statistikë</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ratiomera-statistics/sq/downloads/overview-downloads-sq.html"> 
+<span class="menu-text">Shkarkime</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../sq/home-ratiomera-sq.html"> 
+<span class="menu-text">Ratiomera</span></a>
+  </li>  
+    
+  <li class="nav-item">
+    <a class="nav-link" href="../../../ratiomera-mathematics/sq/home-mathematics-sq.html"> 
+<span class="menu-text">Matematikë</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../sq/pages/contact-ratiomera-sq.html"> 
+<span class="menu-text">Kontakt</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../sq/pages/support-ratiomera-sq.html"> 
+<span class="menu-text">Mbështetje</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Mjetet e faqes">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Hap ose mbyll navigimin e renditjes mësimore" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Gjurmë navigimi"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../ratiomera-statistics/sq/intro-stats/overview-intro-stats-sq.html">Pasqyra e hyrjes</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Hap ose mbyll navigimin e renditjes mësimore" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" aria-label="Navigimi i renditjes mësimore" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../../index.html" class="sidebar-logo-link" aria-hidden="true" tabindex="-1">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ratiomera-statistics/sq/intro-stats/overview-intro-stats-sq.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Pasqyra e hyrjes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ratiomera-statistics/sq/intro-stats/t01_descriptive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Statistika përshkruese</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ratiomera-statistics/sq/intro-stats/t02_probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Probabiliteti</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ratiomera-statistics/sq/intro-stats/t03_hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Testimi i hipotezave dhe intervalet e besimit</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ratiomera-statistics/sq/intro-stats/t04_cov-corr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Kovarianca dhe korrelacioni</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ratiomera-statistics/sq/intro-stats/t05_simple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Regresioni i thjeshtë linear</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ratiomera-statistics/sq/intro-stats/t06_partial-corr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Korrelacioni i pjesshëm</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ratiomera-statistics/sq/intro-stats/t07_multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Regresioni i shumëfishtë</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../ratiomera-statistics/sq/intro-stats/t08_anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Analiza e variancës</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Hyrje në Statistikë</h1>
+<p class="subtitle lead">Themelet e të menduarit statistikor për shkencat humane dhe shoqërore</p>
+</div>
+
+<div>
+  <div class="description">
+    Një hyrje e udhëhequr në statistikën përshkruese, probabilitetin, inferencën, korrelacionin, regresionin dhe analizën e variancës për shkencat humane dhe shoqërore.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="section-intro fade-in">
+<p>Imagjino se një studim raporton se një terapi duket se i zvogëlon simptomat e ankthit më shumë se një tjetër. Çfarë do të thotë «më shumë»? A ishte dallimi mjaft i madh për të pasur rëndësi praktike, a u përmirësua shumica e pjesëmarrësve apo vetëm disa dhe a mund të ishte shfaqur modeli nga luhatjet e zakonshme të rastësisë? Të njëjtat pyetje lindin kur një lajm krahason përqindje nga anketat, një aplikacion përmbledh gjumin tënd ose një hulumtues pyet nëse mbështetja shoqërore dhe mirëqenia lidhen me njëra-tjetrën.</p>
+<p>Statistika na jep një mënyrë të disiplinuar për të kaluar nga vëzhgimet te përgjigjet pa bërë sikur pasiguria është zhdukur. Kjo hyrje nis me gjuhën e ndryshoreve, shpërndarjeve dhe përshkrimit të kujdesshëm. Pastaj ndërton rrugën drejt probabilitetit, inferencës, lidhjeve, parashikimit, kontrollit statistikor dhe krahasimit të grupeve. Çdo temë shton një lloj të ri pyetjeje, duke mbajtur në qendër të njëjtën përgjegjësi: kupto çfarë mund të mbështesin të dhënat dhe thuaj po aq qartë çfarë nuk mund të mbështesin.</p>
+</div>
+<section id="pse-kanë-rëndësi-këto-ide" class="level2">
+<h2 class="anchored" data-anchor-id="pse-kanë-rëndësi-këto-ide">Pse kanë rëndësi këto ide</h2>
+<p>Jetojmë në një kohë kur pohimet e mbështetura në të dhëna na arrijnë shumë përpara se shumica prej nesh të ketë mësuar si t’i shqyrtojë. Lajmet përmbledhin sondazhe dhe ndryshime ekonomike, panelet publike përcjellin tregues shoqërorë e shëndetësorë, platformat digjitale rekomandojnë çfarë mund të shikojmë ose lexojmë dhe hulumtuesit përdorin kampione për të nxjerrë përfundime për grupe shumë më të mëdha. Në të gjitha këto raste, numrat mund të tingëllojnë bindës edhe kur mënyra e mbledhjes ose e paraqitjes së tyre lë pyetje të rëndësishme pa përgjigje. Të mësosh statistikë të jep një mënyrë për ta ngadalësuar këtë proces dhe për të parë përtej pohimit të gatshëm.</p>
+<p>Pikërisht këtu statistika bëhet vërtet interesante. Ajo u jep formë pyetjeve që kureshtja jote tashmë i shtron: Si e dimë? Krahasuar me çfarë? Sa dallojnë njerëzit? A mund të lindte i njëjti model nga rastësia? Çfarë tjetër mund ta shpjegojë? Kur mund t’i hulumtosh këto pyetje, një tabelë ose figurë të hap një rrugë për ta kuptuar më mirë sjelljen njerëzore, kushtet shoqërore, përvojat arsimore, vendimet publike dhe evidencën që ndikon në jetën e përditshme. Ky kuptim i qëllimit mund ta ushqejë motivimin e brendshëm për t’i mësuar metodat që vijojnë.</p>
+<p>Megjithatë, një numër nuk interpretohet vetvetiu. Nëse grupi i një terapie ka mesatarisht pikëzim më të ulët të ankthit, duhet ende të dish si u mat ankthi, sa ndryshuan pikëzimet brenda secilit grup, si u përzgjodhën pjesëmarrësit dhe sa i pasigurt është dallimi i vlerësuar. Nëse dy ndryshore lëvizin së bashku, duhet ende të pyesësh nëse njëra e shkakton tjetrën, nëse një ndryshore e tretë ndihmon në shpjegimin e modelit ose nëse lidhja ndryshon përgjatë vargut të të dhënave. Statistika i kthen këto shqetësime në pyetje që mund të shqyrtohen me kujdes.</p>
+<p>Ky zakon ka rëndësi shumë përtej hulumtimit. Përqindjet formësojnë tituj lajmesh, mesataret hyjnë në diskutime për politikat, vlerësimet e rrezikut ndikojnë në vendime personale dhe grafikët mund ta bëjnë evidencën e dobët të duket bindëse. Njohuria statistikore të ndihmon të ndalesh në çastin e duhur. Çfarë u mat saktësisht? Cilët persona ose raste u vëzhguan? Çfarë ndryshon brenda të dhënave? Çfarë mund të prodhonte vetëm rastësia? Cilat shpjegime mbeten të mundshme? Këto pyetje krijojnë bazën për besim të arsyetuar, sepse të ndihmojnë të vlerësosh sa siguri e ka merituar një pohim.</p>
+<p>Rëndësinë më të gjerë të këtij zakoni e përmbledh një <strong>thënie që shpesh lidhet me H. G. Wells</strong>:</p>
+<div class="course-guiding-quote">
+<blockquote class="blockquote">
+<p><strong>«Të menduarit statistikor një ditë do të jetë po aq i nevojshëm për pjesëmarrje të përgjegjshme qytetare sa aftësia për të lexuar dhe shkruar.»</strong></p>
+</blockquote>
+</div>
+<p>Origjina dhe formulimi i saktë i kësaj thënieje të përsëritur shpesh janë të diskutueshme. E paraqesim si ide udhëzuese, duke e lënë të hapur atribuimin historik. Llogaritjet janë një pjesë e të mësuarit të statistikës. Praktika më e gjerë përfshin leximin e evidencës, dallimin e pasigurisë dhe kundërshtimin e përfundimeve që evidenca nuk mund t’i mbajë.</p>
+<p>Përgjatë tetë temave do të mësosh t’i përshkruash të dhënat me përgjegjësi, të arsyetosh me probabilitet, ta dallosh vlerësimin nga testimi i hipotezave, t’i shqyrtosh lidhjet ndërmjet ndryshoreve, të krahasosh grupe dhe t’i komunikosh rezultatet me gjuhë të qartë. Së bashku, këto tema ndërtojnë një mënyrë të lidhur mendimi. Përshkrimi i kujdesshëm të përgatit të arsyetosh për pasigurinë, ndërsa ai arsyetim të përgatit t’i shqyrtosh lidhjet, parashikimet dhe dallimet ndërmjet grupeve pa i humbur nga vëmendja supozimet ose kontekstin. Formulat kanë rëndësi sepse e bëjnë këtë arsyetim të saktë. Vlera e tyre më e thellë qëndron te mundësia për të shtruar pyetje më të mira, për ta vlerësuar evidencën më drejt dhe për ta shpjeguar atë që ke mësuar me sigurinë e duhur.</p>
+<hr>
+</section>
+<section id="si-synon-ratiomera-ta-mbështesë-të-nxënit-tënd" class="level2">
+<h2 class="anchored" data-anchor-id="si-synon-ratiomera-ta-mbështesë-të-nxënit-tënd">Si synon Ratiomera ta mbështesë të nxënit tënd</h2>
+<p>Ratiomera është krijuar për t’i <strong>shoqëruar ligjëratat, mësimin në klasë, leximet e caktuara dhe shënimet e tua</strong>. Mësimdhënësi ose ligjëruesi yt dhe materialet zyrtare mbeten pikat kryesore të referimit për kursin që ndjek. Kur një shpjegim në atë kontekst nuk të është bërë plotësisht i qartë, përdore skedën <strong>Teoria</strong> për t’iu afruar së njëjtës ide nga një rrugë tjetër. Pastaj përdore <strong>Shembullin e simuluar</strong> për ta parë idenë në punë nga pyetja e parë deri te interpretimi përfundimtar. Mund ta ndjekësh tërë temën me radhë ose të kthehesh drejtpërdrejt te pika ku kuptimi u bë i pasigurt.</p>
+<p><strong>Ushtrimet dhe zgjidhjet</strong> kanë të njëjtin rol mbështetës. Ato përfshijnë mënyra të zakonshme dhe të mundshme për të pyetur rreth një ideje, së bashku me detyra të zgjedhura për ta thelluar kuptimin konceptual dhe aftësinë për të llogaritur. Ato nuk mund t’i parashikojnë pyetjet që do të paraqiten në një provim të caktuar, prandaj udhëzimet e ligjëruesit dhe informacioni zyrtar për vlerësimin e kursit tënd mbeten vendimtarë. Ratiomera të ndihmon ta kuptosh materialin aq mirë sa ta dallosh një pyetje dhe të arsyetosh rrugën drejt përgjigjes edhe kur formulimi është i panjohur.</p>
+<p>Çdo faqe e zhvillojmë me kujdes dhe synojmë saktësinë më të lartë që mund të arrijmë. Megjithatë, gabime mund të mbeten. Nëse një përkufizim, mënyrë shënimi, metodë ose udhëzim në Ratiomera nuk përputhet me shpjegimin e mësimdhënësit tënd apo me materialin zyrtar të kursit, mbështetu te materiali zyrtar dhe kërko sqarim nga mësimdhënësi ose ligjëruesi. Të lutemi na njofto edhe ne për mospërputhjen, që ta shqyrtojmë dhe ta përmirësojmë faqen.</p>
+<p>Për përvojën e plotë, përdore këtë renditje mësimore në një shfletues të përditësuar. Versioni në shfletues i mban së bashku rendin e temave, shembujt e simuluar ndërveprues, tabelat që përshtaten me ekranin, referencat ndërmjet pjesëve dhe navigimin gjuhësor. Skedarët PDF dhe Word shërbejnë si plotësim për shtypje, shënime, ushtrime pa lidhje interneti dhe përsëritje. Si dokumente statike, ato lënë jashtë disa lidhje dhe shpjegime ndërvepruese të faqes së internetit.</p>
+<hr>
+</section>
+<section id="struktura-e-çdo-faqeje-të-temës" class="level2">
+<h2 class="anchored" data-anchor-id="struktura-e-çdo-faqeje-të-temës">Struktura e çdo faqeje të temës</h2>
+<p>Çdo temë përdor të njëjtat katër skeda, në të njëjtin rend. Ky organizim i njohur të lejon të përqendrohesh te të nxënit sapo hap një faqe të re.</p>
+<p><strong>Teoria</strong> nis me pyetjen së cilës ndihmon t’i përgjigjet një metodë. E zhvillon idenë nga gjuha e përditshme te terminologjia statistikore, shpjegon çdo simbol kur nevojitet një formulë dhe e lidh secilën pjesë të re me atë që erdhi më parë.</p>
+<p><strong>Shembulli i simuluar</strong> trajton një situatë realiste nga shkencat shoqërore duke përdorur të dhëna mësimore të krijuara me kompjuter. Nuk përfshin matje nga pjesëmarrës realë. Një simulim është një procedurë e planifikuar kompjuterike që krijon vlera sipas rregullave të përcaktuara, në mënyrë që analiza të shqyrtohet pa rrezik dhe të përsëritet saktësisht. Çdo shembull shpjegon fillimisht pse situata është e dobishme, pastaj të udhëheq me pyetje nëpër çdo vendim, llogaritje, tabelë dhe figurë. Në fund i kthehet Teorisë dhe tregon saktësisht cilat ide u vunë në punë, çfarë do të thotë rezultati artificial dhe ku qëndrojnë kufijtë e këtij interpretimi.</p>
+<p><strong>Ushtrime dhe zgjidhje</strong> përmban dy materiale të plota: Fletën e ushtrimeve dhe Zgjidhjet e plota. Secilin mund ta hapësh drejtpërdrejt në këtë skedë si PDF të përshtatshëm për shtypje ose si dokument Word që mund ta redaktosh. Fleta kontrollon së pari nëse mund t’i shpjegosh idetë, pastaj të kërkon të llogaritësh, krahasosh dhe interpretosh. Puno me të para se t’i hapësh zgjidhjet, ku arsyetimi i plotë i secilës përgjigje zhvillohet hap pas hapi deri te rezultati.</p>
+<p><strong>Përmbledhja</strong> mbledh idetë qendrore, formulat, shpjegimet pamore, tabelat dhe udhëzimet e interpretimit. Versioni PDF është i përshtatshëm për lexim ose shtypje, ndërsa versioni Word mund të redaktohet që t’i shtosh shënimet e tua. Përdore pasi ta kesh studiuar të gjithë temën, kur përgatitesh për provim ose kur i rikthehesh temës pas një pushimi.</p>
+<hr>
+</section>
+<section id="rendi-i-rekomanduar" class="level2">
+<h2 class="anchored" data-anchor-id="rendi-i-rekomanduar">Rendi i rekomanduar</h2>
+<p>Në kalimin e parë, ndiq temat sipas renditjes. Rendi ndjek një zhvillim të qëllimshëm, ku secila temë i përgjigjet një pyetjeje që mund të shtrohet siç duhet pasi të jenë vendosur idetë paraprake.</p>
+<div class="course-sequence-wide">
+<ol class="course-sequence">
+<li>
+<p class="course-sequence-title">
+<a href="t01_descriptive.html">Statistika përshkruese</a>
+</p>
+<p>
+Fillo duke mësuar çfarë janë ndryshoret dhe nivelet e matjes, si përmblidhet një shpërndarje dhe si lexohen tabelat e figurat. Çdo metodë e mëvonshme mbështetet te ky fjalor dhe te zakoni për t’i shqyrtuar të dhënat para se të nxjerrësh përfundime.
+</p>
+</li>
+<li>
+<p class="course-sequence-title">
+<a href="t02_probability.html">Probabiliteti</a>
+</p>
+<p>
+Pasi të mund të përshkruash atë që është vëzhguar, pyetja tjetër është si sillet rastësia. Probabiliteti të jep gjuhën për rezultatet e mundshme dhe pasigurinë që i nevojitet inferencës statistikore.
+</p>
+</li>
+<li>
+<p class="course-sequence-title">
+<a href="t03_hypothesis-testing.html">Testimi i hipotezave dhe intervalet e besimit</a>
+</p>
+<p>
+Tani probabiliteti bëhet një mjet për të mësuar nga një kampion. Do të pyesësh sa përputhet një rezultat me një hipotezë dhe sa saktë e vlerëson kampioni një vlerë të panjohur të popullatës.
+</p>
+</li>
+<li>
+<p class="course-sequence-title">
+<a href="t04_cov-corr.html">Kovarianca dhe korrelacioni</a>
+</p>
+<p>
+Me inferencën si bazë, mund të shqyrtosh si lëvizin së bashku dy ndryshore sasiore. Reja e pikave, kovarianca dhe korrelacioni krijojnë gjuhën e lidhjeve që u nevojitet temave të tjera.
+</p>
+</li>
+<li>
+<p class="course-sequence-title">
+<a href="t05_simple-regression.html">Regresioni i thjeshtë linear</a>
+</p>
+<p>
+Regresioni i jep një drejtim lidhjes: një ndryshore bëhet rezultati dhe një tjetër bëhet parashikuesi. Vija e përshtatur pastaj ndihmon interpretimin dhe parashikimin e kufizuar me kujdes në njësitë fillestare.
+</p>
+</li>
+<li>
+<p class="course-sequence-title">
+<a href="t06_partial-corr.html">Korrelacioni i pjesshëm</a>
+</p>
+<p>
+Një lidhje mes dy ndryshoreve mund të ndryshojë kur merret parasysh një ndryshore e tretë. Korrelacioni i pjesshëm përdor rezidualet e regresionit për të pyetur çfarë lidhjeje lineare mbetet pas këtij përshtatjeje.
+</p>
+</li>
+<li>
+<p class="course-sequence-title">
+<a href="t07_multiple-regression.html">Regresioni i shumëfishtë</a>
+</p>
+<p>
+Tani je gati të vendosësh disa parashikues në një model. Regresioni i shumëfishtë lidh korrelacionin, regresionin e thjeshtë dhe kontrollin statistikor, që ta interpretosh secilin parashikues ndërsa të tjerët mbahen konstantë.
+</p>
+</li>
+<li>
+<p class="course-sequence-title">
+<a href="t08_anova.html">Analiza e variancës</a>
+</p>
+<p>
+Tema e fundit pyet nëse ndryshojnë disa mesatare grupesh, duke krahasuar ndryshueshmërinë ndërmjet grupeve me ndryshueshmërinë brenda tyre. Ajo i rikthehet variancës së Temës 1 dhe zbulon lidhjen e ngushtë me idetë e regresionit të zhvilluara gjatë rrugës.
+</p>
+</li>
+</ol>
+</div>
+<div class="course-start">
+<div class="course-start-copy">
+<p><span class="course-start-eyebrow">Hapi yt i parë</span></p>
+<p>Fillo me Temën 1 para se t’i ndjekësh temat e tjera me radhë. Statistika përshkruese të jep fjalorin e nevojshëm dhe shprehitë e leximit të kujdesshëm mbi të cilat mbështeten të gjitha temat e mëvonshme.</p>
+</div>
+<p><a href="../../../ratiomera-statistics/sq/intro-stats/t01_descriptive.html" class="course-start-link">Fillo me statistikën përshkruese</a></p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+/* Keep Quarto's compact mobile sidebar dismissible after navigation or Escape. */
+(function () {
+  'use strict';
+
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest('#quarto-sidebar a[href*="#"]');
+    if (!link || window.matchMedia('(min-width: 992px)').matches) return;
+
+    var toggle = document.querySelector(
+      '.quarto-secondary-nav .quarto-btn-toggle[aria-expanded="true"]'
+    );
+    if (toggle) toggle.click();
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || window.matchMedia('(min-width: 992px)').matches) return;
+
+    var sidebar = document.getElementById('quarto-sidebar');
+    if (!sidebar || !sidebar.classList.contains('show')) return;
+
+    var toggle = document.querySelector(
+      '.quarto-secondary-nav .quarto-btn-toggle[aria-expanded="true"]'
+    );
+    if (!toggle) return;
+
+    event.preventDefault();
+    toggle.click();
+    toggle.focus();
+  });
+}());
+</script>
+<script>
+/* Keep the selected lesson tab visible when keyboard navigation changes tabs. */
+(function () {
+  'use strict';
+
+  function revealSelectedTab(tab) {
+    if (!tab || !tab.matches('.panel-tabset .nav-tabs .nav-link')) return;
+
+    var strip = tab.closest('.nav-tabs');
+    if (!strip || strip.scrollWidth <= strip.clientWidth) return;
+
+    var stripBox = strip.getBoundingClientRect();
+    var tabBox = tab.getBoundingClientRect();
+    var edgeSpace = 8;
+
+    if (tabBox.left < stripBox.left + edgeSpace) {
+      strip.scrollLeft -= stripBox.left + edgeSpace - tabBox.left;
+    } else if (tabBox.right > stripBox.right - edgeSpace) {
+      strip.scrollLeft += tabBox.right - stripBox.right + edgeSpace;
+    }
+  }
+
+  function wrapPlotlyTitle(value, width) {
+    if (!value || !width) return value;
+
+    function wrapPlainText(plainText, lineWidth) {
+      var words = plainText
+        .replace(/<br\s*\/?>/gi, ' ')
+        .replace(/<[^>]+>/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ');
+      var lines = [];
+      var line = '';
+      words.forEach(function (word) {
+        if (!word) return;
+        var candidate = line ? line + ' ' + word : word;
+        if (line && candidate.length > lineWidth) {
+          lines.push(line);
+          line = word;
+        } else {
+          line = candidate;
+        }
+      });
+      if (line) lines.push(line);
+      return lines.join('<br>');
+    }
+
+    /* Native Plotly figures can combine a bold title and a smaller subtitle
+       in one title field. Preserve those two roles while wrapping them; the
+       earlier generic pass made the subtitle bold and consumed plot space. */
+    var boldMatch = value.match(/<b>([\s\S]*?)<\/b>/i);
+    var supMatch = value.match(/<sup>([\s\S]*?)<\/sup>/i);
+    if (boldMatch && supMatch) {
+      return '<b>' + wrapPlainText(boldMatch[1], width) + '</b><br><sup>' +
+        wrapPlainText(supMatch[1], width + 8) + '</sup>';
+    }
+
+    var isBold = /^\s*<b>/i.test(value);
+    var plain = value
+      .replace(/<br\s*\/?>/gi, ' ')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!plain) return value;
+
+    var output = wrapPlainText(plain, width);
+    return isBold ? '<b>' + output + '</b>' : output;
+  }
+
+  function fitPlotlyTitle(figure) {
+    if (!window.Plotly || !window.Plotly.relayout || !figure.layout ||
+        !figure.layout.title || !figure.layout.title.text) return;
+
+    if (!figure.__topicTitleState) {
+      figure.__topicTitleState = {
+        text: figure.layout.title.text,
+        top: figure.layout.margin && Number.isFinite(figure.layout.margin.t)
+          ? figure.layout.margin.t
+          : 80
+      };
+    }
+
+    var state = figure.__topicTitleState;
+    var figureWidth = figure.getBoundingClientRect().width;
+    var wrapWidth = figureWidth < 360 ? 20
+      : figureWidth < 560 ? 28
+        : figureWidth < 720 ? 36
+          : null;
+    var title = wrapWidth ? wrapPlotlyTitle(state.text, wrapWidth) : state.text;
+    var originalLines = (state.text.match(/<br\s*\/?>/gi) || []).length + 1;
+    var fittedLines = (title.match(/<br\s*\/?>/gi) || []).length + 1;
+    var top = state.top + Math.max(0, fittedLines - originalLines) * 19;
+
+    if (figure.layout.title.text === title &&
+        figure.layout.margin && figure.layout.margin.t === top) return;
+
+    window.Plotly.relayout(figure, {
+      'title.text': title,
+      'margin.t': top
+    });
+  }
+
+  function resizeFiguresInSelectedPane(tab) {
+    if (!tab) return;
+
+    var targetSelector = tab.getAttribute('data-bs-target');
+    if (!targetSelector || targetSelector.charAt(0) !== '#') return;
+
+    var pane = document.querySelector(targetSelector);
+    if (!pane) return;
+
+    /* A Plotly widget rendered inside an inactive Bootstrap pane initially
+       has no usable width. Wait until the selected pane has completed its
+       display change, then resize every figure against its real container. */
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        if (window.Plotly && window.Plotly.Plots) {
+          pane.querySelectorAll('.js-plotly-plot').forEach(function (figure) {
+            fitPlotlyTitle(figure);
+            window.Plotly.Plots.resize(figure);
+          });
+        }
+
+        /* DataTables can also initialize while their Bootstrap pane has no
+           measurable width. Recalculate their columns after the pane becomes
+           visible so the raw-data table cannot remain collapsed or blank. */
+        if (window.jQuery && window.jQuery.fn && window.jQuery.fn.dataTable) {
+          pane.querySelectorAll('table.dataTable').forEach(function (table) {
+            if (window.jQuery.fn.dataTable.isDataTable(table)) {
+              window.jQuery(table).DataTable().columns.adjust();
+            }
+          });
+        }
+      });
+    });
+  }
+
+  function resizeVisibleFigures(root) {
+    if (!window.Plotly || !window.Plotly.Plots) return;
+
+    (root || document).querySelectorAll('.js-plotly-plot').forEach(function (figure) {
+      /* getClientRects() excludes figures in inactive Bootstrap panes. Those
+         figures are resized when their tab is selected instead. */
+      if (!figure.getClientRects().length) return;
+
+      try {
+        fitPlotlyTitle(figure);
+        window.Plotly.Plots.resize(figure);
+      } catch (error) {
+        /* A figure must never make the surrounding lesson unusable. Plotly
+           can finish attaching itself between these guarded retries. */
+      }
+    });
+  }
+
+  function scheduleVisibleFigureResize() {
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        resizeVisibleFigures(document);
+      });
+    });
+
+    /* HTML widgets and web fonts can settle after the first paint. These
+       modest retries cover a Simulated Example opened directly through a
+       fragment link as well as widgets exposed during initial restoration. */
+    window.setTimeout(function () {
+      resizeVisibleFigures(document);
+    }, 120);
+    window.setTimeout(function () {
+      resizeVisibleFigures(document);
+    }, 420);
+  }
+
+  document.addEventListener('shown.bs.tab', function (event) {
+    revealSelectedTab(event.target);
+    resizeFiguresInSelectedPane(event.target);
+  });
+
+  function tabTriggerForPane(pane) {
+    if (!pane || !pane.id) return null;
+
+    return Array.prototype.find.call(
+      document.querySelectorAll('.panel-tabset .nav-tabs [data-bs-target]'),
+      function (trigger) {
+        return trigger.getAttribute('data-bs-target') === '#' + pane.id;
+      }
+    ) || null;
+  }
+
+  function revealHashTarget() {
+    if (!window.location.hash || window.location.hash.length < 2) return;
+
+    var rawId = window.location.hash.slice(1);
+    var targetId;
+
+    try {
+      targetId = decodeURIComponent(rawId);
+    } catch (error) {
+      targetId = rawId;
+    }
+
+    var target = document.getElementById(targetId);
+    if (!target) return;
+
+    var pane = target.classList.contains('tab-pane')
+      ? target
+      : target.closest('.panel-tabset .tab-pane');
+    if (!pane || pane.classList.contains('active')) return;
+
+    var trigger = tabTriggerForPane(pane);
+    if (!trigger || !window.bootstrap || !window.bootstrap.Tab) return;
+
+    trigger.addEventListener('shown.bs.tab', function () {
+      target.scrollIntoView({ block: 'start' });
+    }, { once: true });
+
+    window.bootstrap.Tab.getOrCreateInstance(trigger).show();
+  }
+
+  window.addEventListener('hashchange', revealHashTarget);
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(scheduleVisibleFigureResize, 120);
+  });
+
+  window.addEventListener('load', scheduleVisibleFigureResize, { once: true });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      revealHashTarget();
+      scheduleVisibleFigureResize();
+    }, { once: true });
+  } else {
+    revealHashTarget();
+    scheduleVisibleFigureResize();
+  }
+}());
+</script>
+<script>
+/* Give wide lesson figures and tables a visible, localized, keyboard-friendly
+   horizontal-scroll treatment while keeping captions in the reading column. */
+(function () {
+  'use strict';
+
+  function regionLabel(table) {
+    var language = (document.documentElement.lang || 'en').toLowerCase();
+    var prefix = language.indexOf('de') === 0
+      ? 'Horizontal scrollbare Tabelle'
+      : language.indexOf('sq') === 0
+        ? 'Tabelë me lëvizje horizontale'
+        : 'Horizontally scrollable table';
+    var caption = table.querySelector('caption');
+    var section = table.closest('section');
+    var heading = section && section.querySelector(':scope > h2, :scope > h3, :scope > h4');
+    var context = caption && caption.textContent.trim()
+      ? caption.textContent.trim()
+      : heading && heading.textContent.trim()
+        ? heading.textContent.trim()
+        : '';
+
+    return context ? prefix + ': ' + context : prefix;
+  }
+
+  function directFloatCaption(region) {
+    var figure = region.closest('figure.quarto-float-tbl');
+    if (!figure) return null;
+
+    return Array.prototype.find.call(figure.children, function (child) {
+      return child.matches('figcaption.quarto-float-tbl');
+    }) || null;
+  }
+
+  function combinedDataTableCaption(wrapper) {
+    var table = wrapper.querySelector('table');
+    var caption = table && table.querySelector('caption');
+    var numberCaption = directFloatCaption(wrapper);
+    var number = numberCaption && numberCaption.textContent.trim();
+    var description = caption && caption.textContent.trim();
+
+    if (number && description) return number + ': ' + description;
+    return description || number || '';
+  }
+
+  function dataTableLabel(wrapper) {
+    var language = (document.documentElement.lang || 'en').toLowerCase();
+    var prefix = language.indexOf('de') === 0
+      ? 'Horizontal scrollbare Datentabelle der simulierten Studie'
+      : language.indexOf('sq') === 0
+        ? 'Tabelë e të dhënave të studimit të simuluar me lëvizje horizontale'
+        : 'Horizontally scrollable simulated-study data table';
+    var caption = combinedDataTableCaption(wrapper);
+
+    return caption ? prefix + ': ' + caption : prefix;
+  }
+
+  function overflowHint(kind) {
+    var language = (document.documentElement.lang || 'en').toLowerCase();
+    if (language.indexOf('de') === 0) {
+      return kind === 'figure'
+        ? '↔ Horizontal scrollen, um die vollständige Abbildung zu sehen.'
+        : '↔ Horizontal scrollen, um alle Spalten zu sehen.';
+    }
+    if (language.indexOf('sq') === 0) {
+      return kind === 'figure'
+        ? '↔ Lëviz horizontalisht për ta parë figurën e plotë.'
+        : '↔ Lëviz horizontalisht për t\'i parë të gjitha kolonat.';
+    }
+    return kind === 'figure'
+      ? '↔ Scroll horizontally to see the full figure.'
+      : '↔ Scroll horizontally to see all columns.';
+  }
+
+  function ensureTableShell(region) {
+    var shell = region.parentElement && region.parentElement.classList.contains('table-scroll-shell')
+      ? region.parentElement
+      : null;
+    if (!shell) {
+      shell = document.createElement('div');
+      shell.className = 'table-scroll-shell';
+      region.parentNode.insertBefore(shell, region);
+      shell.appendChild(region);
+    }
+
+    var table = region.querySelector('table');
+    var caption = table && table.querySelector('caption');
+    var visibleCaption = Array.prototype.find.call(
+      shell.children,
+      function (child) { return child.classList.contains('table-caption-visible'); }
+    );
+    if (caption) {
+      caption.classList.add('table-caption-source');
+      if (!visibleCaption) {
+        visibleCaption = document.createElement('p');
+        visibleCaption.className = 'table-caption table-caption-visible';
+        visibleCaption.setAttribute('aria-hidden', 'true');
+        shell.appendChild(visibleCaption);
+      }
+
+      while (visibleCaption.firstChild) visibleCaption.removeChild(visibleCaption.firstChild);
+      var numberCaption = region.classList.contains('dataTables_wrapper')
+        ? directFloatCaption(region)
+        : null;
+      var number = numberCaption && numberCaption.textContent.trim();
+      if (numberCaption && number) {
+        numberCaption.classList.add('table-caption-source', 'datatable-number-source');
+        numberCaption.setAttribute('aria-hidden', 'true');
+        var numberElement = document.createElement('span');
+        numberElement.className = 'table-caption-number';
+        numberElement.textContent = number + ':';
+        visibleCaption.appendChild(numberElement);
+        visibleCaption.appendChild(document.createTextNode(' '));
+      }
+      Array.prototype.forEach.call(caption.childNodes, function (node) {
+        visibleCaption.appendChild(node.cloneNode(true));
+      });
+    }
+    return shell;
+  }
+
+  function ensureOverflowHint(region, kind) {
+    var host = kind === 'table' ? ensureTableShell(region) : region;
+    var hint = Array.prototype.find.call(
+      host.children,
+      function (child) { return child.classList.contains('horizontal-scroll-hint'); }
+    );
+    if (!hint) {
+      hint = document.createElement('p');
+      hint.className = 'horizontal-scroll-hint';
+      hint.setAttribute('role', 'note');
+      hint.hidden = true;
+      host.insertBefore(hint, kind === 'table' ? region : host.firstChild);
+    }
+    hint.textContent = overflowHint(kind);
+    return hint;
+  }
+
+  function updateOverflowState(region, kind) {
+    var hint = ensureOverflowHint(region, kind);
+    hint.hidden = true;
+    region.classList.remove('has-horizontal-overflow');
+    if (kind === 'table' && region.parentElement) {
+      region.parentElement.classList.remove('has-horizontal-overflow');
+    }
+
+    if (!region.getClientRects().length) return;
+
+    var hasOverflow = region.scrollWidth > region.clientWidth + 2;
+    region.classList.toggle('has-horizontal-overflow', hasOverflow);
+    if (kind === 'table' && region.parentElement) {
+      region.parentElement.classList.toggle('has-horizontal-overflow', hasOverflow);
+    }
+    hint.hidden = !hasOverflow;
+  }
+
+  function refreshOverflowStates() {
+    document.querySelectorAll('.topic-figure-scroll').forEach(function (region) {
+      updateOverflowState(region, 'figure');
+    });
+    document.querySelectorAll('.table-scroll-region, .dataTables_wrapper').forEach(function (region) {
+      updateOverflowState(region, 'table');
+    });
+  }
+
+  function enhanceDataTables() {
+    document.querySelectorAll('.dataTables_wrapper').forEach(function (wrapper) {
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('tabindex', '0');
+      ensureTableShell(wrapper);
+      wrapper.setAttribute('aria-label', dataTableLabel(wrapper));
+    });
+  }
+
+  document.querySelectorAll('.panel-tabset table.table').forEach(function (table) {
+    if (table.closest('.table-scroll-region') || table.classList.contains('dataTable')) return;
+
+    var region = document.createElement('div');
+    region.className = 'table-scroll-region';
+    region.setAttribute('role', 'region');
+    region.setAttribute('tabindex', '0');
+    region.setAttribute('aria-label', regionLabel(table));
+    table.parentNode.insertBefore(region, table);
+    region.appendChild(table);
+    ensureTableShell(region);
+  });
+
+  /* HTML widgets initialize after the include runs, and a hidden tab may
+     complete layout only when selected. These bounded follow-ups cover both
+     cases without leaving a permanent document-wide mutation observer. */
+  [0, 500, 2000, 5000].forEach(function (delay) {
+    window.setTimeout(function () {
+      enhanceDataTables();
+      refreshOverflowStates();
+    }, delay);
+  });
+  document.addEventListener('shown.bs.tab', function () {
+    window.setTimeout(function () {
+      enhanceDataTables();
+      refreshOverflowStates();
+    }, 0);
+  });
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(refreshOverflowStates, 160);
+  });
+}());
+</script>
+<script>
+/* Localize Plotly's built-in boxplot statistics, which are not controlled by
+   the learner-facing R trace labels. Q1 and Q3 remain notation in every locale. */
+(function () {
+  'use strict';
+
+  var language = (document.documentElement.lang || 'en').toLowerCase();
+  var locale = language.indexOf('de') === 0
+    ? 'de'
+    : language.indexOf('sq') === 0 ? 'sq' : 'en';
+
+  var labels = {
+    en: {
+      'lower fence': 'lower fence',
+      'upper fence': 'upper fence',
+      median: 'median',
+      min: 'min',
+      max: 'max'
+    },
+    de: {
+      'lower fence': 'Untere Grenze',
+      'upper fence': 'Obere Grenze',
+      median: 'Median',
+      min: 'Minimum',
+      max: 'Maximum'
+    },
+    sq: {
+      'lower fence': 'Kufiri i poshtëm',
+      'upper fence': 'Kufiri i sipërm',
+      median: 'Mediana',
+      min: 'Minimumi',
+      max: 'Maksimumi'
+    }
+  }[locale];
+
+  function replaceStatisticLabel(value) {
+    var output = value;
+    Object.keys(labels).forEach(function (source) {
+      /* Plotly may place the label and number in separate tspans. Match a
+         complete standalone label as well as the usual "label: value" form. */
+      var pattern = new RegExp('(^|\\s)' + source + '(?=\\s*(?:[:=]|$))', 'gi');
+      output = output.replace(pattern, function (_match, space) {
+        return space + labels[source];
+      });
+    });
+    return output;
+  }
+
+  function localizeVisibleHover(plot) {
+    plot.querySelectorAll('.hoverlayer tspan, .hoverlayer text').forEach(function (node) {
+      if (node.children.length) return;
+      var localized = replaceStatisticLabel(node.textContent || '');
+      if (localized !== node.textContent) node.textContent = localized;
+    });
+  }
+
+  function bindPlot(plot) {
+    if (plot.dataset.localizedHoverLocale === locale || typeof plot.on !== 'function') return;
+    plot.dataset.localizedHoverLocale = locale;
+    plot.on('plotly_hover', function () {
+      window.requestAnimationFrame(function () { localizeVisibleHover(plot); });
+      window.setTimeout(function () { localizeVisibleHover(plot); }, 0);
+      window.setTimeout(function () { localizeVisibleHover(plot); }, 40);
+      window.setTimeout(function () { localizeVisibleHover(plot); }, 100);
+    });
+  }
+
+  function bindPlots() {
+    document.querySelectorAll('.plotly.html-widget').forEach(bindPlot);
+  }
+
+  [0, 500, 2000, 5000].forEach(function (delay) {
+    window.setTimeout(bindPlots, delay);
+  });
+  document.addEventListener('shown.bs.tab', function () {
+    window.setTimeout(bindPlots, 0);
+  });
+}());
+</script>
+<script>
+(() => {
+  "use strict";
+
+  const configNode = document.getElementById("usage-counter-config");
+  if (!configNode) return;
+
+  let config;
+  try {
+    config = JSON.parse(configNode.textContent);
+  } catch (_error) {
+    return;
+  }
+
+  const locale = document.documentElement.lang === "de-CH"
+    ? "de"
+    : document.documentElement.lang === "sq" ? "sq" : "en";
+  const labels = config.locales && config.locales[locale];
+  if (!labels) return;
+
+  const isLocalHost = ["", "localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+  const remoteRequestsDisabled = Boolean(config.disable_remote_requests_on_local_hosts && isLocalHost);
+
+  const interpolate = (template, values) => {
+    if (typeof template !== "string" || template.length === 0) return null;
+    return template.replace(/\{([a-z_]+)\}/gi, (_match, key) =>
+      encodeURIComponent(values[key] == null ? "" : String(values[key]))
+    );
+  };
+
+  const readField = (value, path) => String(path || "count")
+    .split(".")
+    .reduce((current, key) => current == null ? undefined : current[key], value);
+
+  const validCount = value => {
+    if (typeof value !== "number" && typeof value !== "string") return null;
+    if (typeof value === "string" && value.trim() === "") return null;
+    const number = Number(value);
+    return Number.isInteger(number) && number >= 0 ? number : null;
+  };
+
+  const requestJson = async url => {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {Accept: "application/json"},
+      cache: "no-store",
+      credentials: "omit",
+      referrerPolicy: "no-referrer"
+    });
+    if (!response.ok) throw new Error("Counter provider request failed");
+    return response.json();
+  };
+
+  const requestText = async (url, accept) => {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {Accept: accept},
+      cache: "no-store",
+      credentials: "omit",
+      referrerPolicy: "no-referrer"
+    });
+    if (!response.ok) throw new Error("Counter provider request failed");
+    return response.text();
+  };
+
+  const countFromBadgeSvg = source => {
+    const documentNode = new DOMParser().parseFromString(source, "image/svg+xml");
+    if (documentNode.querySelector("parsererror")) return null;
+
+    const root = documentNode.documentElement;
+    const labelledValue = root.getAttribute("aria-label") ||
+      documentNode.querySelector("title")?.textContent || "";
+    const labelledMatch = labelledValue.match(/:\s*([0-9][0-9,.\s]*)\s*$/);
+    if (labelledMatch) {
+      return validCount(labelledMatch[1].replace(/[^0-9]/g, ""));
+    }
+
+    const textValues = Array.from(documentNode.querySelectorAll("text"))
+      .map(node => String(node.textContent || "").trim())
+      .filter(value => /^[0-9][0-9,.\s]*$/.test(value));
+    if (!textValues.length) return null;
+    return validCount(textValues[textValues.length - 1].replace(/[^0-9]/g, ""));
+  };
+
+  class CounterElement extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.counterInitialized === "true") return;
+      this.dataset.counterInitialized = "true";
+      this.valueNode = this.querySelector(".counter-value");
+      this.fallbackNode = this.querySelector(".counter-fallback");
+      this.label = this.dataset.label || "";
+      this.setUnavailable("disabled");
+      this.initialize();
+    }
+
+    initialize() {}
+
+    setText(state, visibleValue, accessibleValue) {
+      this.dataset.counterState = state;
+      if (this.valueNode) this.valueNode.textContent = visibleValue;
+      this.setAttribute("aria-label", `${this.label}: ${accessibleValue}`);
+    }
+
+    setLoading() {
+      this.setText("loading", config.loading_placeholder, labels.loading);
+    }
+
+    setUnavailable(state = "unavailable") {
+      this.setText(state, config.placeholder, labels.unavailable);
+    }
+
+    setCount(count) {
+      const number = validCount(count);
+      if (number == null) {
+        this.setUnavailable();
+        return;
+      }
+      const formatted = new Intl.NumberFormat(document.documentElement.lang || "en").format(number);
+      this.setText("ready", formatted, formatted);
+    }
+  }
+
+  class PageVisitCounter extends CounterElement {
+    initialize() {
+      const section = config.page_visits || {};
+      const providerName = String(section.provider || "disabled");
+      if (providerName === "disabled" || remoteRequestsDisabled) return;
+
+      const provider = section.providers && section.providers[providerName];
+      if (!provider || !this.dataset.counterId) {
+        this.setUnavailable();
+        return;
+      }
+
+      if (providerName === "hits_sh") {
+        this.loadHitsCount(provider);
+      } else if (providerName === "json") {
+        this.loadJson(provider);
+      } else {
+        this.setUnavailable();
+      }
+    }
+
+    async loadHitsCount(provider) {
+      try {
+        const endpoint = new URL(provider.endpoint);
+        const pathParts = [provider.namespace, this.dataset.counterId]
+          .filter(Boolean)
+          .flatMap(value => String(value).split("/"))
+          .map(encodeURIComponent);
+        endpoint.pathname = `${endpoint.pathname.replace(/\/$/, "")}/${pathParts.join("/")}.svg`;
+        endpoint.searchParams.set("view", provider.view || "total");
+        endpoint.searchParams.set("style", provider.style || "flat-square");
+        endpoint.searchParams.set("label", this.label);
+        if (provider.color) endpoint.searchParams.set("color", provider.color);
+        if (provider.label_color) endpoint.searchParams.set("labelColor", provider.label_color);
+        this.setLoading();
+        const source = await requestText(endpoint.toString(), "image/svg+xml");
+        const count = countFromBadgeSvg(source);
+        if (count == null) throw new Error("Counter badge did not expose a numeric total");
+        this.setCount(count);
+      } catch (_error) {
+        this.setUnavailable();
+      }
+    }
+
+    async loadJson(provider) {
+      const url = interpolate(provider.endpoint_template, {
+        counter_id: this.dataset.counterId,
+        locale: this.dataset.locale
+      });
+      if (!url) {
+        this.setUnavailable();
+        return;
+      }
+      this.setLoading();
+      try {
+        const payload = await requestJson(url);
+        this.setCount(readField(payload, provider.count_field));
+      } catch (_error) {
+        this.setUnavailable();
+      }
+    }
+  }
+
+  const githubReleasePromises = new Map();
+
+  const githubReleaseSettings = (provider, releaseKey) => {
+    const releases = provider && provider.releases;
+    const settings = releases && releases[releaseKey];
+    if (!settings || !settings.owner || !settings.repository || !settings.release_tag) {
+      throw new Error("GitHub release is not configured");
+    }
+    return settings;
+  };
+
+  const loadGitHubRelease = (provider, releaseKey) => {
+    if (!releaseKey) return Promise.reject(new Error("Release key is missing"));
+    if (githubReleasePromises.has(releaseKey)) return githubReleasePromises.get(releaseKey);
+
+    const promise = (async () => {
+      const settings = githubReleaseSettings(provider, releaseKey);
+      const baseUrl = new URL(provider.api_base_url || "https://api.github.com");
+      if (baseUrl.protocol !== "https:") throw new Error("GitHub API URL must use HTTPS");
+      baseUrl.pathname = `${baseUrl.pathname.replace(/\/$/, "")}/repos/${encodeURIComponent(settings.owner)}/${encodeURIComponent(settings.repository)}/releases/tags/${encodeURIComponent(settings.release_tag)}`;
+      baseUrl.search = "";
+      baseUrl.hash = "";
+      const response = await fetch(baseUrl.toString(), {
+        method: "GET",
+        headers: {
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": provider.api_version || "2022-11-28"
+        },
+        cache: "no-store",
+        credentials: "omit",
+        referrerPolicy: "no-referrer"
+      });
+      if (!response.ok) throw new Error("GitHub release request failed");
+      return response.json();
+    })();
+    githubReleasePromises.set(releaseKey, promise);
+    return promise;
+  };
+
+  const releaseAsset = (release, assetName) => {
+    const assets = Array.isArray(release && release.assets) ? release.assets : [];
+    const matches = assets.filter(asset => asset && asset.name === assetName);
+    if (matches.length !== 1) return null;
+    let url;
+    try {
+      url = new URL(matches[0].browser_download_url);
+    } catch (_error) {
+      return null;
+    }
+    if (url.protocol !== "https:") return null;
+    return {asset: matches[0], url};
+  };
+
+  const resolveDownloadAssetLinks = async () => {
+    const section = config.download_counts || {};
+    const providerName = String(section.provider || "disabled");
+    if (providerName !== "github_releases" || remoteRequestsDisabled) return;
+    const provider = section.providers && section.providers[providerName];
+    if (!provider) return;
+
+    const actions = Array.from(document.querySelectorAll(
+      "a.download-asset-action[data-release-key][data-release-asset]"
+    ));
+    const releaseKeys = [...new Set(actions.map(action => action.dataset.releaseKey).filter(Boolean))];
+    await Promise.all(releaseKeys.map(async releaseKey => {
+      let release;
+      try {
+        release = await loadGitHubRelease(provider, releaseKey);
+      } catch (_error) {
+        return;
+      }
+      for (const action of actions.filter(candidate => candidate.dataset.releaseKey === releaseKey)) {
+        const match = releaseAsset(release, action.dataset.releaseAsset);
+        if (!match) continue;
+        action.href = match.url.href;
+        action.removeAttribute("download");
+        action.dataset.downloadProvider = "github_releases";
+      }
+    }));
+  };
+
+  class DownloadCount extends CounterElement {
+    initialize() {
+      const section = config.download_counts || {};
+      const providerName = String(section.provider || "disabled");
+      if (providerName === "disabled" || remoteRequestsDisabled) return;
+      if (this.dataset.materialAvailable !== "true") return;
+
+      const provider = section.providers && section.providers[providerName];
+      if (!provider || !this.dataset.counterId) {
+        this.setUnavailable();
+        return;
+      }
+
+      if (providerName === "github_releases") {
+        this.loadGitHub(provider);
+      } else if (providerName === "json") {
+        this.loadJson(provider);
+      } else {
+        this.setUnavailable();
+      }
+    }
+
+    async loadGitHub(provider) {
+      const declaredAssets = String(this.dataset.releaseAssets || this.dataset.releaseAsset || "")
+        .split("|")
+        .map(value => value.trim())
+        .filter(Boolean);
+      const releaseKey = String(this.dataset.releaseKey || "");
+      if (!releaseKey || !declaredAssets.length || new Set(declaredAssets).size !== declaredAssets.length) {
+        this.setUnavailable();
+        return;
+      }
+      this.setLoading();
+      try {
+        const release = await loadGitHubRelease(provider, releaseKey);
+        const validated = declaredAssets.map(name => {
+          const match = releaseAsset(release, name);
+          const count = validCount(match && match.asset.download_count);
+          return count == null ? null : count;
+        });
+        if (validated.some(item => item == null)) {
+          this.setUnavailable();
+          return;
+        }
+        this.setCount(validated.reduce((sum, count) => sum + count, 0));
+      } catch (_error) {
+        this.setUnavailable();
+      }
+    }
+
+    async loadJson(provider) {
+      const url = interpolate(provider.endpoint_template, {
+        counter_id: this.dataset.counterId,
+        material_id: this.dataset.materialId,
+        locale: this.dataset.locale,
+        release_key: this.dataset.releaseKey,
+        asset_name: this.dataset.releaseAssets || this.dataset.releaseAsset
+      });
+      if (!url) {
+        this.setUnavailable();
+        return;
+      }
+      this.setLoading();
+      try {
+        const payload = await requestJson(url);
+        this.setCount(readField(payload, provider.count_field));
+      } catch (_error) {
+        this.setUnavailable();
+      }
+    }
+  }
+
+  if (!customElements.get("usage-page-visit-counter")) {
+    customElements.define("usage-page-visit-counter", PageVisitCounter);
+  }
+  if (!customElements.get("usage-download-count")) {
+    customElements.define("usage-download-count", DownloadCount);
+  }
+  resolveDownloadAssetLinks();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "U kopjua!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "U kopjua!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ratiomera\.ch");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025–2026 Ratiomera. Arsim i lirë në matematikë dhe statistikë.</p>
+</div>   
+    <div class="nav-footer-center"><nav class="footer-language-selector" aria-label="Zgjedhja e gjuhës"><a href="../../../ratiomera-statistics/en/intro-stats/overview-intro-stats-en.html" lang="en" hreflang="en">EN</a><span class="separator" aria-hidden="true">|</span><a href="../../../ratiomera-statistics/de/intro-stats/overview-intro-stats-de.html" lang="de" hreflang="de">DE</a><span class="separator" aria-hidden="true">|</span><span class="active" lang="sq" aria-current="page">SQ</span></nav></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../../sq/pages/legal-ratiomera-sq.html">
+<p>Njoftimi ligjor</p>
+</a>
+  </li>  
+<li class="nav-item footer-visit-item"><usage-page-visit-counter class="page-visit-counter usage-counter" role="group" data-counter-id="page-intro-statistics-overview-sq" data-page-id="intro-statistics-overview" data-locale="sq" data-label="Vizita" aria-label="Vizita: Numri nuk është i disponueshëm"><span class="counter-fallback" aria-hidden="true"><span class="counter-label">Vizita</span><span class="counter-value">–</span></span></usage-page-visit-counter></li>
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

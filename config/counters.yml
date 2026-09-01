@@ -1,0 +1,70 @@
+schema_version: 2
+configuration_updated: 2026-08-19
+
+# Counter providers are deliberately disabled for the public release. A
+# provider may be selected later without changing page or Downloads markup,
+# but only after its behavior and privacy consequences have been documented.
+disable_remote_requests_on_local_hosts: true
+placeholder: "–"
+loading_placeholder: "…"
+
+page_visits:
+  provider: disabled
+  id_template: "page-{page_id}-{locale}"
+  included_page_types:
+    - landing
+    - page
+    - landing_and_platform_status
+    - course_overview
+    - lesson
+    - planned_topic
+    - downloads
+  providers:
+    disabled: {}
+    hits_sh:
+      endpoint: "https://hits.sh"
+      namespace: "ratiomera-education-platform"
+      view: total
+      style: flat-square
+      color: "6f8492"
+      label_color: "e7eef3"
+    json:
+      endpoint_template: null
+      count_field: count
+
+download_counts:
+  provider: disabled
+  id_template: "download-{material_id}-{locale}"
+  providers:
+    disabled: {}
+    github_releases:
+      api_base_url: "https://api.github.com"
+      api_version: "2022-11-28"
+      # Each learning collection can later point to its own exact public
+      # release. Exact tags keep the meaning of a displayed count explicit;
+      # changing a tag begins a new published-release count.
+      releases:
+        intro-statistics:
+          owner: null
+          repository: null
+          release_tag: null
+    json:
+      endpoint_template: null
+      count_field: count
+
+locales:
+  en:
+    visits: Visits
+    downloads: Downloads
+    loading: Loading count
+    unavailable: Count unavailable
+  de:
+    visits: Besuche
+    downloads: Downloads
+    loading: Anzahl wird geladen
+    unavailable: Anzahl nicht verfügbar
+  sq:
+    visits: Vizita
+    downloads: Shkarkime
+    loading: Numri po ngarkohet
+    unavailable: Numri nuk është i disponueshëm

@@ -1,0 +1,12 @@
+---
+title: "About Ratiomera"
+pagetitle: "About Ratiomera"
+title-prefix: ""
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=en/pages/about-ratiomera-en.html">
+---
+
+Continue to [About Ratiomera](en/pages/about-ratiomera-en.qmd).

@@ -1,0 +1,83 @@
+---
+pagetitle: "Ratiomera Statistics | Statistik auf Hochschulniveau für Geistes- und Sozialwissenschaften"
+title-prefix: ""
+description: "Statistik auf Hochschulniveau für Geistes- und Sozialwissenschaften mit konzeptuellen Erklärungen, ausgearbeiteten Beispielen, Übungen und vollständigen Lösungen."
+lang: de-CH
+toc: false
+sidebar: statistics-home-de-sidebar
+breadcrumbs: false
+---
+
+::: {.section-intro .branch-hero .branch-hero-statistics .fade-in}
+<span class="branch-status branch-status-statistics">{{< var status_de.review >}}</span>
+
+# Ratiomera Statistics
+
+Statistik auf Hochschulniveau für Geistes- und Sozialwissenschaften, von den Grundlagen aus erklärt und mit realistischen Forschungsfragen verbunden.
+:::
+
+::: {.landing-prose}
+## Überblick {#overview}
+
+Ratiomera Statistics bietet Statistikbildung auf Hochschulniveau für die Geistes- und Sozialwissenschaften. Das Angebot richtet sich an Studierende und Fachpersonen aus Bereichen wie Psychologie, Bildungswissenschaften, Soziologie, Politikwissenschaft, Public Health und verwandten Disziplinen.
+
+Der Lehrplan stützt sich auf die akademische, wissenschaftliche, didaktische und berufliche Erfahrung unserer Mitglieder, auf einen umfassenden Austausch mit Studierenden der Geistes- und Sozialwissenschaften an Universitäten und Fachhochschulen in der ganzen Schweiz sowie auf Gespräche mit Dozierenden, Professorinnen und Professoren, Forschenden und Fachpersonen aus der Praxis.
+
+Ratiomera Statistics entwickelt den gemeinsamen Nenner, dem wir in diesen unterschiedlichen Lernumgebungen begegnet sind: wiederkehrende Kernideen, die Studierende verstehen sollen, Fragen, die immer wieder Schwierigkeiten bereiten, sowie Erklärungen und Anwendungen, durch die sich diese Ideen verbinden. Daraus entsteht eine zusammenhängende Lernsequenz. Die offiziellen Lehrpläne und Prüfungshinweise der einzelnen Institutionen bleiben uneingeschränkt massgebend.
+
+Für jedes behandelte Thema soll Ratiomera Statistics konzeptuelle Theorie, intuitive Erklärungen, prägnante Zusammenfassungen, ausgearbeitete Beispiele, Übungen und vollständige Lösungen bereitstellen, die den Gedankengang erklären.
+:::
+
+---
+
+::: {.landing-prose}
+## Wo beginnen? {#where-to-begin}
+
+Die Einführung in die Statistik ist der Ausgangspunkt des aktuellen Lehrplans von Ratiomera Statistics. Sie deckt die grundlegende Abfolge statistischer Ideen ab, die in der sozialwissenschaftlichen Forschung häufig verwendet werden. Sie beginnt mit der deskriptiven Statistik und führt über Wahrscheinlichkeit und statistische Inferenz zu Korrelation, Regression und Varianzanalyse.
+
+Die Themen sind für eine Bearbeitung in dieser Reihenfolge konzipiert, da spätere Inhalte auf zuvor eingeführten Konzepten aufbauen.
+:::
+
+::: {.btn-row}
+[Einführung in die Statistik öffnen](intro-stats/overview-intro-stats-de.qmd){.dl-btn}
+[Downloads durchsuchen](downloads/overview-downloads-de.qmd){.dl-btn .secondary}
+:::
+
+---
+
+## Plattformstatus {#platform-status}
+
+Diese Tabelle zeigt den aktuellen Stand der ersten Lernsequenz, der dazugehörigen Downloads und der gemeinsamen Plattforminfrastruktur. Die vollständige Lernsequenz befindet sich nun in Prüfung, wobei noch kein Lernmaterial als veröffentlicht gekennzeichnet ist. Jeder Status wird ausgeschrieben und zusätzlich visuell unterschieden.
+
+::: {.status-legend role="list" aria-label="Legende zum Entwicklungsstatus"}
+<span class="status-badge not-started" role="listitem">{{< var status_de.not_started >}}</span>
+<span class="status-badge planned" role="listitem">{{< var status_de.planned >}}</span>
+<span class="status-badge draft" role="listitem">{{< var status_de.draft >}}</span>
+<span class="status-badge in-progress" role="listitem">{{< var status_de.in_progress >}}</span>
+<span class="status-badge review" role="listitem">{{< var status_de.review >}}</span>
+<span class="status-badge published" role="listitem">{{< var status_de.published >}}</span>
+<span class="status-badge updating" role="listitem">{{< var status_de.updating >}}</span>
+:::
+
+<div class="table-scroll" role="region" aria-label="Plattformstatus von Ratiomera Statistics" tabindex="0">
+<table class="roadmap-table">
+<thead>
+<tr><th scope="col">Modul oder Thema</th><th scope="col">Status</th></tr>
+</thead>
+<tbody>
+<tr class="roadmap-module"><th scope="row">Einführung in die Statistik</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">1</span>Deskriptive Statistik</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">2</span>Wahrscheinlichkeit</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">3</span>Hypothesentests &amp; Konfidenzintervalle</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">4</span>Kovarianz &amp; Korrelation</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">5</span>Einfache lineare Regression</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">6</span>Partielle Korrelation</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">7</span>Multiple Regression</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">8</span>Varianzanalyse</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+</tbody>
+<tbody class="roadmap-supporting">
+<tr class="roadmap-module"><th scope="row">Downloads</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+<tr class="roadmap-module"><th scope="row">Nutzungszähler</th><td><span class="status-badge review">{{< var status_de.review >}}</span></td></tr>
+</tbody>
+</table>
+</div>

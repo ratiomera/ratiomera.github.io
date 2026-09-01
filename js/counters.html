@@ -1,0 +1,347 @@
+<script>
+(() => {
+  "use strict";
+
+  const configNode = document.getElementById("usage-counter-config");
+  if (!configNode) return;
+
+  let config;
+  try {
+    config = JSON.parse(configNode.textContent);
+  } catch (_error) {
+    return;
+  }
+
+  const locale = document.documentElement.lang === "de-CH"
+    ? "de"
+    : document.documentElement.lang === "sq" ? "sq" : "en";
+  const labels = config.locales && config.locales[locale];
+  if (!labels) return;
+
+  const isLocalHost = ["", "localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+  const remoteRequestsDisabled = Boolean(config.disable_remote_requests_on_local_hosts && isLocalHost);
+
+  const interpolate = (template, values) => {
+    if (typeof template !== "string" || template.length === 0) return null;
+    return template.replace(/\{([a-z_]+)\}/gi, (_match, key) =>
+      encodeURIComponent(values[key] == null ? "" : String(values[key]))
+    );
+  };
+
+  const readField = (value, path) => String(path || "count")
+    .split(".")
+    .reduce((current, key) => current == null ? undefined : current[key], value);
+
+  const validCount = value => {
+    if (typeof value !== "number" && typeof value !== "string") return null;
+    if (typeof value === "string" && value.trim() === "") return null;
+    const number = Number(value);
+    return Number.isInteger(number) && number >= 0 ? number : null;
+  };
+
+  const requestJson = async url => {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {Accept: "application/json"},
+      cache: "no-store",
+      credentials: "omit",
+      referrerPolicy: "no-referrer"
+    });
+    if (!response.ok) throw new Error("Counter provider request failed");
+    return response.json();
+  };
+
+  const requestText = async (url, accept) => {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {Accept: accept},
+      cache: "no-store",
+      credentials: "omit",
+      referrerPolicy: "no-referrer"
+    });
+    if (!response.ok) throw new Error("Counter provider request failed");
+    return response.text();
+  };
+
+  const countFromBadgeSvg = source => {
+    const documentNode = new DOMParser().parseFromString(source, "image/svg+xml");
+    if (documentNode.querySelector("parsererror")) return null;
+
+    const root = documentNode.documentElement;
+    const labelledValue = root.getAttribute("aria-label") ||
+      documentNode.querySelector("title")?.textContent || "";
+    const labelledMatch = labelledValue.match(/:\s*([0-9][0-9,.\s]*)\s*$/);
+    if (labelledMatch) {
+      return validCount(labelledMatch[1].replace(/[^0-9]/g, ""));
+    }
+
+    const textValues = Array.from(documentNode.querySelectorAll("text"))
+      .map(node => String(node.textContent || "").trim())
+      .filter(value => /^[0-9][0-9,.\s]*$/.test(value));
+    if (!textValues.length) return null;
+    return validCount(textValues[textValues.length - 1].replace(/[^0-9]/g, ""));
+  };
+
+  class CounterElement extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.counterInitialized === "true") return;
+      this.dataset.counterInitialized = "true";
+      this.valueNode = this.querySelector(".counter-value");
+      this.fallbackNode = this.querySelector(".counter-fallback");
+      this.label = this.dataset.label || "";
+      this.setUnavailable("disabled");
+      this.initialize();
+    }
+
+    initialize() {}
+
+    setText(state, visibleValue, accessibleValue) {
+      this.dataset.counterState = state;
+      if (this.valueNode) this.valueNode.textContent = visibleValue;
+      this.setAttribute("aria-label", `${this.label}: ${accessibleValue}`);
+    }
+
+    setLoading() {
+      this.setText("loading", config.loading_placeholder, labels.loading);
+    }
+
+    setUnavailable(state = "unavailable") {
+      this.setText(state, config.placeholder, labels.unavailable);
+    }
+
+    setCount(count) {
+      const number = validCount(count);
+      if (number == null) {
+        this.setUnavailable();
+        return;
+      }
+      const formatted = new Intl.NumberFormat(document.documentElement.lang || "en").format(number);
+      this.setText("ready", formatted, formatted);
+    }
+  }
+
+  class PageVisitCounter extends CounterElement {
+    initialize() {
+      const section = config.page_visits || {};
+      const providerName = String(section.provider || "disabled");
+      if (providerName === "disabled" || remoteRequestsDisabled) return;
+
+      const provider = section.providers && section.providers[providerName];
+      if (!provider || !this.dataset.counterId) {
+        this.setUnavailable();
+        return;
+      }
+
+      if (providerName === "hits_sh") {
+        this.loadHitsCount(provider);
+      } else if (providerName === "json") {
+        this.loadJson(provider);
+      } else {
+        this.setUnavailable();
+      }
+    }
+
+    async loadHitsCount(provider) {
+      try {
+        const endpoint = new URL(provider.endpoint);
+        const pathParts = [provider.namespace, this.dataset.counterId]
+          .filter(Boolean)
+          .flatMap(value => String(value).split("/"))
+          .map(encodeURIComponent);
+        endpoint.pathname = `${endpoint.pathname.replace(/\/$/, "")}/${pathParts.join("/")}.svg`;
+        endpoint.searchParams.set("view", provider.view || "total");
+        endpoint.searchParams.set("style", provider.style || "flat-square");
+        endpoint.searchParams.set("label", this.label);
+        if (provider.color) endpoint.searchParams.set("color", provider.color);
+        if (provider.label_color) endpoint.searchParams.set("labelColor", provider.label_color);
+        this.setLoading();
+        const source = await requestText(endpoint.toString(), "image/svg+xml");
+        const count = countFromBadgeSvg(source);
+        if (count == null) throw new Error("Counter badge did not expose a numeric total");
+        this.setCount(count);
+      } catch (_error) {
+        this.setUnavailable();
+      }
+    }
+
+    async loadJson(provider) {
+      const url = interpolate(provider.endpoint_template, {
+        counter_id: this.dataset.counterId,
+        locale: this.dataset.locale
+      });
+      if (!url) {
+        this.setUnavailable();
+        return;
+      }
+      this.setLoading();
+      try {
+        const payload = await requestJson(url);
+        this.setCount(readField(payload, provider.count_field));
+      } catch (_error) {
+        this.setUnavailable();
+      }
+    }
+  }
+
+  const githubReleasePromises = new Map();
+
+  const githubReleaseSettings = (provider, releaseKey) => {
+    const releases = provider && provider.releases;
+    const settings = releases && releases[releaseKey];
+    if (!settings || !settings.owner || !settings.repository || !settings.release_tag) {
+      throw new Error("GitHub release is not configured");
+    }
+    return settings;
+  };
+
+  const loadGitHubRelease = (provider, releaseKey) => {
+    if (!releaseKey) return Promise.reject(new Error("Release key is missing"));
+    if (githubReleasePromises.has(releaseKey)) return githubReleasePromises.get(releaseKey);
+
+    const promise = (async () => {
+      const settings = githubReleaseSettings(provider, releaseKey);
+      const baseUrl = new URL(provider.api_base_url || "https://api.github.com");
+      if (baseUrl.protocol !== "https:") throw new Error("GitHub API URL must use HTTPS");
+      baseUrl.pathname = `${baseUrl.pathname.replace(/\/$/, "")}/repos/${encodeURIComponent(settings.owner)}/${encodeURIComponent(settings.repository)}/releases/tags/${encodeURIComponent(settings.release_tag)}`;
+      baseUrl.search = "";
+      baseUrl.hash = "";
+      const response = await fetch(baseUrl.toString(), {
+        method: "GET",
+        headers: {
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": provider.api_version || "2022-11-28"
+        },
+        cache: "no-store",
+        credentials: "omit",
+        referrerPolicy: "no-referrer"
+      });
+      if (!response.ok) throw new Error("GitHub release request failed");
+      return response.json();
+    })();
+    githubReleasePromises.set(releaseKey, promise);
+    return promise;
+  };
+
+  const releaseAsset = (release, assetName) => {
+    const assets = Array.isArray(release && release.assets) ? release.assets : [];
+    const matches = assets.filter(asset => asset && asset.name === assetName);
+    if (matches.length !== 1) return null;
+    let url;
+    try {
+      url = new URL(matches[0].browser_download_url);
+    } catch (_error) {
+      return null;
+    }
+    if (url.protocol !== "https:") return null;
+    return {asset: matches[0], url};
+  };
+
+  const resolveDownloadAssetLinks = async () => {
+    const section = config.download_counts || {};
+    const providerName = String(section.provider || "disabled");
+    if (providerName !== "github_releases" || remoteRequestsDisabled) return;
+    const provider = section.providers && section.providers[providerName];
+    if (!provider) return;
+
+    const actions = Array.from(document.querySelectorAll(
+      "a.download-asset-action[data-release-key][data-release-asset]"
+    ));
+    const releaseKeys = [...new Set(actions.map(action => action.dataset.releaseKey).filter(Boolean))];
+    await Promise.all(releaseKeys.map(async releaseKey => {
+      let release;
+      try {
+        release = await loadGitHubRelease(provider, releaseKey);
+      } catch (_error) {
+        return;
+      }
+      for (const action of actions.filter(candidate => candidate.dataset.releaseKey === releaseKey)) {
+        const match = releaseAsset(release, action.dataset.releaseAsset);
+        if (!match) continue;
+        action.href = match.url.href;
+        action.removeAttribute("download");
+        action.dataset.downloadProvider = "github_releases";
+      }
+    }));
+  };
+
+  class DownloadCount extends CounterElement {
+    initialize() {
+      const section = config.download_counts || {};
+      const providerName = String(section.provider || "disabled");
+      if (providerName === "disabled" || remoteRequestsDisabled) return;
+      if (this.dataset.materialAvailable !== "true") return;
+
+      const provider = section.providers && section.providers[providerName];
+      if (!provider || !this.dataset.counterId) {
+        this.setUnavailable();
+        return;
+      }
+
+      if (providerName === "github_releases") {
+        this.loadGitHub(provider);
+      } else if (providerName === "json") {
+        this.loadJson(provider);
+      } else {
+        this.setUnavailable();
+      }
+    }
+
+    async loadGitHub(provider) {
+      const declaredAssets = String(this.dataset.releaseAssets || this.dataset.releaseAsset || "")
+        .split("|")
+        .map(value => value.trim())
+        .filter(Boolean);
+      const releaseKey = String(this.dataset.releaseKey || "");
+      if (!releaseKey || !declaredAssets.length || new Set(declaredAssets).size !== declaredAssets.length) {
+        this.setUnavailable();
+        return;
+      }
+      this.setLoading();
+      try {
+        const release = await loadGitHubRelease(provider, releaseKey);
+        const validated = declaredAssets.map(name => {
+          const match = releaseAsset(release, name);
+          const count = validCount(match && match.asset.download_count);
+          return count == null ? null : count;
+        });
+        if (validated.some(item => item == null)) {
+          this.setUnavailable();
+          return;
+        }
+        this.setCount(validated.reduce((sum, count) => sum + count, 0));
+      } catch (_error) {
+        this.setUnavailable();
+      }
+    }
+
+    async loadJson(provider) {
+      const url = interpolate(provider.endpoint_template, {
+        counter_id: this.dataset.counterId,
+        material_id: this.dataset.materialId,
+        locale: this.dataset.locale,
+        release_key: this.dataset.releaseKey,
+        asset_name: this.dataset.releaseAssets || this.dataset.releaseAsset
+      });
+      if (!url) {
+        this.setUnavailable();
+        return;
+      }
+      this.setLoading();
+      try {
+        const payload = await requestJson(url);
+        this.setCount(readField(payload, provider.count_field));
+      } catch (_error) {
+        this.setUnavailable();
+      }
+    }
+  }
+
+  if (!customElements.get("usage-page-visit-counter")) {
+    customElements.define("usage-page-visit-counter", PageVisitCounter);
+  }
+  if (!customElements.get("usage-download-count")) {
+    customElements.define("usage-download-count", DownloadCount);
+  }
+  resolveDownloadAssetLinks();
+})();
+</script>

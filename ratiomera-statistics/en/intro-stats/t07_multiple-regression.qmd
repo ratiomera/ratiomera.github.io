@@ -1,0 +1,1626 @@
+---
+title: "Multiple Regression"
+subtitle: "Introduction to Statistics · Topic 7"
+pagetitle: "Multiple Regression | Ratiomera Statistics"
+title-prefix: ""
+description: "Learn how multiple regression models one quantitative outcome from several predictors through conditional coefficients, fitted values, model fit, nested comparisons, categorical predictors, and interactions."
+lang: en
+aliases:
+  - /stat1/t07_multiple-regression.html
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "en"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t07-multiple-regression-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Topic sections</h2>
+
+::: {.panel-tabset}
+
+## Theory
+
+### Introduction: One Outcome, Several Predictors {.cs-heading}
+
+Topic 5 used one predictor to fit a straight line. Topic 6 showed why an association can change after a third variable is taken into account. *Multiple regression* brings those ideas together: it models one quantitative outcome from two or more predictors at the same time.
+
+That matters because research questions rarely involve only one relevant variable. A reasoning score, for example, may be associated with prior preparation, practice time, and learning format. Multiple regression lets us estimate the association for one predictor while comparing cases that have the same modeled values on the others.
+
+The word *multiple* does not mean that several outcomes are analyzed at once. There is still one outcome. What becomes multiple is the set of predictors used to describe its fitted mean. The method is therefore a direct extension of the single straight line from Topic 5, not a completely new kind of reasoning.
+
+> **Guiding question:** When several predictors overlap, what does each coefficient mean once the others are represented in the same model?
+
+| Earlier idea | Question it answered | What Topic 7 adds |
+|---|---|---|
+| Pearson correlation | How closely do two quantitative variables move together linearly? | Keeps the idea of linear association but gives variables distinct outcome and predictor roles |
+| Simple linear regression | How does one fitted outcome change with one predictor? | Places several predictor terms in the same fitted equation |
+| Partial correlation | How are two variables associated after both are adjusted for a third variable? | Estimates several conditional predictor coefficients together while keeping one named outcome |
+
+: Multiple regression grows directly from the methods developed in Topics 4 through 6. {#tbl-multiple-topic-bridge}
+
+Read the table as a progression. Correlation establishes the language of paired linear movement. Simple regression adds a direction and a fitted line. Partial correlation introduces adjustment. Multiple regression keeps the fitted-outcome perspective and performs several such adjustments inside one model.
+
+This comparison is called *statistical adjustment* or *statistical control*. It is useful, but it is not the same as experimental control. Adding variables to an observational model does not create random assignment and does not by itself establish causation.
+
+::: {.callout-tip title="Key idea"}
+A multiple-regression coefficient answers a conditional question: how does the fitted mean outcome differ with one predictor when all other terms in the same model are held fixed?
+:::
+
+### Learning Objectives {.cs-heading}
+
+By the end of this topic, you should be able to:
+
+- identify the one outcome and the variables used to help describe it, whether those predictors are numbers or categories;
+- use a fitted equation to find a fitted value, calculate its residual, and explain what each coefficient says while the other model terms stay fixed;
+- tell apart an original-unit coefficient, a standardized coefficient, and an ordinary two-variable correlation by the question each one answers;
+- explain in words what residual standard error, $R^2$, and adjusted $R^2$ reveal about model fit;
+- explain why the global $F$ test asks about the model as a whole while a coefficient $t$ test asks about one named term;
+- compare two nested models, meaning that the larger model contains every term from the smaller one plus one or more added terms;
+- connect the part of one predictor not described by the others to the increase in $R^2$ when that predictor is added last;
+- recognize that overlapping predictors can make a coefficient become smaller or larger after adjustment without automatically revealing why the change occurred;
+- represent category levels with indicator columns made from zeros and ones and explain what the chosen reference category does;
+- read an interaction as a difference between conditional group slopes;
+- use a fit-and-complexity measure only to compare a planned set of candidate models fitted to the same data;
+- inspect plots of unexplained deviations, comparisons with a normal shape, and checks of individual cases without treating them as automatic deletion rules; and
+- state precisely what conclusions multiple regression supports and what it cannot establish.
+
+---
+
+### The Population Model and the Fitted Model {.cs-heading}
+
+Start with two predictors. A fitted sample equation is
+
+$$
+\widehat{Y}_i=b_0+b_1X_{i1}+b_2X_{i2}.
+$$
+
+This equation builds one fitted outcome from three pieces: a starting value and one contribution from each predictor.
+
+| Symbol | Plain-language meaning |
+|---|---|
+| $i$ | The row or case being described |
+| $Y_i$ | That case's observed quantitative outcome |
+| $X_{i1}$ and $X_{i2}$ | That case's values on predictors 1 and 2 |
+| $b_0$ | The fitted intercept, which supplies the starting value |
+| $b_1X_{i1}$ | Predictor 1's fitted contribution for this case |
+| $b_2X_{i2}$ | Predictor 2's fitted contribution for this case |
+| $\widehat{Y}_i$ | The outcome value produced by the fitted equation |
+
+: Reading the pieces of a two-predictor fitted equation. {#tbl-multiple-equation-pieces}
+
+To calculate a fitted value, multiply each predictor value by its coefficient and add the results to the intercept. The two products do not describe separate outcomes. They are contributions to the same fitted mean.
+
+The next diagram substitutes the values from one constructed case into the two-predictor model used throughout this Theory section. Its purpose is to make the addition visible before we return to general symbols.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollable fitted-value composition diagram for one multiple-regression case"}
+
+```{r}
+#| label: fig-multiple-fitted-composition
+#| fig-alt: "A left-to-right diagram adds the fitted intercept, the coefficient times the selected case's prior score, and the coefficient times that case's practice hours to obtain one fitted outcome. A box below subtracts that fitted value from the observed outcome to obtain the residual."
+#| fig-cap: "A multiple-regression fitted value is one sum: the intercept plus every included coefficient-times-predictor contribution; the residual is observed minus that completed fitted value."
+#| fig-width: 11
+#| fig-height: 4.4
+p_topic7_fitted_composition_en
+```
+
+:::
+
+Read the upper row from left to right. The first box supplies the fitted starting value. The next two boxes multiply each of this case's predictor values by the corresponding coefficient. Adding all three pieces produces one fitted reasoning score, not three separate predictions. The lower box then compares that completed fitted value with the observed score and calculates $e_i=Y_i-\widehat Y_i$.
+
+The boxes also show why a coefficient is not interpreted in isolation from the equation. The same coefficient can make a different numerical contribution for a case with a different predictor value, while the coefficient itself remains the common per-unit rate. The displayed arithmetic belongs to one artificial row and the stated two-predictor model. It neither guarantees that outcome for another case nor turns either conditional association into a causal effect.
+
+The population relationship includes an error term:
+
+$$
+Y_i=\beta_0+\beta_1X_{i1}+\beta_2X_{i2}+\varepsilon_i.
+$$
+
+The Greek coefficients $\beta_0,\beta_1,$ and $\beta_2$ are unknown population parameters. The error $\varepsilon_i$ is the difference between case $i$'s outcome and the population mean specified by its predictor values. The sample coefficients $b_0,b_1,$ and $b_2$ estimate the corresponding population parameters.
+
+Once that two-predictor model is comfortable, the compact notation for any number of predictor parameters is easier to read. Let $X_{ij}$ be case $i$'s value on predictor term $j$. A population model with $p$ predictor parameters is
+
+$$
+Y_i
+=
+\beta_0
++
+\sum_{j=1}^{p}\beta_jX_{ij}
++
+\varepsilon_i.
+$$
+
+Where:
+
+- $i$ identifies one case;
+- $j$ identifies one predictor parameter;
+- $\beta_0$ is the population intercept;
+- $\beta_j$ is the population coefficient for predictor $j$;
+- $X_{ij}$ is case $i$'s value on that predictor; and
+- $\varepsilon_i$ is the unobserved population error.
+
+The summation sign $\sum$ means "add the predictor contributions from $j=1$ through $j=p$." It expresses the same logic in a shorter equation. A sample estimates the population coefficients with $b_0,b_1,\ldots,b_p$. The fitted value for case $i$ is
+
+$$
+\widehat{Y}_i
+=
+b_0
++
+\sum_{j=1}^{p}b_jX_{ij}.
+$$
+
+The intercept $b_0$ is the fitted mean outcome when every quantitative predictor equals zero and every categorical predictor is at its reference category. That combination may be mathematically clear but substantively unhelpful if zero lies outside the observed range.
+
+::: {.callout-note title="Important distinction"}
+The same symbol $p$ counts predictor parameters, not necessarily named variables. A categorical variable with three categories requires two predictor parameters when the model includes an intercept.
+:::
+
+---
+
+### From One Line to Several Predictor Contributions {.cs-heading}
+
+With one predictor, Topic 5 needed an intercept and one slope contribution. Multiple regression keeps that same arithmetic and adds another contribution for each additional predictor. This is easier to see by comparing a few concrete profiles than by beginning with an abstract three-dimensional surface.
+
+The next figure uses the two-quantitative-predictor model from the constructed example. Each horizontal bar is one fitted value. Its three colored sections are the intercept, the prior-score contribution, and the practice-hours contribution. The four profiles deliberately change one predictor at a time before changing both.
+
+> **Guiding question:** If two profiles have the same prior score but different practice hours, which part of their fitted values should change, and which parts should stay exactly the same?
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable comparison of predictor contributions across four profiles"}
+
+```{r}
+#| label: fig-multiple-profile-contributions
+#| fig-cap: "Four fitted values written as visible sums. Comparing A with B isolates the practice contribution, comparing A with C isolates the prior-score contribution, and comparing A with D changes both."
+#| fig-alt: "Four horizontal stacked bars represent predictor profiles A through D. Every bar begins with the same intercept segment. Profiles A and B have prior score 8, while C and D have prior score 12, so the prior-score segment is longer for C and D. Profiles A and C have two practice hours, while B and D have six, so the practice segment is longer for B and D. Labels at the bar ends show fitted scores of about 46.5, 52.7, 53.9, and 60.2."
+#| fig-width: 10
+#| fig-height: 6.5
+p_topic7_profile_contributions
+```
+
+:::
+
+Read Profile A first. Its fitted score of about 46.5 is the sum of the same three terms shown in Figure 1. Profile B keeps prior score at 8 but raises practice from 2 to 6 hours. Its intercept and blue prior-score segment therefore remain unchanged while only the orange practice segment grows. The fitted difference between A and B is four practice hours multiplied by the fitted practice coefficient.
+
+Profile C reverses that comparison. Practice stays at two hours while prior score rises from 8 to 12. Only the blue prior-score contribution grows. Profile D combines the higher value on both predictors, so both predictor segments are larger than in A. The numerical contribution is printed inside each colored segment, and the fitted total appears at the end of the bar. Read those labels from left to right to reconstruct each fitted value.
+
+Nothing in this figure unfolds over time. The bars compare profiles inside one fitted equation. They also do not say that changing practice or prior score would cause the displayed difference. Their job is narrower and important: they show that multiple regression still calculates one fitted value by adding clearly named terms.
+
+---
+
+### Conditional Coefficients: What “Holding Fixed” Means {.cs-heading}
+
+In the two-predictor fitted equation
+
+$$
+\widehat{Y}=b_0+b_1X_1+b_2X_2,
+$$
+
+$b_1$ is the fitted difference in the mean outcome for a one-unit difference in $X_1$, comparing cases at the same value of $X_2$. Likewise, $b_2$ compares cases that have the same value of $X_1$.
+
+This is why a multiple-regression slope is also called a *partial regression coefficient*. It represents the part of one predictor's linear association that remains after the model accounts for the other terms. It is not a bivariate slope calculated while ignoring them.
+
+The phrase “holding fixed” describes a comparison inside the fitted model. It does not promise that researchers physically held the variable constant, that every predictor combination exists in the data, or that the coefficient is a causal effect.
+
+The figure holds prior reasoning score at three fixed values. Within any one line, a one-hour difference in practice has the same conditional fitted difference. Moving between lines changes prior score too, so it no longer isolates the practice coefficient.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable conditional-coefficient figure"}
+
+```{r}
+#| label: fig-multiple-conditional-coefficient
+#| fig-cap: "Three parallel fitted lines hold prior score at 7, 10, or 13. The marked one-hour step is read along the prior-score-10 line and equals the conditional practice coefficient."
+#| fig-alt: "A line chart shows fitted reasoning score against weekly practice hours for prior scores 7, 10, and 13. The three lines are parallel. A horizontal one-hour step and vertical rise on the prior-score-10 line mark the practice coefficient while prior score remains fixed."
+#| fig-width: 9
+#| fig-height: 5.5
+p_topic7_conditional
+```
+
+:::
+
+The three lines are parallel because this model has no interaction. Prior score changes the vertical position of the fitted line, but it does not change the practice slope. Focus on the middle line. The horizontal orange step moves from five to six practice hours while staying on the prior-score-10 line. The vertical orange step then shows the fitted outcome difference for precisely that one-hour change. That rise is $b_1$ for practice. Comparing a point on the lowest line with a point on the highest line would change prior score as well, so it would mix two coefficient contributions and would no longer be the "holding fixed" comparison.
+
+---
+
+### A Gentle Look at How Two Conditional Slopes Are Estimated {.cs-heading}
+
+Statistical software estimates the coefficients, so you do not need to memorize the next formula. Its purpose is to reveal why a multiple-regression slope differs from a simple-regression slope.
+
+For two quantitative predictors, let:
+
+- $r_{Y1}$ be the correlation between the outcome and predictor 1;
+- $r_{Y2}$ be the correlation between the outcome and predictor 2;
+- $r_{12}$ be the correlation between the two predictors;
+- $s_Y$ be the outcome standard deviation; and
+- $s_{X_1}$ and $s_{X_2}$ be the predictor standard deviations.
+
+The two fitted slopes can be written as
+
+$$
+b_1
+=
+\frac{r_{Y1}-r_{Y2}r_{12}}{1-r_{12}^2}
+\frac{s_Y}{s_{X_1}},
+$$
+
+$$
+b_2
+=
+\frac{r_{Y2}-r_{Y1}r_{12}}{1-r_{12}^2}
+\frac{s_Y}{s_{X_2}}.
+$$
+
+Read the first equation in three moves. Start with predictor 1's outcome correlation, $r_{Y1}$. Subtract the part connected with predictor 2 through the product $r_{Y2}r_{12}$. Then account for predictor overlap in the denominator and restore the original measurement units with $s_Y/s_{X_1}$. The second equation repeats the same logic with the predictor roles exchanged.
+
+| Formula piece | What it contributes |
+|---|---|
+| $r_{Y1}$ | Predictor 1's unadjusted linear association with the outcome |
+| $r_{Y2}r_{12}$ | The correlation pattern predictor 1 shares with predictor 2 and the outcome |
+| $1-r_{12}^2$ | The portion of predictor variation not represented by their squared correlation |
+| $s_Y/s_{X_1}$ | Conversion from standardized units back to outcome units per predictor-1 unit |
+
+: The coefficient formula adjusts shared linear information and then restores the original units. {#tbl-multiple-slope-formula-pieces}
+
+This formula also shows why strong predictor overlap deserves attention. If $r_{12}$ is close to $+1$ or $-1$, then $1-r_{12}^2$ is close to zero. The data contain little information for separating the two conditional slopes, so coefficient estimates can become sensitive to small changes. If one predictor is an exact linear copy of the other, the denominator is zero and the two separate slopes cannot be estimated from that model.
+
+---
+
+### Fitted Values, Predictions, Errors, and Residuals {.cs-heading}
+
+Insert one case's predictor values into the fitted equation to obtain $\widehat{Y}_i$. This value estimates the conditional mean outcome for cases with that predictor profile. It can also serve as a point prediction, but it is not a guaranteed individual outcome.
+
+The case's *residual* is
+
+$$
+e_i=Y_i-\widehat{Y}_i.
+$$
+
+A positive residual places the observed outcome above the fitted value. A negative residual places it below. Rearranging gives
+
+$$
+Y_i=\widehat{Y}_i+e_i.
+$$
+
+The population error $\varepsilon_i$ is defined relative to the unknown population relationship. The sample residual $e_i$ is calculated relative to the fitted sample model. A residual may reflect ordinary variation, measurement error, omitted predictors, or a model form that misses the relationship. Its sign alone does not reveal the cause.
+
+Prediction also requires scope. A fitted value far beyond the observed predictor ranges is an extrapolation. A combination of individually familiar predictor values can also be weakly supported when that combination is rare or absent in the data.
+
+---
+
+### Unstandardized and Standardized Coefficients {.cs-heading}
+
+An *unstandardized coefficient* $b_j$ uses the original units. If practice is measured in hours and the outcome in points, its unit is points per hour. These coefficients are the right choice for writing the fitted equation and calculating fitted values.
+
+A *standardized coefficient* rescales both predictor and outcome into standard-deviation units. For a quantitative predictor,
+
+$$
+\widehat{\widetilde{\beta}}_j
+=
+b_j\frac{s_{X_j}}{s_Y},
+$$
+
+where $s_{X_j}$ is the predictor's sample standard deviation and $s_Y$ is the outcome's sample standard deviation. It estimates the fitted outcome difference, in outcome standard deviations, for a one-standard-deviation predictor difference while the other model terms are fixed.
+
+Standardized coefficients can help compare predictors measured on different scales, but they are not universal importance scores. They depend on the other predictors, their overlap, each variable's observed spread, and measurement quality. They do not automatically identify a cause or the most useful intervention.
+
+In simple regression, the standardized slope equals Pearson's $r$. In multiple regression, it generally does not equal the corresponding bivariate correlation because the coefficient is conditional and the correlation is not.
+
+| Quantity | Units | Other predictors adjusted? | Best read as |
+|---|---|---|---|
+| Bivariate correlation $r_{Yj}$ | No units | No | Two-variable linear association |
+| Unstandardized coefficient $b_j$ | Outcome units per predictor unit | Yes | Conditional change in the original measurement scale |
+| Standardized coefficient $\widehat{\widetilde{\beta}}_j$ | Standard-deviation units | Yes | Conditional change after rescaling predictor and outcome |
+
+: Correlations and regression coefficients answer related but different questions. {#tbl-multiple-coefficient-types}
+
+Unlike a correlation, a standardized multiple-regression coefficient is not mathematically restricted to the interval from $-1$ to $+1$. In unusual patterns with strongly overlapping predictors, its absolute value can exceed 1. That does not make it a stronger kind of correlation. It is another reminder that a conditional coefficient and a bivariate correlation are different quantities.
+
+---
+
+### Residual Standard Error, R-Squared, and Adjusted R-Squared {.cs-heading}
+
+Three quantities describe different parts of model fit.
+
+The *residual standard error* estimates the typical residual spread in the outcome's original units:
+
+$$
+s_e
+=
+\sqrt{
+\frac{\sum_{i=1}^{n}e_i^2}{n-p-1}
+}.
+$$
+
+Here, $n$ is the number of analyzed cases, $p$ is the number of non-intercept predictor parameters, and $n-p-1$ is the residual degrees of freedom. This is not the same as a coefficient's standard error.
+
+With an intercept, ordinary least squares partitions sample outcome variation as
+
+$$
+SS_{\text{total}}=SS_{\text{model}}+SS_{\text{error}}.
+$$
+
+The *coefficient of determination* is
+
+$$
+R^2
+=
+\frac{SS_{\text{model}}}{SS_{\text{total}}}
+=
+1-\frac{SS_{\text{error}}}{SS_{\text{total}}}.
+$$
+
+$R^2$ is the share of sample outcome variation around the mean represented by the fitted model. It is not the percentage of people predicted correctly and not the percentage of the outcome caused by the predictors.
+
+Adding a predictor to an OLS model cannot reduce ordinary sample $R^2$ when the outcome, cases, and intercept remain the same. Even an unhelpful term can make $R^2$ rise slightly. *Adjusted $R^2$* adds an in-sample penalty for estimating more predictor parameters:
+
+$$
+R^2_{\text{adjusted}}
+=
+1-(1-R^2)\frac{n-1}{n-p-1}.
+$$
+
+Adjusted $R^2$ can decrease when the added fit is too small relative to the added complexity. It is still not a test on new data and does not guarantee generalization.
+
+---
+
+### Two Levels of Inference: Global F and Individual t Tests {.cs-heading}
+
+The global model test asks whether all non-intercept population coefficients are zero:
+
+$$
+H_0:\beta_1=\beta_2=\cdots=\beta_p=0.
+$$
+
+Its statistic can be written as
+
+$$
+F
+=
+\frac{R^2/p}{(1-R^2)/(n-p-1)}.
+$$
+
+Under the model conditions and global null hypothesis, this is compared with an $F$ distribution having $p$ and $n-p-1$ degrees of freedom. A small global p-value says that the data are inconsistent with every slope being zero. It does not identify which coefficient differs from zero.
+
+An individual coefficient test asks a narrower conditional question:
+
+$$
+H_0:\beta_j=0,
+\qquad
+t=\frac{b_j}{SE(b_j)}.
+$$
+
+The statistic uses $n-p-1$ residual degrees of freedom. $SE(b_j)$ measures sampling uncertainty in that coefficient under the fitted model. Each coefficient test is conditional on the exact other terms included. Changing the model can change the estimate, its standard error, and its p-value.
+
+A statistically detectable coefficient is not automatically large, causal, practically important, or useful for future prediction. Those are separate questions.
+
+---
+
+### Comparing Nested Models {.cs-heading}
+
+Two models are *nested* when the smaller, or restricted, model can be obtained by setting one or more coefficients in the larger, or unrestricted, model to zero. For example, a model without two interaction terms is nested inside the same model with those interactions.
+
+Let $R$ denote the restricted model and $U$ the unrestricted model. If the larger model adds $p_U-p_R$ predictor parameters, the nested-model statistic is
+
+$$
+F
+=
+\frac{(R_U^2-R_R^2)/(p_U-p_R)}{(1-R_U^2)/(n-p_U-1)}.
+$$
+
+The numerator measures the added explained variation per added parameter. The denominator measures residual variation per residual degree of freedom in the unrestricted model.
+
+This test asks whether the added coefficients are jointly zero. Both models must use the same outcome and the same analyzed cases. Similar-looking models are not necessarily nested, and models fitted to different samples cannot be compared with this formula.
+
+---
+
+### Semipartial Correlation and Incremental R-Squared {.cs-heading}
+
+Suppose a model already contains prior score and we are considering adding practice hours. A *semipartial correlation*, also called a part correlation, isolates the candidate predictor's linear contribution in two steps:
+
+1. Regress practice hours on the predictors already in the model and keep the practice residuals.
+2. Correlate those residuals with the original, unadjusted outcome.
+
+Only the candidate predictor is residualized. That is the difference from the partial correlation in Topic 6, where both focal variables are residualized on the control variable.
+
+For one added predictor and the same analyzed cases,
+
+$$
+sr_j^2=R^2_{\text{larger}}-R^2_{\text{smaller}}=\Delta R^2.
+$$
+
+Thus, squared semipartial correlation is the unique increment in the model's sample $R^2$ when that predictor is added last. “Unique” means not linearly represented by the predictors already entered. It does not mean causally pure or free from all other influences.
+
+---
+
+### Shared Predictor Variation, Confounding, and Suppression {.cs-heading}
+
+Predictors often overlap. Practice time and prior preparation, for example, may be correlated. Their bivariate associations with an outcome then contain shared information, and the model must decide how the fitted relationship is represented across conditional coefficients.
+
+If a coefficient becomes smaller after adjustment, the bivariate association may have included variation shared with another predictor. That pattern can be compatible with *confounding*, where a third variable contributes to the predictor-outcome association. The numerical change alone does not prove confounding or identify a causal structure.
+
+If a coefficient becomes larger after adjustment, another predictor may have been masking relevant variation. This pattern is often called *suppression*. In the fitted comparison, adjustment can separate a predictor component associated with the suppressor when that component is unrelated, or oppositely related, to the outcome. The remaining conditional relationship can then appear clearer or larger.
+
+The schematic figure shows three possible directions. These are teaching values, not results from the simulated cohort and not diagnostic thresholds.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable coefficient-change figure"}
+
+```{r}
+#| label: fig-multiple-coefficient-change
+#| fig-cap: "Illustrative coefficient changes after adjustment. Shrinkage can be compatible with confounding, while growth can be compatible with suppression, but neither pattern proves its mechanism."
+#| fig-alt: "A horizontal coefficient plot shows three schematic before-and-after patterns. One coefficient changes little from 0.60 to 0.56. One shrinks from 0.60 to 0.18, labeled possible confounding. One grows from 0.18 to 0.60, labeled possible suppression."
+#| fig-width: 9
+#| fig-height: 5.8
+p_topic7_coefficient_change
+```
+
+:::
+
+Within each row, the blue point is the coefficient before adjustment and the orange point is the coefficient after adjustment. The arrow shows the numerical change, not change over time. In the first row, the two points remain close. In the second, adjustment moves the coefficient toward zero. In the third, adjustment moves it away from zero. The labels "possible confounding" and "possible suppression" name interpretations worth investigating, not conclusions produced automatically by the arrow.
+
+Strong predictor overlap can make the assignment of shared variation sensitive to small data or model changes. Interpret coefficients jointly, inspect the predictor relationships, and use subject-matter knowledge. There is no single numerical cutoff presented here that can decide, by itself, when predictor overlap is too strong, so no automatic rule is used.
+
+The next two constructed correlation patterns make the difference calculable. Let $X$ be the focal predictor, $Z$ the other predictor, and $Y$ the outcome. All entries are teaching values, not results from the simulated cohort and not thresholds for diagnosing a real dataset.
+
+```{r}
+#| label: tbl-multiple-adjustment-patterns
+kable(
+  topic7_adjustment_pattern_table |>
+    transmute(
+      Pattern = pattern,
+      `$r_{XY}$` = format_t07(focal_outcome_r, 2),
+      `$r_{XZ}$` = format_t07(focal_other_r, 2),
+      `$r_{ZY}$` = format_t07(other_outcome_r, 2),
+      `Standardized coefficient for X after Z enters` =
+        format_t07(focal_standardized_coefficient, 2),
+      `What the pattern suggests` = interpretation
+    ),
+  align = c("l", "r", "r", "r", "r", "l"),
+  caption = "Two schematic correlation patterns that produce coefficient shrinkage or growth after adjustment."
+)
+```
+
+For the possible-confounding row, the bivariate association starts at $r_{XY}=0.60$. Both $r_{XZ}=0.70$ and $r_{ZY}=0.73$ are strong and positive, so $X$ and $Z$ carry much of the same outcome-related pattern. Substitution into the two-predictor standardized-coefficient formula gives
+
+$$
+\widehat{\widetilde\beta}_X
+=
+\frac{0.60-(0.73)(0.70)}{1-0.70^2}
+=0.18\ \text{approximately}.
+$$
+
+The coefficient becomes smaller because the model no longer assigns their shared pattern entirely to $X$. This arithmetic is compatible with confounding, but the correlations alone cannot show which variable comes first in a causal process.
+
+For the possible-suppression row, $X$ has only a modest bivariate association with $Y$, $r_{XY}=0.18$. Predictor $Z$ overlaps positively with $X$, $r_{XZ}=0.60$, but points in the opposite direction from $Y$, $r_{ZY}=-0.34$. Once the model separates that oppositely directed overlap, the coefficient for $X$ becomes
+
+$$
+\widehat{\widetilde\beta}_X
+=
+\frac{0.18-(-0.34)(0.60)}{1-0.60^2}
+=0.60.
+$$
+
+Why can that happen? Imagine that a constructed screening score $X$ mixes the skill we care about with an additional response tendency. Predictor $Z$ captures much of that response tendency, and that tendency points away from the later outcome $Y$. Including $Z$ lets the fitted model represent that oppositely directed overlap separately. The coefficient for $X$ then describes its conditional association at a fixed value of $Z$, and that coefficient can be larger than the bivariate association. This pattern is compatible with suppression, but it does not reveal pure components inside either measured variable. The larger coefficient still does not prove that $X$ causes $Y$, and a suppressor should not be added only because it makes a preferred coefficient larger.
+
+---
+
+### Categorical Predictors Need Dummy Variables {.cs-heading}
+
+Until now, every predictor in the fitted equation has been a number: prior score, practice hours, or another measured amount. But many useful questions also contain categories. What if we want to compare tutorial formats, therapy conditions, or study programs while still adjusting for a quantitative predictor?
+
+A category label cannot simply be multiplied by a slope. Nor should we replace unordered labels with 1, 2, and 3 and pretend that the step from category 1 to 2 has the same meaning as the step from 2 to 3. *Dummy coding*, also called *indicator coding*, translates category membership into one or more columns containing only 0 and 1. The model can then make named comparisons without inventing an order or distance.
+
+> **Guiding question:** How can one equation compare two groups at the same practice value while keeping every fitted value numerically checkable?
+
+Begin with one quantitative predictor and two categories. Let $X$ be weekly practice hours. Let independent study be the *reference category*, the group from which the other group is described, and define
+
+$$
+D_{\text{guided}}=
+\begin{cases}
+1 & \text{guided lab},\\
+0 & \text{independent study}.
+\end{cases}
+$$
+
+Consider this constructed additive model:
+
+$$
+\widehat{Y}=42+2.5X+6D_{\text{guided}}.
+$$
+
+The word *additive* means that the practice contribution and the group contribution are added as separate terms. Substitute the indicator value before interpreting the equation.
+
+For independent study, $D_{\text{guided}}=0$:
+
+$$
+\widehat{Y}_{\text{independent}}=42+2.5X.
+$$
+
+For the guided lab, $D_{\text{guided}}=1$:
+
+$$
+\widehat{Y}_{\text{guided}}=42+2.5X+6=48+2.5X.
+$$
+
+At four practice hours, the arithmetic is fully visible in the next table.
+
+```{r}
+#| label: tbl-multiple-dummy-worked-example
+kable(
+  topic7_dummy_worked_table |>
+    transmute(
+      `Tutorial format` = tutorial_format,
+      `Practice hours X` = format_t07(practice_hours, 0),
+      `Guided indicator D` = guided_indicator,
+      `Starting value 42` = format_t07(intercept_contribution, 0),
+      `Practice contribution 2.5X` = format_t07(practice_contribution, 0),
+      `Group contribution 6D` = format_t07(group_contribution, 0),
+      `Fitted score` = format_t07(fitted_score, 0)
+    ),
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  caption = "A complete dummy-coded calculation for one continuous predictor and one categorical predictor."
+)
+```
+
+Both rows have the same practice contribution, $2.5(4)=10$. The independent-study row receives no group contribution and gives $42+10+0=52$. The guided-lab row receives the six-point group contribution and gives $42+10+6=58$. We are comparing the two formats at the same practice value, so the fitted guided-minus-independent difference is six points.
+
+The coefficients now have precise reference-based meanings:
+
+- $42$ is the fitted outcome for the reference category, independent study, when practice equals zero;
+- $2.5$ is the fitted change for one additional practice hour within either format because this additive model uses one common slope; and
+- $6$ is the fitted guided-minus-independent difference at the same practice value.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable dummy-coded additive-model figure"}
+
+```{r}
+#| label: fig-multiple-dummy-additive
+#| fig-cap: "The dummy term moves the guided-lab line six points above the reference line while the common practice slope remains 2.5 points per hour."
+#| fig-alt: "A line chart shows fitted score against practice hours for independent study and guided lab. The two lines rise in parallel with slope 2.5. At four practice hours, marked points show fitted scores 52 and 58, joined by a vertical dashed segment labeled guided minus independent equals six points."
+#| fig-width: 9
+#| fig-height: 5.5
+p_topic7_dummy_additive
+```
+
+:::
+
+The parallel lines matter. Because there is no interaction term, the six-point fitted group difference is the same at zero, four, or eight practice hours. The model allows a difference in line height but not a difference in line steepness.
+
+#### What Changes When We Reorder or Recode the Predictors? {.cs-heading}
+
+The order in which additive terms are written does not change the model. Writing
+
+$$
+42+2.5X+6D_{\text{guided}}
+\qquad\text{or}\qquad
+42+6D_{\text{guided}}+2.5X
+$$
+
+produces exactly the same fitted values because addition can be reordered. Likewise, calling practice $X_1$ and the indicator $X_2$, or reversing those subscripts, changes only the notation if each coefficient remains attached to the correct variable. The figure and predictions stay the same. Whether a predictor is quantitative or categorical follows from its recorded meaning and coding, regardless of its name or column position.
+
+Changing the reference category is different: it changes the coefficient description, but still not the fitted relationship. If guided lab becomes the reference and $D_{\text{independent}}=1$ identifies independent study, the identical two lines can be written as
+
+$$
+\widehat{Y}=48+2.5X-6D_{\text{independent}}.
+$$
+
+The intercept is now 48 because it belongs to the guided-lab reference line. The dummy coefficient is now $-6$ because it compares independent study with guided lab. At four practice hours, both parameterizations still give 52 for independent study and 58 for guided lab.
+
+```{r}
+#| label: tbl-multiple-dummy-reference-invariance
+kable(
+  topic7_dummy_reference_predictions |>
+    transmute(
+      `Coefficient reference` = parameterization,
+      `Independent-study fitted score at X = 4` = format_t07(independent_prediction, 0),
+      `Guided-lab fitted score at X = 4` = format_t07(guided_prediction, 0)
+    ),
+  align = c("l", "r", "r"),
+  caption = "Reference recoding changes the coefficient coordinates, not either fitted line."
+)
+```
+
+With $k$ categories and an intercept, the same logic requires $k-1$ dummy variables. For three tutorial formats with independent study as the reference, define $D_{\text{peer}}$ and $D_{\text{guided}}$. The reference group has $(0,0)$, peer workshop has $(1,0)$, and guided lab has $(0,1)$. Its additive model is
+
+$$
+\widehat{Y}
+=
+b_0+b_1X+b_2D_{\text{peer}}+b_3D_{\text{guided}}.
+$$
+
+Here, $b_2$ is peer minus independent and $b_3$ is guided minus independent, always at the same value of $X$. Using all three group indicators together with an intercept would create exact redundancy because the three indicators sum to one in every row.
+
+The coding table makes the three fitted equations visible before any numbers are inserted:
+
+| Tutorial format | $D_{\text{peer}}$ | $D_{\text{guided}}$ | Additive fitted equation |
+|---|---:|---:|---|
+| Independent study, reference | 0 | 0 | $b_0+b_1X$ |
+| Peer workshop | 1 | 0 | $(b_0+b_2)+b_1X$ |
+| Guided lab | 0 | 1 | $(b_0+b_3)+b_1X$ |
+
+: Two indicators represent three tutorial formats without turning the category labels into numerical distances. {#tbl-multiple-three-group-dummies}
+
+Read one row at a time. In the reference row, both switches are off, so both group contributions disappear. In the peer row, only $b_2$ is added. In the guided row, only $b_3$ is added. The common $b_1X$ term appears in every row, which is why all three fitted lines are parallel in this additive model. The two dummy coefficients give separate comparisons with the reference group and should not be read as consecutive steps on one ordered scale.
+
+---
+
+### Interactions Describe Conditional Slopes {.cs-heading}
+
+The additive model has now extended multiple regression to a categorical predictor, but it made one quiet assumption: both groups have the same practice slope. That may be sensible, or it may be too restrictive. Perhaps the fitted difference between tutorial formats becomes larger as practice hours increase. Then a constant six-point gap cannot describe the relationship.
+
+An *interaction* allows the association for one predictor to depend on another predictor. In this example it asks whether the fitted practice slope differs by tutorial format. The model goes beyond adding another group difference by including a product that becomes larger only when both $X$ and $D$ are nonzero.
+
+> **Guiding question:** Do the two fitted lines remain parallel, or does the distance between them change as practice changes?
+
+For practice hours $X$ and a binary group indicator $D$, the general interaction model is
+
+$$
+\widehat{Y}=b_0+b_1X+b_2D+b_3XD.
+$$
+
+The product $XD$ is the interaction term. Substitute each indicator value to expose the two fitted lines.
+
+For the reference group, $D=0$:
+
+$$
+\widehat{Y}=b_0+b_1X.
+$$
+
+For the comparison group, $D=1$:
+
+$$
+\widehat{Y}=(b_0+b_2)+(b_1+b_3)X.
+$$
+
+Therefore:
+
+- $b_1$ is the slope in the reference group;
+- $b_2$ is the group difference when $X=0$;
+- $b_3$ is the difference between group slopes; and
+- $b_1+b_3$ is the comparison group's slope.
+
+Return to the numeric additive example and add an interaction coefficient of $1.5$:
+
+$$
+\widehat{Y}=42+2.5X+6D_{\text{guided}}+1.5XD_{\text{guided}}.
+$$
+
+For independent study, $D_{\text{guided}}=0$, so both terms containing the indicator disappear:
+
+$$
+\widehat{Y}_{\text{independent}}=42+2.5X.
+$$
+
+For guided lab, $D_{\text{guided}}=1$:
+
+$$
+\widehat{Y}_{\text{guided}}
+=42+2.5X+6+1.5X
+=48+4X.
+$$
+
+The guided-lab slope is $2.5+1.5=4$ points per practice hour. The interaction coefficient $1.5$ is therefore a *difference between slopes*, not a separate line height. At zero practice hours the fitted group difference is still six points. At four hours it is $6+1.5(4)=12$ points, and at eight hours it is $6+1.5(8)=18$ points.
+
+```{r}
+#| label: tbl-multiple-interaction-numeric-example
+kable(
+  topic7_interaction_numeric_table |>
+    transmute(
+      Model = model,
+      `Practice hours` = format_t07(practice_hours, 0),
+      `Independent-study fitted score` = format_t07(independent_prediction, 0),
+      `Guided-lab fitted score` = format_t07(guided_prediction, 0),
+      `Guided minus independent` = format_t07(guided_minus_independent, 0)
+    ),
+  align = c("l", "r", "r", "r", "r"),
+  caption = "The additive model keeps the group difference fixed. The interaction model lets it change with practice."
+)
+```
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollable comparison of additive and interaction models"}
+
+```{r}
+#| label: fig-multiple-interaction-concept
+#| fig-cap: "Without an interaction, the two fitted lines are parallel and stay six points apart. With the $1.5XD$ interaction, the guided-lab line has slope 4 instead of 2.5, so the fitted group difference grows with practice."
+#| fig-alt: "Two panels compare fitted score against practice hours for independent study and guided lab. In the additive panel, both lines have slope 2.5 and remain six points apart. In the interaction panel, the independent-study line still has slope 2.5 while the guided-lab line has slope 4, so the lines separate as practice increases."
+#| fig-width: 11
+#| fig-height: 6.4
+p_topic7_interaction_concept
+```
+
+:::
+
+Read the panels from left to right. In the additive panel, moving one hour to the right raises both lines by 2.5 points. Their vertical distance therefore stays six points. In the interaction panel, the independent-study line still rises by 2.5 points, while the guided-lab line rises by four. The lines spread apart, which is the visible signature of this positive interaction.
+
+The lower-order coefficients remain meaningful, but their meanings are conditional. In the interaction model, $b_1=2.5$ is the practice slope in the reference group, $b_2=6$ is the guided-minus-independent difference when $X=0$, and $b_3=1.5$ is the guided-minus-independent difference between practice slopes. If zero is outside the useful practice range, subtracting a meaningful constant from $X$, called *centering*, can move the comparison point without changing either fitted line.
+
+With three groups, the model needs two dummy terms and two practice-by-dummy interaction terms. Each interaction compares one nonreference slope with the reference-group slope. Releveling changes which slope differences appear as coefficients, but the fitted group lines remain unchanged.
+
+#### Putting Several Predictors, Three Groups, and Interactions into One Equation {.cs-heading}
+
+The binary example isolated the interaction idea. A realistic multiple-regression equation can contain all of these pieces at once: another quantitative predictor to adjust for, a categorical predictor represented by several indicators, and several interaction terms. The notation looks crowded, but the reading strategy does not change. Fix one group, insert its zeros and ones, simplify the equation, and only then interpret its line.
+
+Suppose $P$ is a prior reasoning score, $X$ is weekly practice hours, and tutorial format has the same three levels as above. Consider this constructed fitted model:
+
+$$
+\widehat{Y}
+=
+30+0.4P+2X
++3D_{\text{peer}}+6D_{\text{guided}}
++0.5XD_{\text{peer}}+1.5XD_{\text{guided}}.
+$$
+
+> **Guiding question:** Which terms survive for each tutorial format, and what do they imply about the fitted practice slope when prior score is held fixed?
+
+The two indicator values answer that question mechanically:
+
+| Tutorial format | Indicator pair $(D_{\text{peer}},D_{\text{guided}})$ | Terms that remain after substitution | Group-specific fitted equation |
+|---|---:|---|---|
+| Independent study, reference | $(0,0)$ | $30+0.4P+2X$ | $\widehat{Y}_{\text{independent}}=30+0.4P+2X$ |
+| Peer workshop | $(1,0)$ | $30+0.4P+2X+3+0.5X$ | $\widehat{Y}_{\text{peer}}=33+0.4P+2.5X$ |
+| Guided lab | $(0,1)$ | $30+0.4P+2X+6+1.5X$ | $\widehat{Y}_{\text{guided}}=36+0.4P+3.5X$ |
+
+: Substitution turns one apparently difficult model into three ordinary fitted lines. {#tbl-multiple-full-interaction-equations}
+
+Start with what all three equations share. The coefficient $0.4$ says that, within any tutorial format and at the same practice value, a one-point higher prior score is associated with a fitted outcome that is $0.4$ points higher. This model contains no prior-score-by-format interaction, so that conditional prior-score slope is common to all three formats.
+
+Now compare the practice terms. Independent study has slope $2$. The peer-workshop slope is $2+0.5=2.5$, and the guided-lab slope is $2+1.5=3.5$. Thus, $0.5$ is the peer-minus-independent difference between practice slopes, while $1.5$ is the guided-minus-independent difference between practice slopes. Neither number is a complete group slope by itself.
+
+The fitted group differences also depend on $X$:
+
+$$
+\widehat{Y}_{\text{peer}}-\widehat{Y}_{\text{independent}}=3+0.5X,
+\qquad
+\widehat{Y}_{\text{guided}}-\widehat{Y}_{\text{independent}}=6+1.5X.
+$$
+
+At $X=0$, the dummy coefficients 3 and 6 are the fitted group differences at the same prior score. At other practice values, the interaction contribution must be added. For example, hold prior score at $P=50$ and practice at $X=4$:
+
+$$
+\begin{aligned}
+\widehat{Y}_{\text{independent}}&=30+0.4(50)+2(4)=58,\\
+\widehat{Y}_{\text{peer}}&=33+0.4(50)+2.5(4)=63,\\
+\widehat{Y}_{\text{guided}}&=36+0.4(50)+3.5(4)=70.
+\end{aligned}
+$$
+
+The peer-minus-independent difference is $3+0.5(4)=5$ points, and the guided-minus-independent difference is $6+1.5(4)=12$ points. These are fitted conditional-mean comparisons for equal $P$ and $X$, not guaranteed differences between individual learners and not causal effects without a design that supports that interpretation.
+
+#### Four Testing Questions Hidden in the Same Model {.cs-heading}
+
+The fitted equation and the inferential question must be matched term by term. The course materials support three testing tools already introduced above: an individual coefficient $t$ test, a joint or nested $F$ test, and the global $F$ test. The complex model shows why they cannot be treated as interchangeable.
+
+| Question | Null hypothesis in the model above | Appropriate supported test |
+|---|---|---|
+| Does the reference group's practice slope differ from zero, conditional on all other terms? | $H_0:\beta_2=0$ | Individual coefficient $t$ test |
+| Does the guided-lab practice slope differ from the reference slope? | $H_0:\beta_6=0$ | Individual interaction-coefficient $t$ test |
+| Do practice slopes differ anywhere across the three formats? | $H_0:\beta_5=\beta_6=0$ | Nested $F$ test comparing the interaction and additive models |
+| Does any non-intercept term contribute under this full specification? | $H_0:\beta_1=\cdots=\beta_6=0$ | Global model $F$ test |
+
+: The scientific question determines the test, so the first p-value in the output does not automatically provide the answer. {#tbl-multiple-complex-tests}
+
+One more distinction matters. Testing $H_0:\beta_3=\beta_4=0$ inside the interaction model asks whether the group differences are zero specifically when $X=0$ and $P$ is held fixed. It does not test whether tutorial format is irrelevant at every practice value. A hierarchical joint test of all format-related terms instead compares the full model with a model that removes $D_{\text{peer}}$, $D_{\text{guided}}$, $XD_{\text{peer}}$, and $XD_{\text{guided}}$ together. Changing the reference group changes individual coefficient descriptions, but it does not change the fitted group lines or the conclusion of the corresponding joint interaction comparison.
+
+---
+
+### Choosing Candidate Models and Reading AIC Cautiously {.cs-heading}
+
+Model building should begin with the research question, measurement plan, design, and a plausible *functional form*, meaning the mathematical shape used to represent the relationship, such as straight lines with or without interactions. Automated selection cannot supply those decisions.
+
+The *Akaike information criterion*, or AIC, balances model fit against the number of estimated parameters:
+
+$$
+AIC=-2\log(L)+2k,
+$$
+
+In this formula, $L$ is the *likelihood evaluated at the fitted parameter values*. The likelihood measures how compatible the observed data are with particular parameter values under the model. Those fitted parameter values are the values that make the likelihood as large as possible for these data, which is why this is sometimes called the maximized likelihood. The expression $\log(L)$ is the natural logarithm of that likelihood and places it on a more convenient additive scale. The symbol $k$ counts the parameters estimated in the likelihood. Smaller AIC indicates a better fit-complexity balance among candidate models fitted to the same outcome and observations.
+
+AIC has no universal pass mark. A model with the lowest AIC in a poor candidate set can still be poorly specified. It does not test causality, replace diagnostics, or measure performance in new data. If prediction is the goal, validation on data not used for selection remains a separate task.
+
+Forward procedures can also miss useful combinations, capitalize on sample noise, and make estimates look more certain than they should because the same sample was used both to choose and estimate the model. Use them, if at all, as transparent comparisons among defensible candidates rather than as a machine for discovering truth.
+
+---
+
+### Assumptions and Diagnostic Questions {.cs-heading}
+
+Multiple regression extends the Topic 5 diagnostic logic. Ask whether:
+
+- the conditional mean is reasonably represented by the chosen linear and interaction terms;
+- errors are independent under the sampling or study design;
+- residual spread is reasonably stable across fitted values and important predictor combinations;
+- the conditional error distribution is adequate for the reported small-sample tests and intervals;
+- no predictor term is an exact linear combination of other included terms;
+- unusual observations or sparse predictor combinations dominate the results;
+- categorical variables and reference levels are coded as intended;
+- missing-data handling leaves the compared models on the same cases;
+- measurements are sufficiently reliable for the interpretation; and
+- predictions remain within combinations supported by the data.
+
+A *residual-versus-fitted plot* places each fitted outcome on the horizontal axis and its residual on the vertical axis. It helps us look for curves, changing vertical spread, or isolated cases that the fitted equation has not represented well.
+
+A *normal quantile-quantile plot*, usually shortened to *normal Q-Q plot*, first orders the standardized residuals from smallest to largest. A standardized residual expresses a residual relative to its estimated usual size while allowing for the case's position in the predictor data. The plot compares those ordered residuals with the positions expected if the model errors followed a normal distribution. Points close to the diagonal are broadly compatible with that shape. Systematic bends or strong tail departures deserve investigation. Normality is a condition for familiar small-sample tests and intervals, not a requirement that every raw variable must itself be normally distributed.
+
+Case diagnostics ask a different question. *Leverage* describes how unusual a case's predictor combination is within the fitted model. *Cook's distance* combines that predictor position with the size of the residual to summarize how much the fitted regression could change if that case were left out. These displays and substantive data checks provide evidence for investigating assumptions without proving that the assumptions hold. A concerning observation should be checked and analyzed in context rather than deleted automatically.
+
+::: {.callout-warning title="Potential Pitfalls"}
+
+- **Leaving the conditioning set unnamed.** Interpret a coefficient by naming the other model terms held fixed.
+- **Treating statistical adjustment as experimental control.** A fitted observational model does not create random assignment.
+- **Misreading $R^2$.** It is neither the percentage of people predicted correctly nor a percentage caused.
+- **Assuming ordinary $R^2$ penalizes unnecessary predictors.** Ordinary $R^2$ cannot decrease when terms are added; adjusted $R^2$ applies a complexity penalty.
+- **Overreading the global $F$ test.** A significant global test does not prove that every coefficient is nonzero.
+- **Ranking predictors only by standardized coefficients.** Measurement, uncertainty, overlap, and the research question still matter.
+- **Diagnosing confounding or suppression from coefficient movement alone.** Shrinkage and growth are clues that require design and subject-matter reasoning.
+- **Coding unordered categories as one numeric scale.** Use indicators so the model does not invent distances or order.
+- **Ignoring an interaction when reading a slope.** The reference-group slope is not every group's slope when an interaction is present.
+- **Treating a new reference category as a new fitted relationship.** Recoding changes the coefficient description, not the fitted values.
+- **Treating the smallest AIC as proof.** It identifies the preferred fit-complexity balance only among the stated candidate models and does not guarantee external prediction.
+:::
+
+### Why All of This Matters: The Essence of Multiple Regression {.cs-heading}
+
+Multiple regression answers a question that occurs whenever an outcome is connected with more than one feature at a time: **How can several predictors share one explanation without losing track of what each coefficient compares?** It keeps the fitted-value and residual logic of simple regression, but lets every case receive several contributions in the same equation. This is why the method is useful for description and prediction, and why it can represent adjusted associations more honestly than a collection of disconnected two-variable analyses.
+
+The word *conditional* is the anchor. A quantitative slope describes a fitted change while the other terms in that model are held fixed. A dummy coefficient turns a category into an explicit comparison with a reference group rather than pretending that category names form a numerical scale. An interaction then removes the assumption that one fitted slope or one group difference must be constant everywhere. It asks a deeper question: **Does the relationship itself change across groups or across values of another predictor?**
+
+The testing tools mirror these layers. An individual $t$ test asks about one named conditional coefficient. A nested $F$ test asks whether a meaningful set of added terms, such as all practice-by-format interactions, improves the model together. The global $F$ test asks whether every non-intercept contribution could jointly be zero. Keeping those questions separate prevents a significant model from being misread as evidence that every coefficient matters, or one nonsignificant reference-group slope from being misread as evidence that no group has a relationship.
+
+This topic also brings the earlier sequence together. Correlation described paired movement. Simple regression named an outcome and fitted one line. Partial correlation made adjustment visible through residuals. Multiple regression places several conditional contributions, group comparisons, and changing slopes in one coherent fitted model. The essence is not "put more variables into software." It is to state precisely which comparison each coefficient represents and which joint hypothesis each model comparison answers.
+
+Topic 8 now changes the emphasis rather than abandoning this framework. When categorical predictors and comparisons among group means become the central focus, the same dummy variables, fitted values, residual variation, interactions, and joint $F$ tests appear in the language of analysis of variance.
+
+> **Closing check:** Can you write the fitted equation for each group, name what is being held fixed, and distinguish one coefficient test from a joint model test? If so, you have the central logic of multiple regression.
+
+## Simulated Example
+
+### Simulated Study: Preparation, Practice, Tutorial Format, and Reasoning {.cs-heading}
+
+We now analyze one simulated cohort of `r topic7_stats$n` students. A *cohort* is a group of cases examined together. Topic 1 introduced simulated data, random-number generators, fixed seeds, and reproducibility. This example reuses that established setup: the stored recipe and seed recreate the same artificial rows each time the page is built. These values do not provide evidence about any real student or tutorial format.
+
+One predictor cannot represent every relevant difference among cases. This example therefore asks how several pieces of information can share one fitted equation without losing their separate meanings. Keep three questions in view:
+
+> How does the fitted practice slope change after prior reasoning score is held fixed? How can tutorial format enter the model without pretending its category labels are numerical amounts? Does the conditional practice slope remain the same across formats?
+
+Together, those questions lead to the central analysis: how is statistical-reasoning score associated with prior reasoning score, weekly guided practice, and tutorial format, and does the practice association differ across formats?
+
+The *data-generating idea*, meaning the recipe used to create the artificial values, gives prior preparation and practice positive relationships with the outcome, allows the tutorial formats to differ, allows practice slopes to vary by format, and adds random individual variation. Practice also tends to be higher among students with higher prior scores, creating *predictor overlap*, which means that two predictors carry some of the same linear information.
+
+The Theory tab used deliberately round coefficients so that dummy coding and interaction arithmetic could be checked by hand. This simulated cohort is the next step: the estimated coefficients will no longer be tidy integers, but every coefficient keeps the same reference-based meaning. Whenever the output feels crowded, return to the corresponding fitted equation and substitute the indicator values before interpreting it.
+
+---
+
+**Step 1: Identify the Variables and Inspect the Rows**
+
+```{r}
+#| label: tbl-multiple-variables
+kable(
+  topic7_variable_table,
+  col.names = c("Variable", "Model role", "Measurement"),
+  align = c("l", "l", "l"),
+  caption = "Variables in the simulated multiple-regression study."
+)
+```
+
+The outcome is quantitative, so a linear model is a reasonable starting point. Prior score and practice hours are quantitative predictors. Tutorial format is categorical and needs *indicator variables*, meaning separate 0-or-1 columns that mark category membership, rather than a single numeric code.
+
+The first column names what is recorded, the second tells the model how to use it, and the third keeps the measurement scale visible. Only statistical reasoning score is the outcome. The other three variables are predictors, although tutorial format will occupy more than one coefficient column after dummy coding. The full model will estimate a *conditional mean*, the average outcome it fits for cases with a specified predictor profile, not a guaranteed individual result. The constructed setting is observational in interpretation, so coefficient language remains associational.
+
+The interactive table contains every constructed case. Read across one row to keep that participant's predictor profile paired with one outcome. Use the search field, sorting controls, and page controls to inspect the data without separating values that belong to the same case.
+
+```{r}
+#| label: tbl-multiple-preview
+DT::datatable(
+  topic7_data |>
+    select(participant_id, prior_score, practice_hours, tutorial_format, reasoning_score),
+  colnames = c(
+    "Participant ID", "Prior score", "Practice hours",
+    "Tutorial format", "Reasoning score"
+  ),
+  caption = "Complete reproducible simulated multiple-regression cohort.",
+  options = topic_dt_options(topic_locale),
+  class = "compact stripe hover",
+  rownames = FALSE
+)
+```
+
+---
+
+**Step 2: Check the Observed Ranges and Predictor Overlap**
+
+Prior scores range from `r format_t07(topic7_stats$prior_min, 1)` to `r format_t07(topic7_stats$prior_max, 1)`, practice from `r format_t07(topic7_stats$practice_min, 1)` to `r format_t07(topic7_stats$practice_max, 1)` hours, and outcomes from `r format_t07(topic7_stats$outcome_min, 1)` to `r format_t07(topic7_stats$outcome_max, 1)` points. The predictor correlation is $r=`r format_t07(topic7_stats$predictor_correlation, 3)`$, so prior score and practice contain shared information without being identical.
+
+No row has a prior score of zero. Consequently, an intercept evaluated at prior score zero should not receive a substantive student interpretation, even though it is needed to position the model.
+
+The table is a row-level check, not a result table. Reading down a column shows that values vary across cases and that tutorial format contains category labels rather than numerical distances. The reported ranges define where the fitted relationships have direct data support. Predictions far outside them would be extrapolations.
+
+---
+
+**Step 3: Prespecify a Coherent Model Sequence**
+
+To *prespecify* a model sequence means deciding its order and terms before inspecting which option produces the most attractive result. We compare five such models fitted to the same 180 rows and outcome:
+
+| Model | Terms introduced by this point | Question opened at this step |
+|---|---|---|
+| M0 | Intercept only | How much variation remains if every case receives the same fitted mean? |
+| M1 | Practice hours | What is the unadjusted fitted practice slope? |
+| M2 | Prior score and practice hours | How does the practice slope change after prior score enters? |
+| M3 | M2 plus two tutorial-format indicators | Do the fitted group lines differ in position while sharing one practice slope? |
+| M4 | M3 plus two practice-by-format products | Do the conditional practice slopes differ across formats? |
+
+: The five models form one prespecified nested learning sequence. {#tbl-multiple-model-sequence}
+
+The sequence is purposeful. Each model retains every term from the previous row and adds an explicitly named set, so each smaller model is nested inside the next one. The questions also build in order. We first establish the practice-only relationship, then adjust it for prior score, then represent group differences, and finally allow the practice slope itself to vary by group. Using the same outcome and the same 180 rows throughout means changes in fit belong to the added terms rather than to a changing analysis sample.
+
+---
+
+**Step 4: Compare the Bivariate and Conditional Practice Slopes**
+
+The practice-only model gives
+
+$$
+\widehat{\text{score}}
+=
+`r format_t07(coef(topic7_simple_practice_model)[["(Intercept)"]], 2)`
++
+`r format_t07(topic7_stats$practice_simple_slope, 2)`\times\text{practice}.
+$$
+
+Its slope says that students who differ by one practice hour differ by `r format_t07(topic7_stats$practice_simple_slope, 2)` fitted points on average when prior score is ignored.
+
+M2 fits both quantitative predictors:
+
+$$
+\widehat{\text{score}}
+=
+`r format_t07(coef(topic7_continuous_model)[["(Intercept)"]], 2)`
++
+`r format_t07(coef(topic7_continuous_model)[["prior_score"]], 2)`\times\text{prior}
++
+`r format_t07(coef(topic7_continuous_model)[["practice_hours"]], 2)`\times\text{practice}.
+$$
+
+Now the practice coefficient is `r format_t07(topic7_stats$practice_conditional_slope, 2)` points per hour when prior score is held fixed. It is smaller than the practice-only slope because some of the bivariate practice association overlapped with prior score in this constructed cohort. This numerical pattern is compatible with shared explanatory variation. It does not prove a causal confounding mechanism.
+
+The two-predictor formula from the Theory tab lets us see the calculation behind that conditional practice slope:
+
+$$
+b_{\text{practice}}
+=
+\frac{r_{Y,\text{practice}}-
+r_{Y,\text{prior}}r_{\text{practice,prior}}}
+{1-r_{\text{practice,prior}}^2}
+\frac{s_Y}{s_{\text{practice}}}.
+$$
+
+Rather than crowd all numbers into one line, calculate its three parts:
+
+$$
+\begin{aligned}
+A
+&=
+`r format_t07(topic7_stats$outcome_practice_correlation, 3)`-
+(`r format_t07(topic7_stats$outcome_prior_correlation, 3)`)
+(`r format_t07(topic7_stats$predictor_correlation, 3)`)\\
+&\approx `r format_t07(topic7_stats$practice_slope_adjusted_numerator, 4)`,
+\end{aligned}
+$$
+
+$$
+B
+=
+1-(`r format_t07(topic7_stats$predictor_correlation, 3)`)^2
+\approx
+`r format_t07(topic7_stats$practice_slope_overlap_denominator, 4)`,
+$$
+
+and
+
+$$
+C
+=
+\frac{`r format_t07(topic7_stats$outcome_sd, 3)`}
+{`r format_t07(topic7_stats$practice_sd, 3)`}
+\approx
+`r format_t07(topic7_stats$practice_slope_unit_ratio, 4)`.
+$$
+
+Then combine them:
+
+$$
+b_{\text{practice}}
+=
+\frac{A}{B}C
+\approx
+`r format_t07(topic7_stats$practice_conditional_slope, 3)`.
+$$
+
+$A$ is the adjusted correlation numerator, $B$ accounts for predictor overlap, and $C$ restores the original unit of reasoning-score points per practice hour. Small differences in a hand calculation can occur if the displayed correlations are rounded before substitution, because the fitted model uses the unrounded values.
+
+The next table separates original-unit coefficients, standardized coefficients, and bivariate correlations.
+
+```{r}
+#| label: tbl-multiple-standardized
+kable(
+  topic7_continuous_coefficient_table |>
+    transmute(
+      Predictor = predictor,
+      `Unstandardized b` = format_t07(unstandardized_b, 3),
+      `Standardized coefficient` = format_t07(standardized_beta, 3),
+      `Bivariate r with outcome` = format_t07(bivariate_r, 3)
+    ),
+  align = c("l", "r", "r", "r"),
+  caption = "M2 coefficients compared with each predictor's unadjusted outcome correlation."
+)
+```
+
+Both standardized coefficients differ from their bivariate correlations because each coefficient adjusts for the other quantitative predictor. The original-unit coefficients remain necessary for the fitted equation.
+
+Read the table across one predictor at a time. The unstandardized column answers the original-unit question needed for prediction. The standardized column answers the same conditional question after both variables are rescaled. The final column steps back to the unadjusted two-variable association. For practice, the standardized conditional coefficient is `r format_t07(topic7_stats$practice_standardized_coefficient, 3)`, which is smaller than its bivariate correlation because prior score carries part of the same linear information in this cohort.
+
+---
+
+**Step 5: Calculate Fitted Values and Residuals**
+
+For the remaining steps, M4 is the full candidate model. It includes prior score, practice, two format indicators, and two interactions. Substituting each row's values produces one fitted score and then one residual.
+
+```{r}
+#| label: tbl-multiple-fitted-residuals
+kable(
+  topic7_fitted_preview |>
+    transmute(
+      `Participant ID` = participant_id,
+      `Observed score` = format_t07(reasoning_score, 2),
+      `Fitted score` = format_t07(fitted_score, 2),
+      Residual = format_t07(residual, 2),
+      `Prior score` = format_t07(prior_score, 1),
+      `Practice hours` = format_t07(practice_hours, 1),
+      `Tutorial format` = as.character(tutorial_format)
+    ),
+  align = c("l", "r", "r", "r", "r", "r", "l"),
+  caption = "Observed scores, full-model fitted scores, and residuals for the first eight simulated students."
+)
+```
+
+Every displayed row satisfies observed score = fitted score + residual, apart from rounding. The figure plots every observed score against its fitted value. A perfect fit would place every point on the diagonal. Student `r topic7_stats$case_id` has observed score `r format_t07(topic7_stats$case_observed, 1)` and fitted score `r format_t07(topic7_stats$case_fitted, 2)`, giving residual `r format_t07(topic7_stats$case_residual, 2)`.
+
+In the table, the first three numerical columns provide a direct arithmetic check: observed minus fitted equals residual. The remaining columns show the predictor profile that produced that fitted value. Two cases can have similar fitted scores through different combinations of prior score, practice, and tutorial format, which is exactly why the fitted equation must use all included terms together.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable fitted-value and residual figure"}
+
+```{r}
+#| label: fig-multiple-fitted-residual
+#| fig-cap: "Observed reasoning scores against full-model fitted scores. The dashed diagonal marks exact agreement, and one vertical segment shows an observed-minus-fitted residual."
+#| fig-alt: "A scatterplot compares fitted and observed reasoning scores for 180 simulated students. Points cluster around a rising dashed diagonal. One orange point is connected vertically to the diagonal to show its residual."
+topic7_plotly(
+  p_topic7_fitted,
+  "A scatterplot compares fitted and observed reasoning scores for 180 simulated students. Hovering over a point reports the participant, predictor profile, observed score, fitted score, and residual. One orange point is connected vertically to the diagonal to show its residual."
+)
+```
+
+:::
+
+The dashed diagonal is not another fitted regression line. It is the reference for perfect agreement between observed and fitted values. A point above it has a positive residual, and a point below it has a negative residual. The highlighted vertical segment is one residual drawn in the same observed-minus-fitted direction used in Topic 5. The overall cloud follows the diagonal, showing substantial fit, but its remaining vertical spread shows why the model does not predict every individual score exactly.
+
+---
+
+**Step 6: Compare R-Squared, Adjusted R-Squared, and Residual Error**
+
+```{r}
+#| label: tbl-multiple-model-comparison
+kable(
+  topic7_model_table |>
+    transmute(
+      Model = model,
+      `Included terms` = terms,
+      `Predictor parameters` = predictor_parameters,
+      `R-squared` = format_t07(r_squared, 3),
+      `Adjusted R-squared` = format_t07(adjusted_r_squared, 3),
+      `Residual SE` = format_t07(residual_standard_error, 2),
+      `Residual df` = residual_df,
+      AIC = format_t07(aic, 2)
+    ),
+  align = c("l", "l", "r", "r", "r", "r", "r", "r"),
+  caption = "Fit and complexity measures for the prespecified nested candidate sequence."
+)
+```
+
+Ordinary $R^2$ never falls along the sequence because each larger model retains all earlier terms. Adjusted $R^2$ weighs each gain against the added predictor parameters. Residual standard error falls as less outcome variation remains around the fitted values.
+
+Read the model-comparison table from left to right, then down. The term column states what each model knows. The parameter and residual-degrees-of-freedom columns record the cost of estimating more pieces. The next three columns summarize fit from different angles: represented variation, complexity-adjusted represented variation, and typical residual spread in score points. AIC is a separate relative fit-complexity measure and is interpreted only after the nested fit questions have been understood.
+
+For M4, $R^2=`r format_t07(topic7_stats$full_r_squared, 3)`$ and adjusted $R^2=`r format_t07(topic7_stats$full_adjusted_r_squared, 3)`$. The model represents `r format_t07(100 * topic7_stats$full_r_squared, 1)`% of the sample outcome variation around its mean. Its residual standard error is `r format_t07(topic7_stats$full_residual_standard_error, 2)` outcome points.
+
+The adjusted value can be checked directly. M4 analyzes $n=`r topic7_stats$n`$ cases and estimates $p=`r topic7_stats$full_predictor_parameters`$ non-intercept predictor parameters:
+
+$$
+\begin{aligned}
+R^2_{\text{adjusted}}
+&=1-(1-R^2)\frac{n-1}{n-p-1}\\[4pt]
+&=1-(1-`r format_t07(topic7_stats$full_r_squared, 5)`)
+\frac{`r topic7_stats$n - 1`}{`r topic7_stats$full_residual_df`}\\[4pt]
+&\approx `r format_t07(topic7_stats$full_adjusted_r_squared, 3)`.
+\end{aligned}
+$$
+
+The subtraction does not remove particular predictors from the model. It adjusts the fit summary for how many parameters were estimated relative to the available cases.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable model-fit sequence figure"}
+
+```{r}
+#| label: fig-multiple-fit-path
+#| fig-cap: "$R^2$ and adjusted $R^2$ across the five nested candidate models. Both improve here, while adjusted $R^2$ remains slightly lower because it accounts for estimated complexity."
+#| fig-alt: "A two-line chart shows R-squared and adjusted R-squared rising from model M0 through M4. The adjusted line stays slightly below the ordinary R-squared line after predictors enter."
+topic7_plotly(
+  p_topic7_fit_path,
+  "An interactive two-line chart shows R-squared and adjusted R-squared from model M0 through M4. Hovering reports the model, fit measure, and exact value. The adjusted line remains slightly below ordinary R-squared after predictors enter."
+)
+```
+
+:::
+
+The two lines rise together because every added block improves fit in this constructed sequence. Their vertical distance is the adjustment for model complexity. That distance should not be interpreted as uncertainty or prediction error. The residual standard error in the table, not the gap between the lines, describes the remaining outcome spread in points.
+
+---
+
+**Step 7: Separate the Global Test from Coefficient Tests**
+
+The M4 global result is
+
+$$
+F(`r topic7_stats$global_df1`,\ `r topic7_stats$global_df2`)
+=
+`r format_t07(topic7_stats$global_f, 2)`,
+\qquad
+p\ `r if (topic7_stats$global_p < 0.001) "< .001" else paste0("= ", format_p_t07(topic7_stats$global_p))`.
+$$
+
+Under the model conditions, the data are inconsistent with a population in which all six non-intercept coefficients are zero. This result does not say that all six are individually nonzero.
+
+The reported statistic also follows directly from M4's $R^2$:
+
+$$
+\begin{aligned}
+F
+&=
+\frac{R^2/p}{(1-R^2)/(n-p-1)}\\[4pt]
+&=
+\frac{`r format_t07(topic7_stats$full_r_squared, 5)`/
+`r topic7_stats$full_predictor_parameters`}
+{(1-`r format_t07(topic7_stats$full_r_squared, 5)`)/
+`r topic7_stats$full_residual_df`}\\[4pt]
+&\approx `r format_t07(topic7_stats$global_f, 2)`.
+\end{aligned}
+$$
+
+The numerator is represented outcome variation per predictor parameter. The denominator is remaining outcome variation per residual degree of freedom. Their ratio asks whether the model's represented variation is large relative to what remains.
+
+```{r}
+#| label: tbl-multiple-coefficients
+kable(
+  topic7_full_coefficient_table |>
+    transmute(
+      Term = term,
+      Estimate = format_t07(estimate, 3),
+      `Standard error` = format_t07(standard_error, 3),
+      `t value` = format_t07(t_value, 2),
+      `p-value` = format_p_t07(p_value),
+      `95% CI lower` = format_t07(ci_lower, 3),
+      `95% CI upper` = format_t07(ci_upper, 3)
+    ),
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  caption = "M4 coefficient estimates, conditional tests, and two-sided 95% confidence intervals."
+)
+```
+
+The practice coefficient of `r format_t07(topic7_beta[["practice_hours"]], 3)` is the conditional slope for independent study, the reference format. The peer interaction estimates how much the peer slope differs from that reference slope. Its p-value does not provide strong evidence of a difference in this sample. The guided interaction estimates a larger slope difference and has a smaller p-value. These are term-specific questions, distinct from the global test.
+
+Each row of the coefficient table must be read as one package. The estimate gives the fitted direction and size, the standard error describes sampling uncertainty in that estimate, the $t$ value divides the estimate by its standard error, and the p-value evaluates the corresponding zero-coefficient null hypothesis. The confidence interval gives a range of population coefficient values compatible with the data and model at the stated level. The equation, dummy coding, reference category, and interaction structure establish what the term means. The remaining columns quantify its estimate and uncertainty.
+
+For example, the reference-format practice row uses
+
+$$
+t
+=
+\frac{b_{\text{practice}}}{SE(b_{\text{practice}})}
+=
+\frac{`r format_t07(topic7_beta[["practice_hours"]], 3)`}
+{`r format_t07(topic7_stats$full_practice_standard_error, 3)`}
+\approx
+`r format_t07(topic7_stats$full_practice_t, 2)`.
+$$
+
+This calculation does not test whether practice is related to the outcome in every tutorial format. In an interaction model, it tests the practice slope in the reference format. The interaction rows then test how the other format-specific slopes differ from that reference slope.
+
+The dummy coefficients compare formats when practice equals zero, with prior score fixed. The intercept also sets prior score to zero, outside its observed range. Those conditions limit how much substantive meaning should be attached to the intercept and zero-practice group contrasts.
+
+---
+
+**Step 8: Test the Two Interaction Terms Together**
+
+M3 is the restricted additive model. M4 is the unrestricted model that adds two interactions. Their nested comparison is:
+
+```{r}
+#| label: tbl-multiple-nested-test
+kable(
+  topic7_nested_stats |>
+    transmute(
+      `Restricted model` = restricted_model,
+      `Unrestricted model` = unrestricted_model,
+      `Parameters added` = parameters_added,
+      `Restricted RSS` = format_t07(rss_restricted, 2),
+      `Unrestricted RSS` = format_t07(rss_unrestricted, 2),
+      `F value` = format_t07(f_value, 2),
+      `Numerator df` = numerator_df,
+      `Denominator df` = denominator_df,
+      `p-value` = format_p_t07(p_value)
+    ),
+  align = c("l", "l", "r", "r", "r", "r", "r", "r", "r"),
+  caption = "Nested-model test of both practice-by-format interaction coefficients."
+)
+```
+
+The test gives $F(`r topic7_nested_stats$numerator_df`,\ `r topic7_nested_stats$denominator_df`)=`r format_t07(topic7_nested_stats$f_value, 2)`$, $p=`r format_p_t07(topic7_nested_stats$p_value)`$. Under the model conditions, the two interaction terms improve fit jointly relative to the parallel-slope model. The result supports retaining the interaction candidate in this constructed example, not a general claim about real tutorial formats.
+
+The two RSS columns are residual sums of squares. The unrestricted model's value is smaller because it may use two additional slopes. The nested $F$ test asks whether that reduction is large relative to the full model's remaining error and the two added degrees of freedom. It therefore answers one joint question about both interactions, rather than repeating two unrelated coefficient tests.
+
+---
+
+**Step 9: Connect Semipartial Correlation to Incremental R-Squared**
+
+To isolate practice's addition after prior score, first fit practice from prior score and keep the practice residual. Correlating that residual with the raw reasoning score gives the semipartial correlation.
+
+```{r}
+#| label: tbl-multiple-semipartial
+kable(
+  topic7_semipartial_stats |>
+    transmute(
+      Quantity = quantity,
+      Value = format_t07(value, 3)
+    ),
+  align = c("l", "r"),
+  caption = "Semipartial contribution of practice hours after prior reasoning score."
+)
+```
+
+Here, $sr=`r format_t07(topic7_stats$semipartial_r, 3)`$, so $sr^2=`r format_t07(topic7_stats$semipartial_r^2, 3)`$. Adding practice to the prior-only model raises $R^2$ by exactly `r format_t07(topic7_stats$delta_r2, 3)` apart from rounding. Practice uniquely adds about `r format_t07(100 * topic7_stats$delta_r2, 1)` percentage points of sample explained variation at that entry step.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable semipartial-correlation figure"}
+
+```{r}
+#| label: fig-multiple-semipartial
+#| fig-cap: "Reasoning score against the portion of practice hours not linearly represented by prior score. Only the candidate predictor is residualized, which makes this a semipartial rather than partial correlation."
+#| fig-alt: "A scatterplot places practice-hours residuals after prior-score adjustment on the horizontal axis and raw reasoning score on the vertical axis. A rising fitted line shows a positive semipartial correlation of about 0.345."
+topic7_plotly(
+  p_topic7_semipartial,
+  "An interactive scatterplot places practice-hours residuals after prior-score adjustment on the horizontal axis and raw reasoning score on the vertical axis. Hovering identifies the participant and both plotted values. A rising fitted line shows the positive semipartial association."
+)
+```
+
+:::
+
+The horizontal axis in the semipartial figure is no longer raw practice time. Zero means that practice is exactly what the prior-score regression fitted. Positive values mean more practice than fitted from prior score, and negative values mean less. The vertical axis deliberately remains the raw reasoning outcome. The upward fitted line is therefore the association between outcome and the part of practice not linearly represented by prior score.
+
+This is a model-order statement. If a different set of predictors entered first, practice's incremental contribution could differ. The equality $sr^2=\Delta R^2$ applies here because exactly one predictor is added to the same cases after the stated smaller model.
+
+---
+
+**Step 10: Decode Tutorial Format with Two Indicators**
+
+The model tables have already shown that tutorial format and its interactions contribute to fit. We now pause before interpreting those terms. The two indicator columns translate the recorded category names into the numerical information used by the coefficients in M4.
+
+> **Checkpoint question:** Which indicator pattern identifies the reference category, and what comparison does each remaining pattern open?
+
+Independent study is the reference category. The two indicators are:
+
+```{r}
+#| label: tbl-multiple-dummy-coding
+kable(
+  topic7_dummy_table |>
+    transmute(
+      `Tutorial format` = as.character(tutorial_format),
+      `Peer indicator` = peer_indicator,
+      `Guided indicator` = guided_indicator,
+      Interpretation = interpretation
+    ),
+  align = c("l", "r", "r", "l"),
+  caption = "Dummy coding for the three-level tutorial-format predictor."
+)
+```
+
+The all-zero indicator row identifies the reference category. The peer and guided coefficients in M4 compare each named format with independent study when practice is zero. Their interaction terms compare practice slopes with the independent-study slope.
+
+The table also shows why three categories require only two indicators. Each nonreference category receives its own 1, while independent study is recognized by two zeros. Adding a third "independent" indicator alongside the intercept would duplicate information already encoded by the three rows summing to one.
+
+---
+
+**Step 11: Translate the Interaction into Three Conditional Equations**
+
+Dummy coding tells us which group is being compared. The product terms now answer the next question: does practice retain one common slope, or does each format receive its own conditional slope? The safest way to answer is to substitute each group's zeros and ones and simplify the equation.
+
+> **Guiding question:** After the relevant dummy values are substituted, which coefficient pieces remain in each group's practice slope?
+
+The fitted coefficients combine into one equation per tutorial format:
+
+```{r}
+#| label: tbl-multiple-group-equations
+kable(
+  topic7_group_equations |>
+    transmute(
+      `Tutorial format` = as.character(tutorial_format),
+      `Intercept component` = format_t07(intercept_component, 3),
+      `Prior-score slope` = format_t07(prior_score_slope, 3),
+      `Practice-hours slope` = format_t07(practice_slope, 3)
+    ),
+  align = c("l", "r", "r", "r"),
+  caption = "Group-specific equations derived from the same fitted interaction model."
+)
+```
+
+For independent study, the practice slope is `r format_t07(topic7_group_equations$practice_slope[1], 3)`. For peer workshop it is the reference slope plus the peer interaction, `r format_t07(topic7_group_equations$practice_slope[2], 3)`. For guided lab it is the reference slope plus the guided interaction, `r format_t07(topic7_group_equations$practice_slope[3], 3)`. The prior-score slope is common because the model does not include a prior-by-format interaction.
+
+The next figure makes the model alternatives visible. M3 forces parallel lines. M4 permits three conditional practice slopes while holding prior score at 10.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollable additive-versus-interaction figure"}
+
+```{r}
+#| label: fig-multiple-interaction
+#| fig-cap: "Additive and interaction predictions at prior score 10. Parallel lines in M3 impose a common practice slope; nonparallel lines in M4 represent format-specific conditional slopes."
+#| fig-alt: "Two side-by-side line charts show fitted reasoning score against practice hours for independent study, peer workshop, and guided lab. In the additive model the three lines are parallel. In the interaction model all three rise, with the guided-lab line steepest and independent-study line least steep."
+topic7_plotly(
+  p_topic7_interaction,
+  "Two interactive panels compare additive and interaction predictions. Hovering on a line reports the model, tutorial format, practice hours, fixed prior score, and fitted reasoning score. The additive lines are parallel, while the interaction-model slopes differ by format.",
+  top_margin = 176
+)
+```
+
+:::
+
+In the left panel, vertical separation between the parallel lines is constant: the fitted format difference is the same at every displayed practice value. In the right panel, the lines are not parallel. Their separation changes as practice changes, so one format difference cannot summarize the entire range. The guided-lab line rises most quickly, and the independent-study line rises least quickly, exactly as the three slopes in the preceding table state. The figure and table are two views of the same M4 equation.
+
+For a profile with prior score 10 and six practice hours, M4 gives these fitted conditional means:
+
+```{r}
+#| label: tbl-multiple-profile-predictions
+kable(
+  topic7_prediction_profile |>
+    transmute(
+      `Prior score` = format_t07(prior_score, 1),
+      `Practice hours` = format_t07(practice_hours, 1),
+      `Tutorial format` = as.character(tutorial_format),
+      `Fitted reasoning score` = format_t07(fitted_score, 2)
+    ),
+  align = c("r", "r", "l", "r"),
+  caption = "Full-model fitted means for one predictor profile under each tutorial format."
+)
+```
+
+Only tutorial format changes across these rows. The differences are model-based conditional comparisons, not causal effects and not guaranteed scores for individual students.
+
+---
+
+**Step 12: Change the Reference Without Changing the Fit**
+
+The three fitted equations describe the modeled relationship. Choosing a reference category only chooses how that same relationship is written in the coefficient table.
+
+> **Prediction check:** If only the reference coding changes, should any fitted score or fitted line move?
+
+We refit the identical M4 relationship three times, selecting each tutorial format as the reference once.
+
+```{r}
+#| label: tbl-multiple-reference-coefficients
+kable(
+  topic7_reference_coefficient_table |>
+    transmute(
+      `Reference category` = reference_category,
+      Intercept = format_t07(intercept, 3),
+      `Reference-group practice slope` = format_t07(reference_practice_slope, 3)
+    ),
+  align = c("l", "r", "r"),
+  caption = "The displayed intercept and practice coefficient move with the reference category."
+)
+```
+
+The coefficient representation changes because the intercept and base practice slope now describe a different group. The fitted values do not change. The table below predicts the same three profiles from all three parameterizations.
+
+```{r}
+#| label: tbl-multiple-reference-invariance
+kable(
+  topic7_reference_prediction_table |>
+    transmute(
+      Parameterization = parameterization,
+      `Predicted format` = tutorial_format,
+      `Fitted score at prior 10 and practice 6` = format_t07(fitted_score, 6)
+    ),
+  align = c("l", "l", "r"),
+  caption = "Identical fitted scores under three reference-category choices."
+)
+```
+
+The figure repeats the same three fitted lines in every panel. The emphasized line identifies the reference used to write that panel's coefficients. No line moves.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollable reference-category invariance figure"}
+
+```{r}
+#| label: fig-multiple-reference-invariance
+#| fig-cap: "The same fitted interaction relationship under all three reference choices. Emphasis moves to the selected reference line, while every prediction remains fixed."
+#| fig-alt: "Three side-by-side panels show identical fitted lines for independent study, peer workshop, and guided lab. Each panel names a different reference category and draws that category's line more strongly, but the positions and slopes of all lines remain unchanged."
+topic7_plotly(
+  p_topic7_reference,
+  "Three interactive panels repeat identical fitted lines under three reference-category choices. Hovering reports the displayed reference, the fitted line, practice hours, fixed prior score, and fitted score. Visual emphasis changes, but predictions do not.",
+  top_margin = 184
+)
+```
+
+:::
+
+Compare a named line across the three panels. Its height and slope never change. Only the visual emphasis moves to the category being used as the coefficient baseline. The coefficient table above therefore changes coordinates, while this figure verifies that the modeled relationship itself is invariant.
+
+---
+
+**Step 13: Check the Residuals and the Cases That May Matter Most**
+
+Fitting M4 is not the end of the analysis. We now turn from the coefficients to the model's leftovers. The three checks below answer different questions: Do residuals change systematically across fitted scores? Is their overall distribution reasonably compatible with the normal shape used for the small-sample tests and intervals? Could one case have an unusually large effect on the fitted regression? No single display can answer all three.
+
+**13A. Look for a pattern in residuals against fitted scores**
+
+The horizontal axis in the next figure contains the same M4 fitted scores used in Step 5. The vertical axis contains the corresponding residuals, calculated as observed minus fitted. The dashed line at zero therefore represents exact agreement. Points above it were underpredicted, and points below it were overpredicted.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable residual-versus-fitted diagnostic figure"}
+
+```{r}
+#| label: fig-multiple-residual-diagnostic
+#| fig-cap: "M4 residuals against fitted reasoning scores. A useful residual pattern is a roughly even, unstructured band around zero rather than a curve, funnel, or isolated cluster."
+#| fig-alt: "A scatterplot places fitted reasoning scores on the horizontal axis and observed-minus-fitted residuals on the vertical axis. The 180 blue points form a broadly even cloud above and below a dashed horizontal zero line, without a pronounced curve or funnel."
+topic7_plotly(
+  p_topic7_residual_diagnostic,
+  "An interactive residual-versus-fitted plot shows a broadly even cloud around zero. Hovering reports each participant's predictor profile, fitted score, observed score, and residual."
+)
+```
+
+:::
+
+Read this plot from left to right. The points stay on both sides of zero across the fitted-score range, and their vertical spread is broadly similar from lower to higher fitted values. There is no pronounced curve or funnel in this constructed sample. That is reassuring because M4 uses linear terms and one common residual-spread estimate. It is not proof that the model is correct: a plot can reveal a visible conflict, but a quiet-looking plot cannot rule out every misspecification or design problem.
+
+**13B. Compare the residual distribution with a normal reference**
+
+The next display is a normal quantile-quantile plot, usually called a normal Q-Q plot. It sorts the standardized residuals from most negative to most positive. The horizontal position shows where each ordered value would be expected under a normal distribution, and the vertical position shows the ordered standardized residual actually observed. Standardizing places residuals on a common scale, so a value near 2 means a residual is roughly two estimated residual-standard-error units above zero after accounting for its predictor position.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable normal Q-Q residual diagnostic figure"}
+
+```{r}
+#| label: fig-multiple-qq-diagnostic
+#| fig-cap: "Normal Q-Q plot for M4 standardized residuals. The diagonal is a reference for the normal error shape used by the model's familiar small-sample tests and confidence intervals."
+#| fig-alt: "A normal quantile-quantile plot shows 180 standardized residuals ordered from negative to positive against expected normal quantiles. Most blue points follow the orange diagonal, with modest departures near the two ends."
+topic7_plotly(
+  p_topic7_qq,
+  "An interactive normal quantile-quantile plot compares ordered standardized residuals with expected normal quantiles. Hovering reports the participant, expected quantile, and standardized residual. Most points stay near the reference line."
+)
+```
+
+:::
+
+Most points track the diagonal through the center and much of the two tails. A few end points depart modestly, which is common even when the broad shape is reasonable. The largest absolute standardized residual is `r format_t07(topic7_stats$max_abs_standardized_residual, 2)`. The plot therefore gives no strong visual contradiction to the normal-error shape in this simulation, but it does not certify normality. It also says nothing about whether the predictor terms are causally meaningful or whether the observations are independent.
+
+**13C. Review leverage and Cook's distance together**
+
+A large residual means that an observed outcome lies far from its fitted value. *Leverage* asks something else: does the case have an unusual combination of predictor values? *Cook's distance* brings these two kinds of information together and summarizes how strongly the fitted regression could change if that case were omitted. Cook's distance is not a probability, and a larger value is a request for closer inspection rather than an instruction to delete the row.
+
+The full table would contain 180 rows, so the restrained review below shows only the five largest Cook's distances. It is deliberately a ranking, not a pass-fail screen.
+
+```{r}
+#| label: tbl-multiple-influence-review
+kable(
+  topic7_influence_table |>
+    transmute(
+      `Participant ID` = participant_id,
+      `Fitted score` = format_t07(fitted_score, 2),
+      Residual = format_t07(residual, 2),
+      `Standardized residual` = format_t07(standardized_residual, 2),
+      Leverage = format_t07(leverage, 3),
+      `Cook's distance` = format_t07(cooks_distance, 3)
+    ),
+  align = c("l", "r", "r", "r", "r", "r"),
+  caption = "Five simulated cases with the largest Cook's distances in M4, shown for careful review rather than automatic deletion."
+)
+```
+
+M4 estimates seven coefficients in total, the intercept plus six predictor parameters. Across `r topic7_stats$n` cases, average leverage is therefore `r format_t07(topic7_stats$mean_leverage, 3)`, while the largest observed leverage is `r format_t07(topic7_stats$max_leverage, 3)`. A leverage value describes predictor geometry and does not imply that a score was recorded incorrectly. The largest Cook's distance is `r format_t07(topic7_stats$max_cooks_distance, 3)` for case `r topic7_stats$most_influential_id`. The case with the largest residual does not have to have the largest Cook's distance because influence depends on residual size and predictor position together.
+
+The responsible next move is practical: verify any highlighted row against the data source, check how its predictors were coded, and ask whether its combination is genuinely part of the population of interest. If a case is valid but conclusions seem sensitive to it, compare the planned model with and without that case as an explicitly labeled sensitivity check and report whether the interpretation changes. In this constructed dataset, the residual plot, Q-Q plot, and influence review identify no obvious reason to alter M4. They support continuing with caution, not claiming that every assumption has been proven.
+
+---
+
+**Step 14: Use AIC as a Relative Candidate Comparison**
+
+The model-comparison table in Step 6 reports AIC values of `r paste(paste0(topic7_model_table$model, " = ", format_t07(topic7_model_table$aic, 2)), collapse = ", ")`. M4 has the smallest AIC among these five prespecified candidates, so it has the best relative fit-complexity balance in this constructed sample.
+
+That sentence must retain “among these candidates.” AIC does not say that M4 is true, causal, well measured, or best for a new cohort. Here, the candidate sequence was chosen before inspection and reflects the constructed research question. A prediction study would still need honest validation on unseen data.
+
+---
+
+**Step 15: State the Conclusion at the Right Scope**
+
+::: {.callout-note title="Important distinction"}
+In this simulated cohort of `r topic7_stats$n` students, prior reasoning score, practice hours, tutorial format, and practice-by-format terms jointly explained `r format_t07(100 * topic7_stats$full_r_squared, 1)`% of sample variation in reasoning scores, with adjusted $R^2=`r format_t07(topic7_stats$full_adjusted_r_squared, 3)`$ and residual standard error `r format_t07(topic7_stats$full_residual_standard_error, 2)` points. The global model test rejected the null that all six slopes were zero. The nested comparison supported adding the two interaction terms to the additive candidate. Conditional practice slopes were positive in all three formats and differed in size, with stronger individual evidence for the guided-versus-independent difference than for the peer-versus-independent difference. The residual-versus-fitted and normal Q-Q plots showed no pronounced conflict with the modeled form or broad error shape, and the influence review supplied cases to inspect without providing an automatic reason to remove any row.
+:::
+
+This conclusion describes constructed data under one specified model. It does not establish that practice or tutorial format causes score changes. It does not show that every coefficient is nonzero, and it does not guarantee accurate prediction for new students.
+
+### Potential Pitfalls {.cs-heading}
+
+The simulation was generated from a clean recipe with complete values. Real data usually have messier measurement, missing values, selection, and design constraints, none of which can be repaired by adding more terms to an equation.
+
+- **Interpreting bivariate and conditional coefficients as the same question.** Predictor overlap means that the two estimates use different comparison conditions.
+- **Giving the full-model intercept a realistic student meaning.** It combines prior score zero, practice zero, and the reference format, while prior score zero lies outside this sample's range.
+- **Calling format coefficients randomized treatment effects.** The indicators are conditional comparisons in the constructed observational interpretation.
+- **Extending interaction slopes beyond the observed range.** They are linear summaries only where the constructed predictor values provide support.
+- **Using the global test to declare every term significant.** The joint model question and the individual coefficient questions are different.
+- **Treating the lowest AIC as an unrestricted winner.** It applies only to the five stated candidates fitted to the same constructed data.
+- **Treating diagnostic plots as proof.** Residual and Q-Q plots provide selected visual checks; leverage and Cook's distance flag cases for contextual review rather than automatic deletion.
+- **Letting model diagnostics replace design checks.** Measurement quality, coding, missing data, case selection, dependence, and supported predictor combinations still require separate attention.
+
+### How This Example Brings the Theory Together {.cs-heading}
+
+The fifteen steps followed the Theory section from variable roles to conditional coefficients, fitted values, residuals, model comparison, joint and individual tests, dummy coding, interactions, reference categories, and diagnostics. Multiple regression is easier to remember when it is treated as the next chapter of one continuous story rather than as a separate collection of formulas.
+
+| Connected idea | Core question | Object you interpret | What remains visible in multiple regression |
+|---|---|---|---|
+| Covariance and correlation | Do two quantitative variables vary together, and how strong is their linear association? | Covariance or Pearson correlation | The bivariate starting relationships among the outcome and predictors |
+| Simple linear regression | How does one fitted outcome change with one predictor? | Intercept, slope, fitted values, and residuals | The same fitted-value and residual logic, now with several predictor contributions |
+| Partial correlation | Do two variables still move together after both are adjusted for one third variable? | Correlation between two residual columns | The idea of separating shared linear information before interpreting an adjusted relationship |
+| Multiple regression | How is one fitted outcome associated with several predictor terms at once? | Conditional coefficients, model fit, tests, dummy variables, and interactions | One equation that brings the earlier ideas together |
+
+: Topics 4 through 7 form a connected progression of linear questions. {#tbl-multiple-course-synthesis}
+
+The simulated example began with the Topic 4 view: practice and reasoning had a positive bivariate correlation. M1 then used the Topic 5 view by fitting reasoning from practice with one slope. M2 introduced prior score, so the practice coefficient became conditional. That change mirrors the adjustment lesson from Topic 6, although the quantities are not identical: partial correlation residualizes both focal variables and remains symmetric, while a regression coefficient keeps one named outcome and expresses its conditional change in outcome units.
+
+M3 and M4 showed what multiple regression adds beyond those earlier methods. Dummy variables let a categorical predictor join the same equation. Interaction terms let a slope depend on group. The model comparison, $R^2$, global $F$ test, coefficient $t$ tests, and residuals then describe different layers of that one fitted relationship. None is a substitute for the others.
+
+The most useful mental picture is the sequence of fitted contributions from the Theory tab. Every row begins with an intercept, adds one term for each quantitative predictor, and adds the relevant dummy and interaction terms. A conditional coefficient changes one contribution while the other model terms stay fixed. A dummy coefficient describes a comparison with the reference category. An interaction changes a slope rather than merely shifting a line. Residuals remain observed minus the completed fitted value.
+
+This connection also prepares Topic 8. ANOVA does not abandon regression. It places categorical predictors at the center and asks joint questions about group means. Once those categories are represented with dummy variables, the ANOVA and regression views belong to the same general linear-model family.
+
+## Exercises and Solutions
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "en",
+  course_id = "intro-statistics",
+  topic_number = 7
+)
+```
+
+## Summary
+
+{{< include ../../_shared/topic-summaries/en/t07.md >}}
+
+---
+
+### Downloadable Summary {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "en",
+  course_id = "intro-statistics",
+  topic_number = 7
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Topic navigation"}
+[Previous: Partial Correlation](t06_partial-corr.qmd){.text-link-arrow .previous}
+[Introduction Overview](overview-intro-stats-en.qmd){.text-link-arrow}
+[Next: Analysis of Variance](t08_anova.qmd){.text-link-arrow .next}
+:::

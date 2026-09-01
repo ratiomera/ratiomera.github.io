@@ -1,0 +1,98 @@
+---
+title: "Support"
+subtitle: "Help a volunteer-built learning platform grow responsibly"
+pagetitle: "Support | Ratiomera"
+title-prefix: ""
+description: "Learn how non-financial contributions help Ratiomera now and how optional donations could support its open educational resources and branches in the future."
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Ratiomera is built and maintained through volunteer work. Every lesson, correction, translation, figure, exercise, accessibility improvement, and technical update takes time. Non-financial contributions help the project now. If a transparent donation method is established in the future, optional financial support could give the team more room to do that work carefully while keeping the learning material open to everyone.
+:::
+
+---
+
+## Why Support Matters
+
+Developing reliable educational material requires much more than writing a first explanation. A topic has to be placed in a coherent learning sequence, explained from more than one angle, connected to meaningful examples, checked against its sources, supported by figures and tables, tested through exercises, and revised when a learner finds something unclear. The same work then has to be adapted carefully across languages without changing the underlying mathematics or statistical meaning.
+
+The platform itself also needs continuing attention. Pages must remain responsive, accessible, searchable, technically reliable, and easy to maintain as new topics and branches are added. Open material is not finished when it first appears online. It becomes dependable through review, correction, and sustained care.
+
+Support gives Ratiomera more capacity for that quiet work. It helps a volunteer project move deliberately, improve material after release, and respond to useful feedback without turning access into a product reserved for those who can pay.
+
+---
+
+## Financial Support
+
+The only form of financial support Ratiomera intends to accept is an **optional donation**. A donation does not purchase a service, lesson, certificate, priority response, or private material. It contributes to the shared project as a whole.
+
+Donations may help cover real project costs such as hosting, domains, technical infrastructure, accessibility work, translation review, content review, document production, and long-term maintenance. They may also give volunteers more practical room to revise Ratiomera Statistics carefully and, when the project is ready, begin the planned Ratiomera Mathematics curriculum responsibly.
+
+**This page does not yet contain a donation checkout or payment-provider integration.** Donation details will be published only after a real, transparent method has been confirmed and configured. Until then, Ratiomera is not requesting transfers through informal or unverified channels.
+
+---
+
+## Non-Financial Support
+
+Financial contributions are only one way to help. You can **share material** with a student, teacher, lecturer, colleague, or institution that may find it useful. You can **review a page** by pointing out an unclear explanation, questionable figure, broken layout, typo, accessibility barrier, or possible factual error. You can also **test an exercise or solution** and describe the precise point at which the reasoning became difficult to follow.
+
+You can **contribute expertise** in a clearly agreed area, including subject knowledge, teaching experience, accessibility, design, or technical development. You can **support a language** by helping to translate, review, and maintain it over time. A new language can be added only when people are available to check that its meaning is accurate and that its wording remains natural for learners.
+
+You can **suggest a learning need** and **connect Ratiomera** with a relevant educational community, school, university, or professional network. A single correction may improve a lesson for everyone who reads it afterward. A thoughtful suggestion may shape a later revision, while a conversation with a learner or educator can reveal a need that would otherwise remain invisible.
+
+---
+
+## What Support Enables
+
+:::: {.support-grid}
+::: {.support-card}
+### Ratiomera Statistics
+
+Ratiomera Statistics is currently the active branch. Support contributes to expanding and reviewing the Introduction to Statistics curriculum, creating exercises and complete solutions, developing downloadable material, maintaining the platform, and preparing additional university-level statistics content for the humanities and social sciences.
+:::
+
+::: {.support-card}
+### Ratiomera Mathematics
+
+Ratiomera Mathematics has not yet entered active development. Support for Ratiomera as a whole helps move the project toward the point at which a structured mathematics curriculum, from primary school through Gymnasium level, can be developed responsibly.
+:::
+::::
+
+---
+
+## From a Volunteer Project to Long-Term Stewardship
+
+Ratiomera is currently a volunteer project, not an association, and it does not yet accept donations. The immediate task is to complete, review, and publish useful material, then listen carefully to how people actually use it. Page visits, downloads, corrections, repeat use, and thoughtful messages can all help show whether the platform meets a continuing educational need. Those signals must be interpreted cautiously: a page load is not the same as one person, and a download does not prove that a document was studied. Together with qualitative feedback, however, they can help the team judge whether long-term investment is justified.
+
+If sustained use and community participation show that Ratiomera should become a lasting educational commitment, the team intends to consider creating a Swiss association. An association could provide clearer responsibility, transparent decision-making, continuity beyond individual contributors, and a proper framework for receiving and documenting donations. Its statutes, governance, finances, and reporting would need to be established openly before donations were accepted in that form.
+
+This is a possible future step, not a claim about Ratiomera's current legal status. Usage alone will not make the decision. The quality of the material, the capacity to maintain it, the availability of responsible volunteers, and the willingness of learners and specialists to keep improving it will matter just as much.
+
+---
+
+## Open-Access Promise
+
+Open access is a lasting part of Ratiomera's purpose. Learning should not depend on whether someone can afford a subscription, pass a checkout screen, keep paying after a free trial, or make repeated in-app purchases. A page that offers one helpful lesson for free and then places the connected explanations, exercises, or solutions behind a paywall can interrupt learning exactly when a person is beginning to understand. Ratiomera is therefore being built around a simple principle: when educational material is ready to be shared, the complete learning path should remain available without a required payment.
+
+This promise shapes how the platform grows. Ratiomera will not divide a topic into a limited public version and a more useful paid version, reserve advanced explanations for a premium tier, or make continued access depend on recurring fees, credits, compulsory bundles, or expiring trials. Accounts or technical services may become useful for optional functions in the future, but they must not become financial barriers to the lessons, figures, summaries, exercises, or solutions themselves.
+
+Careful educational work has real costs even when access remains open. Ratiomera aims to meet those costs without turning a learner's financial circumstances into a boundary around what that person is allowed to understand. An optional donation can help sustain the shared resource, while the material itself remains available to everyone.
+
+No donation can replace careful review, and no donor owns the educational conclusions of a lesson. Content decisions remain guided by the learning purpose, the available source material, accuracy, accessibility, and the needs that emerge from the wider community.
+
+---
+
+## Thank You
+
+**Thank you first to every learner** who gives Ratiomera a place in their own learning process. Opening a difficult topic again, trying a second explanation, working through a calculation, or returning after an earlier experience made statistics or mathematics feel inaccessible takes persistence. The platform exists for those moments.
+
+**Thank you to the students** who describe what did not make sense, who notice when a figure tells the wrong story, and who send a message when one sentence creates more confusion than understanding. That feedback matters because it can turn one person's difficulty into a better explanation for everyone who comes next.
+
+**Thank you to teachers, lecturers, researchers, professionals, and subject specialists** who share experience, question an interpretation, review terminology, test material, or point toward a learning need that the team had not yet seen. **Thank you as well to the people who help** with language, accessibility, design, development, document preparation, and the less visible maintenance that keeps a growing platform coherent.
+
+**Thank you to everyone who recommends Ratiomera** without overstating what it is. Ratiomera is a volunteer-built companion to established learning settings. It grows through careful work, corrections, conversation, and the willingness to explain an idea once more from another direction. Every person who shares the platform thoughtfully, tests it honestly, or writes to the team helps that process continue.
+
+**Finally, thank you to those who support the nature of Ratiomera itself**: one shared platform, two developing educational branches, several language versions, and no hidden tier of better material. Whether your contribution is a correction, a translation review, a technical improvement, an introduction to another educational community, a short email saying what helped and what did not, or a possible donation after a transparent method is established, it becomes part of the collective effort behind the project.
+
+We are grateful that you are here, and grateful to everyone who helps Ratiomera remain careful, open, and willing to keep learning from the people it is meant to serve.

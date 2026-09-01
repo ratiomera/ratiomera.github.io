@@ -1,0 +1,32 @@
+<script>
+/* Keep Quarto's compact mobile sidebar dismissible after navigation or Escape. */
+(function () {
+  'use strict';
+
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest('#quarto-sidebar a[href*="#"]');
+    if (!link || window.matchMedia('(min-width: 992px)').matches) return;
+
+    var toggle = document.querySelector(
+      '.quarto-secondary-nav .quarto-btn-toggle[aria-expanded="true"]'
+    );
+    if (toggle) toggle.click();
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || window.matchMedia('(min-width: 992px)').matches) return;
+
+    var sidebar = document.getElementById('quarto-sidebar');
+    if (!sidebar || !sidebar.classList.contains('show')) return;
+
+    var toggle = document.querySelector(
+      '.quarto-secondary-nav .quarto-btn-toggle[aria-expanded="true"]'
+    );
+    if (!toggle) return;
+
+    event.preventDefault();
+    toggle.click();
+    toggle.focus();
+  });
+}());
+</script>

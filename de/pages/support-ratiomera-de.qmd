@@ -1,0 +1,99 @@
+---
+title: "Unterstützen"
+subtitle: "Hilf einer von Freiwilligen entwickelten Lernplattform, verantwortungsvoll zu wachsen"
+pagetitle: "Unterstützen | Ratiomera"
+title-prefix: ""
+description: "Erfahre, wie Beiträge ohne Geldspende Ratiomera schon heute helfen und wie freiwillige Spenden die offenen Lernmaterialien und Fachbereiche künftig unterstützen könnten."
+lang: de-CH
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Ratiomera wird durch freiwillige Arbeit aufgebaut und gepflegt. Jede Lektion, Korrektur, Übersetzung, Abbildung, Übung, Verbesserung der Barrierefreiheit und technische Aktualisierung benötigt Zeit. Beiträge ohne Geldspende helfen dem Projekt schon heute. Falls künftig eine transparente Spendenmöglichkeit eingerichtet wird, könnte freiwillige finanzielle Unterstützung dem Team mehr Raum geben, diese Arbeit sorgfältig zu leisten und das Lernmaterial zugleich für alle offen zu halten.
+:::
+
+---
+
+## Warum Unterstützung wichtig ist
+
+Verlässliches Bildungsmaterial zu entwickeln, bedeutet weit mehr, als eine erste Erklärung zu verfassen. Ein Thema muss in eine zusammenhängende Lernsequenz eingeordnet, aus mehreren Blickwinkeln erklärt, mit aussagekräftigen Beispielen verbunden, anhand der Quellen geprüft, durch Abbildungen und Tabellen unterstützt und mit Übungen erprobt werden. Wenn eine lernende Person eine Unklarheit entdeckt, beginnt die nächste Überarbeitung. Danach muss dieselbe Bedeutung sorgfältig in weitere Sprachen übertragen werden, ohne Mathematik oder statistische Aussage zu verändern.
+
+Auch die Plattform selbst verlangt laufende Pflege. Seiten müssen responsiv, barrierearm, durchsuchbar, technisch verlässlich und bei wachsender Themenzahl weiterhin gut wartbar bleiben. Offenes Material ist mit dem ersten Erscheinen nicht abgeschlossen. Verlässlich wird es durch Prüfung, Korrektur und dauerhafte Sorgfalt.
+
+Unterstützung schafft mehr Kapazität für diese oft unsichtbare Arbeit. Sie hilft einem freiwilligen Projekt, sich überlegt weiterzuentwickeln, Material nach seiner Veröffentlichung zu verbessern und nützliche Rückmeldungen aufzunehmen, ohne den Zugang zu einem Angebot für zahlende Personen zu machen.
+
+---
+
+## Finanzielle Unterstützung
+
+Die einzige Form finanzieller Unterstützung, die Ratiomera annehmen möchte, ist eine **freiwillige Spende**. Eine Spende kauft weder eine Dienstleistung noch eine Lektion, ein Zertifikat, eine bevorzugte Antwort oder privates Material. Sie unterstützt das gemeinsame Projekt als Ganzes.
+
+Spenden können reale Projektkosten wie Hosting, Domains, technische Infrastruktur, Arbeiten an der Barrierefreiheit, Übersetzungsprüfungen, fachliche Reviews, Dokumentproduktion und langfristige Pflege mittragen. Sie können Freiwilligen zudem mehr praktischen Raum geben, Ratiomera Statistics sorgfältig zu überarbeiten und später, wenn das Projekt bereit ist, Ratiomera Mathematics verantwortungsvoll aufzubauen.
+
+**Diese Seite enthält noch keine Spendenfunktion und keine Einbindung eines Zahlungsdienstleisters.** Angaben werden erst veröffentlicht, wenn eine reale und transparente Methode bestätigt und eingerichtet ist. Bis dahin bittet Ratiomera nicht um Überweisungen über informelle oder ungeprüfte Wege.
+
+---
+
+## Nicht finanzielle Unterstützung
+
+Finanzielle Beiträge sind nur eine Form der Unterstützung. Du kannst **Material teilen** und es Studierenden, Lehrpersonen, Dozierenden, Kolleginnen und Kollegen oder einer Institution empfehlen, für die es hilfreich sein könnte. Du kannst **eine Seite prüfen**, indem du eine unklare Erklärung, eine fragwürdige Abbildung, ein Layoutproblem, einen Tippfehler, eine Barriere oder einen möglichen inhaltlichen Fehler meldest. Du kannst auch **eine Übung oder Lösung testen** und genau beschreiben, an welcher Stelle der Gedankengang schwer nachvollziehbar wurde.
+
+Du kannst nach klarer Absprache **Fachwissen beitragen**, etwa aus einem Fachgebiet, der Didaktik, Barrierefreiheit, Gestaltung oder technischen Entwicklung. Du kannst **eine Sprache unterstützen**, indem du beim Übersetzen, Prüfen und langfristigen Pflegen einer Sprachversion hilfst. Eine zusätzliche Sprache kann erst angeboten werden, wenn Personen verfügbar sind, die ihre Bedeutung zuverlässig kontrollieren und für natürliches, verständliches Lernen sorgen können.
+
+Du kannst **einen Lernbedarf vorschlagen** und **Ratiomera vernetzen**, etwa mit einer passenden Bildungsgemeinschaft, Schule, Hochschule oder einem beruflichen Netzwerk. Eine einzige Korrektur kann eine Lektion für alle verbessern, die sie später lesen. Ein durchdachter Vorschlag kann eine spätere Überarbeitung prägen, während ein Gespräch mit einer lernenden oder lehrenden Person einen Bedarf sichtbar machen kann, der sonst unerkannt bliebe.
+
+---
+
+## Was Unterstützung ermöglicht
+
+:::: {.support-grid}
+::: {.support-card}
+### Ratiomera Statistics
+
+Ratiomera Statistics ist derzeit der aktive Fachbereich. Unterstützung trägt dazu bei, den Lehrplan zur Einführung in die Statistik auszubauen und zu prüfen, Übungen und vollständige Lösungen zu erstellen, herunterladbares Material zu entwickeln, die Plattform zu pflegen und weitere Statistik-Inhalte auf Hochschulniveau für die Geistes- und Sozialwissenschaften vorzubereiten.
+:::
+
+::: {.support-card}
+### Ratiomera Mathematics
+
+Ratiomera Mathematics befindet sich noch nicht in der aktiven Entwicklung. Die Unterstützung von Ratiomera als Ganzes hilft dem Projekt, den Punkt zu erreichen, an dem ein strukturierter Mathematiklehrplan von der Primarschule bis zur Gymnasialstufe verantwortungsvoll entwickelt werden kann.
+:::
+::::
+
+---
+
+## Vom Freiwilligenprojekt zur langfristigen Trägerschaft
+
+Ratiomera ist derzeit ein Freiwilligenprojekt, kein Verein, und nimmt noch keine Spenden an. Zunächst sollen nützliche Materialien fertiggestellt, geprüft und veröffentlicht werden. Danach gilt es, aufmerksam zuzuhören und zu verstehen, wie die Menschen sie tatsächlich nutzen. Seitenbesuche, Downloads, Korrekturen, wiederholte Nutzung und durchdachte Nachrichten können Hinweise darauf geben, ob die Plattform einen dauerhaften Bildungsbedarf erfüllt. Solche Signale müssen vorsichtig interpretiert werden: Ein Seitenaufruf ist nicht dasselbe wie eine Person, und ein Download beweist nicht, dass ein Dokument bearbeitet wurde. Zusammen mit qualitativen Rückmeldungen können sie dem Team jedoch helfen einzuschätzen, ob sich eine langfristige Investition rechtfertigt.
+
+Wenn eine anhaltende Nutzung und die Beteiligung der Gemeinschaft zeigen, dass Ratiomera zu einem dauerhaften Bildungsengagement werden sollte, möchte das Team die Gründung eines Schweizer Vereins prüfen. Ein Verein könnte klarere Verantwortlichkeiten, transparente Entscheidungswege, Kontinuität über einzelne Mitwirkende hinaus und einen geeigneten Rahmen für die Annahme und Dokumentation von Spenden schaffen. Statuten, Leitung, Finanzen und Berichterstattung müssten offen festgelegt sein, bevor Spenden in dieser Form angenommen würden.
+
+Dies ist ein möglicher künftiger Schritt und keine Aussage über den heutigen rechtlichen Status von Ratiomera. Die Nutzung allein entscheidet nicht darüber. Ebenso wichtig sind die Qualität der Materialien, die Kapazität zu ihrer Pflege, die Verfügbarkeit verantwortungsvoller Freiwilliger und die Bereitschaft von Lernenden und Fachpersonen, sie weiter zu verbessern.
+
+---
+
+## Versprechen des offenen Zugangs
+
+Offener Zugang gehört dauerhaft zum Zweck von Ratiomera. Lernen soll nicht davon abhängen, ob jemand ein Abonnement bezahlen, eine Kassenseite passieren, nach einer kostenlosen Testphase weiterzahlen oder wiederholt In-App-Käufe tätigen kann. Wenn eine Seite eine einzelne Lektion kostenlos anbietet und die zusammengehörenden Erklärungen, Übungen oder Lösungen danach hinter einer Bezahlschranke liegen, kann sie den Lernprozess genau dann unterbrechen, wenn sich Verständnis zu entwickeln beginnt. Ratiomera folgt deshalb einem einfachen Grundsatz: Sobald Bildungsmaterial bereit ist, geteilt zu werden, soll der vollständige Lernweg ohne obligatorische Zahlung zugänglich bleiben.
+
+Dieses Versprechen prägt das Wachstum der Plattform. Ratiomera wird ein Thema nicht in eine eingeschränkte öffentliche und eine nützlichere bezahlte Fassung aufteilen, vertiefende Erklärungen nicht für eine Premiumstufe reservieren und den weiteren Zugang nicht von wiederkehrenden Gebühren, Guthaben, verpflichtenden Paketen oder ablaufenden Testphasen abhängig machen. Konten oder technische Dienste könnten später für freiwillige Funktionen nützlich werden, dürfen aber keine finanziellen Hürden vor Lektionen, Abbildungen, Zusammenfassungen, Übungen oder Lösungen errichten.
+
+Sorgfältige Bildungsarbeit verursacht auch bei offenem Zugang reale Kosten. Ratiomera möchte diese Kosten tragen, ohne aus den finanziellen Möglichkeiten einer lernenden Person eine Grenze dafür zu machen, was sie verstehen darf. Eine freiwillige Spende kann die gemeinsame Ressource mittragen, während das Material selbst allen offensteht.
+
+Keine Spende ersetzt eine sorgfältige Prüfung, und keine spendende Person besitzt die fachlichen Schlussfolgerungen einer Lektion. Inhaltliche Entscheidungen richten sich weiterhin nach Lernziel, vorhandenen Quellen, Genauigkeit, Barrierefreiheit und den Bedürfnissen, die aus der breiteren Gemeinschaft sichtbar werden.
+
+---
+
+## Vielen Dank
+
+**Vielen Dank zuerst an alle Lernenden**, die Ratiomera einen Platz in ihrem eigenen Lernprozess geben. Ein schwieriges Thema erneut zu öffnen, eine zweite Erklärung auszuprobieren, eine Berechnung durchzuarbeiten oder nach einer früheren negativen Erfahrung mit Statistik oder Mathematik zurückzukehren, verlangt Ausdauer. Für genau solche Momente entsteht diese Plattform.
+
+**Vielen Dank an Studierende**, die beschreiben, was nicht verständlich war, die bemerken, wenn eine Abbildung die falsche Geschichte erzählt, und die schreiben, wenn ein Satz mehr Verwirrung als Verständnis erzeugt. Solche Rückmeldungen sind wichtig, weil sie eine einzelne Schwierigkeit in eine bessere Erklärung für alle verwandeln können, die später folgen.
+
+**Vielen Dank an Lehrpersonen, Dozierende, Forschende, Fachpersonen und weitere Expertinnen und Experten**, die Erfahrungen teilen, eine Interpretation hinterfragen, Begriffe prüfen, Material testen oder auf einen Lernbedarf hinweisen, den das Team noch nicht erkannt hatte. **Ebenso danken wir allen Helferinnen und Helfern**, die bei Sprache, Barrierefreiheit, Gestaltung, Entwicklung, Dokumentproduktion und der weniger sichtbaren Pflege helfen, durch die eine wachsende Plattform zusammenhängend bleibt.
+
+**Vielen Dank an alle, die Ratiomera weiterempfehlen**, ohne den Charakter des Projekts zu überzeichnen. Ratiomera ist eine von Freiwilligen entwickelte Begleitung zu etablierten Lernumgebungen. Die Plattform wächst durch sorgfältige Arbeit, Korrekturen, Gespräche und die Bereitschaft, eine Idee noch einmal aus einer anderen Richtung zu erklären. Wer sie überlegt teilt, ehrlich testet oder dem Team schreibt, hilft diesem Prozess weiter.
+
+**Schliesslich danken wir allen, welche die Natur von Ratiomera selbst unterstützen**: eine gemeinsame Plattform, zwei wachsende Bildungsbereiche, mehrere Sprachversionen und keine verborgene Stufe mit besserem Material. Ob eine Korrektur, die Prüfung einer Übersetzung, eine technische Verbesserung, eine Verbindung zu einer Bildungsgemeinschaft, eine kurze E-Mail darüber, was geholfen hat und was nicht, oder eine mögliche Spende nach der Einrichtung eines transparenten Verfahrens: Jeder dieser Beiträge wird Teil der gemeinsamen Arbeit hinter Ratiomera.
+
+Wir sind dankbar, dass du hier bist, und danken allen, die Ratiomera dabei helfen, sorgfältig, offen und lernbereit gegenüber den Menschen zu bleiben, für die das Projekt gedacht ist.

@@ -1,0 +1,1650 @@
+---
+title: "Multiple Regression"
+subtitle: "Einführung in die Statistik · Thema 7"
+pagetitle: "Multiple Regression | Ratiomera Statistics"
+title-prefix: ""
+description: "Lerne, wie die multiple Regression eine quantitative Zielvariable anhand mehrerer Prädiktoren mit bedingten Koeffizienten, angepassten Werten, Modellgüte, verschachtelten Vergleichen, kategorialen Prädiktoren und Interaktionen modelliert."
+lang: de-CH
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "de"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t07-multiple-regression-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Themenabschnitte</h2>
+
+::: {.panel-tabset}
+
+## Theorie
+
+### Einführung: Eine Zielvariable, mehrere Prädiktoren {.cs-heading}
+
+Thema 5 verwendete einen Prädiktor, um eine Gerade anzupassen. Thema 6 zeigte, weshalb sich ein Zusammenhang verändern kann, nachdem eine Drittvariable berücksichtigt wurde. Die *multiple Regression* führt diese Ideen zusammen: Sie modelliert eine quantitative Zielvariable gleichzeitig anhand von zwei oder mehr Prädiktoren.
+
+Das ist wichtig, weil Forschungsfragen nur selten eine einzige relevante Variable betreffen. Ein Punktwert im statistischen Denken kann beispielsweise mit dem Vorwissen, der Übungszeit und dem Lernformat zusammenhängen. Mit der multiplen Regression können wir den Zusammenhang eines Prädiktors schätzen, während wir Fälle vergleichen, die bei den anderen Prädiktoren dieselben modellierten Werte haben.
+
+Das Wort *multiple* bedeutet nicht, dass mehrere Zielvariablen gleichzeitig analysiert werden. Es gibt weiterhin nur eine Zielvariable. Mehrfach ist die Menge der Prädiktoren, mit denen ihr angepasster Mittelwert beschrieben wird. Das Verfahren ist somit eine direkte Erweiterung der einzelnen Geraden aus Thema 5 und keine völlig neue Art des Denkens.
+
+> **Leitfrage:** Was bedeutet jeder Koeffizient, wenn sich mehrere Prädiktoren überlappen und gemeinsam im selben Modell dargestellt werden?
+
+| Frühere Idee | Welche Frage sie beantwortete | Was Thema 7 hinzufügt |
+|---|---|---|
+| Pearson-Korrelation | Wie eng bewegen sich zwei quantitative Variablen linear gemeinsam? | Behält die Idee des linearen Zusammenhangs bei, gibt den Variablen aber unterschiedliche Rollen als Zielvariable und Prädiktor |
+| Einfache lineare Regression | Wie verändert sich eine angepasste Zielvariable mit einem Prädiktor? | Vereint mehrere Prädiktorterme in derselben angepassten Gleichung |
+| Partielle Korrelation | Wie hängen zwei Variablen zusammen, nachdem beide um eine Drittvariable bereinigt wurden? | Schätzt mehrere bedingte Prädiktorkoeffizienten gemeinsam und behält dabei eine benannte Zielvariable bei |
+
+: Die multiple Regression entwickelt sich direkt aus den Verfahren der Themen 4 bis 6. {#tbl-multiple-topic-bridge}
+
+Lies die Tabelle als Entwicklung. Die Korrelation schafft die Sprache für gepaarte lineare Bewegung. Die einfache Regression fügt eine Richtung und eine angepasste Gerade hinzu. Die partielle Korrelation führt die Bereinigung ein. Die multiple Regression behält die Perspektive der angepassten Zielvariable bei und nimmt mehrere solche Bereinigungen innerhalb eines Modells vor.
+
+Dieser Vergleich heisst *statistische Bereinigung* oder *statistische Kontrolle*. Er ist nützlich, aber nicht dasselbe wie experimentelle Kontrolle. Das Hinzufügen von Variablen zu einem Beobachtungsmodell erzeugt keine Zufallszuweisung und belegt für sich allein keine Kausalität.
+
+::: {.callout-tip title="Kernidee"}
+Ein Koeffizient der multiplen Regression beantwortet eine bedingte Frage: Wie unterscheidet sich der angepasste Mittelwert der Zielvariable in Abhängigkeit von einem Prädiktor, wenn alle anderen Terme desselben Modells konstant gehalten werden?
+:::
+
+### Lernziele {.cs-heading}
+
+Nach Abschluss dieses Themas kannst du:
+
+- die eine Zielvariable und die Variablen erkennen, mit denen sie beschrieben wird, unabhängig davon, ob diese Prädiktoren Zahlen oder Kategorien sind;
+- mit einer angepassten Gleichung einen angepassten Wert und sein Residuum berechnen sowie erklären, was jeder Koeffizient bei konstanten anderen Modelltermen aussagt;
+- anhand der jeweils beantworteten Frage einen Koeffizienten in Originaleinheiten, einen standardisierten Koeffizienten und eine gewöhnliche Korrelation zwischen zwei Variablen unterscheiden;
+- in Worten erklären, was Residualstandardfehler, $R^2$ und korrigiertes $R^2$ über die Modellanpassung zeigen;
+- erklären, weshalb der globale $F$-Test das gesamte Modell betrifft, während ein $t$-Test für einen Koeffizienten nach einem benannten Term fragt;
+- zwei verschachtelte Modelle vergleichen, wobei das grössere Modell alle Terme des kleineren Modells und mindestens einen zusätzlichen Term enthält;
+- den Teil eines Prädiktors, den die anderen nicht beschreiben, mit dem Anstieg von $R^2$ verbinden, wenn dieser Prädiktor zuletzt hinzugefügt wird;
+- erkennen, dass sich ein Koeffizient wegen überlappender Prädiktoren nach der Bereinigung verkleinern oder vergrössern kann, ohne damit automatisch zu zeigen, weshalb die Veränderung entstand;
+- Kategoriestufen mit Indikatorspalten aus Nullen und Einsen darstellen und die Aufgabe der gewählten Referenzkategorie erklären;
+- eine Interaktion als Unterschied zwischen bedingten Gruppensteigungen lesen;
+- ein Mass für Anpassung und Komplexität nur zum Vergleich einer geplanten Menge von Kandidatenmodellen verwenden, die an dieselben Daten angepasst wurden;
+- Diagramme unerklärter Abweichungen, Vergleiche mit einer Normalform und Prüfungen einzelner Fälle untersuchen, ohne sie als automatische Regeln zum Löschen zu behandeln; und
+- klar formulieren, welche Schlussfolgerungen die multiple Regression stützt und was sie nicht belegen kann.
+
+---
+
+### Das Populationsmodell und das angepasste Modell {.cs-heading}
+
+Beginnen wir mit zwei Prädiktoren. Eine an die Stichprobe angepasste Gleichung lautet
+
+$$
+\widehat{Y}_i=b_0+b_1X_{i1}+b_2X_{i2}.
+$$
+
+Diese Gleichung setzt eine angepasste Zielvariable aus drei Teilen zusammen: einem Ausgangswert und je einem Beitrag jedes Prädiktors.
+
+| Symbol | Bedeutung in verständlicher Sprache |
+|---|---|
+| $i$ | Die beschriebene Zeile oder der beschriebene Fall |
+| $Y_i$ | Die beobachtete quantitative Zielvariable dieses Falls |
+| $X_{i1}$ und $X_{i2}$ | Die Werte dieses Falls bei Prädiktor 1 und 2 |
+| $b_0$ | Der angepasste Achsenabschnitt, der den Ausgangswert liefert |
+| $b_1X_{i1}$ | Der angepasste Beitrag von Prädiktor 1 für diesen Fall |
+| $b_2X_{i2}$ | Der angepasste Beitrag von Prädiktor 2 für diesen Fall |
+| $\widehat{Y}_i$ | Der von der angepassten Gleichung erzeugte Wert der Zielvariable |
+
+: So liest du die Bestandteile einer angepassten Gleichung mit zwei Prädiktoren. {#tbl-multiple-equation-pieces}
+
+Um einen angepassten Wert zu berechnen, multiplizierst du jeden Prädiktorwert mit seinem Koeffizienten und addierst die Ergebnisse zum Achsenabschnitt. Die beiden Produkte beschreiben keine getrennten Zielvariablen. Sie sind Beiträge zum selben angepassten Mittelwert.
+
+Das nächste Diagramm setzt die Werte eines konstruierten Falls in das Modell mit zwei Prädiktoren ein, das wir im gesamten Theorieabschnitt verwenden. Es macht die Addition sichtbar, bevor wir zu den allgemeinen Symbolen zurückkehren.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollbares Diagramm zur Zusammensetzung des angepassten Werts für einen Fall der multiplen Regression"}
+
+```{r}
+#| label: fig-multiple-fitted-composition
+#| fig-alt: "Ein Diagramm von links nach rechts addiert den angepassten Achsenabschnitt, den Koeffizienten mal den Vorwissenswert des ausgewählten Falls und den Koeffizienten mal die Übungsstunden dieses Falls zu einem angepassten Zielwert. Ein Kasten darunter zieht den angepassten Wert vom beobachteten Zielwert ab und erhält dadurch das Residuum."
+#| fig-cap: "Ein angepasster Wert der multiplen Regression ist eine einzige Summe aus Achsenabschnitt und allen aufgenommenen Beiträgen aus Koeffizient mal Prädiktor; das Residuum ist beobachtet minus dieser vollständig berechnete angepasste Wert."
+#| fig-width: 11
+#| fig-height: 4.4
+p_topic7_fitted_composition_en
+```
+
+:::
+
+Lies die obere Zeile von links nach rechts. Der erste Kasten liefert den angepassten Ausgangswert. Die nächsten beiden Kästen multiplizieren jeden Prädiktorwert dieses Falls mit dem zugehörigen Koeffizienten. Die Addition aller drei Teile ergibt einen einzigen angepassten Punktwert im statistischen Denken und nicht drei getrennte Vorhersagen. Der untere Kasten vergleicht danach diesen vollständig berechneten angepassten Wert mit dem beobachteten Punktwert und berechnet $e_i=Y_i-\widehat Y_i$.
+
+Die Kästen zeigen auch, weshalb ein Koeffizient nicht losgelöst von der Gleichung interpretiert wird. Derselbe Koeffizient kann bei einem Fall mit einem anderen Prädiktorwert einen anderen numerischen Beitrag liefern, während der Koeffizient selbst die gemeinsame Veränderungsrate pro Einheit bleibt. Die dargestellte Rechnung gehört zu einer künstlichen Zeile und zum angegebenen Modell mit zwei Prädiktoren. Sie garantiert weder dasselbe Ergebnis für einen anderen Fall noch macht sie aus einem der bedingten Zusammenhänge einen kausalen Effekt.
+
+Der Populationszusammenhang enthält einen Fehlerterm:
+
+$$
+Y_i=\beta_0+\beta_1X_{i1}+\beta_2X_{i2}+\varepsilon_i.
+$$
+
+Die griechischen Koeffizienten $\beta_0,\beta_1,$ und $\beta_2$ sind unbekannte Populationsparameter. Der Fehler $\varepsilon_i$ ist die Differenz zwischen der Zielvariable von Fall $i$ und dem durch seine Prädiktorwerte festgelegten Populationsmittelwert. Die Stichprobenkoeffizienten $b_0,b_1,$ und $b_2$ schätzen die entsprechenden Populationsparameter.
+
+Sobald das Modell mit zwei Prädiktoren vertraut ist, lässt sich die kompakte Schreibweise für eine beliebige Anzahl von Prädiktorparametern leichter lesen. $X_{ij}$ sei der Wert von Fall $i$ beim Prädiktorterm $j$. Ein Populationsmodell mit $p$ Prädiktorparametern lautet
+
+$$
+Y_i
+=
+\beta_0
++
+\sum_{j=1}^{p}\beta_jX_{ij}
++
+\varepsilon_i.
+$$
+
+Dabei gilt:
+
+- $i$ bezeichnet einen Fall;
+- $j$ bezeichnet einen Prädiktorparameter;
+- $\beta_0$ ist der Populationsachsenabschnitt;
+- $\beta_j$ ist der Populationskoeffizient für Prädiktor $j$;
+- $X_{ij}$ ist der Wert von Fall $i$ bei diesem Prädiktor; und
+- $\varepsilon_i$ ist der nicht beobachtete Populationsfehler.
+
+Das Summenzeichen $\sum$ bedeutet: "Addiere die Prädiktorbeiträge von $j=1$ bis $j=p$." Es drückt dieselbe Logik in einer kürzeren Gleichung aus. Eine Stichprobe schätzt die Populationskoeffizienten mit $b_0,b_1,\ldots,b_p$. Der angepasste Wert für Fall $i$ lautet
+
+$$
+\widehat{Y}_i
+=
+b_0
++
+\sum_{j=1}^{p}b_jX_{ij}.
+$$
+
+Der Achsenabschnitt $b_0$ ist der angepasste Mittelwert der Zielvariable, wenn jeder quantitative Prädiktor null ist und sich jeder kategoriale Prädiktor in seiner Referenzkategorie befindet. Diese Kombination kann mathematisch eindeutig, aber inhaltlich wenig hilfreich sein, wenn null ausserhalb des beobachteten Wertebereichs liegt.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+Dasselbe Symbol $p$ zählt Prädiktorparameter und nicht unbedingt benannte Variablen. Eine kategoriale Variable mit drei Kategorien benötigt zwei Prädiktorparameter, wenn das Modell einen Achsenabschnitt enthält.
+:::
+
+---
+
+### Von einer Geraden zu mehreren Prädiktorbeiträgen {.cs-heading}
+
+Bei einem Prädiktor benötigte Thema 5 einen Achsenabschnitt und einen Steigungsbeitrag. Die multiple Regression behält genau diese Rechnung bei und ergänzt für jeden weiteren Prädiktor einen weiteren Beitrag. An einigen konkreten Profilen ist das leichter zu erkennen als an einer abstrakten dreidimensionalen Fläche.
+
+Die nächste Abbildung verwendet das Modell mit zwei quantitativen Prädiktoren aus dem konstruierten Beispiel. Jeder horizontale Balken ist ein angepasster Wert. Seine drei farbigen Teile sind der Achsenabschnitt, der Beitrag des Vorwissenswerts und der Beitrag der Übungsstunden. Bei den vier Profilen wird bewusst zuerst nur ein Prädiktor und danach werden beide verändert.
+
+> **Leitfrage:** Wenn zwei Profile denselben Vorwissenswert, aber unterschiedliche Übungsstunden haben, welcher Teil ihres angepassten Werts muss sich verändern und welche Teile müssen genau gleich bleiben?
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbarer Vergleich der Prädiktorbeiträge bei vier Profilen"}
+
+```{r}
+#| label: fig-multiple-profile-contributions
+#| fig-cap: "Vier angepasste Werte als sichtbare Summen. Der Vergleich von A mit B isoliert den Übungsbeitrag, der Vergleich von A mit C den Beitrag des Vorwissenswerts, und beim Vergleich von A mit D verändern sich beide."
+#| fig-alt: "Vier horizontale gestapelte Balken stellen die Prädiktorprofile A bis D dar. Jeder Balken beginnt mit demselben Abschnitt für den Achsenabschnitt. A und B haben den Vorwissenswert 8, C und D den Vorwissenswert 12. Deshalb ist der Abschnitt für das Vorwissen bei C und D länger. A und C haben zwei Übungsstunden, B und D sechs. Deshalb ist der Übungsabschnitt bei B und D länger. Die Beschriftungen am Balkenende zeigen angepasste Punktwerte von ungefähr 46,5, 52,7, 53,9 und 60,2."
+#| fig-width: 10
+#| fig-height: 6.5
+p_topic7_profile_contributions
+```
+
+:::
+
+Lies zuerst Profil A. Sein angepasster Punktwert von ungefähr 46,5 ist die Summe derselben drei Terme wie in Abbildung 1. Profil B behält den Vorwissenswert 8 bei, erhöht die Übung aber von 2 auf 6 Stunden. Der Achsenabschnitt und der blaue Vorwissensbeitrag bleiben deshalb unverändert. Nur der orange Übungsbeitrag wächst. Die angepasste Differenz zwischen A und B entspricht vier Übungsstunden multipliziert mit dem angepassten Übungskoeffizienten.
+
+Profil C kehrt diesen Vergleich um. Die Übung bleibt bei zwei Stunden, während der Vorwissenswert von 8 auf 12 steigt. Nur der blaue Vorwissensbeitrag wächst. Profil D verbindet bei beiden Prädiktoren den höheren Wert. Deshalb sind dort beide Prädiktorabschnitte grösser als bei A. Der numerische Beitrag steht in jedem farbigen Abschnitt, und der angepasste Gesamtwert steht am Balkenende. Lies diese Beschriftungen von links nach rechts, um jeden angepassten Wert nachzuvollziehen.
+
+In dieser Abbildung verläuft nichts über die Zeit. Die Balken vergleichen Profile innerhalb einer einzigen angepassten Gleichung. Sie behaupten auch nicht, dass eine Veränderung der Übung oder des Vorwissenswerts die dargestellte Differenz verursachen würde. Ihre Aufgabe ist enger und wichtig: Sie zeigen, dass die multiple Regression weiterhin einen angepassten Wert berechnet, indem sie klar benannte Terme addiert.
+
+---
+
+### Bedingte Koeffizienten: Was "konstant halten" bedeutet {.cs-heading}
+
+In der angepassten Gleichung mit zwei Prädiktoren
+
+$$
+\widehat{Y}=b_0+b_1X_1+b_2X_2
+$$
+
+ist $b_1$ die angepasste Differenz im Mittelwert der Zielvariable bei einer Differenz von einer Einheit in $X_1$, wenn Fälle mit demselben Wert von $X_2$ verglichen werden. Entsprechend vergleicht $b_2$ Fälle mit demselben Wert von $X_1$.
+
+Deshalb wird eine Steigung der multiplen Regression auch *partieller Regressionskoeffizient* genannt. Sie stellt den Teil des linearen Zusammenhangs eines Prädiktors dar, der verbleibt, nachdem das Modell die anderen Terme berücksichtigt hat. Sie ist keine bivariate Steigung, bei deren Berechnung diese Terme ignoriert werden.
+
+Die Formulierung "konstant halten" beschreibt einen Vergleich innerhalb des angepassten Modells. Sie verspricht weder, dass Forschende die Variable physisch konstant hielten, noch dass jede Prädiktorkombination in den Daten vorkommt oder der Koeffizient ein kausaler Effekt ist.
+
+Die Abbildung hält den Punktwert im statistischen Vorwissen bei drei festen Werten. Innerhalb einer einzelnen Linie geht eine Differenz von einer Übungsstunde mit derselben bedingten angepassten Differenz einher. Beim Wechsel zwischen Linien verändert sich auch der Vorwissenswert. Damit wird der Übungskoeffizient nicht mehr isoliert.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare Abbildung zu einem bedingten Koeffizienten"}
+
+```{r}
+#| label: fig-multiple-conditional-coefficient
+#| fig-cap: "Drei parallele angepasste Linien halten den Vorwissenswert bei 7, 10 oder 13 fest. Der markierte Schritt um eine Stunde wird entlang der Linie für Vorwissenswert 10 gelesen und entspricht dem bedingten Übungskoeffizienten."
+#| fig-alt: "Ein Liniendiagramm stellt den angepassten Punktwert im statistischen Denken gegen wöchentliche Übungsstunden für Vorwissenswerte von 7, 10 und 13 dar. Die drei Linien verlaufen parallel. Ein horizontaler Schritt um eine Stunde und der vertikale Anstieg auf der Linie für Vorwissenswert 10 markieren den Übungskoeffizienten, während der Vorwissenswert konstant bleibt."
+#| fig-width: 9
+#| fig-height: 5.5
+p_topic7_conditional
+```
+
+:::
+
+Die drei Linien sind parallel, weil dieses Modell keine Interaktion enthält. Der Vorwissenswert verändert die vertikale Position der angepassten Linie, aber nicht die Übungssteigung. Konzentriere dich auf die mittlere Linie. Der horizontale orange Schritt führt von fünf zu sechs Übungsstunden und bleibt dabei auf der Linie für Vorwissenswert 10. Der vertikale orange Schritt zeigt danach die angepasste Differenz der Zielvariable für genau diese Veränderung um eine Stunde. Dieser Anstieg ist $b_1$ für die Übung. Ein Vergleich zwischen einem Punkt auf der untersten und einem Punkt auf der obersten Linie würde zugleich den Vorwissenswert verändern. Er würde deshalb zwei Koeffizientenbeiträge vermischen und wäre nicht mehr der Vergleich bei konstant gehaltenem Vorwissenswert.
+
+---
+
+### Ein behutsamer Blick auf die Schätzung zweier bedingter Steigungen {.cs-heading}
+
+Statistiksoftware schätzt die Koeffizienten. Du musst die nächste Formel deshalb nicht auswendig lernen. Ihr Zweck besteht darin zu zeigen, weshalb sich eine Steigung der multiplen Regression von einer Steigung der einfachen Regression unterscheidet.
+
+Für zwei quantitative Prädiktoren seien:
+
+- $r_{Y1}$ die Korrelation zwischen der Zielvariable und Prädiktor 1;
+- $r_{Y2}$ die Korrelation zwischen der Zielvariable und Prädiktor 2;
+- $r_{12}$ die Korrelation zwischen den beiden Prädiktoren;
+- $s_Y$ die Standardabweichung der Zielvariable; und
+- $s_{X_1}$ und $s_{X_2}$ die Standardabweichungen der Prädiktoren.
+
+Die beiden angepassten Steigungen können so geschrieben werden:
+
+$$
+b_1
+=
+\frac{r_{Y1}-r_{Y2}r_{12}}{1-r_{12}^2}
+\frac{s_Y}{s_{X_1}},
+$$
+
+$$
+b_2
+=
+\frac{r_{Y2}-r_{Y1}r_{12}}{1-r_{12}^2}
+\frac{s_Y}{s_{X_2}}.
+$$
+
+Lies die erste Gleichung in drei Bewegungen. Beginne mit der Korrelation von Prädiktor 1 mit der Zielvariable, $r_{Y1}$. Ziehe über das Produkt $r_{Y2}r_{12}$ jenen Teil ab, der mit Prädiktor 2 verbunden ist. Berücksichtige danach die Überlappung der Prädiktoren im Nenner und stelle mit $s_Y/s_{X_1}$ die ursprünglichen Messeinheiten wieder her. Die zweite Gleichung wiederholt dieselbe Logik mit vertauschten Prädiktorrollen.
+
+| Teil der Formel | Sein Beitrag |
+|---|---|
+| $r_{Y1}$ | Der unbereinigte lineare Zusammenhang von Prädiktor 1 mit der Zielvariable |
+| $r_{Y2}r_{12}$ | Das Korrelationsmuster, das Prädiktor 1 mit Prädiktor 2 und der Zielvariable teilt |
+| $1-r_{12}^2$ | Der Anteil der Prädiktorvariation, der nicht durch ihre quadrierte Korrelation dargestellt wird |
+| $s_Y/s_{X_1}$ | Umrechnung aus standardisierten Einheiten zurück in Einheiten der Zielvariable pro Einheit von Prädiktor 1 |
+
+: Die Koeffizientenformel bereinigt gemeinsame lineare Information und stellt danach die ursprünglichen Einheiten wieder her. {#tbl-multiple-slope-formula-pieces}
+
+Die Formel zeigt auch, weshalb eine starke Überlappung der Prädiktoren Aufmerksamkeit verdient. Liegt $r_{12}$ nahe bei $+1$ oder $-1$, liegt $1-r_{12}^2$ nahe bei null. Die Daten enthalten dann wenig Information, um die beiden bedingten Steigungen voneinander zu trennen. Dadurch können die Koeffizientenschätzungen empfindlich auf kleine Veränderungen reagieren. Ist ein Prädiktor eine exakte lineare Kopie des anderen, ist der Nenner null. Die beiden getrennten Steigungen können aus diesem Modell dann nicht geschätzt werden.
+
+---
+
+### Angepasste Werte, Vorhersagen, Fehler und Residuen {.cs-heading}
+
+Setze die Prädiktorwerte eines Falls in die angepasste Gleichung ein, um $\widehat{Y}_i$ zu erhalten. Dieser Wert schätzt den bedingten Mittelwert der Zielvariable für Fälle mit diesem Prädiktorprofil. Er kann auch als Punktvorhersage dienen, ist aber kein garantiertes individuelles Ergebnis.
+
+Das *Residuum* des Falls lautet
+
+$$
+e_i=Y_i-\widehat{Y}_i.
+$$
+
+Ein positives Residuum bedeutet, dass die beobachtete Zielvariable oberhalb des angepassten Werts liegt. Ein negatives Residuum bedeutet, dass sie darunter liegt. Durch Umstellen erhalten wir
+
+$$
+Y_i=\widehat{Y}_i+e_i.
+$$
+
+Der Populationsfehler $\varepsilon_i$ wird relativ zum unbekannten Populationszusammenhang definiert. Das Stichprobenresiduum $e_i$ wird relativ zum angepassten Stichprobenmodell berechnet. Ein Residuum kann gewöhnliche Variation, Messfehler, ausgelassene Prädiktoren oder eine Modellform widerspiegeln, die den Zusammenhang nicht erfasst. Das Vorzeichen allein verrät die Ursache nicht.
+
+Auch Vorhersagen benötigen einen Geltungsbereich. Ein angepasster Wert weit ausserhalb der beobachteten Prädiktorbereiche ist eine Extrapolation. Selbst eine Kombination von einzeln vertrauten Prädiktorwerten kann schwach abgestützt sein, wenn diese Kombination in den Daten selten ist oder gar nicht vorkommt.
+
+---
+
+### Unstandardisierte und standardisierte Koeffizienten {.cs-heading}
+
+Ein *unstandardisierter Koeffizient* $b_j$ verwendet die ursprünglichen Einheiten. Wird die Übung in Stunden und die Zielvariable in Punkten gemessen, lautet seine Einheit Punkte pro Stunde. Diese Koeffizienten sind die richtige Wahl, um die angepasste Gleichung aufzuschreiben und angepasste Werte zu berechnen.
+
+Ein *standardisierter Koeffizient* skaliert sowohl den Prädiktor als auch die Zielvariable in Standardabweichungseinheiten. Für einen quantitativen Prädiktor gilt
+
+$$
+\widehat{\widetilde{\beta}}_j
+=
+b_j\frac{s_{X_j}}{s_Y},
+$$
+
+wobei $s_{X_j}$ die Stichprobenstandardabweichung des Prädiktors und $s_Y$ die Stichprobenstandardabweichung der Zielvariable ist. Der Koeffizient schätzt die angepasste Differenz der Zielvariable in Standardabweichungen der Zielvariable bei einer Prädiktordifferenz von einer Standardabweichung, während die anderen Modellterme konstant gehalten werden.
+
+Standardisierte Koeffizienten können beim Vergleich von Prädiktoren auf verschiedenen Skalen helfen. Sie sind jedoch keine allgemeingültigen Wichtigkeitswerte. Sie hängen von den anderen Prädiktoren, deren Überlappung, der beobachteten Streuung jeder Variable und der Messqualität ab. Sie benennen weder automatisch eine Ursache noch die nützlichste Intervention.
+
+In der einfachen Regression entspricht die standardisierte Steigung dem Pearson-$r$. In der multiplen Regression entspricht sie im Allgemeinen nicht der zugehörigen bivariaten Korrelation, weil der Koeffizient bedingt ist und die Korrelation nicht.
+
+| Kennzahl | Einheiten | Andere Prädiktoren bereinigt? | Am besten zu lesen als |
+|---|---|---|---|
+| Bivariate Korrelation $r_{Yj}$ | Keine Einheiten | Nein | Linearer Zusammenhang zwischen zwei Variablen |
+| Unstandardisierter Koeffizient $b_j$ | Einheiten der Zielvariable pro Prädiktoreinheit | Ja | Bedingte Veränderung auf der ursprünglichen Messskala |
+| Standardisierter Koeffizient $\widehat{\widetilde{\beta}}_j$ | Standardabweichungseinheiten | Ja | Bedingte Veränderung nach erneuter Skalierung von Prädiktor und Zielvariable |
+
+: Korrelationen und Regressionskoeffizienten beantworten verwandte, aber unterschiedliche Fragen. {#tbl-multiple-coefficient-types}
+
+Anders als eine Korrelation ist ein standardisierter Koeffizient der multiplen Regression mathematisch nicht auf das Intervall von $-1$ bis $+1$ beschränkt. Bei ungewöhnlichen Mustern mit stark überlappenden Prädiktoren kann sein Absolutwert grösser als 1 sein. Das macht ihn nicht zu einer stärkeren Art der Korrelation. Es erinnert erneut daran, dass ein bedingter Koeffizient und eine bivariate Korrelation verschiedene Kennzahlen sind.
+
+---
+
+### Residualstandardfehler, R-Quadrat und korrigiertes R-Quadrat {.cs-heading}
+
+Drei Kennzahlen beschreiben unterschiedliche Aspekte der Modellgüte.
+
+Der *Residualstandardfehler* schätzt die typische Streuung der Residuen in den ursprünglichen Einheiten der Zielvariable:
+
+$$
+s_e
+=
+\sqrt{
+\frac{\sum_{i=1}^{n}e_i^2}{n-p-1}
+}.
+$$
+
+Dabei ist $n$ die Anzahl analysierter Fälle, $p$ die Anzahl der Prädiktorparameter ohne Achsenabschnitt und $n-p-1$ die Anzahl der Residualfreiheitsgrade. Diese Kennzahl ist nicht dasselbe wie der Standardfehler eines Koeffizienten.
+
+Bei einem Achsenabschnitt zerlegt die gewöhnliche Methode der kleinsten Quadrate die Stichprobenvariation der Zielvariable so:
+
+$$
+SS_{\text{gesamt}}=SS_{\text{Modell}}+SS_{\text{Fehler}}.
+$$
+
+Das *Bestimmtheitsmass* lautet
+
+$$
+R^2
+=
+\frac{SS_{\text{Modell}}}{SS_{\text{gesamt}}}
+=
+1-\frac{SS_{\text{Fehler}}}{SS_{\text{gesamt}}}.
+$$
+
+$R^2$ ist der Anteil der Stichprobenvariation der Zielvariable um ihren Mittelwert, den das angepasste Modell darstellt. Es ist weder der Prozentsatz korrekt vorhergesagter Personen noch der Prozentsatz der Zielvariable, den die Prädiktoren verursacht haben.
+
+Das Hinzufügen eines Prädiktors zu einem OLS-Modell kann das gewöhnliche Stichproben-$R^2$ nicht verkleinern, wenn Zielvariable, Fälle und Achsenabschnitt gleich bleiben. Selbst ein nutzloser Term kann $R^2$ leicht erhöhen. Das *korrigierte $R^2$* berücksichtigt das Schätzen zusätzlicher Prädiktorparameter innerhalb der Stichprobe mit einem Abzug:
+
+$$
+R^2_{\text{korrigiert}}
+=
+1-(1-R^2)\frac{n-1}{n-p-1}.
+$$
+
+Das korrigierte $R^2$ kann sinken, wenn die zusätzliche Anpassung im Verhältnis zur zusätzlichen Komplexität zu klein ist. Es ist dennoch kein Test an neuen Daten und garantiert keine Generalisierbarkeit.
+
+---
+
+### Zwei Ebenen der Inferenz: Globaler F-Test und individuelle t-Tests {.cs-heading}
+
+Der globale Modelltest fragt, ob alle Populationskoeffizienten ausser dem Achsenabschnitt null sind:
+
+$$
+H_0:\beta_1=\beta_2=\cdots=\beta_p=0.
+$$
+
+Seine Teststatistik kann so geschrieben werden:
+
+$$
+F
+=
+\frac{R^2/p}{(1-R^2)/(n-p-1)}.
+$$
+
+Unter den Modellbedingungen und der globalen Nullhypothese wird dieser Wert mit einer $F$-Verteilung mit $p$ und $n-p-1$ Freiheitsgraden verglichen. Ein kleiner globaler p-Wert bedeutet, dass die Daten mit der Annahme, alle Steigungen seien null, nicht vereinbar sind. Er sagt nicht, welcher Koeffizient von null abweicht.
+
+Ein Test für einen einzelnen Koeffizienten stellt eine enger gefasste bedingte Frage:
+
+$$
+H_0:\beta_j=0,
+\qquad
+t=\frac{b_j}{SE(b_j)}.
+$$
+
+Die Teststatistik verwendet $n-p-1$ Residualfreiheitsgrade. $SE(b_j)$ misst die Stichprobenunsicherheit dieses Koeffizienten unter dem angepassten Modell. Jeder Koeffiziententest ist von genau den anderen enthaltenen Termen abhängig. Wird das Modell verändert, können sich die Schätzung, ihr Standardfehler und ihr p-Wert verändern.
+
+Ein statistisch nachweisbarer Koeffizient ist nicht automatisch gross, kausal, praktisch bedeutsam oder für künftige Vorhersagen nützlich. Das sind getrennte Fragen.
+
+---
+
+### Verschachtelte Modelle vergleichen {.cs-heading}
+
+Zwei Modelle sind *verschachtelt*, wenn das kleinere, eingeschränkte Modell dadurch aus dem grösseren, uneingeschränkten Modell gewonnen werden kann, dass ein oder mehrere Koeffizienten auf null gesetzt werden. Ein Modell ohne zwei Interaktionsterme ist beispielsweise im ansonsten gleichen Modell mit diesen Interaktionen verschachtelt.
+
+$R$ bezeichne das eingeschränkte und $U$ das uneingeschränkte Modell. Wenn das grössere Modell $p_U-p_R$ Prädiktorparameter hinzufügt, lautet die Teststatistik für verschachtelte Modelle
+
+$$
+F
+=
+\frac{(R_U^2-R_R^2)/(p_U-p_R)}{(1-R_U^2)/(n-p_U-1)}.
+$$
+
+Der Zähler misst die zusätzlich erklärte Variation pro zusätzlichem Parameter. Der Nenner misst die Residualvariation pro Residualfreiheitsgrad im uneingeschränkten Modell.
+
+Dieser Test fragt, ob die hinzugefügten Koeffizienten gemeinsam null sind. Beide Modelle müssen dieselbe Zielvariable und dieselben analysierten Fälle verwenden. Ähnlich aussehende Modelle sind nicht zwingend verschachtelt. Modelle, die an unterschiedliche Stichproben angepasst wurden, können mit dieser Formel nicht verglichen werden.
+
+---
+
+### Semipartielle Korrelation und zusätzliches R-Quadrat {.cs-heading}
+
+Nehmen wir an, ein Modell enthält bereits den Vorwissenswert und wir erwägen, Übungsstunden hinzuzufügen. Eine *semipartielle Korrelation*, auch Teilkorrelation genannt, isoliert den linearen Beitrag des Kandidatenprädiktors in zwei Schritten:
+
+1. Regressiere die Übungsstunden auf die bereits im Modell enthaltenen Prädiktoren und behalte die Übungsresiduen.
+2. Korreliere diese Residuen mit der ursprünglichen, unbereinigten Zielvariable.
+
+Nur der Kandidatenprädiktor wird residualisiert. Darin liegt der Unterschied zur partiellen Korrelation aus Thema 6, bei der beide interessierenden Variablen auf die Kontrollvariable residualisiert werden.
+
+Für einen hinzugefügten Prädiktor und dieselben analysierten Fälle gilt
+
+$$
+sr_j^2=R^2_{\text{grösser}}-R^2_{\text{kleiner}}=\Delta R^2.
+$$
+
+Die quadrierte semipartielle Korrelation ist somit der eindeutige Zuwachs des Stichproben-$R^2$ des Modells, wenn dieser Prädiktor zuletzt hinzugefügt wird. "Eindeutig" bedeutet hier, dass der Beitrag nicht linear durch die bereits aufgenommenen Prädiktoren dargestellt wird. Es bedeutet nicht, dass er kausal rein oder frei von allen anderen Einflüssen ist.
+
+---
+
+### Gemeinsame Prädiktorvariation, Konfundierung und Suppression {.cs-heading}
+
+Prädiktoren überlappen sich häufig. Die Übungszeit und das Vorwissen können beispielsweise korreliert sein. Ihre bivariaten Zusammenhänge mit einer Zielvariable enthalten dann gemeinsame Information. Das Modell muss festlegen, wie der angepasste Zusammenhang auf die bedingten Koeffizienten verteilt dargestellt wird.
+
+Wenn ein Koeffizient nach der Bereinigung kleiner wird, könnte der bivariate Zusammenhang Variation enthalten haben, die er mit einem anderen Prädiktor teilt. Dieses Muster kann mit *Konfundierung* vereinbar sein. Dabei trägt eine Drittvariable zum Zusammenhang zwischen Prädiktor und Zielvariable bei. Die numerische Veränderung allein beweist weder eine Konfundierung noch eine kausale Struktur.
+
+Wenn ein Koeffizient nach der Bereinigung grösser wird, könnte ein anderer Prädiktor relevante Variation verdeckt haben. Dieses Muster wird häufig *Suppression* genannt. In der Gegenüberstellung angepasster Modelle kann die Bereinigung einen mit der Suppressorvariable verbundenen Prädiktoranteil gesondert darstellen, wenn dieser Anteil nicht oder in entgegengesetzter Richtung mit der Zielvariable zusammenhängt. Der verbleibende bedingte Zusammenhang kann dadurch deutlicher oder grösser erscheinen.
+
+Die schematische Abbildung zeigt drei mögliche Richtungen. Es handelt sich um Lehrwerte, nicht um Ergebnisse aus der simulierten Kohorte und nicht um diagnostische Grenzwerte.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare Abbildung zur Veränderung von Koeffizienten"}
+
+```{r}
+#| label: fig-multiple-coefficient-change
+#| fig-cap: "Veranschaulichende Koeffizientenveränderungen nach der Bereinigung. Eine Abnahme kann mit Konfundierung vereinbar sein und eine Zunahme mit Suppression. Keines der beiden Muster beweist jedoch den zugrunde liegenden Mechanismus."
+#| fig-alt: "Eine horizontale Koeffizientengrafik zeigt drei schematische Vorher-nachher-Muster. Ein Koeffizient verändert sich nur wenig von 0,60 auf 0,56. Einer sinkt von 0,60 auf 0,18 und ist mit möglicher Konfundierung beschriftet. Einer steigt von 0,18 auf 0,60 und ist mit möglicher Suppression beschriftet."
+#| fig-width: 9
+#| fig-height: 5.8
+p_topic7_coefficient_change
+```
+
+:::
+
+In jeder Zeile ist der blaue Punkt der Koeffizient vor und der orange Punkt der Koeffizient nach der Bereinigung. Der Pfeil zeigt die numerische Veränderung und keine Veränderung im Zeitverlauf. In der ersten Zeile bleiben die beiden Punkte nahe beieinander. In der zweiten bewegt die Bereinigung den Koeffizienten in Richtung null. In der dritten bewegt sie ihn von null weg. Die Bezeichnungen "mögliche Konfundierung" und "mögliche Suppression" benennen Interpretationen, die untersucht werden sollten. Sie sind keine Schlussfolgerungen, die der Pfeil automatisch erzeugt.
+
+Eine starke Überlappung der Prädiktoren kann dazu führen, dass die Zuordnung der gemeinsamen Variation empfindlich auf kleine Daten- oder Modelländerungen reagiert. Interpretiere die Koeffizienten gemeinsam, untersuche die Beziehungen zwischen den Prädiktoren und nutze Fachwissen. Hier gibt es keinen einzelnen numerischen Grenzwert, der für sich allein entscheiden kann, wann die Prädiktorüberlappung zu stark ist. Deshalb wird keine automatische Regel verwendet.
+
+Die nächsten beiden konstruierten Korrelationsmuster machen den Unterschied berechenbar. $X$ bezeichnet den interessierenden Prädiktor, $Z$ den anderen Prädiktor und $Y$ die Zielvariable. Sämtliche Einträge sind Lehrwerte. Sie stammen weder aus der simulierten Kohorte noch dienen sie als Grenzwerte für die Diagnose eines realen Datensatzes.
+
+```{r}
+#| label: tbl-multiple-adjustment-patterns
+kable(
+  topic7_adjustment_pattern_table |>
+    transmute(
+      Muster = pattern,
+      `$r_{XY}$` = format_t07(focal_outcome_r, 2),
+      `$r_{XZ}$` = format_t07(focal_other_r, 2),
+      `$r_{ZY}$` = format_t07(other_outcome_r, 2),
+      `Standardisierter Koeffizient von X nach Aufnahme von Z` =
+        format_t07(focal_standardized_coefficient, 2),
+      `Was das Muster nahelegt` = interpretation
+    ),
+  align = c("l", "r", "r", "r", "r", "l"),
+  caption = "Zwei schematische Korrelationsmuster, die nach der Bereinigung eine Verkleinerung oder Vergrösserung des Koeffizienten erzeugen."
+)
+```
+
+In der Zeile zur möglichen Konfundierung beginnt der bivariate Zusammenhang bei $r_{XY}=0.60$. Sowohl $r_{XZ}=0.70$ als auch $r_{ZY}=0.73$ sind stark und positiv. $X$ und $Z$ tragen somit einen grossen Teil desselben zielbezogenen Musters. Das Einsetzen in die Formel für den standardisierten Koeffizienten bei zwei Prädiktoren ergibt
+
+$$
+\widehat{\widetilde\beta}_X
+=
+\frac{0.60-(0.73)(0.70)}{1-0.70^2}
+=0.18\ \text{ungefähr}.
+$$
+
+Der Koeffizient wird kleiner, weil das Modell das gemeinsame Muster nicht mehr vollständig $X$ zuordnet. Diese Rechnung ist mit einer Konfundierung vereinbar. Die Korrelationen allein zeigen jedoch nicht, welche Variable in einem kausalen Prozess zuerst kommt.
+
+In der Zeile zur möglichen Suppression besitzt $X$ nur einen mässigen bivariaten Zusammenhang mit $Y$, nämlich $r_{XY}=0.18$. Prädiktor $Z$ überlappt positiv mit $X$, $r_{XZ}=0.60$, weist aber in die entgegengesetzte Richtung von $Y$, $r_{ZY}=-0.34$. Wenn das Modell diese gegenläufige Überlappung trennt, wird der Koeffizient von $X$ zu
+
+$$
+\widehat{\widetilde\beta}_X
+=
+\frac{0.18-(-0.34)(0.60)}{1-0.60^2}
+=0.60.
+$$
+
+Wie kann das geschehen? Stell dir vor, ein konstruierter Screening-Punktwert $X$ vermischt die Fähigkeit, die uns interessiert, mit einer zusätzlichen Antworttendenz. Prädiktor $Z$ erfasst einen grossen Teil dieser Antworttendenz, und diese Tendenz weist von der späteren Zielvariable $Y$ weg. Durch die Aufnahme von $Z$ kann das angepasste Modell diese gegenläufige Überlappung gesondert darstellen. Der Koeffizient von $X$ beschreibt danach seinen bedingten Zusammenhang bei einem festen Wert von $Z$ und kann grösser sein als der bivariate Zusammenhang. Dieses Muster ist mit Suppression vereinbar, legt aber keine reinen Bestandteile in einer der gemessenen Variablen offen. Auch der grössere Koeffizient belegt nicht, dass $X$ $Y$ verursacht. Eine Suppressorvariable sollte zudem nicht allein deshalb aufgenommen werden, weil sie einen bevorzugten Koeffizienten vergrössert.
+
+---
+
+### Kategoriale Prädiktoren benötigen Dummy-Variablen {.cs-heading}
+
+Bisher war jeder Prädiktor in der angepassten Gleichung eine Zahl: Vorwissenswert, Übungsstunden oder eine andere gemessene Grösse. Viele sinnvolle Fragen enthalten aber auch Kategorien. Was geschieht, wenn wir Lernformate, Therapiebedingungen oder Studienprogramme vergleichen und gleichzeitig um einen quantitativen Prädiktor bereinigen möchten?
+
+Eine Kategorienbezeichnung kann nicht einfach mit einer Steigung multipliziert werden. Ebenso wenig sollten wir ungeordnete Bezeichnungen durch 1, 2 und 3 ersetzen und so tun, als hätte der Schritt von Kategorie 1 zu 2 dieselbe Bedeutung wie der Schritt von 2 zu 3. Die *Dummy-Codierung*, auch *Indikatorcodierung* genannt, übersetzt die Kategorienzugehörigkeit in eine oder mehrere Spalten, die nur 0 und 1 enthalten. Das Modell kann dadurch benannte Vergleiche bilden, ohne eine Reihenfolge oder Distanz zu erfinden.
+
+> **Leitfrage:** Wie kann eine Gleichung zwei Gruppen bei demselben Übungswert vergleichen und zugleich jeden angepassten Wert numerisch nachprüfbar halten?
+
+Beginnen wir mit einem quantitativen Prädiktor und zwei Kategorien. $X$ bezeichne die wöchentlichen Übungsstunden. Das Selbststudium ist die *Referenzkategorie*, also die Gruppe, von der aus die andere Gruppe beschrieben wird. Wir definieren
+
+$$
+D_{\text{Lernlabor}}=
+\begin{cases}
+1 & \text{begleitetes Lernlabor},\\
+0 & \text{Selbststudium}.
+\end{cases}
+$$
+
+Betrachte dieses konstruierte additive Modell:
+
+$$
+\widehat{Y}=42+2.5X+6D_{\text{Lernlabor}}.
+$$
+
+*Additiv* bedeutet, dass der Übungsbeitrag und der Gruppenbeitrag als getrennte Terme addiert werden. Setze den Indikatorwert ein, bevor du die Gleichung interpretierst.
+
+Für das Selbststudium ist $D_{\text{Lernlabor}}=0$:
+
+$$
+\widehat{Y}_{\text{Selbststudium}}=42+2.5X.
+$$
+
+Für das begleitete Lernlabor ist $D_{\text{Lernlabor}}=1$:
+
+$$
+\widehat{Y}_{\text{Lernlabor}}=42+2.5X+6=48+2.5X.
+$$
+
+Bei vier Übungsstunden ist die gesamte Rechnung in der nächsten Tabelle sichtbar.
+
+```{r}
+#| label: tbl-multiple-dummy-worked-example
+kable(
+  topic7_dummy_worked_table |>
+    transmute(
+      `Lernformat` = tutorial_format,
+      `Übungsstunden X` = format_t07(practice_hours, 0),
+      `Lernlabor-Indikator D` = guided_indicator,
+      `Ausgangswert 42` = format_t07(intercept_contribution, 0),
+      `Übungsbeitrag 2.5X` = format_t07(practice_contribution, 0),
+      `Gruppenbeitrag 6D` = format_t07(group_contribution, 0),
+      `Angepasster Punktwert` = format_t07(fitted_score, 0)
+    ),
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  caption = "Eine vollständige Dummy-codierte Rechnung mit einem kontinuierlichen und einem kategorialen Prädiktor."
+)
+```
+
+Beide Zeilen haben denselben Übungsbeitrag, $2.5(4)=10$. Die Zeile zum Selbststudium erhält keinen Gruppenbeitrag und ergibt $42+10+0=52$. Die Zeile zum begleiteten Lernlabor erhält den Gruppenbeitrag von sechs Punkten und ergibt $42+10+6=58$. Da wir die beiden Formate bei demselben Übungswert vergleichen, beträgt die angepasste Differenz zwischen Lernlabor und Selbststudium sechs Punkte.
+
+Die Koeffizienten haben nun genaue Bedeutungen in Bezug auf die Referenz:
+
+- $42$ ist der angepasste Wert der Referenzkategorie Selbststudium bei null Übungsstunden;
+- $2.5$ ist die angepasste Veränderung bei einer zusätzlichen Übungsstunde innerhalb beider Formate, weil dieses additive Modell eine gemeinsame Steigung verwendet; und
+- $6$ ist die angepasste Differenz zwischen Lernlabor und Selbststudium beim selben Übungswert.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare Abbildung zum additiven Modell mit Dummy-Codierung"}
+
+```{r}
+#| label: fig-multiple-dummy-additive
+#| fig-cap: "Der Dummy-Term verschiebt die Linie des begleiteten Lernlabors sechs Punkte über die Referenzlinie, während die gemeinsame Übungssteigung 2,5 Punkte pro Stunde bleibt."
+#| fig-alt: "Ein Liniendiagramm zeigt den angepassten Punktwert gegen die Übungsstunden für Selbststudium und begleitetes Lernlabor. Beide Linien steigen parallel mit der Steigung 2,5. Bei vier Übungsstunden markieren Punkte die angepassten Punktwerte 52 und 58. Ein vertikaler gestrichelter Abschnitt zwischen ihnen ist mit Lernlabor minus Selbststudium gleich sechs Punkte beschriftet."
+#| fig-width: 9
+#| fig-height: 5.5
+p_topic7_dummy_additive
+```
+
+:::
+
+Die parallelen Linien sind wichtig. Da kein Interaktionsterm vorhanden ist, beträgt die angepasste Gruppendifferenz bei null, vier oder acht Übungsstunden immer sechs Punkte. Das Modell erlaubt einen Unterschied in der Höhe der Linien, aber keinen Unterschied in ihrer Steilheit.
+
+#### Was verändert sich, wenn wir die Prädiktoren umordnen oder umcodieren? {.cs-heading}
+
+Die Reihenfolge additiver Terme verändert das Modell nicht. Die Schreibweisen
+
+$$
+42+2.5X+6D_{\text{Lernlabor}}
+\qquad\text{und}\qquad
+42+6D_{\text{Lernlabor}}+2.5X
+$$
+
+erzeugen genau dieselben angepassten Werte, weil Summanden umgeordnet werden dürfen. Entsprechend verändert sich nur die Bezeichnung, wenn die Übung $X_1$ und der Indikator $X_2$ heisst oder wenn diese Indizes vertauscht werden. Jeder Koeffizient muss dabei mit der richtigen Variable verbunden bleiben. Die Abbildung und die Vorhersagen bleiben gleich. Ob ein Prädiktor quantitativ oder kategorial ist, ergibt sich unabhängig von Name und Spaltenposition aus seiner erfassten Bedeutung und Codierung.
+
+Ein Wechsel der Referenzkategorie verändert hingegen die Beschreibung der Koeffizienten, aber weiterhin nicht den angepassten Zusammenhang. Wird das begleitete Lernlabor zur Referenz und kennzeichnet $D_{\text{Selbststudium}}=1$ das Selbststudium, lassen sich dieselben beiden Linien so schreiben:
+
+$$
+\widehat{Y}=48+2.5X-6D_{\text{Selbststudium}}.
+$$
+
+Der Achsenabschnitt ist nun 48, weil er zur Referenzlinie des Lernlabors gehört. Der Dummy-Koeffizient ist nun $-6$, weil er das Selbststudium mit dem Lernlabor vergleicht. Bei vier Übungsstunden liefern beide Parametrisierungen weiterhin 52 für das Selbststudium und 58 für das Lernlabor.
+
+```{r}
+#| label: tbl-multiple-dummy-reference-invariance
+kable(
+  topic7_dummy_reference_predictions |>
+    transmute(
+      `Referenz der Koeffizienten` = parameterization,
+      `Angepasster Punktwert des Selbststudiums bei X = 4` = format_t07(independent_prediction, 0),
+      `Angepasster Punktwert des Lernlabors bei X = 4` = format_t07(guided_prediction, 0)
+    ),
+  align = c("l", "r", "r"),
+  caption = "Die Umcodierung der Referenz verändert die Koeffizientenkoordinaten, aber keine der beiden angepassten Linien."
+)
+```
+
+Bei $k$ Kategorien und einem Achsenabschnitt benötigt dieselbe Logik $k-1$ Dummy-Variablen. Bei drei Lernformaten mit dem Selbststudium als Referenz definieren wir $D_{\text{Peer}}$ und $D_{\text{Lernlabor}}$. Die Referenzgruppe hat $(0,0)$, der Peer-Workshop $(1,0)$ und das begleitete Lernlabor $(0,1)$. Das additive Modell lautet
+
+$$
+\widehat{Y}
+=
+b_0+b_1X+b_2D_{\text{Peer}}+b_3D_{\text{Lernlabor}}.
+$$
+
+Dabei ist $b_2$ Peer minus Selbststudium und $b_3$ Lernlabor minus Selbststudium, jeweils beim selben Wert von $X$. Alle drei Gruppenindikatoren zusammen mit einem Achsenabschnitt zu verwenden, würde eine exakte Redundanz erzeugen, weil sich die drei Indikatoren in jeder Zeile zu eins summieren.
+
+Die Codiertabelle macht die drei angepassten Gleichungen sichtbar, bevor wir Zahlen einsetzen:
+
+| Lernformat | $D_{\text{Peer}}$ | $D_{\text{Lernlabor}}$ | Additive angepasste Gleichung |
+|---|---:|---:|---|
+| Selbststudium, Referenz | 0 | 0 | $b_0+b_1X$ |
+| Peer-Workshop | 1 | 0 | $(b_0+b_2)+b_1X$ |
+| Begleitetes Lernlabor | 0 | 1 | $(b_0+b_3)+b_1X$ |
+
+: Zwei Indikatoren stellen drei Lernformate dar, ohne aus den Kategorienbezeichnungen numerische Abstände zu machen. {#tbl-multiple-three-group-dummies}
+
+Lies jeweils eine Zeile. In der Referenzzeile sind beide Schalter aus, daher verschwinden beide Gruppenbeiträge. In der Peer-Zeile wird nur $b_2$ addiert. In der Lernlabor-Zeile wird nur $b_3$ addiert. Der gemeinsame Term $b_1X$ steht in jeder Zeile. Deshalb sind alle drei angepassten Linien in diesem additiven Modell parallel. Die beiden Dummy-Koeffizienten sind getrennte Vergleiche mit der Referenzgruppe und keine aufeinanderfolgenden Schritte auf einer geordneten Skala.
+
+---
+
+### Interaktionen beschreiben bedingte Steigungen {.cs-heading}
+
+Das additive Modell hat die multiple Regression nun um einen kategorialen Prädiktor erweitert. Dabei hat es aber stillschweigend angenommen, dass beide Gruppen dieselbe Übungssteigung haben. Das kann sinnvoll oder zu einschränkend sein. Vielleicht wird die angepasste Differenz zwischen den Lernformaten mit zunehmender Übungszeit grösser. Eine konstante Differenz von sechs Punkten könnte diesen Zusammenhang dann nicht beschreiben.
+
+Eine *Interaktion* erlaubt, dass der Zusammenhang eines Prädiktors von einem anderen Prädiktor abhängt. In unserem Beispiel fragt sie, ob sich die angepasste Übungssteigung zwischen den Lernformaten unterscheidet. Das Modell geht über eine weitere Gruppendifferenz hinaus und ergänzt ein Produkt, das nur grösser wird, wenn sowohl $X$ als auch $D$ von null verschieden sind.
+
+> **Leitfrage:** Bleiben die beiden angepassten Linien parallel, oder verändert sich ihr Abstand mit zunehmender Übung?
+
+Für Übungsstunden $X$ und einen binären Gruppenindikator $D$ lautet das allgemeine Interaktionsmodell
+
+$$
+\widehat{Y}=b_0+b_1X+b_2D+b_3XD.
+$$
+
+Das Produkt $XD$ ist der Interaktionsterm. Setze nacheinander die beiden Indikatorwerte ein, damit die beiden angepassten Geraden sichtbar werden.
+
+Für die Referenzgruppe gilt $D=0$:
+
+$$
+\widehat{Y}=b_0+b_1X.
+$$
+
+Für die Vergleichsgruppe gilt $D=1$:
+
+$$
+\widehat{Y}=(b_0+b_2)+(b_1+b_3)X.
+$$
+
+Daher gilt:
+
+- $b_1$ ist die Steigung in der Referenzgruppe;
+- $b_2$ ist die Gruppendifferenz bei $X=0$;
+- $b_3$ ist die Differenz zwischen den Gruppensteigungen; und
+- $b_1+b_3$ ist die Steigung der Vergleichsgruppe.
+
+Kehren wir zum numerischen additiven Beispiel zurück und ergänzen einen Interaktionskoeffizienten von $1.5$:
+
+$$
+\widehat{Y}=42+2.5X+6D_{\text{Lernlabor}}+1.5XD_{\text{Lernlabor}}.
+$$
+
+Für das Selbststudium ist $D_{\text{Lernlabor}}=0$. Deshalb verschwinden beide Terme mit dem Indikator:
+
+$$
+\widehat{Y}_{\text{Selbststudium}}=42+2.5X.
+$$
+
+Für das begleitete Lernlabor ist $D_{\text{Lernlabor}}=1$:
+
+$$
+\widehat{Y}_{\text{Lernlabor}}
+=42+2.5X+6+1.5X
+=48+4X.
+$$
+
+Die Steigung des Lernlabors beträgt $2.5+1.5=4$ Punkte pro Übungsstunde. Der Interaktionskoeffizient $1.5$ ist somit eine *Differenz zwischen Steigungen* und keine weitere Verschiebung der Linienhöhe. Bei null Übungsstunden beträgt die angepasste Gruppendifferenz weiterhin sechs Punkte. Bei vier Stunden beträgt sie $6+1.5(4)=12$ Punkte und bei acht Stunden $6+1.5(8)=18$ Punkte.
+
+```{r}
+#| label: tbl-multiple-interaction-numeric-example
+kable(
+  topic7_interaction_numeric_table |>
+    transmute(
+      Modell = model,
+      `Übungsstunden` = format_t07(practice_hours, 0),
+      `Angepasster Punktwert des Selbststudiums` = format_t07(independent_prediction, 0),
+      `Angepasster Punktwert des Lernlabors` = format_t07(guided_prediction, 0),
+      `Lernlabor minus Selbststudium` = format_t07(guided_minus_independent, 0)
+    ),
+  align = c("l", "r", "r", "r", "r"),
+  caption = "Im additiven Modell bleibt die Gruppendifferenz konstant. Im Interaktionsmodell darf sie sich mit der Übung verändern."
+)
+```
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollbarer Vergleich eines additiven Modells mit einem Interaktionsmodell"}
+
+```{r}
+#| label: fig-multiple-interaction-concept
+#| fig-cap: "Ohne Interaktion sind die beiden angepassten Linien parallel und bleiben sechs Punkte voneinander entfernt. Mit der Interaktion $1.5XD$ besitzt die Linie des Lernlabors die Steigung 4 statt 2,5. Deshalb wächst die angepasste Gruppendifferenz mit der Übung."
+#| fig-alt: "Zwei Teilgrafiken vergleichen den angepassten Punktwert gegen die Übungsstunden für Selbststudium und begleitetes Lernlabor. In der additiven Teilgrafik haben beide Linien die Steigung 2,5 und bleiben sechs Punkte voneinander entfernt. In der Interaktionsteilgrafik behält die Linie des Selbststudiums die Steigung 2,5, während die Linie des Lernlabors die Steigung 4 hat. Deshalb entfernen sich die Linien mit zunehmender Übung voneinander."
+#| fig-width: 11
+#| fig-height: 6.4
+p_topic7_interaction_concept
+```
+
+:::
+
+Lies die Teilgrafiken von links nach rechts. Im additiven Modell erhöht ein Schritt um eine Stunde beide Linien um 2,5 Punkte. Ihr vertikaler Abstand bleibt deshalb sechs Punkte. Im Interaktionsmodell steigt die Linie des Selbststudiums weiterhin um 2,5 Punkte, die Linie des Lernlabors aber um vier Punkte. Die Linien entfernen sich voneinander. Genau darin wird diese positive Interaktion sichtbar.
+
+Die Koeffizienten der niedrigeren Ordnung bleiben bedeutsam, ihre Bedeutung ist aber bedingt. Im Interaktionsmodell ist $b_1=2.5$ die Übungssteigung in der Referenzgruppe, $b_2=6$ die Differenz zwischen Lernlabor und Selbststudium bei $X=0$, und $b_3=1.5$ die Differenz zwischen den Übungssteigungen. Wenn null ausserhalb des sinnvollen Übungsbereichs liegt, kann das Subtrahieren einer sinnvollen Konstante von $X$, das sogenannte *Zentrieren*, den Vergleichspunkt verschieben, ohne eine der angepassten Linien zu verändern.
+
+Bei drei Gruppen benötigt das Modell zwei Dummy-Terme und zwei Interaktionsterme aus Übung und Dummy-Variable. Jede Interaktion vergleicht eine Nichtreferenzsteigung mit der Steigung der Referenzgruppe. Ein Referenzwechsel verändert, welche Steigungsdifferenzen als Koeffizienten erscheinen. Die angepassten Gruppenlinien bleiben jedoch unverändert.
+
+#### Mehrere Prädiktoren, drei Gruppen und Interaktionen in einer Gleichung zusammenführen {.cs-heading}
+
+Das binäre Beispiel hat die Interaktionsidee einzeln sichtbar gemacht. Eine realistische multiple Regressionsgleichung kann alle Bausteine gleichzeitig enthalten: einen weiteren quantitativen Prädiktor zur statistischen Kontrolle, einen durch mehrere Indikatoren dargestellten kategorialen Prädiktor und mehrere Interaktionsterme. Die Schreibweise wirkt dicht, doch die Lesestrategie bleibt gleich. Lege eine Gruppe fest, setze ihre Nullen und Einsen ein, vereinfache die Gleichung und interpretiere erst dann ihre Linie.
+
+Sei $P$ ein Vorwissenswert, $X$ die wöchentlichen Übungsstunden und das Lernformat derselbe dreistufige Prädiktor wie oben. Betrachte dieses konstruierte angepasste Modell:
+
+$$
+\widehat{Y}
+=
+30+0.4P+2X
++3D_{\text{Peer}}+6D_{\text{Lernlabor}}
++0.5XD_{\text{Peer}}+1.5XD_{\text{Lernlabor}}.
+$$
+
+> **Leitfrage:** Welche Terme bleiben für jedes Lernformat erhalten, und was bedeuten sie für die angepasste Übungssteigung, wenn der Vorwissenswert konstant gehalten wird?
+
+Die beiden Indikatorwerte beantworten diese Frage schrittweise:
+
+| Lernformat | Indikatorpaar $(D_{\text{Peer}},D_{\text{Lernlabor}})$ | Nach dem Einsetzen verbleibende Terme | Gruppenspezifische angepasste Gleichung |
+|---|---:|---|---|
+| Selbststudium, Referenz | $(0,0)$ | $30+0.4P+2X$ | $\widehat{Y}_{\text{Selbststudium}}=30+0.4P+2X$ |
+| Peer-Workshop | $(1,0)$ | $30+0.4P+2X+3+0.5X$ | $\widehat{Y}_{\text{Peer}}=33+0.4P+2.5X$ |
+| Begleitetes Lernlabor | $(0,1)$ | $30+0.4P+2X+6+1.5X$ | $\widehat{Y}_{\text{Lernlabor}}=36+0.4P+3.5X$ |
+
+: Durch Einsetzen wird aus einem scheinbar schwierigen Modell eine Sammlung von drei gewöhnlichen angepassten Geraden. {#tbl-multiple-full-interaction-equations}
+
+Beginne mit dem, was alle drei Gleichungen gemeinsam haben. Der Koeffizient $0.4$ besagt: Innerhalb jedes Lernformats und bei derselben Übungszeit geht ein um einen Punkt höherer Vorwissenswert mit einem um $0.4$ Punkte höheren angepassten Zielwert einher. Dieses Modell enthält keine Interaktion zwischen Vorwissen und Lernformat. Deshalb gilt diese bedingte Vorwissenssteigung für alle drei Formate.
+
+Vergleiche nun die Übungsterme. Das Selbststudium hat die Steigung $2$. Die Steigung des Peer-Workshops beträgt $2+0.5=2.5$, jene des Lernlabors $2+1.5=3.5$. Somit ist $0.5$ die Differenz der Übungssteigungen zwischen Peer-Workshop und Selbststudium, während $1.5$ die entsprechende Differenz zwischen Lernlabor und Selbststudium ist. Keine dieser beiden Zahlen ist für sich allein eine vollständige Gruppensteigung.
+
+Auch die angepassten Gruppendifferenzen hängen von $X$ ab:
+
+$$
+\widehat{Y}_{\text{Peer}}-\widehat{Y}_{\text{Selbststudium}}=3+0.5X,
+\qquad
+\widehat{Y}_{\text{Lernlabor}}-\widehat{Y}_{\text{Selbststudium}}=6+1.5X.
+$$
+
+Bei $X=0$ sind die Dummy-Koeffizienten 3 und 6 die angepassten Gruppendifferenzen beim selben Vorwissenswert. Bei anderen Übungswerten muss der Interaktionsbeitrag dazugerechnet werden. Halten wir beispielsweise den Vorwissenswert bei $P=50$ und die Übungszeit bei $X=4$ fest:
+
+$$
+\begin{aligned}
+\widehat{Y}_{\text{Selbststudium}}&=30+0.4(50)+2(4)=58,\\
+\widehat{Y}_{\text{Peer}}&=33+0.4(50)+2.5(4)=63,\\
+\widehat{Y}_{\text{Lernlabor}}&=36+0.4(50)+3.5(4)=70.
+\end{aligned}
+$$
+
+Die Differenz zwischen Peer-Workshop und Selbststudium beträgt $3+0.5(4)=5$ Punkte, jene zwischen Lernlabor und Selbststudium $6+1.5(4)=12$ Punkte. Dies sind Vergleiche angepasster bedingter Mittelwerte bei gleichem $P$ und $X$. Sie sind keine garantierten Unterschiede zwischen einzelnen Lernenden und ohne ein geeignetes Design auch keine kausalen Effekte.
+
+#### Vier Testfragen im selben Modell {.cs-heading}
+
+Die angepasste Gleichung und die Inferenzfrage müssen Term für Term zusammenpassen. Die Kursunterlagen stützen die drei oben eingeführten Testwerkzeuge: den $t$-Test eines einzelnen Koeffizienten, den gemeinsamen beziehungsweise verschachtelten $F$-Test und den globalen $F$-Test. Das komplexe Modell zeigt, weshalb sie nicht austauschbar sind.
+
+| Frage | Nullhypothese im Modell oben | Passender, in den Unterlagen behandelter Test |
+|---|---|---|
+| Unterscheidet sich die Übungssteigung der Referenzgruppe von null, bedingt auf alle anderen Terme? | $H_0:\beta_2=0$ | $t$-Test eines einzelnen Koeffizienten |
+| Unterscheidet sich die Übungssteigung des Lernlabors von der Referenzsteigung? | $H_0:\beta_6=0$ | $t$-Test des einzelnen Interaktionskoeffizienten |
+| Unterscheiden sich die Übungssteigungen irgendwo zwischen den drei Formaten? | $H_0:\beta_5=\beta_6=0$ | Verschachtelter $F$-Test zwischen Interaktions- und additivem Modell |
+| Trägt in dieser vollständigen Spezifikation irgendein Term ausser dem Achsenabschnitt bei? | $H_0:\beta_1=\cdots=\beta_6=0$ | Globaler $F$-Test des Modells |
+
+: Die wissenschaftliche Frage bestimmt den Test, weshalb der erste p-Wert in der Ausgabe nicht automatisch die Antwort liefert. {#tbl-multiple-complex-tests}
+
+Eine weitere Unterscheidung ist wichtig. Der Test $H_0:\beta_3=\beta_4=0$ innerhalb des Interaktionsmodells fragt, ob die Gruppendifferenzen genau bei $X=0$ und konstant gehaltenem $P$ null sind. Er prüft nicht, ob das Lernformat bei jedem Übungswert bedeutungslos ist. Ein hierarchischer gemeinsamer Test aller formatbezogenen Terme vergleicht stattdessen das vollständige Modell mit einem Modell, aus dem $D_{\text{Peer}}$, $D_{\text{Lernlabor}}$, $XD_{\text{Peer}}$ und $XD_{\text{Lernlabor}}$ gemeinsam entfernt wurden. Ein Wechsel der Referenzgruppe ändert die Beschreibung einzelner Koeffizienten, nicht aber die angepassten Gruppenlinien oder das Ergebnis des entsprechenden gemeinsamen Interaktionsvergleichs.
+
+---
+
+### Kandidatenmodelle auswählen und AIC vorsichtig lesen {.cs-heading}
+
+Die Modellbildung sollte mit der Forschungsfrage, dem Messplan, dem Design und einer plausiblen *funktionalen Form* beginnen. Damit ist die mathematische Form gemeint, die den Zusammenhang darstellt, beispielsweise Geraden mit oder ohne Interaktionen. Automatisierte Auswahlverfahren können diese Entscheidungen nicht liefern.
+
+Das *Akaike-Informationskriterium*, kurz AIC, gleicht Modellanpassung und Anzahl geschätzter Parameter gegeneinander ab:
+
+$$
+AIC=-2\log(L)+2k.
+$$
+
+In dieser Formel ist $L$ die *Likelihood, ausgewertet bei den angepassten Parameterwerten*. Die Likelihood misst, wie gut die beobachteten Daten unter dem Modell mit bestimmten Parameterwerten vereinbar sind. Die in $L$ eingesetzten angepassten Parameterwerte sind jene Werte, welche die Likelihood für diese Daten so gross wie möglich machen. Deshalb wird sie auch maximierte Likelihood genannt. Der Ausdruck $\log(L)$ ist der natürliche Logarithmus dieser Likelihood und bringt sie auf eine praktischere additive Skala. Das Symbol $k$ zählt die in der Likelihood geschätzten Parameter. Ein kleinerer AIC zeigt bei Kandidatenmodellen, die an dieselbe Zielvariable und dieselben Beobachtungen angepasst wurden, ein besseres Gleichgewicht zwischen Anpassung und Komplexität.
+
+Für den AIC gibt es keinen allgemeingültigen Grenzwert zum Bestehen. Ein Modell mit dem kleinsten AIC in einer schlechten Kandidatenmenge kann weiterhin falsch spezifiziert sein. AIC prüft keine Kausalität, ersetzt keine Diagnostik und misst keine Leistung an neuen Daten. Wenn Vorhersage das Ziel ist, bleibt eine Validierung mit Daten, die nicht zur Auswahl verwendet wurden, eine getrennte Aufgabe.
+
+Vorwärtsverfahren können zudem nützliche Kombinationen übersehen, zufällige Muster der Stichprobe ausnutzen und Schätzungen sicherer erscheinen lassen, als sie sind. Das geschieht, weil dieselbe Stichprobe sowohl zur Auswahl als auch zur Schätzung des Modells verwendet wurde. Verwende solche Verfahren, wenn überhaupt, als transparente Vergleiche zwischen vertretbaren Kandidaten und nicht als Maschine zur Entdeckung von Wahrheit.
+
+---
+
+### Annahmen und diagnostische Fragen {.cs-heading}
+
+Die multiple Regression erweitert die diagnostische Logik aus Thema 5. Frage dich, ob:
+
+- der bedingte Mittelwert durch die gewählten linearen und Interaktionsterme angemessen dargestellt wird;
+- die Fehler gemäss Stichproben- oder Studiendesign unabhängig sind;
+- die Residuenstreuung über angepasste Werte und wichtige Prädiktorkombinationen hinreichend stabil ist;
+- die bedingte Fehlerverteilung für die berichteten Tests und Intervalle in kleinen Stichproben angemessen ist;
+- kein Prädiktorterm eine exakte lineare Kombination anderer enthaltener Terme ist;
+- ungewöhnliche Beobachtungen oder dünn besetzte Prädiktorkombinationen die Ergebnisse bestimmen;
+- kategoriale Variablen und Referenzstufen wie beabsichtigt codiert sind;
+- die Behandlung fehlender Daten sicherstellt, dass verglichene Modelle dieselben Fälle verwenden;
+- die Messungen für die Interpretation ausreichend zuverlässig sind; und
+- Vorhersagen innerhalb von Kombinationen bleiben, die durch die Daten gestützt werden.
+
+Ein *Residuen-gegen-angepasste-Werte-Diagramm* setzt jeden angepassten Wert auf die horizontale Achse und sein Residuum auf die vertikale Achse. Damit suchen wir nach Krümmungen, einer sich verändernden vertikalen Streuung oder einzelnen Fällen, die durch die angepasste Gleichung nicht gut dargestellt werden.
+
+Ein *Normal-Quantil-Quantil-Diagramm*, meist kurz *Normal-Q-Q-Diagramm* genannt, ordnet die standardisierten Residuen zuerst vom kleinsten bis zum grössten Wert. Ein standardisiertes Residuum drückt ein Residuum relativ zu seiner geschätzten üblichen Grösse aus und berücksichtigt dabei die Position des Falls in den Prädiktordaten. Das Diagramm vergleicht diese geordneten Residuen mit den Positionen, die bei einer Normalverteilung der Modellfehler erwartet werden. Punkte nahe der Diagonalen sind mit dieser Form weitgehend vereinbar. Systematische Krümmungen oder starke Abweichungen an den Enden sollten genauer untersucht werden. Die Normalverteilung ist eine Bedingung für die vertrauten Tests und Intervalle in kleinen Stichproben. Sie verlangt nicht, dass jede rohe Variable selbst normalverteilt sein muss.
+
+Falldiagnostiken stellen eine andere Frage. Der *Hebelwert* beschreibt, wie ungewöhnlich die Prädiktorkombination eines Falls innerhalb des angepassten Modells ist. Die *Cook-Distanz* verbindet diese Prädiktorposition mit der Residualgrösse und fasst zusammen, wie stark sich die angepasste Regression verändern könnte, wenn dieser Fall weggelassen würde. Diese Darstellungen und inhaltlichen Datenprüfungen liefern Hinweise für die Untersuchung der Annahmen, ohne deren Gültigkeit zu beweisen. Eine auffällige Beobachtung sollte geprüft und im Zusammenhang analysiert werden. Eine automatische Löschung wäre daraus nicht gerechtfertigt.
+
+::: {.callout-warning title="Mögliche Stolperfallen"}
+- **Nicht nennen, welche Terme konstant gehalten werden.** Interpretiere einen Koeffizienten, indem du die anderen Modellterme benennst, die dabei konstant gehalten werden.
+- **Statistische Bereinigung als experimentelle Kontrolle behandeln.** Ein angepasstes Modell mit Beobachtungsdaten erzeugt keine Zufallszuweisung.
+- **$R^2$ falsch lesen.** Es ist weder der Prozentsatz korrekt vorhergesagter Personen noch ein verursachter Prozentsatz.
+- **Annehmen, das gewöhnliche $R^2$ bestrafe unnötige Prädiktoren.** Das gewöhnliche $R^2$ kann beim Hinzufügen von Termen nicht kleiner werden. Das angepasste $R^2$ berücksichtigt die Modellkomplexität mit einem Abzug.
+- **Den globalen $F$-Test überinterpretieren.** Ein signifikanter globaler Test beweist nicht, dass jeder Koeffizient ungleich null ist.
+- **Prädiktoren nur anhand standardisierter Koeffizienten ordnen.** Messung, Unsicherheit, Prädiktorüberlappung und Forschungsfrage bleiben ebenfalls wichtig.
+- **Konfundierung oder Suppression allein aus einer Koeffizientenveränderung ableiten.** Eine Verkleinerung oder Vergrösserung ist ein Hinweis, der mithilfe des Designs und inhaltlichen Wissens untersucht werden muss.
+- **Ungeordnete Kategorien als eine numerische Skala codieren.** Verwende Indikatorvariablen, damit das Modell keine Abstände oder Reihenfolge erfindet.
+- **Bei einer Interaktion die Steigung falsch lesen.** Wenn eine Interaktion vorhanden ist, ist die Steigung der Referenzgruppe nicht die Steigung jeder Gruppe.
+- **Eine neue Referenzkategorie als neuen angepassten Zusammenhang behandeln.** Die Umcodierung verändert die Beschreibung der Koeffizienten, nicht die angepassten Werte.
+- **Den kleinsten AIC als Beweis behandeln.** Er bezeichnet nur unter den angegebenen Kandidatenmodellen das bevorzugte Verhältnis von Anpassung und Komplexität und garantiert keine Vorhersage ausserhalb der untersuchten Daten.
+:::
+
+### Weshalb all dies wichtig ist: das Wesen der multiplen Regression {.cs-heading}
+
+Die multiple Regression beantwortet eine Frage, die immer dann auftritt, wenn eine Zielvariable gleichzeitig mit mehreren Merkmalen zusammenhängt: **Wie können mehrere Prädiktoren eine Erklärung teilen, ohne dass wir aus den Augen verlieren, welchen Vergleich jeder Koeffizient beschreibt?** Sie behält die Logik von angepasstem Wert und Residuum aus der einfachen Regression bei, erlaubt aber für jeden Fall mehrere Beiträge in derselben Gleichung. Deshalb eignet sie sich für Beschreibung und Vorhersage und kann bereinigte Zusammenhänge ehrlicher darstellen als eine Sammlung unverbundener Analysen mit jeweils zwei Variablen.
+
+Das Wort *bedingt* ist der Anker. Eine quantitative Steigung beschreibt eine angepasste Veränderung, während die übrigen Terme dieses Modells konstant gehalten werden. Ein Dummy-Koeffizient macht aus einer Kategorie einen ausdrücklichen Vergleich mit einer Referenzgruppe, statt vorzugeben, Kategorienamen bildeten eine numerische Skala. Eine Interaktion hebt danach die Annahme auf, dass eine angepasste Steigung oder eine Gruppendifferenz überall konstant sein müsse. Sie stellt die tiefere Frage: **Verändert sich der Zusammenhang selbst zwischen Gruppen oder über die Werte eines anderen Prädiktors?**
+
+Die Testwerkzeuge spiegeln diese Ebenen. Ein einzelner $t$-Test fragt nach einem benannten bedingten Koeffizienten. Ein verschachtelter $F$-Test fragt, ob eine inhaltlich zusammengehörige Gruppe ergänzter Terme, etwa alle Interaktionen zwischen Übung und Lernformat, das Modell gemeinsam verbessert. Der globale $F$-Test fragt, ob alle Beiträge ausser dem Achsenabschnitt gemeinsam null sein könnten. Wenn du diese Fragen trennst, liest du ein signifikantes Modell nicht fälschlich als Beleg dafür, dass jeder Koeffizient wichtig sei, und eine nicht signifikante Referenzgruppensteigung nicht als Beleg dafür, dass in keiner Gruppe ein Zusammenhang bestehe.
+
+Dieses Thema führt auch die bisherige Abfolge zusammen. Die Korrelation beschrieb gemeinsame Bewegung. Die einfache Regression benannte eine Zielvariable und passte eine Linie an. Die partielle Korrelation machte die Bereinigung über Residuen sichtbar. Die multiple Regression bringt mehrere bedingte Beiträge, Gruppenvergleiche und veränderliche Steigungen in ein kohärentes angepasstes Modell. Ihr Wesen besteht nicht darin, «mehr Variablen in eine Software einzugeben». Es besteht darin, präzise anzugeben, welchen Vergleich jeder Koeffizient darstellt und welche gemeinsame Hypothese jeder Modellvergleich beantwortet.
+
+Thema 8 verschiebt nun den Schwerpunkt, ohne diesen Rahmen zu verlassen. Wenn kategoriale Prädiktoren und Vergleiche zwischen Gruppenmittelwerten ins Zentrum rücken, begegnen uns dieselben Dummy-Variablen, angepassten Werte, Residualstreuungen, Interaktionen und gemeinsamen $F$-Tests in der Sprache der Varianzanalyse.
+
+> **Abschlussfrage:** Kannst du für jede Gruppe die angepasste Gleichung aufschreiben, benennen, was konstant gehalten wird, und einen einzelnen Koeffiziententest von einem gemeinsamen Modelltest unterscheiden? Dann hast du die zentrale Logik der multiplen Regression erfasst.
+
+## Simuliertes Beispiel
+
+### Simulierte Studie: Vorbereitung, Übung, Lernformat und statistisches Denken {.cs-heading}
+
+Nun analysieren wir eine simulierte Kohorte von `r topic7_stats$n` Lernenden. Eine *Kohorte* ist eine Gruppe von Fällen, die gemeinsam untersucht werden. Thema 1 führte simulierte Daten, Zufallszahlengeneratoren, feste Startwerte und Reproduzierbarkeit ein. Dieses Beispiel verwendet dieselbe bekannte Grundlage: Das gespeicherte Rezept und der Startwert erzeugen bei jedem Aufbau der Seite dieselben künstlichen Zeilen. Diese Werte liefern keine Evidenz über reale Lernende oder Lernformate.
+
+Ein Prädiktor kann nicht jeden relevanten Unterschied zwischen Fällen darstellen. Dieses Beispiel fragt deshalb, wie mehrere Informationen in einer angepassten Gleichung zusammenwirken können, ohne ihre getrennte Bedeutung zu verlieren. Behalte drei Fragen im Blick:
+
+> Wie verändert sich die angepasste Übungssteigung, nachdem der Vorwissenswert konstant gehalten wird? Wie kann das Lernformat in das Modell eingehen, ohne so zu tun, als seien seine Kategorienbezeichnungen numerische Mengen? Bleibt die bedingte Übungssteigung in allen Formaten gleich?
+
+Gemeinsam führen diese Fragen zur zentralen Analyse: Wie hängt der Punktwert im statistischen Denken mit dem Vorwissenswert, der wöchentlichen begleiteten Übung und dem Lernformat zusammen, und unterscheidet sich der Übungszusammenhang zwischen den Formaten?
+
+Die *Idee der Datenerzeugung*, also das Rezept zur Erzeugung der künstlichen Werte, gibt der Vorbereitung und der Übung positive Zusammenhänge mit der Zielvariable. Sie erlaubt Unterschiede zwischen den Lernformaten, unterschiedliche Übungssteigungen je Format und zufällige individuelle Variation. Die Übung ist bei Lernenden mit höheren Vorwissenswerten tendenziell ebenfalls höher. So entsteht eine *Prädiktorüberlappung*. Das bedeutet, dass zwei Prädiktoren einen Teil derselben linearen Information tragen.
+
+Im Reiter Theorie verwendeten wir bewusst runde Koeffizienten, damit du die Dummy-Codierung und die Interaktionsrechnung von Hand prüfen konntest. Die simulierte Kohorte ist der nächste Schritt. Die geschätzten Koeffizienten sind nun keine einfachen ganzen Zahlen mehr, behalten aber genau dieselbe referenzbezogene Bedeutung. Wenn die Ausgabe unübersichtlich wirkt, kehre zur entsprechenden angepassten Gleichung zurück und setze vor der Interpretation die Indikatorwerte ein.
+
+---
+
+**Schritt 1: Variablen bestimmen und die Zeilen prüfen**
+
+```{r}
+#| label: tbl-multiple-variables
+kable(
+  topic7_variable_table,
+  col.names = c("Variable", "Modellrolle", "Messung"),
+  align = c("l", "l", "l"),
+  caption = "Variablen in der simulierten Studie zur multiplen Regression."
+)
+```
+
+Die Zielvariable ist quantitativ. Ein lineares Modell ist deshalb ein sinnvoller Ausgangspunkt. Vorwissenswert und Übungsstunden sind quantitative Prädiktoren. Das Lernformat ist kategorial und benötigt *Indikatorvariablen*, also getrennte Spalten mit den Werten 0 oder 1, die eine Kategorienzugehörigkeit markieren, anstelle eines einzelnen numerischen Codes.
+
+Die erste Spalte benennt, was aufgezeichnet wurde. Die zweite teilt dem Modell mit, wie diese Angabe verwendet wird. Die dritte hält die Messskala sichtbar. Nur der Punktwert im statistischen Denken ist die Zielvariable. Die drei anderen Variablen sind Prädiktoren, wobei das Lernformat nach der Dummy-Codierung mehr als eine Koeffizientenspalte belegt. Das vollständige Modell schätzt einen *bedingten Mittelwert*. Das ist der durchschnittliche Punktwert, den es für Fälle mit einem bestimmten Prädiktorprofil anpasst, und kein garantiertes individuelles Ergebnis. Die konstruierte Situation wird als Beobachtungsstudie interpretiert. Deshalb bleibt die Sprache zu den Koeffizienten assoziativ.
+
+Die interaktive Tabelle enthält jeden konstruierten Fall. Lies eine Zeile quer, damit das Prädiktorprofil einer Person mit genau einer Zielvariable gepaart bleibt. Mit dem Suchfeld, den Sortierfunktionen und der Seitensteuerung kannst du die Daten untersuchen, ohne Werte voneinander zu trennen, die zum selben Fall gehören.
+
+```{r}
+#| label: tbl-multiple-preview
+DT::datatable(
+  topic7_data |>
+    select(participant_id, prior_score, practice_hours, tutorial_format, reasoning_score),
+  colnames = c(
+    "Teilnehmenden-ID", "Vorwissenswert", "Übungsstunden",
+    "Lernformat", "Punktwert im statistischen Denken"
+  ),
+  caption = "Vollständige reproduzierbare simulierte Kohorte zur multiplen Regression.",
+  options = topic_dt_options(topic_locale),
+  class = "compact stripe hover",
+  rownames = FALSE
+)
+```
+
+---
+
+**Schritt 2: Beobachtete Wertebereiche und Prädiktorüberlappung prüfen**
+
+Die Vorwissenswerte reichen von `r format_t07(topic7_stats$prior_min, 1)` bis `r format_t07(topic7_stats$prior_max, 1)`, die Übung von `r format_t07(topic7_stats$practice_min, 1)` bis `r format_t07(topic7_stats$practice_max, 1)` Stunden und die Zielvariable von `r format_t07(topic7_stats$outcome_min, 1)` bis `r format_t07(topic7_stats$outcome_max, 1)` Punkten. Die Prädiktorkorrelation beträgt $r=`r format_t07(topic7_stats$predictor_correlation, 3)`$. Vorwissenswert und Übung enthalten somit gemeinsame Information, sind aber nicht identisch.
+
+Keine Zeile hat einen Vorwissenswert von null. Ein bei Vorwissenswert null ausgewerteter Achsenabschnitt sollte deshalb keine inhaltliche Interpretation als Lernende oder Lernender erhalten, obwohl er zur Positionierung des Modells benötigt wird.
+
+Die Tabelle dient der Prüfung auf Zeilenebene und ist keine Ergebnistabelle. Wenn du eine Spalte nach unten liest, erkennst du, dass die Werte zwischen den Fällen variieren und dass das Lernformat Kategorienbezeichnungen statt numerischer Abstände enthält. Die berichteten Wertebereiche legen danach fest, wo die angepassten Beziehungen direkt durch Daten gestützt werden. Vorhersagen weit ausserhalb davon wären Extrapolationen.
+
+---
+
+**Schritt 3: Eine zusammenhängende Modellfolge vorab festlegen**
+
+Eine Modellfolge *vorab festzulegen* bedeutet, ihre Reihenfolge und Terme zu bestimmen, bevor du prüfst, welche Möglichkeit das ansprechendste Ergebnis liefert. Wir vergleichen fünf solche Modelle, die an dieselben 180 Zeilen und dieselbe Zielvariable angepasst werden:
+
+| Modell | Bis zu diesem Punkt eingeführte Terme | An diesem Schritt geöffnete Frage |
+|---|---|---|
+| M0 | Nur Achsenabschnitt | Wie viel Variation bleibt, wenn jeder Fall denselben angepassten Mittelwert erhält? |
+| M1 | Übungsstunden | Wie gross ist die unbereinigte angepasste Übungssteigung? |
+| M2 | Vorwissenswert und Übungsstunden | Wie verändert sich die Übungssteigung, nachdem der Vorwissenswert aufgenommen wurde? |
+| M3 | M2 plus zwei Indikatoren für das Lernformat | Unterscheiden sich die angepassten Gruppenlinien in ihrer Position, während sie dieselbe Übungssteigung teilen? |
+| M4 | M3 plus zwei Produkte aus Übung und Format | Unterscheiden sich die bedingten Übungssteigungen zwischen den Formaten? |
+
+: Die fünf Modelle bilden eine vorab festgelegte, verschachtelte Lernfolge. {#tbl-multiple-model-sequence}
+
+Die Reihenfolge ist absichtsvoll. Jedes Modell behält alle Terme aus der vorherigen Zeile und fügt eine klar benannte Menge hinzu. Dadurch ist jedes kleinere Modell im nächsten Modell verschachtelt. Auch die Fragen bauen aufeinander auf. Zuerst bestimmen wir die Beziehung nur mit der Übung. Dann bereinigen wir sie um den Vorwissenswert, stellen Gruppenunterschiede dar und erlauben schliesslich, dass die Übungssteigung selbst zwischen den Gruppen variiert. Weil durchgehend dieselbe Zielvariable und dieselben 180 Zeilen verwendet werden, gehören Veränderungen der Modellgüte zu den hinzugefügten Termen und nicht zu einer wechselnden Analysestichprobe.
+
+---
+
+**Schritt 4: Die bivariate und die bedingte Übungssteigung vergleichen**
+
+Das Modell nur mit Übung ergibt
+
+$$
+\widehat{\text{Punktwert}}
+=
+`r format_t07(coef(topic7_simple_practice_model)[["(Intercept)"]], 2)`
++
+`r format_t07(topic7_stats$practice_simple_slope, 2)`\times\text{Übung}.
+$$
+
+Seine Steigung sagt aus, dass sich Lernende mit einer Differenz von einer Übungsstunde im Mittel um `r format_t07(topic7_stats$practice_simple_slope, 2)` angepasste Punkte unterscheiden, wenn der Vorwissenswert ignoriert wird.
+
+M2 passt beide quantitativen Prädiktoren an:
+
+$$
+\widehat{\text{Punktwert}}
+=
+`r format_t07(coef(topic7_continuous_model)[["(Intercept)"]], 2)`
++
+`r format_t07(coef(topic7_continuous_model)[["prior_score"]], 2)`\times\text{Vorwissen}
++
+`r format_t07(coef(topic7_continuous_model)[["practice_hours"]], 2)`\times\text{Übung}.
+$$
+
+Der Übungskoeffizient beträgt nun `r format_t07(topic7_stats$practice_conditional_slope, 2)` Punkte pro Stunde, wenn der Vorwissenswert konstant gehalten wird. Er ist kleiner als die Steigung des Modells nur mit Übung, weil sich in dieser konstruierten Kohorte ein Teil des bivariaten Übungszusammenhangs mit dem Vorwissenswert überlappt. Dieses numerische Muster ist mit gemeinsam erklärender Variation vereinbar. Es beweist keinen kausalen Konfundierungsmechanismus.
+
+Die Formel mit zwei Prädiktoren aus dem Reiter Theorie zeigt die Berechnung hinter dieser bedingten Übungssteigung:
+
+$$
+b_{\text{Übung}}
+=
+\frac{r_{Y,\text{Übung}}-
+r_{Y,\text{Vorwissen}}r_{\text{Übung,Vorwissen}}}
+{1-r_{\text{Übung,Vorwissen}}^2}
+\frac{s_Y}{s_{\text{Übung}}}.
+$$
+
+Anstatt alle Zahlen in eine Zeile zu drängen, berechnen wir die drei Teile getrennt:
+
+$$
+\begin{aligned}
+A
+&=
+`r format_t07(topic7_stats$outcome_practice_correlation, 3)`-
+(`r format_t07(topic7_stats$outcome_prior_correlation, 3)`)
+(`r format_t07(topic7_stats$predictor_correlation, 3)`)\\
+&\approx `r format_t07(topic7_stats$practice_slope_adjusted_numerator, 4)`,
+\end{aligned}
+$$
+
+$$
+B
+=
+1-(`r format_t07(topic7_stats$predictor_correlation, 3)`)^2
+\approx
+`r format_t07(topic7_stats$practice_slope_overlap_denominator, 4)`,
+$$
+
+und
+
+$$
+C
+=
+\frac{`r format_t07(topic7_stats$outcome_sd, 3)`}
+{`r format_t07(topic7_stats$practice_sd, 3)`}
+\approx
+`r format_t07(topic7_stats$practice_slope_unit_ratio, 4)`.
+$$
+
+Danach verbinden wir die drei Teile:
+
+$$
+b_{\text{Übung}}
+=
+\frac{A}{B}C
+\approx
+`r format_t07(topic7_stats$practice_conditional_slope, 3)`.
+$$
+
+$A$ ist der bereinigte Korrelationszähler, $B$ berücksichtigt die Prädiktorüberlappung und $C$ stellt die ursprüngliche Einheit Punkte im statistischen Denken pro Übungsstunde wieder her. Kleine Unterschiede bei einer Berechnung von Hand können entstehen, wenn die angezeigten Korrelationen vor dem Einsetzen gerundet werden. Das angepasste Modell verwendet die ungerundeten Werte.
+
+Die nächste Tabelle trennt Koeffizienten in ursprünglichen Einheiten, standardisierte Koeffizienten und bivariate Korrelationen.
+
+```{r}
+#| label: tbl-multiple-standardized
+kable(
+  topic7_continuous_coefficient_table |>
+    transmute(
+      Prädiktor = predictor,
+      `Unstandardisiertes b` = format_t07(unstandardized_b, 3),
+      `Standardisierter Koeffizient` = format_t07(standardized_beta, 3),
+      `Bivariates r mit Zielvariable` = format_t07(bivariate_r, 3)
+    ),
+  align = c("l", "r", "r", "r"),
+  caption = "M2-Koeffizienten im Vergleich zur unbereinigten Korrelation jedes Prädiktors mit der Zielvariable."
+)
+```
+
+Beide standardisierten Koeffizienten unterscheiden sich von ihren bivariaten Korrelationen, weil jeder Koeffizient um den anderen quantitativen Prädiktor bereinigt. Die Koeffizienten in ursprünglichen Einheiten bleiben für die angepasste Gleichung notwendig.
+
+Lies die Tabelle Prädiktor für Prädiktor von links nach rechts. Die unstandardisierte Spalte beantwortet die für eine Vorhersage benötigte Frage in ursprünglichen Einheiten. Die standardisierte Spalte beantwortet dieselbe bedingte Frage, nachdem beide Variablen neu skaliert wurden. Die letzte Spalte kehrt zum unbereinigten Zusammenhang zwischen zwei Variablen zurück. Für die Übung beträgt der standardisierte bedingte Koeffizient `r format_t07(topic7_stats$practice_standardized_coefficient, 3)`. Er ist kleiner als die bivariate Korrelation, weil der Vorwissenswert in dieser Kohorte einen Teil derselben linearen Information trägt.
+
+---
+
+**Schritt 5: Angepasste Werte und Residuen berechnen**
+
+Für die verbleibenden Schritte ist M4 das vollständige Kandidatenmodell. Es enthält den Vorwissenswert, die Übung, zwei Formatindikatoren und zwei Interaktionen. Das Einsetzen der Werte jeder Zeile ergibt einen angepassten Punktwert und danach ein Residuum.
+
+```{r}
+#| label: tbl-multiple-fitted-residuals
+kable(
+  topic7_fitted_preview |>
+    transmute(
+      `Teilnehmenden-ID` = participant_id,
+      `Beobachteter Punktwert` = format_t07(reasoning_score, 2),
+      `Angepasster Punktwert` = format_t07(fitted_score, 2),
+      Residuum = format_t07(residual, 2),
+      `Vorwissenswert` = format_t07(prior_score, 1),
+      `Übungsstunden` = format_t07(practice_hours, 1),
+      `Lernformat` = as.character(tutorial_format)
+    ),
+  align = c("l", "r", "r", "r", "r", "r", "l"),
+  caption = "Beobachtete Punktwerte, angepasste Punktwerte des vollständigen Modells und Residuen für die ersten acht simulierten Lernenden."
+)
+```
+
+Abgesehen von der Rundung erfüllt jede gezeigte Zeile: beobachteter Punktwert = angepasster Punktwert + Residuum. Die Abbildung stellt jeden beobachteten Punktwert seinem angepassten Wert gegenüber. Bei perfekter Anpassung würde jeder Punkt auf der Diagonalen liegen. Person `r topic7_stats$case_id` hat den beobachteten Punktwert `r format_t07(topic7_stats$case_observed, 1)` und den angepassten Punktwert `r format_t07(topic7_stats$case_fitted, 2)`. Daraus ergibt sich das Residuum `r format_t07(topic7_stats$case_residual, 2)`.
+
+In der Tabelle erlauben die ersten drei numerischen Spalten eine direkte arithmetische Prüfung: Beobachtet minus angepasst ergibt das Residuum. Die verbleibenden Spalten zeigen das Prädiktorprofil, aus dem dieser angepasste Wert hervorging. Zwei Fälle können über unterschiedliche Kombinationen von Vorwissenswert, Übung und Lernformat ähnliche angepasste Punktwerte erreichen. Genau deshalb muss die angepasste Gleichung alle enthaltenen Terme gemeinsam verwenden.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbare Abbildung zu angepassten Werten und Residuen"}
+
+```{r}
+#| label: fig-multiple-fitted-residual
+#| fig-cap: "Beobachtete Punktwerte im statistischen Denken gegen die vom vollständigen Modell angepassten Punktwerte. Die gestrichelte Diagonale markiert exakte Übereinstimmung. Ein vertikales Segment zeigt ein Residuum als beobachtet minus angepasst."
+#| fig-alt: "Ein Streudiagramm vergleicht angepasste und beobachtete Punktwerte im statistischen Denken für 180 simulierte Lernende. Die Punkte liegen als ansteigende Wolke um eine gestrichelte Diagonale. Ein orangefarbener Punkt ist vertikal mit der Diagonalen verbunden, um sein Residuum zu zeigen."
+topic7_plotly(
+  p_topic7_fitted,
+  paste(
+    "Ein Streudiagramm vergleicht angepasste und beobachtete Punktwerte im statistischen Denken für 180 simulierte Lernende.",
+    "Beim Überfahren eines Punkts werden die Person, ihr Prädiktorprofil, der beobachtete und der angepasste Punktwert sowie das Residuum angezeigt.",
+    "Ein orangefarbener Punkt ist vertikal mit der Diagonalen verbunden, um sein Residuum zu zeigen."
+  )
+)
+```
+
+:::
+
+Die gestrichelte Diagonale ist keine weitere angepasste Regressionsgerade. Sie ist die Referenz für perfekte Übereinstimmung zwischen beobachteten und angepassten Werten. Ein Punkt oberhalb davon hat ein positives Residuum, ein Punkt darunter ein negatives. Das hervorgehobene vertikale Segment stellt ein Residuum in derselben Richtung von angepasst zu beobachtet dar, die bereits in Thema 5 verwendet wurde. Die gesamte Punktwolke folgt der Diagonalen und zeigt eine erhebliche Anpassung. Ihre verbleibende vertikale Streuung zeigt zugleich, weshalb das Modell nicht jeden individuellen Punktwert genau vorhersagt.
+
+---
+
+**Schritt 6: R-Quadrat, korrigiertes R-Quadrat und Residualfehler vergleichen**
+
+```{r}
+#| label: tbl-multiple-model-comparison
+kable(
+  topic7_model_table |>
+    transmute(
+      Modell = model,
+      `Enthaltene Terme` = terms,
+      `Prädiktorparameter` = predictor_parameters,
+      `R-Quadrat` = format_t07(r_squared, 3),
+      `Korrigiertes R-Quadrat` = format_t07(adjusted_r_squared, 3),
+      `Residual-SE` = format_t07(residual_standard_error, 2),
+      `Residual-df` = residual_df,
+      AIC = format_t07(aic, 2)
+    ),
+  align = c("l", "l", "r", "r", "r", "r", "r", "r"),
+  caption = "Masse für Anpassung und Komplexität in der vorab festgelegten verschachtelten Kandidatenfolge."
+)
+```
+
+Das gewöhnliche $R^2$ sinkt entlang der Folge nie, weil jedes grössere Modell alle früheren Terme behält. Das korrigierte $R^2$ setzt jeden Gewinn ins Verhältnis zu den hinzugefügten Prädiktorparametern. Der Residualstandardfehler sinkt, weil um die angepassten Werte weniger Variation der Zielvariable verbleibt.
+
+Lies die Modellvergleichstabelle zuerst von links nach rechts und danach nach unten. Die Termspalte sagt aus, welche Information jedes Modell kennt. Die Spalten zu Parametern und Residualfreiheitsgraden halten die Kosten der Schätzung zusätzlicher Bestandteile fest. Die nächsten drei Spalten fassen die Anpassung aus verschiedenen Blickwinkeln zusammen: dargestellte Variation, um Komplexität korrigierte dargestellte Variation und typische Residuenstreuung in Punktwerteinheiten. AIC ist ein getrenntes relatives Mass für Anpassung und Komplexität und wird erst interpretiert, nachdem die verschachtelten Anpassungsfragen verstanden sind.
+
+Für M4 gilt $R^2=`r format_t07(topic7_stats$full_r_squared, 3)`$ und korrigiertes $R^2=`r format_t07(topic7_stats$full_adjusted_r_squared, 3)`$. Das Modell stellt `r format_t07(100 * topic7_stats$full_r_squared, 1)`% der Stichprobenvariation der Zielvariable um ihren Mittelwert dar. Sein Residualstandardfehler beträgt `r format_t07(topic7_stats$full_residual_standard_error, 2)` Punkte der Zielvariable.
+
+Der korrigierte Wert kann direkt überprüft werden. M4 analysiert $n=`r topic7_stats$n`$ Fälle und schätzt $p=`r topic7_stats$full_predictor_parameters`$ Prädiktorparameter ohne Achsenabschnitt:
+
+$$
+\begin{aligned}
+R^2_{\text{korrigiert}}
+&=1-(1-R^2)\frac{n-1}{n-p-1}\\[4pt]
+&=1-(1-`r format_t07(topic7_stats$full_r_squared, 5)`)
+\frac{`r topic7_stats$n - 1`}{`r topic7_stats$full_residual_df`}\\[4pt]
+&\approx `r format_t07(topic7_stats$full_adjusted_r_squared, 3)`.
+\end{aligned}
+$$
+
+Die Subtraktion entfernt keine bestimmten Prädiktoren aus dem Modell. Sie korrigiert die Zusammenfassung der Anpassung dafür, wie viele Parameter im Verhältnis zu den verfügbaren Fällen geschätzt wurden.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbare Abbildung zur Folge der Modellgüte"}
+
+```{r}
+#| label: fig-multiple-fit-path
+#| fig-cap: "$R^2$ und korrigiertes $R^2$ für die fünf verschachtelten Kandidatenmodelle. Beide verbessern sich hier. Das korrigierte $R^2$ bleibt etwas kleiner, weil es die geschätzte Komplexität berücksichtigt."
+#| fig-alt: "Ein Diagramm mit zwei Linien zeigt, wie R-Quadrat und korrigiertes R-Quadrat von Modell M0 bis M4 ansteigen. Nach Aufnahme der Prädiktoren bleibt die korrigierte Linie etwas unterhalb der gewöhnlichen R-Quadrat-Linie."
+topic7_plotly(
+  p_topic7_fit_path,
+  paste(
+    "Ein interaktives Diagramm mit zwei Linien zeigt R-Quadrat und korrigiertes R-Quadrat von Modell M0 bis M4.",
+    "Beim Überfahren werden das Modell, das Anpassungsmass und der genaue Wert angezeigt.",
+    "Nach Aufnahme der Prädiktoren bleibt das korrigierte R-Quadrat etwas unterhalb des gewöhnlichen R-Quadrats."
+  )
+)
+```
+
+:::
+
+Die beiden Linien steigen gemeinsam, weil jeder hinzugefügte Block in dieser konstruierten Folge die Anpassung verbessert. Ihr vertikaler Abstand ist die Korrektur für Modellkomplexität. Dieser Abstand darf nicht als Unsicherheit oder Vorhersagefehler interpretiert werden. Der Residualstandardfehler in der Tabelle beschreibt die verbleibende Streuung der Zielvariable in Punkten, nicht die Lücke zwischen den Linien.
+
+---
+
+**Schritt 7: Den globalen Test von Koeffiziententests trennen**
+
+Das globale Ergebnis für M4 lautet
+
+$$
+F(`r topic7_stats$global_df1`,\ `r topic7_stats$global_df2`)
+=
+`r format_t07(topic7_stats$global_f, 2)`,
+\qquad
+p\ `r if (topic7_stats$global_p < 0.001) "< .001" else paste0("= ", format_p_t07(topic7_stats$global_p))`.
+$$
+
+Unter den Modellbedingungen sind die Daten nicht mit einer Population vereinbar, in der alle sechs Koeffizienten ausser dem Achsenabschnitt null sind. Dieses Ergebnis sagt nicht, dass alle sechs einzeln ungleich null sind.
+
+Die berichtete Teststatistik folgt auch direkt aus dem $R^2$ von M4:
+
+$$
+\begin{aligned}
+F
+&=
+\frac{R^2/p}{(1-R^2)/(n-p-1)}\\[4pt]
+&=
+\frac{`r format_t07(topic7_stats$full_r_squared, 5)`/
+`r topic7_stats$full_predictor_parameters`}
+{(1-`r format_t07(topic7_stats$full_r_squared, 5)`)/
+`r topic7_stats$full_residual_df`}\\[4pt]
+&\approx `r format_t07(topic7_stats$global_f, 2)`.
+\end{aligned}
+$$
+
+Der Zähler ist die dargestellte Variation der Zielvariable pro Prädiktorparameter. Der Nenner ist die verbleibende Variation der Zielvariable pro Residualfreiheitsgrad. Ihr Verhältnis fragt, ob die vom Modell dargestellte Variation im Vergleich zum verbleibenden Anteil gross ist.
+
+```{r}
+#| label: tbl-multiple-coefficients
+kable(
+  topic7_full_coefficient_table |>
+    transmute(
+      Term = term,
+      Schätzung = format_t07(estimate, 3),
+      `Standardfehler` = format_t07(standard_error, 3),
+      `t-Wert` = format_t07(t_value, 2),
+      `p-Wert` = format_p_t07(p_value),
+      `95%-KI unten` = format_t07(ci_lower, 3),
+      `95%-KI oben` = format_t07(ci_upper, 3)
+    ),
+  align = c("l", "r", "r", "r", "r", "r", "r"),
+  caption = "M4-Koeffizientenschätzungen, bedingte Tests und zweiseitige 95%-Konfidenzintervalle."
+)
+```
+
+Der Übungskoeffizient von `r format_t07(topic7_beta[["practice_hours"]], 3)` ist die bedingte Steigung für das Selbststudium, also das Referenzformat. Die Peer-Interaktion schätzt, um wie viel sich die Peer-Steigung von dieser Referenzsteigung unterscheidet. Ihr p-Wert liefert in dieser Stichprobe keine starke Evidenz für einen Unterschied. Die Interaktion des begleiteten Lernlabors schätzt eine grössere Steigungsdifferenz und hat einen kleineren p-Wert. Das sind termbezogene Fragen, die sich vom globalen Test unterscheiden.
+
+Jede Zeile der Koeffiziententabelle muss als zusammengehöriges Paket gelesen werden. Die Schätzung liefert Richtung und Grösse der Anpassung. Der Standardfehler beschreibt die Stichprobenunsicherheit dieser Schätzung. Der $t$-Wert teilt die Schätzung durch ihren Standardfehler. Der p-Wert prüft die zugehörige Nullhypothese eines Koeffizienten von null. Das Konfidenzintervall gibt einen Bereich von Populationskoeffizienten an, die auf dem angegebenen Niveau mit Daten und Modell vereinbar sind. Gleichung, Dummy-Codierung, Referenzkategorie und Interaktionsstruktur legen die Bedeutung des Terms fest. Die übrigen Spalten quantifizieren seine Schätzung und Unsicherheit.
+
+Für die Übungszeile des Referenzformats gilt beispielsweise
+
+$$
+t
+=
+\frac{b_{\text{Übung}}}{SE(b_{\text{Übung}})}
+=
+\frac{`r format_t07(topic7_beta[["practice_hours"]], 3)`}
+{`r format_t07(topic7_stats$full_practice_standard_error, 3)`}
+\approx
+`r format_t07(topic7_stats$full_practice_t, 2)`.
+$$
+
+Diese Berechnung prüft nicht, ob die Übung in jedem Lernformat mit der Zielvariable zusammenhängt. In einem Interaktionsmodell prüft sie die Übungssteigung im Referenzformat. Die Interaktionszeilen prüfen danach, wie sich die formatspezifischen Steigungen von dieser Referenzsteigung unterscheiden.
+
+Die Dummy-Koeffizienten vergleichen Formate bei null Übungsstunden und konstantem Vorwissenswert. Auch der Achsenabschnitt setzt den Vorwissenswert auf null, also ausserhalb seines beobachteten Bereichs. Diese Bedingungen begrenzen, wie viel inhaltliche Bedeutung dem Achsenabschnitt und den Gruppenvergleichen bei null Übung gegeben werden sollte.
+
+---
+
+**Schritt 8: Die beiden Interaktionsterme gemeinsam prüfen**
+
+M3 ist das eingeschränkte additive Modell. M4 ist das uneingeschränkte Modell, das zwei Interaktionen hinzufügt. Ihr verschachtelter Vergleich lautet:
+
+```{r}
+#| label: tbl-multiple-nested-test
+kable(
+  topic7_nested_stats |>
+    transmute(
+      `Eingeschränktes Modell` = restricted_model,
+      `Uneingeschränktes Modell` = unrestricted_model,
+      `Hinzugefügte Parameter` = parameters_added,
+      `RSS eingeschränkt` = format_t07(rss_restricted, 2),
+      `RSS uneingeschränkt` = format_t07(rss_unrestricted, 2),
+      `F-Wert` = format_t07(f_value, 2),
+      `Zähler-df` = numerator_df,
+      `Nenner-df` = denominator_df,
+      `p-Wert` = format_p_t07(p_value)
+    ),
+  align = c("l", "l", "r", "r", "r", "r", "r", "r", "r"),
+  caption = "Test beider Interaktionskoeffizienten aus Übung und Format anhand verschachtelter Modelle."
+)
+```
+
+Der Test ergibt $F(`r topic7_nested_stats$numerator_df`,\ `r topic7_nested_stats$denominator_df`)=`r format_t07(topic7_nested_stats$f_value, 2)`$, $p=`r format_p_t07(topic7_nested_stats$p_value)`$. Unter den Modellbedingungen verbessern die beiden Interaktionsterme die Anpassung gemeinsam gegenüber dem Modell mit parallelen Steigungen. Das Ergebnis stützt in diesem konstruierten Beispiel das Beibehalten des Interaktionskandidaten. Es stützt keine allgemeine Aussage über reale Lernformate.
+
+Die beiden RSS-Spalten sind Residuenquadratsummen. Der Wert des uneingeschränkten Modells ist kleiner, weil es zwei zusätzliche Steigungen verwenden darf. Der verschachtelte $F$-Test fragt, ob diese Verringerung im Verhältnis zum verbleibenden Fehler des vollständigen Modells und den zwei hinzugefügten Freiheitsgraden gross ist. Er beantwortet damit eine gemeinsame Frage zu beiden Interaktionen, statt zwei voneinander unabhängige Koeffiziententests zu wiederholen.
+
+---
+
+**Schritt 9: Die semipartielle Korrelation mit dem zusätzlichen R-Quadrat verbinden**
+
+Um den zusätzlichen Beitrag der Übung nach dem Vorwissenswert zu isolieren, passen wir zuerst die Übung aus dem Vorwissenswert an und behalten das Übungsresiduum. Die Korrelation dieses Residuums mit dem rohen Punktwert im statistischen Denken ergibt die semipartielle Korrelation.
+
+```{r}
+#| label: tbl-multiple-semipartial
+kable(
+  topic7_semipartial_stats |>
+    transmute(
+      Kennzahl = quantity,
+      Wert = format_t07(value, 3)
+    ),
+  align = c("l", "r"),
+  caption = "Semipartieller Beitrag der Übungsstunden nach dem Vorwissenswert."
+)
+```
+
+Hier gilt $sr=`r format_t07(topic7_stats$semipartial_r, 3)`$, somit ist $sr^2=`r format_t07(topic7_stats$semipartial_r^2, 3)`$. Das Hinzufügen der Übung zum Modell nur mit Vorwissenswert erhöht $R^2$ abgesehen von der Rundung um genau `r format_t07(topic7_stats$delta_r2, 3)`. Bei diesem Aufnahmeschritt fügt die Übung eindeutig ungefähr `r format_t07(100 * topic7_stats$delta_r2, 1)` Prozentpunkte erklärter Stichprobenvariation hinzu.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbare Abbildung zur semipartiellen Korrelation"}
+
+```{r}
+#| label: fig-multiple-semipartial
+#| fig-cap: "Der Punktwert im statistischen Denken gegen jenen Teil der Übungsstunden, der durch den Vorwissenswert nicht linear dargestellt wird. Nur der Kandidatenprädiktor wird residualisiert. Deshalb ist dies eine semipartielle und keine partielle Korrelation."
+#| fig-alt: "Ein Streudiagramm stellt die Residuen der Übungsstunden nach Bereinigung um den Vorwissenswert auf der horizontalen Achse und den rohen Punktwert im statistischen Denken auf der vertikalen Achse dar. Eine ansteigende angepasste Gerade zeigt eine positive semipartielle Korrelation von ungefähr 0,345."
+topic7_plotly(
+  p_topic7_semipartial,
+  paste(
+    "Ein interaktives Streudiagramm stellt die Residuen der Übungsstunden nach Bereinigung um den Vorwissenswert auf der horizontalen Achse und den rohen Punktwert im statistischen Denken auf der vertikalen Achse dar.",
+    "Beim Überfahren werden die Person und beide dargestellten Werte angezeigt.",
+    "Eine ansteigende angepasste Gerade zeigt den positiven semipartiellen Zusammenhang."
+  )
+)
+```
+
+:::
+
+Die horizontale Achse in der semipartiellen Abbildung stellt nicht mehr die rohe Übungszeit dar. Null bedeutet, dass die Übung genau dem von der Regression auf den Vorwissenswert angepassten Wert entspricht. Positive Werte bedeuten mehr Übung, als aus dem Vorwissenswert angepasst wurde, negative Werte weniger. Die vertikale Achse behält bewusst die rohe Zielvariable des statistischen Denkens bei. Die ansteigende angepasste Gerade zeigt somit den Zusammenhang zwischen der Zielvariable und jenem Teil der Übung, der durch den Vorwissenswert nicht linear dargestellt wird.
+
+Dies ist eine Aussage über die Reihenfolge im Modell. Wenn zuerst eine andere Menge von Prädiktoren aufgenommen würde, könnte der zusätzliche Beitrag der Übung anders ausfallen. Die Gleichheit $sr^2=\Delta R^2$ gilt hier, weil nach dem angegebenen kleineren Modell genau ein Prädiktor zu denselben Fällen hinzugefügt wird.
+
+---
+
+**Schritt 10: Das Lernformat mit zwei Indikatoren entschlüsseln**
+
+Die Modelltabellen haben bereits gezeigt, dass das Lernformat und seine Interaktionen zur Anpassung beitragen. Vor der Interpretation dieser Terme halten wir nun kurz inne. Die beiden Indikatorspalten übersetzen die erfassten Kategorienamen in die numerische Information, welche die Koeffizienten von M4 verwenden.
+
+> **Kontrollfrage:** Welches Indikatormuster kennzeichnet die Referenzkategorie und welchen Vergleich ermöglicht jedes weitere Muster?
+
+Das Selbststudium ist die Referenzkategorie. Die beiden Indikatoren lauten:
+
+```{r}
+#| label: tbl-multiple-dummy-coding
+kable(
+  topic7_dummy_table |>
+    transmute(
+      `Lernformat` = as.character(tutorial_format),
+      `Peer-Indikator` = peer_indicator,
+      `Lernlabor-Indikator` = guided_indicator,
+      Interpretation = interpretation
+    ),
+  align = c("l", "r", "r", "l"),
+  caption = "Dummy-Codierung für den dreistufigen Prädiktor Lernformat."
+)
+```
+
+Die Indikatorzeile mit zwei Nullen kennzeichnet die Referenzkategorie. Die Peer- und Lernlabor-Koeffizienten in M4 vergleichen jedes benannte Format mit dem Selbststudium, wenn die Übung null ist. Ihre Interaktionsterme vergleichen die Übungssteigungen mit der Steigung des Selbststudiums.
+
+Die Tabelle zeigt auch, weshalb drei Kategorien nur zwei Indikatoren benötigen. Jede Nichtreferenzkategorie erhält ihre eigene 1. Das Selbststudium wird an zwei Nullen erkannt. Ein dritter Indikator für das Selbststudium würde neben dem Achsenabschnitt Information duplizieren, die bereits dadurch codiert ist, dass sich die drei Zeilenwerte zu eins summieren.
+
+---
+
+**Schritt 11: Die Interaktion in drei bedingte Gleichungen übersetzen**
+
+Die Dummy-Codierung zeigt, welche Gruppe verglichen wird. Die Produktterme beantworten nun die nächste Frage: Behält die Übung eine gemeinsame Steigung oder erhält jedes Format eine eigene bedingte Steigung? Am sichersten findest du das heraus, indem du die Nullen und Einsen jeder Gruppe einsetzt und die Gleichung vereinfachst.
+
+> **Leitfrage:** Welche Koeffiziententeile verbleiben in der Übungssteigung einer Gruppe, nachdem ihre Dummy-Werte eingesetzt wurden?
+
+Die angepassten Koeffizienten verbinden sich zu je einer Gleichung pro Lernformat:
+
+```{r}
+#| label: tbl-multiple-group-equations
+kable(
+  topic7_group_equations |>
+    transmute(
+      `Lernformat` = as.character(tutorial_format),
+      `Achsenabschnittskomponente` = format_t07(intercept_component, 3),
+      `Steigung des Vorwissenswerts` = format_t07(prior_score_slope, 3),
+      `Steigung der Übungsstunden` = format_t07(practice_slope, 3)
+    ),
+  align = c("l", "r", "r", "r"),
+  caption = "Gruppenspezifische Gleichungen aus demselben angepassten Interaktionsmodell."
+)
+```
+
+Beim Selbststudium beträgt die Übungssteigung `r format_t07(topic7_group_equations$practice_slope[1], 3)`. Beim Peer-Workshop ist sie die Referenzsteigung plus die Peer-Interaktion, also `r format_t07(topic7_group_equations$practice_slope[2], 3)`. Beim begleiteten Lernlabor ist sie die Referenzsteigung plus die Lernlabor-Interaktion, also `r format_t07(topic7_group_equations$practice_slope[3], 3)`. Die Steigung des Vorwissenswerts ist für alle gleich, weil das Modell keine Interaktion zwischen Vorwissenswert und Format enthält.
+
+Die nächste Abbildung macht die Modellalternativen sichtbar. M3 erzwingt parallele Linien. M4 erlaubt drei bedingte Übungssteigungen, während der Vorwissenswert bei 10 gehalten wird.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollbare Abbildung zum Vergleich eines additiven Modells mit einem Interaktionsmodell"}
+
+```{r}
+#| label: fig-multiple-interaction
+#| fig-cap: "Additive Vorhersagen und Interaktionsvorhersagen bei Vorwissenswert 10. Parallele Linien in M3 erzwingen eine gemeinsame Übungssteigung. Nicht parallele Linien in M4 stellen formatspezifische bedingte Steigungen dar."
+#| fig-alt: "Zwei nebeneinanderliegende Liniendiagramme zeigen den angepassten Punktwert im statistischen Denken gegen die Übungsstunden für Selbststudium, Peer-Workshop und begleitetes Lernlabor. Im additiven Modell sind die drei Linien parallel. Im Interaktionsmodell steigen alle drei an. Die Linie des begleiteten Lernlabors ist am steilsten und jene des Selbststudiums am wenigsten steil."
+topic7_plotly(
+  p_topic7_interaction,
+  paste(
+    "Zwei interaktive Teilgrafiken vergleichen additive Vorhersagen mit Interaktionsvorhersagen.",
+    "Beim Überfahren einer Linie werden Modell, Lernformat, Übungsstunden, festgehaltener Vorwissenswert und angepasster Punktwert angezeigt.",
+    "Die additiven Linien sind parallel, während sich die Steigungen im Interaktionsmodell je nach Lernformat unterscheiden."
+  ),
+  top_margin = 176
+)
+```
+
+:::
+
+In der linken Teilgrafik bleibt der vertikale Abstand zwischen den parallelen Linien konstant. Die angepasste Formatdifferenz ist bei jedem dargestellten Übungswert gleich. In der rechten Teilgrafik sind die Linien nicht parallel. Ihr Abstand verändert sich mit der Übung. Eine einzige Formatdifferenz kann deshalb nicht den gesamten Bereich zusammenfassen. Die Linie des begleiteten Lernlabors steigt am schnellsten, die Linie des Selbststudiums am langsamsten. Das entspricht genau den drei Steigungen in der vorherigen Tabelle. Abbildung und Tabelle sind zwei Ansichten derselben M4-Gleichung.
+
+Für ein Profil mit Vorwissenswert 10 und sechs Übungsstunden liefert M4 die folgenden angepassten bedingten Mittelwerte:
+
+```{r}
+#| label: tbl-multiple-profile-predictions
+kable(
+  topic7_prediction_profile |>
+    transmute(
+      `Vorwissenswert` = format_t07(prior_score, 1),
+      `Übungsstunden` = format_t07(practice_hours, 1),
+      `Lernformat` = as.character(tutorial_format),
+      `Angepasster Punktwert im statistischen Denken` = format_t07(fitted_score, 2)
+    ),
+  align = c("r", "r", "l", "r"),
+  caption = "Vom vollständigen Modell angepasste Mittelwerte für ein Prädiktorprofil unter jedem Lernformat."
+)
+```
+
+Zwischen diesen Zeilen ändert sich nur das Lernformat. Die Differenzen sind modellbasierte bedingte Vergleiche und weder kausale Effekte noch garantierte Punktwerte für einzelne Lernende.
+
+---
+
+**Schritt 12: Die Referenz wechseln, ohne die Anpassung zu verändern**
+
+Die drei angepassten Gleichungen beschreiben den modellierten Zusammenhang. Die Wahl der Referenzkategorie bestimmt nur, wie derselbe Zusammenhang in der Koeffiziententabelle geschrieben wird.
+
+> **Vorhersagekontrolle:** Sollte sich ein angepasster Punktwert oder eine angepasste Linie bewegen, wenn nur die Referenzcodierung verändert wird?
+
+Wir passen denselben M4-Zusammenhang dreimal neu an und wählen dabei jedes Lernformat einmal als Referenz.
+
+```{r}
+#| label: tbl-multiple-reference-coefficients
+kable(
+  topic7_reference_coefficient_table |>
+    transmute(
+      `Referenzkategorie` = reference_category,
+      Achsenabschnitt = format_t07(intercept, 3),
+      `Übungssteigung der Referenzgruppe` = format_t07(reference_practice_slope, 3)
+    ),
+  align = c("l", "r", "r"),
+  caption = "Der dargestellte Achsenabschnitt und der Übungskoeffizient wechseln mit der Referenzkategorie."
+)
+```
+
+Die Darstellung der Koeffizienten verändert sich, weil der Achsenabschnitt und die grundlegende Übungssteigung nun eine andere Gruppe beschreiben. Die angepassten Werte verändern sich nicht. Die folgende Tabelle sagt dieselben drei Profile aus allen drei Parametrisierungen vorher.
+
+```{r}
+#| label: tbl-multiple-reference-invariance
+kable(
+  topic7_reference_prediction_table |>
+    transmute(
+      Parametrisierung = parameterization,
+      `Vorhergesagtes Format` = tutorial_format,
+      `Angepasster Punktwert bei Vorwissen 10 und Übung 6` = format_t07(fitted_score, 6)
+    ),
+  align = c("l", "l", "r"),
+  caption = "Identische angepasste Punktwerte bei drei verschiedenen Referenzkategorien."
+)
+```
+
+Die Abbildung wiederholt in jeder Teilgrafik dieselben drei angepassten Linien. Die hervorgehobene Linie kennzeichnet die Referenz, mit der die Koeffizienten dieser Teilgrafik geschrieben werden. Keine Linie bewegt sich.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollbare Abbildung zur Invarianz gegenüber der Referenzkategorie"}
+
+```{r}
+#| label: fig-multiple-reference-invariance
+#| fig-cap: "Derselbe angepasste Interaktionszusammenhang unter allen drei Referenzwahlen. Die Hervorhebung wechselt zur ausgewählten Referenzlinie, während jede Vorhersage unverändert bleibt."
+#| fig-alt: "Drei nebeneinanderliegende Teilgrafiken zeigen identische angepasste Linien für Selbststudium, Peer-Workshop und begleitetes Lernlabor. Jede Teilgrafik benennt eine andere Referenzkategorie und zeichnet deren Linie stärker. Position und Steigung aller Linien bleiben jedoch unverändert."
+topic7_plotly(
+  p_topic7_reference,
+  paste(
+    "Drei interaktive Teilgrafiken wiederholen dieselben angepassten Linien unter drei verschiedenen Referenzkategorien.",
+    "Beim Überfahren werden die dargestellte Referenz, die angepasste Linie, die Übungsstunden, der festgehaltene Vorwissenswert und der angepasste Punktwert angezeigt.",
+    "Die visuelle Hervorhebung verändert sich, die Vorhersagen jedoch nicht."
+  ),
+  top_margin = 184
+)
+```
+
+:::
+
+Vergleiche eine benannte Linie über die drei Teilgrafiken hinweg. Ihre Höhe und Steigung verändern sich nie. Nur die visuelle Hervorhebung wechselt zur Kategorie, die als Grundlage der Koeffizienten verwendet wird. Die vorherige Koeffiziententabelle verändert somit die Koordinaten, während diese Abbildung bestätigt, dass der modellierte Zusammenhang selbst invariant ist.
+
+---
+
+**Schritt 13: Residuen und potenziell besonders einflussreiche Fälle prüfen**
+
+Mit der Anpassung von M4 ist die Analyse noch nicht beendet. Wir wechseln nun von den Koeffizienten zu den Abweichungen, die das Modell übrig lässt. Die folgenden drei Prüfungen beantworten unterschiedliche Fragen: Verändern sich Residuen systematisch über die angepassten Punktwerte? Ist ihre Gesamtverteilung hinreichend mit der Normalverteilung vereinbar, welche die Tests und Intervalle in kleinen Stichproben verwenden? Könnte ein einzelner Fall die angepasste Regression ungewöhnlich stark beeinflussen? Keine einzelne Darstellung kann alle drei Fragen beantworten.
+
+**13A. Nach einem Muster der Residuen über den angepassten Werten suchen**
+
+Die horizontale Achse der nächsten Abbildung enthält dieselben angepassten M4-Punktwerte wie Schritt 5. Auf der vertikalen Achse liegen die zugehörigen Residuen, berechnet als beobachteter minus angepasster Wert. Die gestrichelte Nulllinie steht daher für exakte Übereinstimmung. Bei Punkten oberhalb der Linie ist der beobachtete Wert höher als der angepasste Wert. Bei Punkten unterhalb ist er tiefer.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbare diagnostische Abbildung der Residuen gegen angepasste Werte"}
+
+```{r}
+#| label: fig-multiple-residual-diagnostic
+#| fig-cap: "M4-Residuen gegen angepasste Punktwerte im statistischen Denken. Ein hilfreiches Residualmuster ist ein ungefähr gleichmässiges, ungeordnetes Band um null und keine Kurve, Trichterform oder isolierte Gruppe."
+#| fig-alt: "Ein Streudiagramm zeigt angepasste Punktwerte auf der horizontalen Achse und Residuen aus beobachtetem minus angepasstem Wert auf der vertikalen Achse. Die 180 blauen Punkte bilden oberhalb und unterhalb einer gestrichelten horizontalen Nulllinie eine weitgehend gleichmässige Wolke ohne ausgeprägte Kurve oder Trichterform."
+topic7_plotly(
+  p_topic7_residual_diagnostic,
+  paste(
+    "Ein interaktives Diagramm der Residuen gegen angepasste Werte zeigt eine weitgehend gleichmässige Punktwolke um null.",
+    "Beim Überfahren werden für jede Person das Prädiktorprofil, der angepasste Punktwert, der beobachtete Punktwert und das Residuum angezeigt."
+  )
+)
+```
+
+:::
+
+Lies die Abbildung von links nach rechts. Die Punkte liegen über den gesamten Bereich der angepassten Werte auf beiden Seiten von null, und ihre vertikale Streuung bleibt von tieferen zu höheren angepassten Werten weitgehend ähnlich. In dieser konstruierten Stichprobe ist weder eine ausgeprägte Kurve noch eine deutliche Trichterform sichtbar. Das ist beruhigend, weil M4 lineare Terme und eine gemeinsame Schätzung der Residuenstreuung verwendet. Es beweist jedoch nicht, dass das Modell richtig ist. Eine Abbildung kann einen sichtbaren Konflikt aufdecken, aber eine unauffällige Abbildung kann nicht jede Fehlspezifikation oder jedes Designproblem ausschliessen.
+
+**13B. Die Residualverteilung mit einer Normalverteilung vergleichen**
+
+Die nächste Darstellung ist ein Normal-Quantil-Quantil-Diagramm, meist Normal-Q-Q-Diagramm genannt. Es ordnet die standardisierten Residuen vom stärksten negativen bis zum stärksten positiven Wert. Die horizontale Position zeigt, wo jeder geordnete Wert unter einer Normalverteilung erwartet würde. Die vertikale Position zeigt das tatsächlich beobachtete geordnete standardisierte Residuum. Durch die Standardisierung liegen die Residuen auf einer gemeinsamen Skala. Ein Wert nahe 2 bedeutet, dass das Residuum nach Berücksichtigung seiner Prädiktorposition ungefähr zwei geschätzte übliche Residuenstreuungen über null liegt.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbares Normal-Q-Q-Diagramm zur Residualdiagnostik"}
+
+```{r}
+#| label: fig-multiple-qq-diagnostic
+#| fig-cap: "Normal-Q-Q-Diagramm der standardisierten M4-Residuen. Die Diagonale ist die Referenz für die Form normalverteilter Fehler, auf die sich die vertrauten Tests und Konfidenzintervalle in kleinen Stichproben stützen."
+#| fig-alt: "Ein Normal-Quantil-Quantil-Diagramm zeigt 180 standardisierte Residuen, geordnet vom negativen zum positiven Ende, gegen erwartete Quantile einer Normalverteilung. Die meisten blauen Punkte folgen der orangen Diagonalen; nahe den beiden Enden gibt es mässige Abweichungen."
+topic7_plotly(
+  p_topic7_qq,
+  paste(
+    "Ein interaktives Normal-Q-Q-Diagramm vergleicht geordnete standardisierte Residuen mit den erwarteten Quantilen einer Normalverteilung.",
+    "Beim Überfahren werden die Person, das erwartete Quantil und das standardisierte Residuum angezeigt.",
+    "Die meisten Punkte liegen nahe der Referenzgeraden."
+  )
+)
+```
+
+:::
+
+Die meisten Punkte folgen der Diagonalen im Zentrum und über weite Teile beider Enden. Einige Endpunkte weichen mässig ab, was selbst bei einer im Wesentlichen passenden Form vorkommen kann. Das betragsmässig grösste standardisierte Residuum ist `r format_t07(topic7_stats$max_abs_standardized_residual, 2)`. Das Diagramm zeigt in dieser Simulation somit keinen starken visuellen Widerspruch zur Form normalverteilter Fehler, bestätigt die Normalverteilung aber nicht. Es sagt auch nichts darüber aus, ob die Prädiktorterme kausal sinnvoll oder die Beobachtungen unabhängig sind.
+
+**13C. Hebelwerte und Cook-Distanz gemeinsam prüfen**
+
+Ein grosses Residuum bedeutet, dass ein beobachteter Wert weit von seinem angepassten Wert entfernt liegt. Der *Hebelwert* stellt eine andere Frage: Hat der Fall eine ungewöhnliche Kombination von Prädiktorwerten? Die *Cook-Distanz* führt beide Informationsarten zusammen und fasst zusammen, wie stark sich die angepasste Regression verändern könnte, wenn dieser Fall weggelassen würde. Die Cook-Distanz ist keine Wahrscheinlichkeit. Ein grösserer Wert fordert zu einer genaueren Prüfung auf und ist keine Anweisung, die Zeile zu löschen.
+
+Die vollständige Tabelle hätte 180 Zeilen. Die bewusst kurze Übersicht zeigt deshalb nur die fünf grössten Cook-Distanzen. Sie ist eine Rangfolge und kein Test zum Bestehen oder Durchfallen.
+
+```{r}
+#| label: tbl-multiple-influence-review
+kable(
+  topic7_influence_table |>
+    transmute(
+      `Teilnehmenden-ID` = participant_id,
+      `Angepasster Punktwert` = format_t07(fitted_score, 2),
+      Residuum = format_t07(residual, 2),
+      `Standardisiertes Residuum` = format_t07(standardized_residual, 2),
+      Hebelwert = format_t07(leverage, 3),
+      `Cook-Distanz` = format_t07(cooks_distance, 3)
+    ),
+  align = c("l", "r", "r", "r", "r", "r"),
+  caption = "Fünf simulierte Fälle mit den grössten Cook-Distanzen in M4, gezeigt zur sorgfältigen Prüfung und nicht zum automatischen Löschen."
+)
+```
+
+M4 schätzt insgesamt sieben Koeffizienten, also den Achsenabschnitt und sechs Prädiktorparameter. Über `r topic7_stats$n` Fälle beträgt der mittlere Hebelwert deshalb `r format_t07(topic7_stats$mean_leverage, 3)`, während der grösste beobachtete Hebelwert `r format_t07(topic7_stats$max_leverage, 3)` ist. Ein Hebelwert beschreibt die Geometrie der Prädiktoren. Er sagt nicht, dass ein Punktwert falsch erfasst wurde. Die grösste Cook-Distanz beträgt `r format_t07(topic7_stats$max_cooks_distance, 3)` und gehört zu Fall `r topic7_stats$most_influential_id`. Der Fall mit dem grössten Residuum muss nicht zugleich die grösste Cook-Distanz haben, denn Einfluss hängt von Residualgrösse und Prädiktorposition gemeinsam ab.
+
+Der verantwortungsvolle nächste Schritt ist praktisch: Prüfe jede hervorgehobene Zeile an der Datenquelle, kontrolliere die Codierung ihrer Prädiktoren und frage, ob ihre Kombination tatsächlich zur interessierenden Population gehört. Ist ein Fall gültig, scheinen die Schlussfolgerungen aber empfindlich auf ihn zu reagieren, vergleiche das geplante Modell mit und ohne diesen Fall als klar bezeichnete Sensitivitätsprüfung und berichte, ob sich die Interpretation ändert. In diesem konstruierten Datensatz liefern Residualdiagramm, Q-Q-Diagramm und Einflussprüfung keinen offensichtlichen Grund, M4 zu verändern. Sie erlauben ein vorsichtiges Weiterarbeiten, aber nicht die Behauptung, jede Annahme sei bewiesen.
+
+---
+
+**Schritt 14: AIC als relativen Kandidatenvergleich verwenden**
+
+Die Modellvergleichstabelle in Schritt 6 berichtet die AIC-Werte `r paste(paste0(topic7_model_table$model, " = ", format_t07(topic7_model_table$aic, 2)), collapse = ", ")`. M4 hat unter diesen fünf vorab festgelegten Kandidaten den kleinsten AIC und damit in dieser konstruierten Stichprobe das beste relative Gleichgewicht zwischen Anpassung und Komplexität.
+
+Der Satz muss die Formulierung "unter diesen Kandidaten" behalten. AIC sagt weder, dass M4 wahr oder kausal ist, noch dass es gut gemessen wurde oder für eine neue Kohorte am besten ist. Hier wurde die Kandidatenfolge vor der Untersuchung festgelegt und bildet die konstruierte Forschungsfrage ab. Eine Vorhersagestudie würde weiterhin eine ehrliche Validierung mit zuvor ungesehenen Daten benötigen.
+
+---
+
+**Schritt 15: Die Schlussfolgerung im richtigen Geltungsbereich formulieren**
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+In dieser simulierten Kohorte von `r topic7_stats$n` Lernenden erklärten der Vorwissenswert, die Übungsstunden, das Lernformat und die Terme aus Übung und Format gemeinsam `r format_t07(100 * topic7_stats$full_r_squared, 1)`% der Stichprobenvariation der Punktwerte im statistischen Denken. Das korrigierte $R^2$ betrug `r format_t07(topic7_stats$full_adjusted_r_squared, 3)`, der Residualstandardfehler `r format_t07(topic7_stats$full_residual_standard_error, 2)` Punkte. Der globale Modelltest verwarf die Nullhypothese, dass alle sechs Steigungen null sind. Der verschachtelte Vergleich stützte das Hinzufügen der beiden Interaktionsterme zum additiven Kandidaten. Die bedingten Übungssteigungen waren in allen drei Formaten positiv und unterschieden sich in ihrer Grösse. Die individuelle Evidenz war für den Unterschied zwischen begleitetem Lernlabor und Selbststudium stärker als für den Unterschied zwischen Peer-Workshop und Selbststudium. Das Residuen-gegen-angepasste-Werte-Diagramm und das Normal-Q-Q-Diagramm zeigten keinen ausgeprägten Konflikt mit der modellierten Form oder der groben Form der Fehlerverteilung. Die Einflussprüfung lieferte Fälle zur genaueren Betrachtung, aber keinen automatischen Grund, eine Zeile zu entfernen.
+:::
+
+Diese Schlussfolgerung beschreibt konstruierte Daten unter einem angegebenen Modell. Sie belegt nicht, dass Übung oder Lernformat Veränderungen der Punktwerte verursachen. Sie zeigt nicht, dass jeder Koeffizient ungleich null ist, und garantiert keine genaue Vorhersage für neue Lernende.
+
+### Mögliche Stolperfallen {.cs-heading}
+
+Die Simulation wurde aus einem sauberen Rezept mit vollständigen Werten erzeugt. Reale Daten haben meist unordentlichere Messungen, fehlende Werte, Selektionsprobleme und Einschränkungen des Designs. Keines dieser Probleme lässt sich beheben, indem einer Gleichung einfach weitere Terme hinzugefügt werden.
+
+- **Bivariate und bedingte Koeffizienten als dieselbe Frage interpretieren.** Wegen der Prädiktorüberlappung verwenden die beiden Schätzungen unterschiedliche Vergleichsbedingungen.
+- **Dem Achsenabschnitt des vollständigen Modells eine realistische Bedeutung für Studierende geben.** Er kombiniert Vorwissenswert null, Übung null und das Referenzformat. Vorwissenswert null liegt ausserhalb des Bereichs dieser Stichprobe.
+- **Formatkoeffizienten als Effekte einer randomisierten Behandlung bezeichnen.** Die Indikatoren sind in der konstruierten Interpretation als Beobachtungsstudie bedingte Vergleiche.
+- **Interaktionssteigungen über den beobachteten Bereich hinaus verlängern.** Sie sind nur dort lineare Zusammenfassungen, wo die konstruierten Prädiktorwerte eine Datengrundlage bieten.
+- **Mit dem globalen Test jeden Term als signifikant erklären.** Die gemeinsame Modellfrage und die Fragen zu einzelnen Koeffizienten sind unterschiedlich.
+- **Den kleinsten AIC als uneingeschränkten Gewinner behandeln.** Er gilt nur für die fünf angegebenen Kandidaten, die an dieselben konstruierten Daten angepasst wurden.
+- **Diagnostische Grafiken als Beweis behandeln.** Residual- und Q-Q-Diagramme liefern ausgewählte visuelle Prüfungen. Hebelwert und Cook-Distanz kennzeichnen Fälle für eine kontextbezogene Prüfung und nicht zum automatischen Löschen.
+- **Modelldiagnostik an die Stelle von Designprüfungen setzen.** Messqualität, Codierung, fehlende Daten, Fallauswahl, Abhängigkeit und durch die Daten gestützte Prädiktorkombinationen müssen weiterhin getrennt geprüft werden.
+
+### Wie dieses Beispiel die Theorie zusammenführt {.cs-heading}
+
+Die fünfzehn Schritte folgten dem Reiter Theorie von den Variablenrollen über bedingte Koeffizienten, angepasste Werte, Residuen, Modellvergleiche, gemeinsame und einzelne Tests, Dummy-Codierung, Interaktionen und Referenzkategorien bis zur Diagnostik. Die multiple Regression ist leichter zu behalten, wenn sie als nächstes Kapitel einer fortlaufenden Geschichte betrachtet wird und nicht als getrennte Sammlung von Formeln.
+
+| Zusammenhängende Idee | Kernfrage | Interpretierter Gegenstand | Was in der multiplen Regression sichtbar bleibt |
+|---|---|---|---|
+| Kovarianz und Korrelation | Variieren zwei quantitative Variablen gemeinsam, und wie stark ist ihr linearer Zusammenhang? | Kovarianz oder Pearson-Korrelation | Die bivariaten Ausgangsbeziehungen zwischen Zielvariable und Prädiktoren |
+| Einfache lineare Regression | Wie verändert sich eine angepasste Zielvariable mit einem Prädiktor? | Achsenabschnitt, Steigung, angepasste Werte und Residuen | Dieselbe Logik von angepasstem Wert und Residuum, nun mit mehreren Prädiktorbeiträgen |
+| Partielle Korrelation | Bewegen sich zwei Variablen noch gemeinsam, nachdem beide um eine Drittvariable bereinigt wurden? | Korrelation zwischen zwei Residuen-Spalten | Die Idee, gemeinsame lineare Information zu trennen, bevor ein bereinigter Zusammenhang interpretiert wird |
+| Multiple Regression | Wie hängt eine angepasste Zielvariable gleichzeitig mit mehreren Prädiktortermen zusammen? | Bedingte Koeffizienten, Modellgüte, Tests, Dummy-Variablen und Interaktionen | Eine Gleichung, die die früheren Ideen zusammenführt |
+
+: Die Themen 4 bis 7 bilden eine zusammenhängende Entwicklung linearer Fragen. {#tbl-multiple-course-synthesis}
+
+Das simulierte Beispiel begann mit der Sichtweise aus Thema 4: Übung und statistisches Denken hatten eine positive bivariate Korrelation. M1 verwendete danach die Sichtweise aus Thema 5 und passte statistisches Denken anhand einer Steigung aus der Übung an. M2 nahm den Vorwissenswert auf, wodurch der Übungskoeffizient bedingt wurde. Diese Veränderung entspricht der Bereinigungslektion aus Thema 6, auch wenn die Kennzahlen nicht identisch sind: Die partielle Korrelation residualisiert beide interessierenden Variablen und bleibt symmetrisch. Ein Regressionskoeffizient behält dagegen eine benannte Zielvariable und drückt ihre bedingte Veränderung in Einheiten dieser Zielvariable aus.
+
+M3 und M4 zeigten, was die multiple Regression gegenüber diesen früheren Verfahren hinzufügt. Dummy-Variablen erlauben, dass ein kategorialer Prädiktor in dieselbe Gleichung eingeht. Interaktionsterme erlauben, dass eine Steigung von einer Gruppe abhängt. Modellvergleich, $R^2$, globaler $F$-Test, $t$-Tests der Koeffizienten und Residuen beschreiben danach unterschiedliche Ebenen desselben angepassten Zusammenhangs. Keines dieser Elemente ersetzt die anderen.
+
+Das hilfreichste innere Bild ist die Abfolge angepasster Beiträge aus dem Reiter Theorie. Jede Zeile beginnt mit einem Achsenabschnitt, addiert je einen Term für jeden quantitativen Prädiktor und ergänzt die zutreffenden Dummy- und Interaktionsterme. Ein bedingter Koeffizient verändert einen Beitrag, während die anderen Modellterme konstant bleiben. Ein Dummy-Koeffizient beschreibt einen Vergleich mit der Referenzkategorie. Eine Interaktion verändert eine Steigung, statt eine Linie bloss zu verschieben. Ein Residuum bleibt beobachtet minus der vollständig berechnete angepasste Wert.
+
+Diese Verbindung bereitet auch Thema 8 vor. Die ANOVA verlässt die Regression nicht. Sie stellt kategoriale Prädiktoren in den Mittelpunkt und fragt gemeinsam nach Gruppenmittelwerten. Sobald diese Kategorien mit Dummy-Variablen dargestellt werden, gehören ANOVA und Regression zur selben allgemeinen Familie linearer Modelle.
+
+## Übungen und Lösungen
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 7
+)
+```
+
+## Zusammenfassung
+
+{{< include ../../_shared/topic-summaries/de/t07.md >}}
+
+---
+
+### Zusammenfassung herunterladen {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 7
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Themenseitennavigation"}
+[Zurück: Partielle Korrelation](t06_partial-corr.qmd){.text-link-arrow .previous}
+[Übersicht zur Einführung](overview-intro-stats-de.qmd){.text-link-arrow}
+[Weiter: Varianzanalyse](t08_anova.qmd){.text-link-arrow .next}
+:::

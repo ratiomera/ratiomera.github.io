@@ -1,0 +1,33 @@
+lang: sq
+sidebar: intro-stats-sq-sidebar
+breadcrumbs: false
+toc-title: "Në këtë faqe"
+knitr:
+  opts_chunk:
+    fig.align: center
+    dev: ragg_png
+language:
+  toc-title-document: "Përmbajtja"
+  toc-title-website: "Në këtë faqe"
+  callout-tip-title: "Këshillë"
+  callout-note-title: "Shënim"
+  callout-warning-title: "Paralajmërim"
+  callout-important-title: "E rëndësishme"
+  callout-caution-title: "Kujdes"
+  code-summary: "Kodi"
+  copy-button-tooltip: "Kopjo në kujtesë"
+  copy-button-tooltip-success: "U kopjua!"
+  back-to-top: "Kthehu lart"
+  search-no-results-text: "Nuk u gjetën rezultate"
+  search-matching-documents-text: "dokumente që përputhen"
+  search-clear-button-title: "Pastro"
+  search-detached-cancel-button-title: "Anulo"
+  search-submit-button-title: "Kërko"
+  search-label: "Kërko"
+  toggle-navigation: "Hap ose mbyll navigimin"
+  toggle-sidebar: "Hap ose mbyll navigimin anësor"
+  toggle-section: "Hap ose mbyll pjesën"
+  toggle-dark-mode: "Aktivizo ose çaktivizo pamjen e errët"
+  toggle-reader-mode: "Aktivizo ose çaktivizo pamjen e leximit"
+  crossref-fig-title: "Figura"
+  crossref-tbl-title: "Tabela"

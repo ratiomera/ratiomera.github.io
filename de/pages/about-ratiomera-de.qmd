@@ -1,0 +1,78 @@
+---
+title: "Über Ratiomera"
+subtitle: "Warum es die Plattform gibt und wie sie wachsen soll"
+pagetitle: "Über Ratiomera | Ratiomera"
+title-prefix: ""
+description: "Erfahre, warum es Ratiomera gibt, wie die offenen Lernmaterialien entwickelt werden und wie die Fachbereiche Statistik und Mathematik zu einer gemeinsamen Plattform gehören."
+lang: de-CH
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Ratiomera ist eine von Freiwilligen entwickelte Lernplattform für Statistik und Mathematik. Sie möchte sorgfältige Erklärungen, aussagekräftige Beispiele, umfangreiche Übungsmöglichkeiten und vollständige Lösungen ohne Konto, Abonnement oder Bezahlschranke zugänglich machen.
+
+Der Name verbindet zwei Bildungsbereiche. Ratiomera Statistics ist der aktive Fachbereich, während Ratiomera Mathematics für die künftige Entwicklung geplant ist. Beide folgen derselben Leitidee: Schwieriger Stoff wird zugänglicher, wenn kein wesentlicher Schritt als selbstverständlich gilt und du erkennen kannst, wie eine Idee die nächste vorbereitet.
+:::
+
+---
+
+## Warum es Ratiomera gibt
+
+Verwirrung bedeutet nicht immer, dass einer lernenden Person die Fähigkeit fehlt. Manchmal erscheint eine Definition, bevor ihr Zweck klar geworden ist. Manchmal wird eine Formel vorgestellt, ohne zu zeigen, welche Frage sie beantwortet. Manchmal springt eine Lösung von der ersten zur letzten Zeile und lässt genau den wichtigsten Gedankengang dazwischen unausgesprochen.
+
+Eine gute Erklärung kann diese Erfahrung verändern. Sie kann mit einer vertrauten Frage beginnen, das nötige Vokabular erst dann einführen, wenn es gebraucht wird, und Symbole, Berechnungen, Tabellen und Abbildungen zu einem verständlichen Gedankengang verbinden. Ratiomera wurde geschaffen, um dieser Art von Erklärung mehr Raum zu geben.
+
+Die Plattform ist als Begleitung zu Vorlesungen, Unterricht, Pflichtlektüre und deinen eigenen Notizen gedacht. Sie ersetzt weder den Lehrkontext noch den offiziellen Lehrplan oder die Prüfungshinweise einer Schule oder Hochschule. Stattdessen bietet sie einen weiteren Zugang zu einer Idee, wenn sie auf dem ersten Weg noch nicht verständlich wurde.
+
+---
+
+## Wie die Materialien entwickelt werden
+
+Ratiomera schöpft aus mehr als einem Lehransatz oder institutionellen Lehrplan. Die Ausrichtung entsteht aus der akademischen, wissenschaftlichen, didaktischen und beruflichen Erfahrung seiner Mitglieder, aus ihrer Nachhilfeerfahrung, aus dem Austausch mit Lernenden, Lehrpersonen, Forschenden und Fachpersonen sowie aus wiederkehrenden Fragen, die zeigen, wo eine Erklärung einen zusätzlichen Schritt benötigt.
+
+Jedes Thema entsteht als zusammenhängende Lernsequenz. Definitionen und Schreibweisen werden über die Seiten hinweg geprüft. Beispiele sollen die jeweils vermittelte Idee erhellen. Abbildungen und Tabellen müssen dieselbe statistische oder mathematische Geschichte erzählen wie der umgebende Text. Übungen sollen Material prüfen, das tatsächlich eingeführt wurde, und Lösungen sollen den Gedankengang ebenso klar offenlegen wie die Antwort.
+
+Englisch ist die kanonische Entwicklungssprache. Die fertiggestellte Struktur wird danach in natürliches Deutsch für die Schweiz und natürliches Standardalbanisch übertragen. Grosse Sprachmodelle können beim Organisieren, Vergleichen und Anpassen helfen. Die Verantwortung für Quellen- und Berechnungsprüfungen, sprachliche Reviews, Arbeiten an der Barrierefreiheit und fachliches Urteil bleibt bei Menschen.
+
+---
+
+## Eine Plattform, zwei Fachbereiche
+
+**Ratiomera Statistics** entwickelt Statistik auf Hochschulniveau für die Geistes- und Sozialwissenschaften. Die aktuelle Einführung in die Statistik führt von sorgfältiger Beschreibung und Wahrscheinlichkeit über Inferenz, Zusammenhänge und Vorhersage bis zu statistischer Bereinigung und Gruppenvergleichen.
+
+**Ratiomera Mathematics** ist als künftiger Lernweg von der Primarschule bis zur Gymnasialstufe geplant. Die Entwicklung beginnt erst, wenn das Projekt über die nötige Kapazität, passende Lehrplangrundlagen und Bildungskooperationen verfügt, um die Arbeit verantwortungsvoll zu leisten.
+
+Obwohl sich die Fachbereiche in Inhalt und Zielgruppe unterscheiden, teilen sie dasselbe Versprechen des offenen Zugangs. Bessere Erklärungen, vertiefende Abschnitte, Übungen und Lösungen bleiben Teil des gemeinsamen Lernwegs und werden keiner bezahlten Stufe vorbehalten. Die Plattform lehnt das grundsätzliche Modell ab, Lernenden einen begrenzten Einstieg anzubieten und den zusammengehörenden Lernweg danach hinter Abonnements, wiederkehrenden Zahlungen oder anderen finanziellen Hürden zu verbergen.
+
+---
+
+## In der Schweiz entwickelt, für breiteren Zugang geschrieben
+
+Ratiomera ist in der Schweiz beheimatet und arbeitet derzeit auf Englisch, Deutsch und Albanisch. In jeder Sprache bleiben Lernziele, Aufbau, Berechnungen und visuelle Bedeutung gleich. Die Formulierungen werden natürlich und unterstützend angepasst, damit keine Fassung wie eine schwer lesbare wörtliche Kopie wirkt.
+
+Die ersten Sprachen entsprechen den Kenntnissen, die derzeit im freiwilligen Team vertreten sind. Eine weitere Sprache kann hinzukommen, wenn Freiwillige sie übersetzen, ihre Richtigkeit und Natürlichkeit prüfen und bei der langfristigen Pflege helfen können. Wenn das Team eine Sprache nicht verlässlich beurteilen kann, reicht eine automatische Übersetzung allein nicht aus, um die Fassung als vertrauenswürdig darzustellen.
+
+---
+
+## Ein Projekt, das weiterlernt
+
+Ratiomera wird von den Menschen geprägt, die es nutzen, hinterfragen, prüfen und verbessern. Wenn du erklärst, wo ein Absatz verwirrend wurde, eine Lehrperson einen anderen Zugang zu einem Konzept vorschlägt, eine Fachperson einen Fehler bemerkt oder Freiwillige Sprache und Barrierefreiheit prüfen, kann dadurch etwas sichtbar werden, das der erste Entwurf übersehen hat.
+
+Diese Beteiligung überträgt die Verantwortung nicht von den Menschen, die Ratiomera betreuen, auf andere. Ein Gespräch bedeutet auch keine Unterstützung jeder einzelnen Seite. Die Beteiligung hilft dem Projekt aber, aus Erfahrungen zu lernen. Korrekturen, durchdachte Kritik und klar eingegrenzte Beiträge gehören deshalb zu der Art, wie die Plattform wachsen soll.
+
+---
+
+## Für das Web entwickelt, durch Downloads ergänzt
+
+Ratiomera funktioniert am besten in einem aktuellen Webbrowser. Die Webversion verbindet die Lernsequenz, responsive Tabellen, interaktive simulierte Beispiele, barrierearme Navigation, Verknüpfungen zwischen den Themen und die Sprachwahl `EN | DE | SQ` an einem Ort. Ein grösserer Desktop- oder Laptopbildschirm bietet die angenehmste Ansicht für detaillierte Abbildungen und Tabellen. Die Darstellung auf Smartphones und Tablets wird ebenfalls unterstützt.
+
+Die PDF- und Word-Dateien ergänzen diese Erfahrung. Sie sind nützlich, wenn du eine Zusammenfassung drucken, ein Dokument mit Anmerkungen versehen, ausserhalb des Browsers an Übungen arbeiten oder eine lokale Kopie aufbewahren möchtest. Die verknüpften Erklärungen und interaktiven Elemente bleiben in der Website zu Hause. Für den vollständigsten Lernweg beginnst du am besten im Browser und nutzt die Downloads dort, wo sie deine Lernweise unterstützen.
+
+::: {.platform-cta}
+### Hilf mit, die nächste Verbesserung zu gestalten
+
+Wenn du eine unklare Erklärung, ein mögliches inhaltliches Problem, eine Hürde bei der Barrierefreiheit oder eine Idee entdeckt hast, die anderen beim Lernen helfen könnte, freuen wir uns über deine Nachricht. Du kannst auch nachlesen, wie Beiträge ohne Geldspende das gemeinsame offene Projekt schon heute unterstützen und wie freiwillige Spenden künftig helfen könnten.
+
+[Ratiomera kontaktieren](contact-ratiomera-de.qmd){.dl-btn}
+[Ratiomera unterstützen](support-ratiomera-de.qmd){.dl-btn .secondary}
+:::

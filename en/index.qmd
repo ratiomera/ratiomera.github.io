@@ -1,0 +1,13 @@
+---
+title: "Ratiomera"
+pagetitle: "Ratiomera"
+title-prefix: ""
+description: "Ratiomera provides open learning in statistics and mathematics."
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=home-ratiomera-en.html">
+---
+
+This route has moved. Continue to [Ratiomera](home-ratiomera-en.qmd).

@@ -1,0 +1,14 @@
+---
+title: "Mbështetja"
+pagetitle: "Mbështetja | Ratiomera"
+title-prefix: ""
+description: "Informacion i përbashkët për mbështetjen e projektit Ratiomera dhe degëve të tij."
+lang: sq
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../../../sq/pages/support-ratiomera-sq.html">
+---
+
+Informacionet për mbështetjen tani janë të përbashkëta për tërë projektin Ratiomera. Vazhdo te [faqja e mbështetjes për Ratiomera](../../../sq/pages/support-ratiomera-sq.qmd).

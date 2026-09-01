@@ -1,0 +1,703 @@
+---
+title: "Korrelacioni i pjesshëm"
+subtitle: "Hyrje në Statistikë · Tema 6"
+pagetitle: "Korrelacioni i pjesshëm | Ratiomera Statistics"
+title-prefix: ""
+description: "Korrelacioni i pjesshëm përmes arsyetimit me ndryshoren e tretë, kontrollit eksperimental dhe statistikor, rezidualizimit dhe formulës së drejtpërdrejtë me tri korrelacione."
+lang: sq
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "sq"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t06-partial-corr-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Pjesët e temës</h2>
+
+::: {.panel-tabset}
+
+## Teoria
+
+### Hyrje: Shiko përtej dy ndryshoreve {.cs-heading}
+
+Tema 4 prezantoi korrelacionin bivariat, domethënë një korrelacion që llogaritet për dy ndryshore. Tema 5 prezantoi *rezidualin*, ndryshimin mes një vlere të vrojtuar dhe vlerës së përshtatur nga një vijë regresioni. Korrelacioni i pjesshëm i lidh këto ide.
+
+Imagjino se koha javore e ushtrimit dhe pikët e arsyetimit rriten së bashku. Tani supozo se studentët me përgatitje paraprake më të fortë priren edhe të ushtrohen më shumë, edhe të marrin pikë më të larta. Korrelacioni fillestar mes dy ndryshoreve mbetet një përshkrim i saktë i çifteve të vrojtuara, por ai përmbledh disa rrugë njëherësh. Një pyetje e dobishme vijuese është nëse ushtrimi dhe arsyetimi lëvizin ende së bashku pasi të jenë përfaqësuar lidhjet e tyre lineare me përgatitjen paraprake.
+
+Mendo se ndryshoret $X$ dhe $Y$ janë të korreluara. Një ndryshore e tretë $Z$ mund të lidhet gjithashtu me të dyja. Korrelacioni bivariat $r_{XY}$ përmbledh gjithë lëvizjen lineare që shihet mes $X$ dhe $Y$, duke përfshirë lëvizjen që ato ndajnë me $Z$. Një *korrelacion i pjesshëm* shtron një pyetje më të ngushtë:
+
+> **Pyetja udhëzuese:** Sa fort lidhen në mënyrë lineare $X$ dhe $Y$ pasi është marrë parasysh pjesa lineare e lidhur me $Z$?
+
+Shprehja *është marrë parasysh* ka rëndësi. Përshtatja statistikore nuk e mban fizikisht $Z$ konstante, nuk e heq një shkak dhe nuk rikrijon një eksperiment. Ajo përdor një model për të ndarë pjesën lineare të secilës ndryshore të matur që lidhet me $Z$ nga pjesa që nuk përshtatet nga $Z$.
+
+Këtë temë mund ta shohësh si tri pyetje të njohura të vendosura me radhë:
+
+| Pyetja | Mjeti i prezantuar më parë | Çfarë tregon mjeti |
+|---|---|---|
+| A lëvizin së bashku $X$ dhe $Y$ në një model drejtvizor? | Korrelacioni i Pearson-it nga Tema 4 | Lidhjen e papërshtatur mes dy ndryshoreve |
+| Çfarë vlere të $X$ ose $Y$ do të parashikonte një vijë e përshtatur nga $Z$? | Regresioni i thjeshtë nga Tema 5 | Pjesën e secilës ndryshore kryesore që përfaqësohet nga $Z$ |
+| A lëvizin ende së bashku dy pjesët vrojtuar-minus-përshtatur? | Korrelacioni i pjesshëm në këtë temë | Lidhjen lineare që mbetet pasi të dyja ndryshoret përshtaten për $Z$ |
+
+: Korrelacioni i pjesshëm bashkon idenë e korrelacionit nga Tema 4 me idenë e rezidualit nga Tema 5. {#tbl-partial-correlation-bridge}
+
+Rreshtat nuk paraqesin tri analiza që konkurrojnë me njëra-tjetrën. Ata formojnë një zinxhir të vetëm. Fillimisht përshkruajmë lidhjen fillestare, pastaj përdorim dy vija regresioni për ta bërë të dukshme përshtatjen dhe në fund korrelojmë atë që mbetet. Nëse e mban parasysh këtë zinxhir, formulat më poshtë do të duken shumë më pak të mistershme.
+
+::: {.callout-tip title="Ideja kryesore"}
+Raporto si korrelacionin fillestar bivariat, ashtu edhe korrelacionin e pjesshëm. Ndryshimi mes tyre është pjesë e rezultatit, sepse tregon si ndryshon lidhja numerike kur ndryshorja e tretë e matur hyn në analizë.
+:::
+
+### Objektivat e të nxënit {.cs-heading}
+
+Në fund të kësaj teme, do të mundesh:
+
+- të shpjegosh si mund të kontribuojë një ndryshore e tretë në një korrelacion bivariat;
+- të dallosh kontrollin eksperimental nga kontrolli statistikor;
+- të shpjegosh rezidualizimin me fjalë të thjeshta;
+- të llogaritësh një korrelacion të pjesshëm duke korreluar dy seri rezidualesh;
+- të llogaritësh të njëjtin koeficient nga tri korrelacione bivariate;
+- të krahasosh një lidhje lineare të papërshtatur me një të përshtatur;
+- të dallosh se përshtatja mund ta zvogëlojë ose ta zmadhojë një koeficient;
+- të kontrollosh kushtet dhe kufizimet kryesore të një analize të korrelacionit të pjesshëm; dhe
+- të shpjegosh pse korrelacioni i pjesshëm, i vetëm, nuk vërteton shkakësinë.
+
+---
+
+### Pse një ndryshore e tretë mund ta ndryshojë tregimin {.cs-heading}
+
+Një *ndryshore e tretë* është një karakteristikë tjetër e matur që mund të ndihmojë në shpjegimin e lidhjes së vrojtuar mes $X$ dhe $Y$. Për shembull, mendo se $X$ dhe $Y$ priren të rriten kur rritet $Z$. Nëse e shpërfillim $Z$, lëvizja që ato ndajnë mund të kontribuojë në një korrelacion pozitiv $X$-$Y$.
+
+Një *lidhje e rreme* është një lidhje e dukshme, interpretimi i së cilës ndryshon sepse një ndryshore e tretë kontribuon në modelin e vrojtuar. Fjala *e rreme* nuk do të thotë se korrelacioni i llogaritur është numerikisht gabim. Do të thotë se do të ishte çorientuese ta trajtoje koeficientin bivariat si shpjegim të plotë.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Diagram konceptual me lëvizje horizontale që tregon si një ndryshore e tretë kontribuon në një lidhje të vrojtuar"}
+
+```{r}
+#| label: fig-third-variable-structure
+#| fig-alt: "Një diagram konceptual e vendos ndryshoren e tretë Z mbi ndryshoret X dhe Y. Shigjetat shkojnë nga Z te të dyja ndryshoret, ndërsa një vijë e ndërprerë mes X dhe Y shënon lidhjen e tyre të vrojtuar."
+#| fig-cap: "Një shpjegim i mundshëm me ndryshore të tretë për një lidhje bivariate të vrojtuar. Shigjetat janë një hipotezë për t'u shqyrtuar, jo një përfundim që del vetëm nga korrelacioni."
+#| fig-width: 8
+#| fig-height: 4.4
+p_third_variable
+```
+
+:::
+
+Ky diagram tregon vetëm një shpjegim të mundshëm. Drejtimi mund të shkojë nga $X$ te $Y$, nga $Y$ te $X$, në të dyja drejtimet ose përmes ndryshoreve të tjera. Një koeficient korrelacioni nuk mund të zgjedhë mes këtyre mundësive.
+
+Lexoje figurën nga lart poshtë. Dy shigjetat e plota thonë se $Z$ mund të kontribuojë si në $X$, ashtu edhe në $Y$. Nëse vlera më të larta të $Z$ priren të shoqërohen me vlera më të larta të të dyja ndryshoreve kryesore, $X$ dhe $Y$ mund të duken sikur lëvizin së bashku edhe para se të shqyrtohet ndonjë marrëdhënie e veçantë $X$-$Y$. Lidhja e ndërprerë shënon lidhjen që vrojtojmë dhe duam të kuptojmë. Ajo është e ndërprerë sepse diagrami nuk na tregon cili proces e krijoi. Prandaj figura është hartë e një pyetjeje, jo provë e një rruge shkakësore.
+
+Numërimet e regjistruara nëpër qytete japin një shembull konkret. Qytetet më të mëdha priren të kenë më shumë banorë, më shumë punonjës policie dhe më shumë vepra penale të regjistruara. Prandaj një korrelacion pozitiv mes numrit të punonjësve të policisë dhe numrit të veprave penale mund të lindë kryesisht sepse të dy numërimet rriten me madhësinë e popullsisë. Ai nuk është dëshmi se një numër më i madh punonjësish policie prodhon më shumë kriminalitet. Krahasimi i qyteteve brenda brezave të ngjashëm të popullsisë shtron një pyetje më të ngushtë, por edhe ai krahasim mbetet një lidhje dhe jo provë shkakësore.
+
+Figura vijuese përdor numërime të ndërtuara rishtas, jo të dhëna nga qytete të vërteta. Vija e ndërprerë e errët përmbledh lidhjen e papërshtatur nëpër të gjitha qytetet e ndërtuara. Vijat me ngjyra krahasojnë vetëm qytete brenda të njëjtit brez të gjerë të popullsisë.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Figurë e lëvizshme me numërime të ndërtuara qytetesh që tregon lidhjen e përgjithshme dhe krahasimet brenda brezave të popullsisë"}
+
+```{r}
+#| label: fig-police-crime-population
+#| fig-alt: "Një diagram shpërndarjeje tregon numërime të ndërtuara të punonjësve të policisë dhe veprave penale të regjistruara për qytete më të vogla, të mesme dhe më të mëdha. Një vijë e përgjithshme regresioni me ndërprerje ngrihet, ndërsa vijat e veçanta brenda secilit brez të popullsisë zbresin."
+#| fig-cap: "Numërimet e ndërtuara të qyteteve tregojnë pse madhësia e popullsisë mund ta ndryshojë interpretimin e një korrelacioni të papërshtatur polici-vepra penale. Vijat brenda brezave janë përshkruese dhe nuk vërtetojnë efekt shkakësor të numrit të policëve."
+#| fig-width: 9
+#| fig-height: 5.2
+p_police_crime_population
+```
+
+:::
+
+Përmbysja mes vijës së përgjithshme dhe vijave brenda brezave është bërë qëllimisht e dukshme. Ajo tregon pse koeficienti i papërshtatur nuk është shpjegim i plotë. Nuk tregon se rritja e numrit të policëve do t'i ulte veprat penale, sepse ky krahasim i ndërtuar nuk është eksperiment i rastësuar dhe mund të kenë rëndësi shumë karakteristika të tjera të qyteteve.
+
+Një ilustrim tjetër i njohur jep të njëjtin mësim pa përdorur asnjë numër. Supozo se konsumi i akullores dhe rastet e mbytjes në ujë duken sikur rriten gjatë së njëjtës pjesë të vitit. Do të ishte joshëse të ndërtoje një tregim të drejtpërdrejtë nga njëra ndryshore te tjetra. Një pyetje më e arsyeshme për ndryshoren e tretë shqyrton çfarë ndodh kur ndryshojnë moti dhe stina. Moti më i nxehtë mund ta rrisë konsumin e akullores dhe njëkohësisht ta rrisë notin dhe kohën e kaluar në ujë ose pranë tij. Kështu mund të ndryshojë ekspozimi ndaj rrezikut të mbytjes.
+
+Diagrami vijues është tërësisht hipotetik. Ai nuk përmban vrojtime, korrelacione të vlerësuara ose pohim empirik për madhësinë e ndonjë lidhjeje.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Diagram hipotetik i lëvizshëm për akulloren, motin, ekspozimin ndaj ujit dhe rastet e mbytjes si tregim me ndryshore të tretë"}
+
+```{r}
+#| label: fig-icecream-third-variable
+#| fig-alt: "Një diagram hipotetik e vendos motin më të nxehtë ose stinën e verës mbi konsumin e akullores dhe notin ose ekspozimin ndaj ujit. Shigjetat e plota e lidhin motin ose stinën me të dyja aktivitetet dhe e lidhin ekspozimin ndaj ujit me rastet e mbytjes. Një vijë e ndërprerë e lidh konsumin e akullores me rastet e mbytjes dhe shënohet si lidhje e mundshme e vrojtuar që nuk do të thotë se akullorja shkakton mbytje."
+#| fig-cap: "Një tregim hipotetik me ndryshore të tretë: moti ose stina mund ta rrisë si konsumin e akullores, ashtu edhe ekspozimin ndaj ujit. Prandaj një lidhje pozitive bivariate me rastet e mbytjes nuk do të tregonte se akullorja i shkakton ato raste."
+#| fig-width: 9
+#| fig-height: 5.2
+p_icecream_third_variable
+```
+
+:::
+
+Lexoji shigjetat e plota si një shpjegim që ia vlen të merret parasysh, jo si efekte të vërtetuara nga korrelacioni. Moti ose stina mund ta rrisë konsumin e akullores. I njëjti mot ose e njëjta stinë mund ta rrisë notin dhe ekspozimin ndaj ujit, që lidhet drejtpërdrejt me rastet e mbytjes. Lidhja me ndërprerje shënon tregimin çorientues bivariat që lexuesi mund ta vërejë i pari. Diagrami tregon pse ai tregim kërkon analizë me ndryshore të tretë, por na kujton edhe se vetëm përshtatja statistikore nuk do ta vërtetonte tërë rrugën shkakësore të vizatuar këtu.
+
+Ky kufizim na çon te dy kuptime të ndryshme të fjalës *kontroll*. Njëri i përket dizajnit të studimit, tjetri analizës statistikore.
+
+---
+
+### Kontrolli eksperimental dhe kontrolli statistikor {.cs-heading}
+
+Në një eksperiment, studiuesit mund t'i trajtojnë ndryshoret e treta gjatë planifikimit dhe zhvillimit të studimit. Mund të mbajnë qëllimisht një kusht konstant, si temperaturën e njëjtë të dhomës, ose të përdorin caktim të rastësishëm, që do të thotë se rastësia vendos cilin kusht merr secili pjesëmarrës. Këto zgjedhje të dizajnit synojnë të pengojnë që ndryshoret e treta të ndryshojnë sistematikisht mes kushteve.
+
+Kur një karakteristikë e rëndësishme nuk mund të kontrollohet përmes dizajnit, studiuesit mund ta matin dhe ta përshtatin statistikisht. Në këtë temë, *kontroll statistikor* do të thotë të krahasohen pjesët e $X$ dhe $Y$ që mbeten pasi secila përshtatet nga $Z$ me një regresion linear.
+
+| Tipari | Kontrolli eksperimental | Kontrolli statistikor me korrelacion të pjesshëm |
+|---|---|---|
+| Kur ndodh? | Gjatë planifikimit të studimit dhe mbledhjes së të dhënave | Gjatë analizës, pasi ndryshoret janë matur |
+| Çfarë bëhet? | Kushtet mbahen konstante ose caktohen nga rastësia | Modelohet lidhja lineare e $Z$ së matur me $X$ dhe $Y$ |
+| Çfarë trajton? | Dallimet e planifikuara mes kushteve | Modelin linear të regjistruar që përfshin $Z$ e zgjedhur |
+| Kufizimi kryesor | Jo çdo kusht mund të kontrollohet gjithmonë | Ndryshoret e treta të pamatura, të matura dobët ose të modeluara gabim mbeten të pazgjidhura |
+| A mund të mbështesë një përfundim shkakësor? | Po, kur i gjithë dizajni eksperimental dhe zbatimi i tij janë të përshtatshëm | Jo, vetëm përshtatja statistikore mbetet lidhore |
+
+: Kontrolli eksperimental dhe ai statistikor zgjidhin probleme të ndryshme dhe nuk mund ta zëvendësojnë njëri-tjetrin. {#tbl-control-comparison}
+
+Rreshti i parë i tabelës është mënyra më e lehtë për t'i mbajtur të ndara dy kuptimet. Kontrolli eksperimental ndërtohet në mënyrën si krijohen vrojtimet. Kontrolli statistikor kryhet pasi ekzistojnë vlerat e matura. Rreshtat e mesëm shpjegojnë pse përfundimet ndryshojnë: një dizajn mund të pengojë dallimet sistematike mes kushteve, ndërsa një korrelacion i pjesshëm mund të përshtatë vetëm modelin linear të regjistruar për $Z$ e zgjedhur. Rreshti i fundit jep pasojën praktike. Një eksperiment i rastësishëm, i zhvilluar me kujdes, mund të mbështesë një përfundim shkakësor, por një korrelacion i pjesshëm, i vetëm, nuk mund ta bëjë këtë.
+
+Përshtatja statistikore mund të përdorë vetëm ndryshore që janë matur. Prandaj studiuesit duhet të mendojnë për ndryshore të treta të besueshme gjatë planifikimit të studimit. Edhe një analizë e kujdesshme nuk mund të përjashtojë çdo shpjegim të lënë jashtë pasi të dhënat janë mbledhur.
+
+Llogaritja kuptohet më lehtë kur i kthehemi rezidualit nga Tema 5.
+
+---
+
+### Rezidualizimi: Çfarë mbetet pas një përshtatjeje lineare {.cs-heading}
+
+Për t'i përshtatur të dyja ndryshoret kryesore për $Z$, përshtat dy regresione të thjeshta të veçanta:
+
+1. regreso $X$ mbi $Z$; dhe
+2. regreso $Y$ mbi $Z$.
+
+Për rastin $i$, regresioni i parë jep një vlerë të përshtatur $\hat X_i$, vlerën e $X$ të parashikuar nga vlera $Z$ e atij rasti. Reziduali i tij është
+
+$$
+\hat e_{Xi}=X_i-\hat X_i.
+$$
+
+Regresioni i dytë jep një vlerë të përshtatur $\hat Y_i$ dhe rezidualin
+
+$$
+\hat e_{Yi}=Y_i-\hat Y_i.
+$$
+
+Ky proces me dy hapa quhet *rezidualizim*. Secili rezidual i përgjigjet një pyetjeje për rastin përkatës:
+
+- $\hat e_{Xi}$ pyet sa larg mbi ose nën vlerën e përshtatur nga $Z_i$ ndodhet $X_i$ e vrojtuar;
+- $\hat e_{Yi}$ pyet sa larg mbi ose nën vlerën e përshtatur nga $Z_i$ ndodhet $Y_i$ e vrojtuar.
+
+Një rezidual pozitiv do të thotë se vlera e vrojtuar është mbi vijën e përshtatur. Një rezidual negativ do të thotë se është nën vijë. Një rezidual afër zeros do të thotë se vlera e vrojtuar dhe ajo e përshtatur janë afër.
+
+Metoda e plotë ndiqet më lehtë kur dy regresionet mbeten të dukshme krah për krah. Diagrami vijues i mban të gjitha kolonat dhe veprimet në rend.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Rrjedhë e lëvizshme e rezidualizimit nga X dhe Y përmes përshtatjes për Z te korrelacioni i pjesshëm"}
+
+```{r}
+#| label: fig-residualization-flow
+#| fig-alt: "Një diagram rrjedhe me dy rreshta fillon me X dhe Y të vrojtuar. Secila ndryshore përshtatet veçmas mbi Z, vlerat e vrojtuara minus ato të përshtatura krijojnë një kolonë rezidualesh të X dhe një kolonë rezidualesh të Y, këto kolona çiftohen sipas rastit dhe korrelacioni i Pearson-it i rezidualeve të çiftuara jep korrelacionin e pjesshëm."
+#| fig-cap: "Rezidualizimi i përshtat të dyja ndryshoret kryesore për të njëjtën Z; korrelacioni i pjesshëm është pastaj korrelacioni i Pearson-it mes dy kolonave të rezidualeve."
+#| fig-width: 11
+#| fig-height: 5.2
+p_residualization_flow_en
+```
+
+:::
+
+Lexoji rreshtin e sipërm dhe atë të poshtëm paralelisht. Rreshti i sipërm e përshtat $X$ nga $Z$ dhe ia zbret çdo vlerë të përshtatur vlerës së vrojtuar të $X$. Rreshti i poshtëm bën të njëjtën gjë për $Y$. Çdo rast fillestar prodhon kështu dy reziduale, nga një në secilën kuti të gjelbër. Shigjetat pastaj i bashkojnë dy kolonat e rezidualeve pa e ndryshuar se cili çift i përket cilit rast.
+
+Kutia e fundit zbaton korrelacionin tashmë të njohur të Pearson-it mbi rezidualet e çiftuara. Nëse rastet që ndodhen mbi vijën e tyre $X$-nga-$Z$ priren të ndodhen edhe mbi vijën e tyre $Y$-nga-$Z$, korrelacioni i pjesshëm është pozitiv. Nëse rezidualet mbi vijë për njërën ndryshore priren të shoqërohen me reziduale nën vijë për tjetrën, ai është negativ. Nëse nuk mbetet ndonjë model linear i rezidualeve, ai është afër zeros.
+
+Rrjedha e ndan llogaritjen nga kufijtë e saj. Kutitë e gjelbra të rezidualeve përmbajnë atë që këto dy vija të përshtatura nuk përfaqësuan në këtë kampion. Ato nuk janë versione të pastra të $X$ dhe $Y$, ndërsa koeficienti përfundimtar nuk provon se $Z$ e shkaktoi lidhjen fillestare ose se çdo ndikim i $Z$ është zhdukur.
+
+::: {.callout-note title="Dallim i rëndësishëm"}
+Një rezidual është pjesa që nuk përshtatet nga regresioni linear i deklaruar në këtë kampion. Nuk është një përbërës i pastër dhe pa gabime i ndryshores dhe nuk provon se është hequr çdo ndikim i $Z$.
+:::
+
+Pasi llogariten të dyja rezidualet për çdo rast, mund të pyesim nëse rastet mbi vijën $X$-nga-$Z$ priren të jenë edhe mbi vijën $Y$-nga-$Z$. Kjo është pyetja e korrelacionit të pjesshëm.
+
+---
+
+### Korrelacioni i pjesshëm si korrelacion i rezidualeve {.cs-heading}
+
+Korrelacioni i pjesshëm mes $X$ dhe $Y$, duke përshtatur për $Z$, shkruhet
+
+$$
+r_{XY\mathbin{\cdot}Z}.
+$$
+
+Pika para $Z$ mund të lexohet si "duke kontrolluar për $Z$". Koeficienti është korrelacioni i Pearson-it mes dy serive të rezidualeve:
+
+$$
+r_{XY\mathbin{\cdot}Z}=r_{\hat e_X\hat e_Y}.
+$$
+
+Interpretimi ndjek korrelacionin e Pearson-it:
+
+- shenja përshkruan drejtimin e lidhjes lineare që mbetet;
+- vlera absolute përshkruan sa ngushtë ndjekin rezidualet e çiftuara një model drejtvizor;
+- koeficienti shtrihet mes $-1$ dhe $+1$; dhe
+- zero do të thotë se nuk mbetet lidhje **lineare** pas përshtatjes së deklaruar, jo pavarësi dhe jo provë se nuk ekziston asnjë marrëdhënie.
+
+Korrelacioni i pjesshëm është simetrik. Përshtatja e $X$ dhe $Y$ për $Z$ dhe korrelacioni i rezidualeve të tyre japin të njëjtin koeficient nëse ndërrohen etiketat $X$ dhe $Y$. Kjo simetri është një arsye tjetër për të mos e interpretuar koeficientin si shigjetë nga njëra ndryshore kryesore te tjetra.
+
+Rezidualizimi e bën idenë të dukshme. Formula vijuese jep një llogaritje më të shpejtë kur tri korrelacionet e nevojshme bivariate janë tashmë në dispozicion.
+
+---
+
+### Formula e drejtpërdrejtë me tri korrelacione {.cs-heading}
+
+Le të jenë:
+
+- $r_{XY}$ korrelacioni bivariat mes $X$ dhe $Y$;
+- $r_{XZ}$ korrelacioni bivariat mes $X$ dhe $Z$; dhe
+- $r_{YZ}$ korrelacioni bivariat mes $Y$ dhe $Z$.
+
+Atëherë
+
+$$
+r_{XY\mathbin{\cdot}Z}
+=
+\frac{r_{XY}-r_{XZ}r_{YZ}}
+{\sqrt{1-r_{XZ}^2}\sqrt{1-r_{YZ}^2}}.
+$$
+
+Nuk ke nevojë ta lexosh gjithë shprehjen në një hap të vetëm. Ndiq katër hapa të vegjël:
+
+1. Fillo me korrelacionin e papërshtatur $r_{XY}$.
+2. Shumëzo $r_{XZ}$ me $r_{YZ}$ për të formuar termin algjebrik korrigjues në numërues.
+3. Zbrite këtë prodhim nga $r_{XY}$. Kështu krijohet numëruesi i përshtatur.
+4. Pjesëto me dy shprehjet me rrënjë katrore. Ato e kthejnë vlerën e përshtatur në shkallën e korrelacionit duke marrë parasysh sa variacion linear mbetet në $X$ dhe $Y$ pas lidhjeve të tyre të veçanta me $Z$.
+
+Më poshtë është një llogaritje e vogël me numra qëllimisht të thjeshtë. Tri korrelacionet janë vlera ilustruese të zgjedhura vetëm për të treguar aritmetikën. Ato nuk vijnë nga të dhëna empirike. Supozo se
+
+$$
+r_{XY}=0.60,\qquad r_{XZ}=0.60,\qquad r_{YZ}=0.50.
+$$
+
+Së pari llogarit numëruesin. Termi korrigjues është $0.60\times0.50=0.30$, prandaj
+
+$$
+r_{XY}-r_{XZ}r_{YZ}=0.60-0.30=0.30.
+$$
+
+Më pas llogarit emëruesin:
+
+$$
+\sqrt{1-0.60^2}\sqrt{1-0.50^2}
+=
+\sqrt{0.64}\sqrt{0.75}
+\approx
+0.80\times0.866
+=
+0.693.
+$$
+
+Bashkimi i dy pjesëve jep
+
+$$
+r_{XY\mathbin{\cdot}Z}
+=
+\frac{0.30}{0.693}
+\approx
+0.43.
+$$
+
+Korrelacioni i papërshtatur ishte $r_{XY}=0.60$, ndërsa korrelacioni i pjesshëm është rreth $0.43$. Në këtë shembull të ndërtuar, lidhja lineare pozitive mbetet pas përshtatjes, por është më e dobët. Ky krahasim përshkruan çfarë i ndodhi koeficientit. Vetëm ai nuk tregon pse ndryshoi koeficienti dhe nuk vërteton marrëdhënie shkakësore.
+
+Formula është një llogaritje e përmbledhur, jo një koncept i ri. Logjika mbetet e njëjtë si në rrugën e rezidualeve: përshtat të dyja ndryshoret kryesore për $Z$, pastaj përshkruaj si lëvizin së bashku pjesët e mbetura.
+
+Metoda e rezidualeve dhe formula e drejtpërdrejtë janë dy rrugë drejt të njëjtit koeficient kur përdorin të njëjtat raste dhe regresione të zakonshme lineare me një prerje. Rruga e rezidualeve zakonisht e shpjegon idenë më qartë. Formula e drejtpërdrejtë është efikase për llogaritje dhe jep një kontroll të dobishëm të rezultatit.
+
+Nëse $X$ ose $Y$ përcaktohet në mënyrë të përkryer lineare nga $Z$, nuk mbetet variacion rezidual për atë ndryshore. Emëruesi atëherë është zero, prandaj korrelacioni i pjesshëm i kërkuar është i papërcaktuar. Që të formohet koeficienti, duhet të mbetet variacion në të dyja seritë e rezidualeve.
+
+---
+
+### Përshtatja mund ta dobësojë ose ta forcojë koeficientin {.cs-heading}
+
+Është joshëse të supozosh se përshtatja duhet ta zvogëlojë një korrelacion. Kjo nuk është e saktë. Korrelacioni i pjesshëm mund të jetë më i dobët ose më i fortë se korrelacioni bivariat.
+
+Nëse $Z$ kontribuon në lëvizje të ngjashme si te $X$, ashtu edhe te $Y$, korrelacioni i papërshtatur mund ta përfshijë atë model të përbashkët. Përshtatja për $Z$ mund ta zvogëlojë koeficientin. Nëse $Z$ lidhet me $X$ dhe $Y$ në drejtime të kundërta, modeli i saj mund të fshehë një pjesë të lidhjes së mbetur. Përshtatja atëherë mund ta rritë koeficientin.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Grafik koeficientësh me lëvizje horizontale që tregon se korrelacioni i pjesshëm mund të jetë më i vogël ose më i madh se korrelacioni bivariat"}
+
+```{r}
+#| label: fig-adjustment-directions
+#| fig-alt: "Një grafik koeficientësh tregon dy modele të krijuara. Në të parin, korrelacioni zvogëlohet nga rreth 0.63 në 0.31 pas përshtatjes. Në të dytin, rritet nga rreth 0.23 në 0.62."
+#| fig-cap: "Përshtatja mund ta zvogëlojë ose ta rritë një korrelacion. Drejtimi varet nga mënyra si lidhet linearisht ndryshorja e tretë me të dyja ndryshoret kryesore."
+#| fig-width: 9
+#| fig-height: 4.6
+p_adjustment_directions
+```
+
+:::
+
+Këto vlera vijnë nga modele të reja të krijuara, jo nga një studim real. Qëllimi nuk është të parashikosh në cilin drejtim do të shkojë përshtatja. Qëllimi është t'i krahasosh dy koeficientët dhe ta shpjegosh ndryshimin me anë të korrelacioneve të matura dhe dizajnit të studimit.
+
+Në rreshtin e parë të figurës, shigjeta lëviz majtas, nga një koeficient bivariat më i fortë te një koeficient i pjesshëm më i dobët. Ky është modeli që shpesh pritet kur $Z$ kontribuon në lëvizje të ngjashme te të dyja ndryshoret kryesore. Rreshti i dytë është po aq i rëndësishëm: shigjeta e tij lëviz djathtas sepse përshtatja zbulon një lidhje që modeli i $Z$ e kishte fshehur pjesërisht. Asnjëra shigjetë nuk është diagnozë. Ajo tregon ku lëvizi koeficienti dhe na nxit të shqyrtojmë pse.
+
+---
+
+### Kushtet dhe kontrollet diagnostikuese {.cs-heading}
+
+Llogaritja e korrelacionit të pjesshëm mund të japë gjithmonë një numër kur ekziston emëruesi, por një interpretim i dobishëm kërkon më shumë se aritmetikë. Kontrollo pikat vijuese para se ta raportosh:
+
+1. **Të njëjtat raste të çiftuara.** Tri ndryshoret dhe të tria korrelacionet duhet t'u përkasin të njëjtave njësi vrojtimi. Përndryshe, modele të ndryshme të të dhënave që mungojnë mund ta bëjnë formulën e drejtpërdrejtë jokonsistente.
+2. **Ndryshore numerike të përshtatshme.** Ky mësim përdor korrelacionet e Pearson-it dhe regresionet lineare, prandaj vlerat e regjistruara duhet të mbështesin dallime sasiore me kuptim.
+3. **Lidhje lineare.** Shiko diagramet e shpërndarjes $X$-$Y$, $X$-$Z$ dhe $Y$-$Z$. Kurbat nuk hiqen ose përmblidhen plotësisht nga modele drejtvizore.
+4. **Raste të pazakonta dhe me ndikim.** Një rast i vetëm ekstrem mund të ndryshojë vijën e regresionit, rezidualet e saj dhe të tria korrelacionet.
+5. **Mbetet variacion.** Të dyja ndryshoret e rezidualizuara duhet të kenë variacion të mjaftueshëm për të formuar një korrelacion me kuptim.
+6. **$Z$ e zgjedhur është e arsyetuar.** Shpjego pse u mat dhe pse përshtatja i përgjigjet pyetjes kërkimore. Një ndryshore që gjendet lehtë në të dhëna nuk është automatikisht ndryshorja e duhur.
+7. **Cilësia e matjes ka rëndësi.** Nëse $Z$ matet dobët, regresioni mund të lërë të pazgjidhur një pjesë të modelit të saj linear të regjistruar.
+8. **Kampionimi dhe dizajni kanë ende rëndësi.** Anshmëria e përzgjedhjes, vrojtimet e varura dhe ndryshoret e treta të lëna jashtë nuk rregullohen vetëm duke shtuar $Z$ në një llogaritje.
+
+Grafikët mbeten thelbësorë. Shiko grafikët fillestarë për secilin çift, të dyja përshtatjet e regresionit të përdorura për rezidualizim dhe diagramin e shpërndarjes rezidual-rezidual. Një koeficient i vetëm i përshtatur mund të fshehë strukturë jolineare ose raste të pazakonta, ashtu si një koeficient i vetëm bivariat.
+
+---
+
+### Çfarë nuk vërteton korrelacioni i pjesshëm {.cs-heading}
+
+Korrelacioni i pjesshëm përshkruan një lidhje lineare të përshtatur në të dhënat e vrojtuara. Nuk tregon se $Z$ shkakton njërën prej ndryshoreve kryesore, se $Z$ është e vetmja ndryshore e tretë e rëndësishme ose se ndryshimi i $X$ do ta ndryshonte $Y$.
+
+Edhe nëse $r_{XY\mathbin{\cdot}Z}$ është afër zeros, mbeten disa interpretime të mundshme. Lidhja fillestare mund të ketë qenë kryesisht e lidhur me $Z$ e matur, por mund të kenë rëndësi edhe gabimi i matjes, ndryshoret e lëna jashtë, jolineariteti ose një diapazon i kufizuar i vrojtuar. Një koeficient afër zeros nuk është provë e një shpjegimi të plotë shkakësor.
+
+Po kështu, një korrelacion i pjesshëm jozero nuk është efekt i drejtpërdrejtë. Ai është korrelacioni mes dy serive të rezidualeve të modelit. Pretendime më të forta shkakësore kërkojnë dizajn të përshtatshëm, matje të kujdesshme, rend kohor të besueshëm dhe shqyrtim serioz të shpjegimeve alternative.
+
+::: {.callout-note title="Dallim i rëndësishëm"}
+Rezidualizimi riorganizon informacionin e matur. Nuk mund të krijojë kontroll eksperimental pasi studimi ka përfunduar dhe nuk mund të përshtatë për një ndryshore të rëndësishme që nuk është matur kurrë.
+:::
+
+---
+
+::: {.callout-warning title="Gabime të mundshme"}
+
+- **Trajtimi i kontrollit statistikor si kontroll eksperimental.** Rezidualizimi ndryshon analizën e vlerave të matura, jo mënyrën si u krijuan vrojtimet.
+- **Pohimi se është hequr çdo ndikim i $Z$.** Llogaritja përfaqëson vetëm lidhjen lineare të përshtatur me versionin e matur të $Z$.
+- **Përzierja e grupeve të ndryshme të rasteve.** Tri korrelacionet hyrëse dhe të dy regresionet e rezidualeve duhet të përdorin të njëjtat raste të plota.
+- **Supozimi se përshtatja duhet ta zvogëlojë koeficientin.** Në varësi të tri korrelacioneve, korrelacioni i pjesshëm mund të jetë më i dobët ose më i fortë se korrelacioni bivariat.
+- **Leximi i një korrelacioni të pjesshëm afër zeros si pavarësi.** Ai do të thotë se mbetet pak lidhje lineare reziduale sipas përshtatjes së deklaruar.
+- **Shndërrimi i korrelacionit të pjesshëm në efekt shkakësor.** Koeficienti mbetet një masë simetrike e lidhjes, përveçse kur një dizajn i përshtatshëm mbështet një përfundim më të fortë.
+:::
+
+---
+
+### Një rrjedhë e besueshme pune për korrelacionin e pjesshëm {.cs-heading}
+
+Përdor këtë rend:
+
+1. Shprehe pyetjen kryesore $X$-$Y$ dhe arsyeto ndryshoren e tretë të propozuar $Z$.
+2. Përshkruaje dizajnin e studimit dhe ndaje kontrollin eksperimental nga ai statistikor.
+3. Verifiko që të tria ndryshoret u përkasin të njëjtave raste.
+4. Vizato të tria çiftet dhe kontrollo linearitetin, diapazonin, grupet dhe vrojtimet e pazakonta.
+5. Raporto $r_{XY}$, $r_{XZ}$ dhe $r_{YZ}$.
+6. Regreso $X$ mbi $Z$ dhe $Y$ mbi $Z$, pastaj kontrollo të dyja përshtatjet dhe rezidualet e tyre.
+7. Korrelo dy seritë e rezidualeve ose zbato formulën e drejtpërdrejtë.
+8. Krahaso korrelacionin e pjesshëm me korrelacionin bivariat.
+9. Interpretoje ngushtë lidhjen e përshtatur dhe deklaro kufizimet e dizajnit.
+
+Kjo temë i përshtat të dyja ndryshoret kryesore për një ndryshore të tretë të matur. Tema 7 zhvillon mjedisin e regresionit të shumëfishtë dhe mënyrat e lidhura me të për të ndarë informacionin e ndryshoreve parashikuese.
+
+## Shembull i simuluar
+
+### Studim i simuluar: Ushtrimi dhe rezultati i vlerësimit {.cs-heading}
+
+Tani e zbatojmë gjithë rrjedhën e punës në një kohortë artificiale, domethënë në një grup rastesh të shqyrtuara së bashku. Tema 1 prezantoi simulimin, gjeneratorët e numrave të rastësishëm, numrat nisës të pandryshuar dhe riprodhueshmërinë. Ky shembull përdor të njëjtën përgatitje të vendosur më parë: receta dhe numri nisës i ruajtur rikrijojnë të njëjtat vlera artificiale sa herë ndërtohet faqja. Ai përdor 140 raste të krijuara dhe nuk përmban të dhëna të pjesëmarrësve realë.
+
+Në shikim të parë, një korrelacion pozitiv ushtrim-vlerësim mund të duket si një rezultat i plotë. Shembulli ka rëndësi sepse përgatitja fillestare lidhet me të dyja ndryshoret, prandaj koeficienti i papërshtatur bashkon më shumë se një model. Pyetja jonë qendrore është:
+
+> Si lidhen orët javore të ushtrimit me pikët e vlerësimit pasi merren parasysh lidhjet e tyre të veçanta lineare me përgatitjen fillestare?
+
+Dy pyetje mbështetëse e bëjnë të dukshme përshtatjen. Çfarë do të thotë që një rast të ushtrohet ose të marrë pikë mbi vlerën e përshtatur nga përgatitja fillestare? A do të japë korrelacioni i atyre rezidualeve, vlera e vrojtuar minus vlera e përshtatur, të njëjtën përgjigje si formula e drejtpërdrejtë e korrelacionit të pjesshëm?
+
+Simulimi krijon qëllimisht përgatitjen fillestare para dy ndryshoreve të tjera. Përgatitja fillestare kontribuon si në ushtrimin javor, ashtu edhe në pikët e vlerësimit, ndërsa ushtrimi kontribuon gjithashtu në pikët e krijuara të vlerësimit. Meqë receta artificiale dihet, ajo jep një shembull të qartë mësimor. Në të dhëna reale vrojtuese, receta e vërtetë nuk shihet.
+
+| Ndryshorja | Kuptimi në simulim | Roli në analizë |
+|---|---|---|
+| `participant_id` | Etiketa anonime e rreshtit | I mban të çiftuara tri vlerat e secilit rast |
+| `baseline_preparation` | Pikë të krijuara nga 0 në 100 | Ndryshorja e tretë $Z$ |
+| `practice_hours` | Orë javore të krijuara | Ndryshorja kryesore $X$ |
+| `assessment_score` | Pikë të krijuara nga 0 në 100 | Ndryshorja kryesore $Y$ |
+
+: Ndryshoret në grupin mësimor të riprodhueshëm të Temës 6. {#tbl-t06-simulation-variables}
+
+Kolona e djathtë cakton simbolet që përdoren gjatë gjithë llogaritjes. Ushtrimi javor është $X$, pikët e vlerësimit janë $Y$ dhe përgatitja fillestare është $Z$. ID-ja e pjesëmarrësit nuk analizohet si ndryshore numerike. Ajo vetëm pengon çiftimin aksidental të vlerave nga rreshta të ndryshëm. Shembulli kalon nga rreshtat fillestarë dhe korrelacionet e çifteve te dy regresione, dy seri rezidualesh dhe një korrelacion i përshtatur.
+
+---
+
+**Hapi 1: Shiko rastet dhe rolet e tyre matëse**
+
+Secili rresht përmban të tria matjet për një pjesëmarrës artificial. Tabela e kërkueshme dhe e ndarë në faqe më poshtë përmban tërë kohortën e ndërtuar.
+
+```{r}
+#| label: tbl-t06-simulated-data
+datatable(
+  sim_display_data,
+  colnames = c(
+    "ID-ja e pjesëmarrësit",
+    "Përgatitja fillestare",
+    "Orët javore të ushtrimit",
+    "Pikët e vlerësimit"
+  ),
+  options = topic_dt_options(topic_locale),
+  class = "compact stripe hover",
+  rownames = FALSE,
+  caption = paste0(
+    "Të dhëna të ndërtuara për korrelacionin e pjesshëm për të ",
+    sim_n,
+    " rastet e çiftuara."
+  )
+)
+```
+
+Duke lexuar përmes cilitdo rresht, konfirmohet njësia e vrojtimit: një ID pjesëmarrësi ka një vlerë në $Z$, një në $X$ dhe një në $Y$. Kërkimi dhe ndarja në faqe ndryshojnë vetëm rreshtat që duken, jo rreshtat që hyjnë në llogaritje. Çdo llogaritje më poshtë përdor të gjitha `r sim_n` rastet e çiftuara.
+
+Grupi i plotë ka `r sim_n` raste. Përmbledhjet e tij kryesore përshkruese janë:
+
+```{r}
+#| label: tbl-t06-simulation-summary
+sim_summary_table |>
+  kable(
+    caption = "Përmbledhjet përshkruese për grupin e krijuar të Temës 6.",
+    col.names = c("Madhësia", "Vlera"),
+    align = c("l", "r")
+  )
+```
+
+Rreshtat e mesatares vendosin qendrën e secilës ndryshore artificiale, ndërsa rreshtat e devijimit standard përshkruajnë shpërndarjen e saj tipike rreth asaj qendre. Këto përmbledhje kontrollojnë që ndryshoret të kenë variacion të mjaftueshëm për analizë dhe i mbajnë njësitë të dukshme para se korrelacionet t'i heqin ato. Vlerat kufizohen vetëm që shkallët artificiale të mbeten të besueshme. Ato nuk janë vlerësime për ndonjë popullatë reale. Pasi kemi përcaktuar ndryshoret dhe rastet, shqyrtojmë korrelacionet e tyre të papërshtatura.
+
+---
+
+**Hapi 2: Llogarit tri korrelacionet bivariate**
+
+Një *korrelacion bivariat* përshkruan lidhjen lineare mes dy ndryshoreve para se të shtohet një ndryshore e tretë. Formula e drejtpërdrejtë kërkon tri korrelacione të tilla, të gjitha të llogaritura nga të njëjtat `r sim_n` raste.
+
+```{r}
+#| label: tbl-t06-pairwise-correlations
+pairwise_correlation_table |>
+  kable(
+    caption = "Tri korrelacionet bivariate që nevojiten për korrelacionin e pjesshëm.",
+    col.names = c("Çifti i ndryshoreve", "r e Pearson-it"),
+    align = c("l", "r")
+  )
+```
+
+Korrelacioni i papërshtatur ushtrim-vlerësim është $r_{XY}=`r format_t06(sim_r_xy, 3)`$. Ai është pozitiv: rastet me më shumë ushtrim javor priren të kenë pikë më të larta vlerësimi në këtë grup artificial.
+
+Përgatitja fillestare korrelohet gjithashtu pozitivisht me ushtrimin, $r_{XZ}=`r format_t06(sim_r_xz, 3)`$, dhe me pikët e vlerësimit, $r_{YZ}=`r format_t06(sim_r_yz, 3)`$. Prandaj koeficienti i papërshtatur $X$-$Y$ mund të përmbajë lëvizje që të dyja ndryshoret ndajnë me përgatitjen fillestare.
+
+Këta tre koeficientë e motivojnë përshtatjen, por metoda e rezidualeve tregon çfarë bën përshtatja për secilin rast.
+
+---
+
+**Hapi 3: Regreso secilën ndryshore kryesore mbi përgatitjen fillestare**
+
+Regresioni i parë përshtat orët javore të ushtrimit nga përgatitja fillestare. Regresioni i dytë përshtat pikët e vlerësimit nga përgatitja fillestare. Përdorimi i regresioneve për ta ndarë pjesën e përshtatur nga pjesa e vrojtuar minus ajo e përshtatur quhet *rezidualizim*. Në secilin panel më poshtë, pikat blu janë rastet e vrojtuara, vija blu jep vlerat e përshtatura dhe katër segmente vertikale portokalli tregojnë rezidualet vrojtuar-minus-përshtatur.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Çift grafikësh regresioni me lëvizje horizontale që tregojnë rezidualizimin e orëve të ushtrimit dhe pikëve të vlerësimit"}
+
+```{r}
+#| label: fig-t06-residualization
+#| fig-alt: "Dy diagrame shpërndarjeje përdorin përgatitjen fillestare në boshtin horizontal. I pari përshtat orët e ushtrimit, ndërsa i dyti pikët e vlerësimit. Katër segmente vertikale portokalli në secilin panel tregojnë largësitë reziduale nga pikat e vrojtuara te vijat e përshtatura."
+#| fig-cap: "Rezidualizimi përshtat secilën ndryshore kryesore nga e njëjta ndryshore e tretë. Reziduali është vlera e vrojtuar minus vlerën e përshtatur."
+topic6_plotly(
+  p_residualization,
+  alt_text = paste(
+    "Dy diagrame shpërndarjeje përdorin përgatitjen fillestare në boshtin horizontal.",
+    "I pari përshtat orët e ushtrimit dhe i dyti pikët e vlerësimit.",
+    "Kur kalon mbi një rast, shfaqen vlera e vrojtuar, vlera e përshtatur dhe reziduali i tij."
+  ),
+  tooltip_fields = "text",
+  top_margin = 132
+)
+```
+
+:::
+
+Paneli i majtë pyet: "Sa ushtrim do të priste vija e përshtatur për këto pikë fillestare?" Paneli i djathtë shtron të njëjtën pyetje për rezultatin e vlerësimit. Në secilin panel, një pikë mbi vijë ka rezidual pozitiv, ndërsa një pikë nën të ka rezidual negativ. Segmentet portokalli nuk përfaqësojnë katër lloje të veçanta pjesëmarrësish. Ato zmadhojnë katër zbritje të zakonshme në nivel rasti, në mënyrë që të shihet largësia vertikale e quajtur rezidual.
+
+Rreshtat vijues e bëjnë numerike të njëjtën zbritje. Për shembull, reziduali i ushtrimit është orët e vrojtuara të ushtrimit minus orët e përshtatura të ushtrimit. Reziduali i pikëve llogaritet në të njëjtën mënyrë.
+
+```{r}
+#| label: tbl-t06-residual-preview
+sim_residual_preview |>
+  kable(
+    caption = "Tetë rastet e para me vlerat e përshtatura dhe rezidualet nga të dy regresionet e përshtatjes.",
+    col.names = c(
+      "ID e pjesëmarrësit",
+      "Orët e ushtrimit",
+      "Ushtrimi i përshtatur",
+      "Reziduali i ushtrimit",
+      "Pikët e vlerësimit",
+      "Pikët e përshtatura",
+      "Reziduali i pikëve"
+    ),
+    align = c("l", "r", "r", "r", "r", "r", "r")
+  )
+```
+
+Lexoje secilin rresht në dy blloqe. Blloku i ushtrimit kalon nga ushtrimi i vrojtuar te ushtrimi i përshtatur dhe pastaj te ndryshimi mes tyre. Blloku i pikëve përsërit të njëjtin rend për vlerësimin. Një hyrje pozitive në një kolonë rezidualesh do të thotë "mbi vijën për këto pikë të përgatitjes fillestare," ndërsa një hyrje negative do të thotë "nën vijë." Rezidualet janë të përqendruara afër zeros sepse të dy regresionet e përshtatura përfshijnë një prerje. Më e rëndësishmja, çdo rast tani ka dy reziduale që mund të çiftohen dhe të vizatohen.
+
+---
+
+**Hapi 4: Korrelo dy seritë e rezidualeve**
+
+Paneli i majtë më poshtë tregon lidhjen fillestare ushtrim-vlerësim. Të dyja ndryshoret shprehen në njësi të devijimit standard që të mund të ndajnë boshtet me panelin e djathtë. Standardizimi ndryshon njësitë, por jo korrelacionin.
+
+Paneli i djathtë tregon rezidualet e standardizuara të ushtrimit dhe vlerësimit. Koeficienti i tij është korrelacioni i pjesshëm.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Krahasim me lëvizje horizontale i lidhjes së papërshtatur ushtrim-vlerësim me lidhjen e rezidualeve pas përshtatjes"}
+
+```{r}
+#| label: fig-t06-raw-adjusted
+#| fig-alt: "Dy diagrame shpërndarjeje krahasojnë vlerat e papërshtatura të standardizuara të ushtrimit dhe vlerësimit me rezidualet e standardizuara pasi të dyja ndryshoret përshtaten nga përgatitja fillestare. Korrelacioni i papërshtatur është rreth 0.607 dhe korrelacioni i pjesshëm rreth 0.337."
+#| fig-cap: "Korrelacioni i pjesshëm është korrelacioni i Pearson-it mes dy ndryshoreve të rezidualizuara."
+topic6_plotly(
+  p_raw_adjusted,
+  alt_text = paste(
+    "Dy diagrame shpërndarjeje krahasojnë vlerat e papërshtatura të standardizuara të ushtrimit dhe vlerësimit me rezidualet e standardizuara pas përshtatjes.",
+    "Korrelacioni i papërshtatur është rreth 0.607 dhe korrelacioni i pjesshëm rreth 0.337.",
+    "Kur kalon mbi një pikë, shfaqen koordinatat e çiftuara të standardizuara."
+  ),
+  tooltip_fields = "text",
+  top_margin = 132
+)
+```
+
+:::
+
+Paneli i majtë është pamja nga Tema 4: ai krahason dy ndryshoret fillestare dhe prandaj përmban çdo model linear që ndajnë, duke përfshirë pjesën që lidhet me përgatitjen fillestare. Paneli i djathtë i ndryshon boshtet. Zero në secilin bosht tani do të thotë "pikërisht në vlerën e përshtatur nga përgatitja fillestare". Një pikë në kuadrantin e sipërm djathtas është mbi të dyja vlerat e përshtatura, ndërsa një pikë në kuadrantin e poshtëm majtas është nën të dyja. Prirja në rritje e këtyre devijimeve të çiftuara është lidhja lineare pozitive që mbetet.
+
+Korrelacioni i rezidualeve është
+
+$$
+r_{\hat e_X\hat e_Y}=`r format_t06(sim_partial_residual, 3)`.
+$$
+
+Ai mbetet pozitiv, por është më i vogël se korrelacioni bivariat prej `r format_t06(sim_r_xy, 3)`. Në këtë grup të krijuar, një pjesë e lidhjes lineare të papërshtatur lidhet me modelin e matur të përgatitjes fillestare.
+
+Ky interpretim formulohet qëllimisht si lidhje. Vetëm llogaritja e rezidualeve nuk na tregon çfarë do të ndodhte nëse do të ndryshonte koha e ushtrimit ose përgatitja e një personi real.
+
+---
+
+**Hapi 5: Verifiko rezultatin me formulën e drejtpërdrejtë**
+
+Zëvendëso tri korrelacionet bivariate në formulë:
+
+$$
+\begin{aligned}
+r_{XY\mathbin{\cdot}Z}
+&=
+\frac{r_{XY}-r_{XZ}r_{YZ}}
+{\sqrt{1-r_{XZ}^2}\sqrt{1-r_{YZ}^2}}\\[4pt]
+&=
+\frac{`r format_t06(sim_r_xy, 5)`-
+(`r format_t06(sim_r_xz, 5)`)(`r format_t06(sim_r_yz, 5)`)}
+{\sqrt{1-`r format_t06(sim_r_xz, 5)`^2}
+\sqrt{1-`r format_t06(sim_r_yz, 5)`^2}}\\[4pt]
+&\approx `r format_t06(sim_partial_formula, 3)`.
+\end{aligned}
+$$
+
+Duke përdorur korrelacionet e parrumbullakosura, numëruesi i përshtatur është `r format_t06(sim_formula_numerator, 4)` dhe emëruesi i rishkallëzimit është `r format_t06(sim_formula_denominator, 4)`. Raporti i tyre është `r format_t06(sim_partial_formula, 3)` pas rrumbullakimit.
+
+```{r}
+#| label: tbl-t06-method-agreement
+method_comparison_table |>
+  kable(
+    caption = "Të dyja rrugët e vlefshme të llogaritjes japin të njëjtin korrelacion të pjesshëm.",
+    col.names = c("Rruga e llogaritjes", "Korrelacioni i pjesshëm"),
+    align = c("l", "r")
+  )
+```
+
+Dy rreshtat ndryshojnë vetëm në rrugën e llogaritjes. I pari përdor kolonat e çiftuara të rezidualeve që sapo pamë. I dyti përdor tri hyrjet nga tabela e mëparshme e korrelacioneve. Barazia e shfaqur nuk është rastësi. Për një ndryshore të tretë dhe rezidualizim të zakonshëm linear, formula është forma algjebrike e korrelacionit mes dy kolonave të rezidualeve.
+
+---
+
+**Hapi 6: Krahaso pyetjet e papërshtatura dhe të përshtatura**
+
+Dy koeficientët u përgjigjen pyetjeve të ndryshme:
+
+| Koeficienti | Vlera | Pyetja së cilës i përgjigjet |
+|---|---:|---|
+| $r_{XY}$ bivariat | `r format_t06(sim_r_xy, 3)` | Si lidhen linearisht orët e ushtrimit dhe pikët e vlerësimit para përshtatjes? |
+| $r_{XY\mathbin{\cdot}Z}$ i pjesshëm | `r format_t06(sim_partial_residual, 3)` | Si lidhen linearisht rezidualet e tyre pasi secila ndryshore përshtatet nga përgatitja fillestare? |
+
+: Interpretimet e papërshtatura dhe të përshtatura për grupin e krijuar. {#tbl-t06-raw-adjusted-meaning}
+
+Zvogëlimi është krahasim mes dy koeficientëve, jo përqindje e shkakësisë së hequr. Nuk do të thotë se përgatitja fillestare shpjegon një sasi fikse të një efekti në botën reale. Korrelacionet nuk kanë interpretim shkakësor mbledhës.
+
+Edhe korrelacioni pozitiv i pjesshëm që mbetet ka kuptim të ngushtë. Rastet që praktikonin më shumë sesa parashikonin vlerat e tyre të përgatitjes fillestare priren të merrnin pikë mbi vlerat e parashikuara nga përgatitja e tyre fillestare. Ky model është i dobishëm në mënyrë përshkruese, por karakteristika të tjera të matura ose të pamatura mund të kontribuojnë ende në të.
+
+---
+
+**Hapi 7: Shprehe përfundimin e mbështetur dhe kufizimet e tij**
+
+::: {.callout-note title="Dallim i rëndësishëm"}
+Në grupin e krijuar, orët javore të ushtrimit dhe pikët e vlerësimit kanë lidhje lineare pozitive bivariate. Pasi të dyja ndryshoret përshtaten linearisht për përgatitjen fillestare, rezidualet e tyre ruajnë një lidhje pozitive më të vogël. Llogaritja me reziduale dhe ajo me formulën e drejtpërdrejtë përputhen te $r_{XY\mathbin{\cdot}Z}=`r format_t06(sim_partial_residual, 3)`$.
+:::
+
+Përfundimi i përket vetëm të dhënave artificiale dhe përshtatjes lineare të deklaruar. Nuk u vrojtuan nxënës realë. Edhe në një grup real të dhënash, kjo llogaritje nuk do të vërtetonte se ushtrimi shtesë shkakton rritje të pikëve. Ajo nuk do të përjashtonte ndryshore të tjera të treta, gabim matjeje, lidhje jolineare, efekte përzgjedhjeje ose drejtim të kundërt.
+
+### Gabime të mundshme {.cs-heading}
+
+Ky simulim është më i pastër se kërkimi real. Ka matje të plota, recetë të njohur, lidhje lineare dhe asnjë ndryshim të padokumentuar në matje. Grupet reale të të dhënave mund ta shkelin secilin prej këtyre kushteve.
+
+- **Trajtimi i përshtatjes statistikore si kontroll eksperimental.** Llogaritja ndryshon analizën e vlerave të matura, jo procesin që i krijoi ato.
+- **Pohimi se rezidualizimi heq çdo ndikim të mundshëm të $Z$.** Ai përfaqëson vetëm lidhjen lineare të përshtatur me versionin e matur të $Z$.
+- **Llogaritja e tri korrelacioneve hyrëse nga grupe të ndryshme rastesh.** Formula dhe të dy regresionet e rezidualeve duhet të përdorin të njëjtat raste të plota.
+- **Raportimi vetëm i koeficientit të përshtatur.** Koeficienti i papërshtatur dhe grafikët diagnostikues mbeten të nevojshëm për të kuptuar çfarë ndryshoi.
+- **Shndërrimi i korrelacionit të pjesshëm në efekt shkakësor.** Ai mbetet lidhje simetrike e përshtatur, përveçse kur dizajni mbështet një përfundim më të fortë.
+
+### Si i bashkon ky shembull idetë e teorisë {.cs-heading}
+
+Shtatë hapat ndoqën logjikën e përshtatjes nga pjesa Teoria: fillo me tri korrelacionet, përshtati të dyja ndryshoret kryesore nga e njëjta ndryshore e tretë, çiftoji dy kolonat e rezidualeve, verifikoje rezultatin me formulën e drejtpërdrejtë dhe krahasoje pyetjen e përshtatur me atë fillestare. Kjo temë është pika ku lidhen ngushtë tri ide të renditjes mësimore.
+
+1. **Kovarianca dhe korrelacioni përshkruajnë lëvizjen e çiftuar.** Tema 4 pyeti nëse dy ndryshore rriten dhe bien së bashku dhe e vendosi atë lidhje lineare në shkallën e standardizuar nga $-1$ në $+1$. Asnjëra ndryshore nuk duhej shpallur ndryshore e rezultatit.
+2. **Regresioni i thjeshtë e kthen lëvizjen e çiftuar në një vijë të përshtatur.** Tema 5 u dha ndryshoreve role të ndryshme: një ndryshore parashikuese dhe një ndryshore rezultati. Vlera e përshtatur përfaqësonte rezultatin që pritej nga ndryshorja parashikuese, ndërsa reziduali regjistronte sa larg ishte një rezultat i vrojtuar nga ajo vijë.
+3. **Korrelacioni i pjesshëm përdor dy regresione të thjeshta për ta përpunuar më tej një korrelacion.** Në këtë temë, $X$ përshtatet nga $Z$ dhe $Y$ përshtatet nga $Z$. Korrelacioni i dy kolonave të rezidualeve pyet nëse ndryshoret kryesore ende lëvizin së bashku pasi janë përfaqësuar lidhjet e tyre të veçanta lineare me $Z$.
+
+Shembulli i simuluar e bën konkret zinxhirin. Korrelacioni i papërshtatur ushtrim-vlerësim iu përgjigj pyetjes së gjerë me dy ndryshore. Dy regresionet me përgatitjen fillestare krijuan pastaj një krahasim më të ngushtë, të bazuar në model, mes rasteve me modele të ngjashme të përshtatura të përgatitjes. Korrelacioni i pjesshëm përshkroi lëvizjen e çiftuar që mbeti. Ai ishte më i vogël, por nuk u zhduk, dhe asnjërit rezultat nuk iu dha interpretim shkakësor.
+
+Ka edhe një dallim të rëndësishëm mes dy hapave të fundit. Regresioni i thjeshtë ka drejtim sepse parashikon një rezultat të emërtuar nga një ndryshore parashikuese e emërtuar. Korrelacioni i pjesshëm është simetrik sepse përshtat të dyja ndryshoret kryesore dhe korrelon rezidualet e tyre. Ndërrimi i $X$ dhe $Y$ nuk e ndryshon $r_{XY\mathbin{\cdot}Z}$. Prandaj korrelacioni i pjesshëm kuptohet më mirë si lidhje e përshtatur, jo si ekuacion parashikimi ose efekt.
+
+Tema 7 ruan drejtimin e regresionit dhe e zgjeron atë. Në vend që të përshtatë dy ndryshore të veçanta nga një $Z$, regresioni i shumëfishtë përshtat një rezultat nga disa ndryshore parashikuese në një model të vetëm. Koeficientët e tij u përgjigjen pyetjeve të kushtëzuara që lidhen ngushtë me përshtatjen e ushtruar këtu. Kështu formohet një varg i lidhur: korrelacioni përshkruan lëvizjen, regresioni ndërton një marrëdhënie të përshtatur, korrelacioni i pjesshëm izolon lëvizjen e përshtatur dhe regresioni i shumëfishtë vendos disa marrëdhënie të përshtatura të ndryshoreve parashikuese në një ekuacion.
+
+## Ushtrime dhe zgjidhje
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "sq",
+  course_id = "intro-statistics",
+  topic_number = 6
+)
+```
+
+## Përmbledhje
+
+{{< include ../../_shared/topic-summaries/sq/t06.md >}}
+
+---
+
+### Shkarko përmbledhjen {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "sq",
+  course_id = "intro-statistics",
+  topic_number = 6
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Navigimi i temës"}
+[Tema e mëparshme: Regresioni i thjeshtë linear](t05_simple-regression.qmd){.text-link-arrow .previous}
+[Pasqyra e hyrjes](overview-intro-stats-sq.qmd){.text-link-arrow}
+[Tema tjetër: Regresioni i shumëfishtë](t07_multiple-regression.qmd){.text-link-arrow .next}
+:::

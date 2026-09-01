@@ -1,0 +1,102 @@
+---
+title: "Kontakt"
+subtitle: "Die gemeinsame Kontaktstelle für Ratiomera"
+pagetitle: "Kontakt | Ratiomera"
+title-prefix: ""
+description: "Kontaktiere Ratiomera bei organisatorischen Fragen, Ideen für eine Zusammenarbeit, Fragen zu Fachinhalten, Korrekturen, Rückmeldungen oder Vorschlägen für künftige Lehrpläne."
+lang: de-CH
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Ratiomera wird von Freiwilligen entwickelt und gepflegt. Diese Seite trennt die Anfragen so, dass eine Nachricht möglichst direkt den Teil des Projekts erreicht, der sie sinnvoll beantworten kann.
+
+Nutze die allgemeine Kontaktstelle für Fragen zum Gesamtprojekt Ratiomera, zur Zusammenarbeit, zur institutionellen Kommunikation oder für Ideen, die beide Fachbereiche betreffen. Nutze eine fachspezifische Kontaktstelle für eine Korrektur, eine unklare Erklärung, einen inhaltlichen Vorschlag, einen Hinweis zur Barrierefreiheit oder eine andere Frage, die sich ausdrücklich auf Statistik oder Mathematik bezieht. Nutze die Kontaktstelle für freiwillige Mitarbeit, wenn du Zeit, Sprachkenntnisse, Fachwissen, eine Prüfung der Barrierefreiheit, Design- oder technische Unterstützung anbieten möchtest.
+:::
+
+---
+
+## Allgemeine Anfragen
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Allgemeine Anfragen</h3>
+<p>Für organisatorische Fragen, Ideen zur Zusammenarbeit, die Kommunikation mit Institutionen und allgemeine Rückmeldungen.</p>
+<span class="contact-label">E-Mail</span>
+[{{< var contact.info >}}](mailto:{{< var contact.info >}}){.contact-address}
+</article>
+</div>
+
+---
+
+## Fachspezifische Anfragen
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Ratiomera Statistics</h3>
+<p>Für Korrekturen, unklare Erklärungen, Rückmeldungen zum Lehrplan, Hinweise zur Barrierefreiheit, Quellenfragen und weitere Anliegen zu Ratiomera Statistics.</p>
+<span class="contact-label">E-Mail</span>
+[{{< var contact.statistics >}}](mailto:{{< var contact.statistics >}}){.contact-address}
+</article>
+<article class="contact-card">
+<h3>Ratiomera Mathematics</h3>
+<p>Für Vorschläge zum künftigen Lehrplan, Interesse von Lehrpersonen oder Institutionen und Fragen zur geplanten Entwicklung.</p>
+<span class="contact-label">E-Mail</span>
+[{{< var contact.mathematics >}}](mailto:{{< var contact.mathematics >}}){.contact-address}
+</article>
+</div>
+
+---
+
+## Freiwillige Mitarbeit
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Bei Ratiomera mitwirken</h3>
+<p>Für Angebote zur fachlichen Prüfung, sprachlichen Unterstützung, Barrierefreiheit, Gestaltung, Entwicklung, zum Testen oder für einen anderen klar beschriebenen Beitrag.</p>
+<span class="contact-label">E-Mail</span>
+[{{< var contact.volunteering >}}](mailto:{{< var contact.volunteering >}}){.contact-address}
+</article>
+</div>
+
+---
+
+## Team
+
+Krenar Sherifi und Donat Ismaili wirken derzeit bei Ratiomera Statistics mit. Ihre Berufe und ihre derzeitige Mitwirkung im Fachbereich sind unten aufgeführt.
+
+<div class="team-section">
+
+<article class="team-member">
+<div class="team-bio">
+<div class="team-name">Krenar Sherifi</div>
+<div class="team-role">Psychologe</div>
+<div class="team-tags" role="list" aria-label="Zuständiger Fachbereich">
+<span class="branch-tag statistics" role="listitem">Ratiomera Statistics</span>
+</div>
+</div>
+</article>
+
+<article class="team-member">
+<div class="team-bio">
+<div class="team-name">Donat Ismaili</div>
+<div class="team-role">Lehrer</div>
+<div class="team-tags" role="list" aria-label="Zuständiger Fachbereich">
+<span class="branch-tag statistics" role="listitem">Ratiomera Statistics</span>
+</div>
+</div>
+</article>
+
+</div>
+
+---
+
+## Verfügbarkeit des freiwilligen Teams
+
+::: {.contact-note}
+Ratiomera wird von Freiwilligen geleitet und verfügt weder über ein dauerhaft besetztes Postfach noch über eine garantierte Antwortfrist. Sobald funktionierende Kontaktadressen veröffentlicht sind, werden Nachrichten gelesen, wenn die zuständigen Freiwilligen Kapazität haben. Wie lange eine Antwort dauert, kann je nach Anliegen und Entwicklungsstand des jeweiligen Fachbereichs unterschiedlich sein. Ratiomera ist nicht für dringende Anfragen, individuelle Nachhilfe oder zeitkritische Beratung zu Leistungsnachweisen eingerichtet.
+
+Eine klar formulierte Nachricht hilft dem Team, dein Anliegen ohne unnötige Rückfragen zu verstehen. Nenne bei einer Korrektur oder einem Hinweis zur Barrierefreiheit den genauen Link und den betroffenen Abschnitt und beschreibe, was unklar oder fehlerhaft erscheint. Bei einem Darstellungsproblem sind auch Angaben zum verwendeten Gerät und Browser hilfreich. Erkläre bei einer Anfrage zur Zusammenarbeit oder freiwilligen Mitarbeit kurz, welchen Beitrag du leisten möchtest, welchen Fachbereich oder welche Sprache er betrifft und ob deine Idee bis zu einem bestimmten Datum eine Antwort benötigt. Sende bitte keine sensiblen persönlichen Angaben, vertraulichen Studierendendaten oder unveröffentlichten Prüfungsunterlagen.
+
+Die auf dieser Seite aufgeführten Adressen sind aktiv und leiten Nachrichten an das passende Projektpostfach oder den zuständigen Ordner weiter. Eine verzögerte Antwort bedeutet nicht, dass eine sorgfältige Korrektur oder ein Hilfsangebot unwichtig ist. Sie zeigt vielmehr die praktischen Grenzen eines freiwilligen Teams, das mehrere Teile der Plattform gewissenhaft betreut.
+:::

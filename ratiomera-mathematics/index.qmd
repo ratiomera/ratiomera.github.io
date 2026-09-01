@@ -1,0 +1,12 @@
+---
+title: "Ratiomera Mathematics"
+pagetitle: "Ratiomera Mathematics"
+title-prefix: ""
+description: "Ratiomera Mathematics is planned as a learning path from primary school through Swiss Gymnasium level."
+toc: false
+include-in-header:
+  text: |
+    <meta http-equiv="refresh" content="0; url=en/home-mathematics-en.html">
+---
+
+Redirecting to [Ratiomera Mathematics](en/home-mathematics-en.qmd)&hellip;

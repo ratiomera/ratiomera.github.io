@@ -1,0 +1,67 @@
+---
+title: "Rechtliche Hinweise"
+subtitle: "Impressum"
+pagetitle: "Rechtliche Hinweise | Ratiomera"
+title-prefix: ""
+description: "Rechtliche Informationen zu Datenschutz, Hosting, Bildungsinhalten und Urheberrecht bei Ratiomera."
+lang: de-CH
+toc: false
+---
+
+## Verantwortliche Person
+
+**Krenar Sherifi** ist die für Ratiomera verantwortliche Person. Ratiomera ist derzeit ein freiwillig getragenes Bildungsprojekt. Es tritt weder als eingetragener Verein oder Unternehmen noch als akkreditierter Bildungsanbieter oder institutionell angegliederte Plattform auf.
+
+Ratiomera veröffentlicht derzeit keine Postadresse. Über die Website werden keine Waren, kostenpflichtigen Dienstleistungen, Abonnements, Spenden oder Online-Vertragsabschlüsse angeboten.
+
+**Kontakt für rechtliche, datenschutzbezogene und technische Anliegen:** [{{< var contact.informatics >}}](mailto:{{< var contact.informatics >}})
+
+**Website:** [https://ratiomera.ch](https://ratiomera.ch)
+
+Allgemeine, fachspezifische und auf freiwillige Mitarbeit bezogene Adressen sind auf der Seite [Kontakt](contact-ratiomera-de.qmd) aufgeführt.
+
+---
+
+## Akademischer Kontext
+
+Ratiomera ist eine kostenlose, von Freiwilligen entwickelte Bildungsplattform für Mathematik und Statistik. Ratiomera Statistics unterstützt derzeit Studierende und Fachpersonen aus den Geistes- und Sozialwissenschaften auf Hochschulniveau. Es wird keine institutionelle Unterstützung, Akkreditierung oder formelle Zugehörigkeit behauptet.
+
+---
+
+## Haftungsausschluss für Inhalte
+
+Alle Inhalte dieser Plattform dienen ausschliesslich Bildungszwecken. Obwohl wir uns um Genauigkeit bemühen, kann nicht garantiert werden, dass die Inhalte vollständig, aktuell oder fehlerfrei sind. Wenn du einen Fehler oder eine unklare Erklärung entdeckst, nutze bitte die Seite [Kontakt](contact-ratiomera-de.qmd).
+
+---
+
+## Urheberrecht
+
+Alle Originalinhalte dieser Plattform, einschliesslich Texte, Übungen und ausgearbeiteter Beispiele, sind © Ratiomera-Mitwirkende. Die Vervielfältigung für das persönliche Studium ist gestattet. Die Weiterverbreitung oder kommerzielle Nutzung bedarf der ausdrücklichen schriftlichen Genehmigung.
+
+---
+
+## Nutzungszähler
+
+Die sichtbaren Felder «Besuche» und «Downloads» sind derzeit deaktivierte Platzhalter. Ratiomera sendet gegenwärtig keine Anfragen an einen Zähldienst und erfasst die Nutzung nicht über einen solchen Dienst. Später aktivierte Besuchszahlen stehen für Seitenaufrufe und nicht für einzelne Personen. Downloadzahlen zeigen ausschliesslich Werte an, die der konfigurierte Dateianbieter bereitstellt.
+
+Bevor ein externer Zähldienst aktiviert wird, werden hier der Anbieter, die übermittelten Informationen sowie die geltenden Aufbewahrungs- und Datenschutzangaben dokumentiert.
+
+---
+
+## Hosting und Datenschutz
+
+Ratiomera wird als statische Website über GitHub Pages bereitgestellt. GitHub weist darauf hin, dass beim Besuch einer GitHub-Pages-Website die IP-Adresse unabhängig von einer Anmeldung aus Sicherheitsgründen protokolliert und gespeichert wird. Für die damit verbundene Bearbeitung durch GitHub gilt die [allgemeine Datenschutzerklärung von GitHub](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Ratiomera betreibt keine eigene Besucherdatenbank und erhält über diese Website keinen Zugriff auf die rohen IP-Protokolle von GitHub Pages.
+
+Der derzeitige Website-Code von Ratiomera aktiviert keinen Analysedienst, Werbetracker, System für Besucherkonten, kein Kontaktformular und keinen externen Zähldienst für Besuche oder Downloads. Falls sich dies ändert, werden die entsprechenden Hinweise aktualisiert, bevor die Funktion aktiviert wird.
+
+Wenn jemand Ratiomera per E-Mail kontaktiert, werden die Absenderadresse, der Nachrichteninhalt, Anhänge und technische Zustellinformationen über das E-Mail-Hosting von Cyon bearbeitet. Dies ist erforderlich, damit die Nachricht empfangen, eingeordnet, vor Missbrauch geschützt und beantwortet werden kann. Der Zugriff ist auf Freiwillige beschränkt, die die Korrespondenz für diese Zwecke benötigen. Nachrichten werden nur so lange aufbewahrt, wie es für die Bearbeitung des Anliegens und daraus entstehende Verpflichtungen angemessen erforderlich ist. Cyon informiert in seinen [Datenschutzangaben](https://www.cyon.ch/ueber-cyon/datenschutz) über die Bearbeitung und den Datenstandort Schweiz.
+
+Sende bitte keine sensiblen persönlichen Angaben, vertraulichen Studierendendaten oder unveröffentlichten Prüfungsunterlagen. Fragen zur Bearbeitung von Personendaten durch Ratiomera können an [{{< var contact.informatics >}}](mailto:{{< var contact.informatics >}}) gesendet werden.
+
+---
+
+## Externe Links
+
+Diese Plattform kann Links zu externen Websites enthalten. Ratiomera ist nicht für die Inhalte externer Websites verantwortlich und spricht keine Empfehlung für sie aus.
+
+*Zuletzt aktualisiert: 1. September 2026.*

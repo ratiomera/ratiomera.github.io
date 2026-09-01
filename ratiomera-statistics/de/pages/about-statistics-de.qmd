@@ -1,0 +1,14 @@
+---
+title: "Über Ratiomera Statistics"
+pagetitle: "Über Ratiomera Statistics"
+title-prefix: ""
+description: "Überblick über Ratiomera Statistics und seinen Lehrplan."
+lang: de-CH
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../home-statistics-de.html#overview">
+---
+
+Der Überblick zum Fachbereich befindet sich jetzt auf der Startseite von Ratiomera Statistics. Weiter zu [Über Ratiomera Statistics](../home-statistics-de.qmd#overview).

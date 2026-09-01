@@ -1,0 +1,14 @@
+---
+title: "Rreth Ratiomera Statistics"
+pagetitle: "Rreth Ratiomera Statistics"
+title-prefix: ""
+description: "Përmbledhje e degës Ratiomera Statistics dhe e kurrikulës së saj."
+lang: sq
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../home-statistics-sq.html#overview">
+---
+
+Përmbledhja e degës tani gjendet në faqen kryesore të Ratiomera Statistics. Vazhdo te [Rreth Ratiomera Statistics](../home-statistics-sq.qmd#overview).

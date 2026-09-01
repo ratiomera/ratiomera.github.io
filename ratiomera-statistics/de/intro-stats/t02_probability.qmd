@@ -1,0 +1,1215 @@
+---
+title: "Wahrscheinlichkeit"
+subtitle: "Einführung in die Statistik · Thema 2"
+pagetitle: "Wahrscheinlichkeit | Ratiomera Statistics"
+title-prefix: ""
+lang: de-CH
+description: "Die mathematische Grundlage des Umgangs mit Unsicherheit: Wahrscheinlichkeitsdefinitionen und -regeln, Verteilungen, Binomial- und Normalverteilung sowie die Stichprobenverteilung des Mittelwerts."
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "de"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t02-probability-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Themenabschnitte</h2>
+
+::: {.panel-tabset}
+
+## Theorie
+
+### Einführung: Wie die Statistik über Zufall nachdenkt {.cs-heading}
+
+Thema 1 beschrieb die Daten, die vor uns liegen. Wahrscheinlichkeit beginnt mit der Frage, was als Nächstes *geschehen könnte*. Wenn wir einen Würfel erneut werfen, eine weitere Person auswählen oder eine Studie mit einer neuen Stichprobe wiederholen, kennen wir das Ergebnis nicht im Voraus. Die *Wahrscheinlichkeitsrechnung* gibt uns eine sorgfältige Sprache für diese Unsicherheit.
+
+Wir bauen diese Sprache in kleinen Schritten auf. Zuerst benennen wir die möglichen Ergebnisse und fassen sie zu Ereignissen zusammen. Danach lernen wir Regeln für Fragen mit Wörtern wie «nicht», «oder», «und» und «gegeben». Anschliessend ordnen wir numerischen Werten mithilfe von Wahrscheinlichkeitsverteilungen Wahrscheinlichkeiten zu. Zum Schluss betrachten wir wiederholte Stichproben und erklären, weshalb sich ihre Mittelwerte unterscheiden, obwohl jede Stichprobe auf dieselbe Weise gezogen wird.
+
+Du musst den gesamten Weg nicht sofort überblicken. Übersetze die Frage auf jeder Stufe zuerst in gewöhnliche Worte, bestimme dann, was gezählt oder gemessen wird, und wähle erst danach eine Formel.
+
+> **Leitfrage:** Wie können wir bei einem ungewissen Ergebnis beschreiben, was eintreten könnte und wie wahrscheinlich die einzelnen Möglichkeiten sind?
+
+::: {.callout-tip title="Kernidee"}
+
+Wahrscheinlichkeit ist die Sprache zur Beschreibung von Unsicherheit. Sie bereitet dich darauf vor zu verstehen, weshalb sich wiederholte Stichproben unterscheiden und wie spätere statistische Verfahren diese Unterschiede nutzen.
+:::
+
+### Lernziele {.cs-heading}
+
+Nach Abschluss dieses Themas solltest du:
+
+- erklären können, was eine Wahrscheinlichkeit beschreibt und zu welchem Ereignis sie gehört,
+- Komplement-, Additions-, Multiplikations- und bedingte Wahrscheinlichkeitsregeln anwenden können,
+- Ereignisse, die nicht gemeinsam eintreten können, von Ereignissen unterscheiden können, die ihre Wahrscheinlichkeiten gegenseitig nicht verändern,
+- den Satz von Bayes unter Berücksichtigung des Ausgangsanteils, auch Basisrate genannt, anwenden können,
+- erkennen können, wann Binomial- und Normalverteilungsmodelle geeignet sind, sowie
+- erklären können, weshalb Stichprobenmittelwerte variieren, wie ein Standardfehler diese Variation beschreibt und wann ihre Verteilung durch eine Normalverteilung angenähert werden kann.
+
+---
+
+### Was beschreibt eine Wahrscheinlichkeit? {.cs-heading}
+
+Eine Wahrscheinlichkeit ist eine Zahl, die zu einem *Ereignis* gehört, also zu etwas, das eintreten kann oder nicht. Wir schreiben $P(A)$ für «die Wahrscheinlichkeit, dass Ereignis $A$ eintritt». Der Buchstabe $P$ steht für Wahrscheinlichkeit, und das Ereignis steht in Klammern.
+
+Wahrscheinlichkeiten liegen zwischen 0 und 1:
+
+- $P(A)=0$ bedeutet, dass $A$ unter den angegebenen Bedingungen nicht eintreten kann,
+- $P(A)=1$ bedeutet, dass $A$ eintreten muss, und
+- ein Wert zwischen 0 und 1 beschreibt ein unsicheres Ereignis.
+
+Dieselbe Wahrscheinlichkeit kann als Dezimalzahl oder als Prozentwert geschrieben werden. $P(A)=0.50$ und $P(A)=50\%$ bedeuten zum Beispiel dasselbe. Die Formeln auf dieser Seite verwenden Dezimalzahlen.
+
+Die Worte «unter den angegebenen Bedingungen» sind wichtig. Eine Wahrscheinlichkeit ist nur dann sinnvoll, wenn bekannt ist, welcher Vorgang betrachtet wird und welche Ergebnisse möglich sind. Bevor wir Rechenregeln lernen, benennen wir diese Bestandteile deshalb sorgfältig.
+
+::: {.callout-tip title="Kernidee"}
+
+**Lies das Ereignis vor der Zahl:** $P(A)=0.25$ bedeutet, dass das Ereignis $A$ eine Wahrscheinlichkeit von 0.25 oder 25% besitzt. Solange $A$ nicht definiert ist, lässt sich die Zahl nicht interpretieren.
+:::
+
+---
+
+### Ergebnisräume und Ereignisse {.cs-heading}
+
+Um Wahrscheinlichkeiten zuverlässig berechnen zu können, brauchen wir zuerst Bezeichnungen für den Vorgang, seine einzelnen Ergebnisse und die Gruppen von Ergebnissen, die uns interessieren.
+
+Ein *Zufallsexperiment* ist ein wiederholbarer Vorgang, dessen Ergebnis im Voraus nicht bekannt ist, beispielsweise ein Würfelwurf oder die zufällige Auswahl einer Person. Ein einzelnes mögliches Ergebnis heisst *Elementarereignis*. Wir verwenden den griechischen Kleinbuchstaben $\omega$ (Omega) für ein Elementarereignis. Die Gesamtheit aller möglichen Ergebnisse ist der *Ergebnisraum*, geschrieben als $\Omega$ mit dem griechischen Grossbuchstaben Omega. Ein *Ereignis* ist eine ausgewählte Gruppe von Ergebnissen aus diesem Ergebnisraum.
+
+Angenommen, ein Zufallsgerät kann eine der ganzen Zahlen 1 bis 10 ausgeben. Sein Ergebnisraum lautet $\Omega = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}$. Geschweifte Klammern listen die Ergebnisse auf, die zu einer Menge gehören. Sei $A = \{1, 2, 3\}$, $B = \{4, 5, 6, 7\}$ und $D = \{2, 3, 7\}$. Jeder Buchstabe bezeichnet ein anderes Ereignis. Nun können wir vier wichtige Ereignisoperationen bilden:
+
+- **Vereinigung** ($A \cup D$) bedeutet «$A$ oder $D$ oder beide». Sie enthält jedes Ergebnis, das zu mindestens einem der beiden Ereignisse gehört: $A \cup D = \{1, 2, 3, 7\}$.
+- **Schnitt** ($A \cap D$) bedeutet «$A$ und $D$». Er enthält nur Ergebnisse, die beide Ereignisse gemeinsam haben: $A \cap D = \{2, 3\}$.
+- **Komplement** ($A'$) bedeutet «nicht $A$». Es enthält jedes Ergebnis aus $\Omega$, das nicht zu $A$ gehört: $A' = \{4, 5, 6, 7, 8, 9, 10\}$.
+- **Leere Menge** ($\emptyset$) bedeutet, dass kein Ergebnis zum Ereignis gehört. Weil $A$ und $B$ kein Ergebnis gemeinsam haben, gilt $A \cap B = \emptyset$. Ereignisse mit einem leeren Schnitt heissen *disjunkt* oder *einander ausschliessend*.
+
+Eine *Teilmenge* ist eine Menge, deren sämtliche Ergebnisse auch zu einer grösseren Menge gehören. Wir schreiben $C\subseteq D$, wenn jedes Ergebnis aus $C$ ebenfalls zu $D$ gehört. So gehört zum Beispiel jedes Ergebnis aus $A\cap D=\{2,3\}$ auch zu $D$.
+
+| Notation | Gelesen als | Bedeutung für das Gerät mit zehn Ergebnissen |
+|---|---|---|
+| $\omega$ | ein Ergebnis | Eine tatsächlich ausgegebene Zahl, zum Beispiel 7 |
+| $\Omega$ | Ergebnisraum | Alle möglichen Zahlen von 1 bis 10 |
+| $A \cup D$ | $A$ vereinigt mit $D$ | Ergebnisse, die zu mindestens einem Ereignis gehören |
+| $A \cap D$ | $A$ geschnitten mit $D$ | Ergebnisse, die zu beiden Ereignissen gehören |
+| $A'$ | Komplement von $A$ | Ergebnisse in $\Omega$, die nicht zu $A$ gehören |
+| $A \cap D \subseteq D$ | $A$ geschnitten mit $D$ ist eine Teilmenge von $D$ | Jedes gemeinsame Ergebnis gehört auch zu $D$ |
+
+: Ereignisobjekte und Ereignisoperationen. {#tbl-event-notation}
+
+Nutze die Tabelle als Übersetzungshilfe. Die ersten beiden Zeilen benennen die Grundbausteine: ein einzelnes Ergebnis und den vollständigen Ergebnisraum. Die nächsten drei Zeilen verbinden Ergebnisse oder schliessen sie aus. Die letzte Zeile beschreibt eine Enthaltenseinsbeziehung und keine neue Ereignisoperation. Wenn eine spätere Formel abstrakt wirkt, kehre zu den zehn nummerierten Ergebnissen zurück und frage dich, welche Zahlen die Notation auswählt.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Verschiebbare Abbildung von Ereignismengen"}
+
+```{r}
+#| label: fig-event-sets
+#| fig-alt: "Zwei überlappende umrandete Kreise mit den Bezeichnungen Ereignis A und Ereignis B; der gemeinsame Bereich ist als Schnitt gekennzeichnet."
+#| fig-cap: "Mengendarstellung zweier Ereignisse. Die Überlappung gehört zu beiden Ereignissen, während die von mindestens einem Kreis bedeckte Gesamtfläche ihre Vereinigung bildet."
+#| fig-width: 8
+#| fig-height: 4.4
+p_event_sets
+```
+
+:::
+
+Eine solche Darstellung heisst *Venn-Diagramm*. Jeder Kreis stellt ein Ereignis dar, und die Überlappung zeigt Ergebnisse, die zu beiden Ereignissen gehören. Die Kreisgrössen dienen hier lediglich als visuelle Orientierung und dürfen nicht als numerische Wahrscheinlichkeiten gelesen werden.
+
+Die nächste Abbildung wendet jede Operation auf denselben Ergebnisraum mit zehn Ergebnissen an. Die kleinen Buchstaben unter einer Zahl zeigen ihre ursprüngliche Ereigniszugehörigkeit. Eine mit «A, D» markierte Kachel gehört beispielsweise sowohl zu $A$ als auch zu $D$.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Verschiebbare vierteilige Abbildung zu Vereinigung, Schnitt, Komplement und disjunkten Ereignissen"}
+
+```{r}
+#| label: fig-event-operations
+#| fig-alt: "Vier Teilgrafiken verwenden nummerierte Kacheln von eins bis zehn und zeigen die Vereinigung von A und D, ihren Schnitt, das Komplement von A sowie die disjunkten Ereignisse A und B."
+#| fig-cap: "Vier Ereignisoperationen im selben Ergebnisraum. Die Farbe kennzeichnet die Ergebnisse, die zur jeweiligen Operation gehören."
+#| fig-width: 10
+#| fig-height: 6.8
+p_event_operations
+```
+
+:::
+
+Lies die Teilgrafiken in dieser Reihenfolge:
+
+1. Die **Vereinigung** hebt 1, 2, 3 und 7 hervor, weil jede dieser Zahlen zu $A$, zu $D$ oder zu beiden gehört.
+2. Der **Schnitt** hebt nur 2 und 3 hervor, weil $A$ und $D$ genau diese Ergebnisse gemeinsam haben.
+3. Das **Komplement** hebt 4 bis 10 hervor, weil dies alle Ergebnisse aus $\Omega$ sind, die nicht zu $A$ gehören.
+4. Die Teilgrafik zu **disjunkten Ereignissen** verwendet eine Farbe für $A$ und eine andere für $B$. Keine Kachel gehört zu beiden, weshalb ihr Schnitt die leere Menge ist.
+
+Diese Mengenoperationen zeigen, welche Ergebnisse ein Ereignis enthält. Als Nächstes berechnen wir die Wahrscheinlichkeit, die diesen Ergebnissen zugeordnet ist.
+
+Die **Komplementregel** lautet:
+
+$$P(A') = 1 - P(A)$$
+
+Wenn 68% der Studierenden ein Modul bestehen, bestehen es 32% nicht. Die Komplementregel ist besonders nützlich, wenn sich die Wahrscheinlichkeit eines Ereignisses nur schwer direkt, jene seines Gegenteils aber einfach berechnen lässt.
+
+Das Komplement behandelt das Wort «nicht». Nun wenden wir uns Fragen mit «oder» zu, für die wir die Additionsregel benötigen.
+
+---
+
+### Die Additionsregel {.cs-heading}
+
+Um die Wahrscheinlichkeit dafür zu bestimmen, dass mindestens eines von zwei Ereignissen eintritt, verwenden wir die *Additionsregel*. Zwei Ereignisse sind *einander ausschliessend* (disjunkt), wenn sie nicht gleichzeitig eintreten können und ihre Schnittmenge somit leer ist. Für einander ausschliessende Ereignisse gilt:
+
+$$P(A \cup B) = P(A) + P(B)$$
+
+Da keine Überschneidung besteht, ist keine Korrektur nötig. Sind Ereignisse nicht einander ausschliessend, wird die Überschneidung bei einfacher Addition ihrer Wahrscheinlichkeiten doppelt gezählt. Die *allgemeine Additionsregel* korrigiert dies:
+
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+
+Durch Subtraktion von $P(A \cap B)$ wird die doppelte Zählung der zu beiden Ereignissen gehörenden Ergebnisse entfernt.
+
+In beiden Formeln bezeichnet $A\cup B$ das Ereignis «$A$ oder $B$ oder beide», während $A\cap B$ die Überlappung «$A$ und $B$» bezeichnet. Die allgemeine Formel ist der sichere Ausgangspunkt. Die kürzere Formel darf erst verwendet werden, nachdem feststeht, dass die Überlappung die Wahrscheinlichkeit 0 besitzt.
+
+Beispiel
+:   Angenommen, 40% der Studierenden berichten hohe Prüfungsangst, 30% schlechten Schlaf und 12% beides. Die Wahrscheinlichkeit, mindestens eines davon zu berichten, beträgt $0.40 + 0.30 - 0.12 = 0.58$.
+
+Die Additionsregel lässt sich direkt auf mehr als zwei disjunkte Ereignisse erweitern. Wenn $A_1, A_2, \ldots, A_k$ alle einander ausschliessen, hat ihre Vereinigung die Wahrscheinlichkeit:
+
+$$P(A_1 \cup A_2 \cup \cdots \cup A_k) = P(A_1) + P(A_2) + \cdots + P(A_k)$$
+
+Dies gilt nur, wenn alle Ereignispaare disjunkt sind. Sobald zwei Ereignisse gemeinsame Ergebnisse haben, muss die allgemeine Additionsregel verwendet werden.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+
+**Gegenseitiger Ausschluss und Unabhängigkeit beantworten unterschiedliche Fragen.** Schliessen sich zwei Ereignisse mit Wahrscheinlichkeiten grösser als null gegenseitig aus, folgt aus dem Eintreten des einen mit Sicherheit, dass das andere nicht eingetreten ist. Dadurch sind die Ereignisse abhängig. Gegenseitiger Ausschluss fragt, ob Ereignisse gemeinsam eintreten können. Unabhängigkeit fragt, ob das Eintreten des einen die Wahrscheinlichkeit des anderen verändert.
+:::
+
+Die Additionsregel beantwortet eine «oder»-Frage. Eine «und»-Frage benötigt eine Multiplikation, und eine Frage mit «gegeben, dass» benötigt eine bedingte Wahrscheinlichkeit. Diese beiden Ideen folgen nun.
+
+---
+
+### Bedingte Wahrscheinlichkeit und Unabhängigkeit {.cs-heading}
+
+Die *bedingte Wahrscheinlichkeit* ist die Wahrscheinlichkeit eines Ereignisses, nachdem wir unsere Betrachtung auf jene Fälle eingeschränkt haben, bei denen ein anderes Ereignis eingetreten ist. Der senkrechte Strich in $P(A\mid B)$ wird als «gegeben» gelesen. $P(A\mid B)$ bedeutet somit «die Wahrscheinlichkeit von $A$, gegeben, dass $B$ eingetreten ist».
+
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$
+
+Dabei gilt:
+
+- $P(A \mid B)$ = Wahrscheinlichkeit von $A$ unter der Voraussetzung, dass $B$ eingetreten ist
+- $P(A \cap B)$ = Wahrscheinlichkeit, dass sowohl $A$ als auch $B$ eintreten
+- $P(B)$ = Wahrscheinlichkeit, dass $B$ eintritt (muss grösser als null sein)
+
+Der Nenner $P(B)$ ist entscheidend, weil $B$ zur neuen Bezugsgruppe wird. Innerhalb dieser kleineren Gruppe bezeichnet der Zähler $P(A\cap B)$ jene Fälle, die zusätzlich zu $A$ gehören. Die Bedingung $P(B)>0$ bedeutet lediglich, dass die Bezugsgruppe nicht leer sein darf.
+
+Die Komplementregel funktioniert auch innerhalb einer Bedingung, doch die Bedingung muss gleich bleiben:
+
+$$P(A'\mid B)=1-P(A\mid B).$$
+
+Wenn 60% der Fälle in Gruppe $B$ zu $A$ gehören, gehören die verbleibenden 40% derselben Gruppe zu $A'$. Eine Änderung von $B$ würde die Bezugsgruppe verändern und damit eine andere Frage beantworten.
+
+Durch Umstellen der Definition ergibt sich die **Multiplikationsregel** in allgemeiner Form:
+
+$$P(A \cap B) = P(A \mid B) \cdot P(B)$$
+
+Bei drei aufeinanderfolgenden Ereignissen wenden wir dieselbe Überlegung Stufe für Stufe an:
+
+$$P(A \cap B \cap C) = P(A)P(B \mid A)P(C \mid A \cap B).$$
+
+Angenommen, ein geeigneter Archivdatensatz wird mit Wahrscheinlichkeit 0.72 gefunden. Unter den gefundenen Datensätzen beträgt die Wahrscheinlichkeit eines brauchbaren Scans 0.80. Unter den Datensätzen, die gefunden wurden und brauchbar sind, beträgt die Wahrscheinlichkeit einer erfolgreichen Metadatenprüfung 0.85. Die Wahrscheinlichkeit für die vollständige Kette ist $0.72 \times 0.80 \times 0.85 = 0.4896$. Jede Wahrscheinlichkeit wird innerhalb jener Gruppe interpretiert, die die vorherige Stufe erreicht hat.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Verschiebbare Abbildung einer Kette bedingter Wahrscheinlichkeiten"}
+
+```{r}
+#| label: fig-probability-chain
+#| fig-alt: "Eine dreistufige Wahrscheinlichkeitskette verläuft von links nach rechts vom Start über gefundener Datensatz und brauchbarer Scan zu geprüften Metadaten; über den Pfeilen stehen die bedingten Wahrscheinlichkeiten 0.72, 0.80 und 0.85."
+#| fig-cap: "Dreistufige Kettenregel. Jeder Pfeil wird innerhalb jener Gruppe interpretiert, welche die vorherige Stufe erreicht hat."
+#| fig-width: 10
+#| fig-height: 3.2
+p_probability_chain
+```
+
+:::
+
+Lies die Pfeile von links nach rechts. Die Multiplikation aller drei Werte folgt einem vollständigen Erfolgspfad. Wenn die letzte Erfolgswahrscheinlichkeit durch $1-0.85$ ersetzt wird, beschreibt der Ausdruck stattdessen einen Erfolg auf den ersten beiden Stufen und einen Misserfolg auf der dritten.
+
+Zwei Ereignisse sind *unabhängig*, wenn das Wissen über das Eintreten des einen keine Information darüber liefert, ob das andere eintritt. Die allgemeine Definition lautet:
+
+$$P(A \cap B) = P(A) \cdot P(B)$$
+
+Wenn die betreffenden Bedingungen positive Wahrscheinlichkeit besitzen, bedeutet Unabhängigkeit auch $P(B\mid A)=P(B)$. In Worten: Die Einschränkung auf die Fälle in $A$ verändert die Wahrscheinlichkeit von $B$ nicht.
+
+Beispiel
+:   Betrachte zwei getrennte Würfe einer fairen Münze. Das Ergebnis des ersten Wurfs verändert die Wahrscheinlichkeit für Kopf beim zweiten Wurf nicht. Wenn $A$ «Kopf beim ersten Wurf» und $B$ «Kopf beim zweiten Wurf» bedeutet, gilt $P(B\mid A)=P(B)=0.50$.
+
+#### Eine Tabelle, mehrere Wahrscheinlichkeitsfragen
+
+Die folgende Tabelle erfasst das Format eines Tutorats und ob ein Übungsset eingereicht wurde. Damit lassen sich drei Arten von Wahrscheinlichkeit vergleichen. Eine *Randwahrscheinlichkeit* verwendet eine Zeilen- oder Spaltensumme und beschreibt ein Ereignis ohne zusätzliche Bedingung. Eine *gemeinsame Wahrscheinlichkeit* beschreibt zwei gleichzeitig eintretende Ereignisse. Eine *bedingte Wahrscheinlichkeit* beschränkt den Nenner auf eine Zeilen- oder Spaltengruppe.
+
+| Tutoratsformat | Eingereicht | Nicht eingereicht | Gesamt |
+|---|---:|---:|---:|
+| Live | 30 | 20 | 50 |
+| Aufgezeichnet | 20 | 30 | 50 |
+| Gesamt | 50 | 50 | 100 |
+
+: Tutoratsformat und Einreichung eines Übungssets in einer beispielhaften Stichprobe. {#tbl-contingency-probabilities}
+
+Beginne mit der Frage und wähle danach den Nenner. Die Randwahrscheinlichkeit einer Einreichung ist $50/100=0.50$, weil alle 100 Studierenden die Bezugsgruppe bilden. Die gemeinsame Wahrscheinlichkeit eines Live-Tutorats und einer Einreichung ist $30/100=0.30$, wiederum bezogen auf alle 100 Studierenden. Die bedingte Wahrscheinlichkeit einer Einreichung gegeben ein Live-Tutorat ist $30/50=0.60$, weil nun nur die 50 Studierenden im Live-Tutorat die Bezugsgruppe bilden. Bei aufgezeichneten Tutoraten beträgt sie $20/50=0.40$. Da sich die bedingten Wahrscheinlichkeiten unterscheiden, sind Tutoratsformat und Einreichung in dieser Tabelle nicht unabhängig. Sie sind auch nicht disjunkt, weil 30 Studierende sowohl zum Live- als auch zum Eingereicht-Ereignis gehören.
+
+Die Symbole $A\subseteq B$ bedeuten, dass jedes Ergebnis in $A$ auch zu $B$ gehört. In diesem Fall gilt $P(A)\leq P(B)$: Ein kleineres Ereignis kann nicht wahrscheinlicher sein als das Ereignis, das es enthält. «Bei einem Datensatz fehlen sowohl Urheber als auch Datum» ist beispielsweise in «Bei einem Datensatz fehlt der Urheber» enthalten. Eine zusätzliche Anforderung kann die Wahrscheinlichkeit nur unverändert lassen oder verkleinern.
+
+| Worte in der Frage | Ereignisnotation | Zuerst zu prüfende Regel |
+|---|---|---|
+| nicht $A$ | $A'$ | Komplement |
+| $A$ oder $B$ oder beide | $A\cup B$ | Addition |
+| $A$ und $B$ | $A\cap B$ | Multiplikation |
+| $A$, gegeben $B$ | $P(A\mid B)$ | Bedingte Wahrscheinlichkeit |
+
+: Übersetzung häufiger Frageformulierungen in Ereignisnotation. {#tbl-event-question-language}
+
+Diese Regeln führen von bekannten Wahrscheinlichkeiten in derselben Richtung wie die Frage zu einer neuen Wahrscheinlichkeit. Manchmal kennen wir jedoch $P(B\mid A)$ und benötigen die umgekehrte Wahrscheinlichkeit $P(A\mid B)$. Der Satz von Bayes ermöglicht diese Umkehrung.
+
+---
+
+### Satz von Bayes {.cs-heading}
+
+Der Satz von Bayes verbindet zwei bedingte Wahrscheinlichkeiten, die in entgegengesetzte Richtungen zeigen. Er ist nützlich, wenn wir $P(B\mid A)$ kennen, die Frage aber nach $P(A\mid B)$ verlangt.
+
+$$P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B \mid A) \cdot P(A) + P(B \mid A') \cdot P(A')}$$
+
+Lies die Formel Stück für Stück:
+
+- $P(A)$ ist die Wahrscheinlichkeit von $A$, bevor wir die Information verwenden, dass $B$ eingetreten ist,
+- $P(B\mid A)$ ist die Wahrscheinlichkeit von $B$ unter den Fällen, bei denen $A$ eintritt,
+- $P(B\mid A')$ ist die Wahrscheinlichkeit von $B$ unter den Fällen, bei denen $A$ nicht eintritt, und
+- $P(A\mid B)$ ist die gesuchte Wahrscheinlichkeit: die Wahrscheinlichkeit von $A$ unter den Fällen, bei denen $B$ eingetreten ist.
+
+Der Nenner enthält alle Möglichkeiten, wie $B$ eintreten kann. Er addiert den Pfad über $A$ und den Pfad über $A'$. Diese Addition heisst *Satz der totalen Wahrscheinlichkeit*. Der Zähler behält nur den Pfad bei, auf dem sowohl $A$ als auch $B$ eintreten.
+
+Eine typische Anwendung in Psychologie und Medizin verwendet die Begriffe diagnostischer Tests. Es sei $A$ = «Störung liegt vor» und $B$ = «Test ist positiv».
+
+- $P(A)$ ist die *Prävalenz*: der Anteil der Grundgesamtheit, bei dem die Störung vor dem Test vorliegt,
+- $P(B \mid A)$ ist die *Sensitivität*: der Anteil der Personen mit Störung, die ein positives Ergebnis erhalten,
+- $P(B' \mid A')$ ist die *Spezifität*: der Anteil der Personen ohne Störung, die ein negatives Ergebnis erhalten, und
+- $P(B \mid A')=1-P(B'\mid A')$ ist die *Falsch-positiv-Wahrscheinlichkeit*: der Anteil der Personen ohne Störung, die dennoch ein positives Ergebnis erhalten.
+
+Angenommen, die Prävalenz beträgt 3%, die Sensitivität 90% und die Spezifität 85%. Die Wahrscheinlichkeit des Pfads «Störung vorhanden und positiv» ist $0.03\times0.90=0.027$. Die Wahrscheinlichkeit des Pfads «Störung nicht vorhanden und positiv» ist $0.97\times0.15=0.1455$. Damit gilt
+
+$$P(A\mid B)=\frac{0.027}{0.027+0.1455}\approx0.157.$$
+
+Unter Personen mit einem positiven Ergebnis ist unter diesen Annahmen bei ungefähr 15.7% eine Störung zu erwarten. Das Ergebnis liegt weit unter der Sensitivität von 90%, weil die Störung selten ist und auch die viel grössere Gruppe ohne Störung einige positive Ergebnisse hervorbringt.
+
+Mit 10 000 hypothetischen Personen wird dieselbe Berechnung anschaulich. Die folgenden Häufigkeiten sind Erwartungswerte unter den angegebenen Raten und keine beobachteten klinischen Daten.
+
+| Zustand | Positives Ergebnis | Negatives Ergebnis | Gesamt |
+|---|---:|---:|---:|
+| Vorhanden | 270 | 30 | 300 |
+| Nicht vorhanden | 1 455 | 8 245 | 9 700 |
+| Gesamt | 1 725 | 8 275 | 10 000 |
+
+: Darstellung des Bayes-Beispiels mit natürlichen Häufigkeiten. {#tbl-bayes-natural-frequencies}
+
+Die Tabelle drückt dieselbe Berechnung als Häufigkeiten aus. Von 10 000 hypothetischen Personen haben erwartungsgemäss 300 die Störung, und $0.90\times300=270$ davon erhalten erwartungsgemäss ein positives Ergebnis. Unter den 9 700 Personen ohne Störung erhalten erwartungsgemäss $0.15\times9700=1455$ ein positives Ergebnis. Insgesamt entstehen daher $270+1455=1725$ positive Ergebnisse und $P(A\mid B)=270/1725\approx0.1565$.
+
+Die Tabelle enthält alle vier Häufigkeiten. Der Satz von Bayes lässt sich jedoch leichter behalten, wenn wir zusätzlich verfolgen, wie diese Häufigkeiten entstanden sind. Das nächste Diagramm macht die Pfade im Nenner sichtbar.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollbares Bayes-Baumdiagramm von einer hypothetischen Grundgesamtheit über den Zustand zum Testergebnis"}
+
+```{r}
+#| label: fig-bayes-tree
+#| fig-alt: "Ein verzweigtes Diagramm beginnt mit zehntausend hypothetischen Personen. Es trennt dreihundert Personen mit Störung von neuntausendsiebenhundert Personen ohne Störung und teilt beide Gruppen danach in positive und negative Ergebnisse. Die beiden positiven Pfade enthalten zweihundertsiebzig richtig positive und eintausendvierhundertfünfundfünfzig falsch positive Ergebnisse, die zusammen eintausendsiebenhundertfünfundzwanzig positive Ergebnisse ergeben."
+#| fig-cap: "Jeder Pfad zu einem positiven Ergebnis gehört in den Nenner des Satzes von Bayes; der Zähler behält nur den positiven Pfad über die vorhandene Störung."
+#| fig-width: 11
+#| fig-height: 6.2
+p_bayes_tree
+```
+
+:::
+
+Beginne beim Kasten ganz links. Das erste Pfeilpaar verwendet die Prävalenz, um die 10 000 Personen in 300 Personen mit Störung und 9 700 Personen ohne Störung aufzuteilen. Die nächsten Pfeile wenden die Sensitivität innerhalb der Gruppe mit Störung und die Spezifität innerhalb der Gruppe ohne Störung an. Jede Prozentangabe wird somit innerhalb jener Gruppe gelesen, die den betreffenden Ast erreicht hat, und nicht als Anteil aller 10 000 Personen.
+
+Verfolge nun nur die beiden orangefarbenen Kästen mit positivem Ergebnis. Sie enthalten 270 richtig positive und 1 455 falsch positive Ergebnisse. Beide Pfade müssen in den Nenner eingehen, weil beide zur beobachteten Information führen, nämlich zu einem positiven Ergebnis. Der Zähler behält die 270 Personen, die über den Pfad mit vorhandener Störung zu einem positiven Ergebnis gelangten. Der abschliessende Vergleich lautet daher $270/(270+1455)=270/1725\approx0.157$.
+
+Die Kästen zeigen, weshalb eine hohe Sensitivität nach einem positiven Ergebnis keine hohe Wahrscheinlichkeit für das Vorliegen der Störung garantiert. Sie beschreiben kein reales Screeningprogramm und belegen nicht, dass diese Raten für eine bestimmte Grundgesamtheit gelten. Ändern sich Prävalenz, Sensitivität oder Spezifität, verändern sich auch die Häufigkeiten auf den Ästen und die abschliessende Wahrscheinlichkeit.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Verschiebbare Abbildung zum Einfluss der Basisrate bei Bayes"}
+
+```{r}
+#| label: fig-bayes-base-rates
+#| fig-alt: "Säulendiagramm, das unter zehntausend hypothetischen Personen 270 erwartete richtig positive mit 1455 erwarteten falsch positiven Ergebnissen vergleicht."
+#| fig-cap: "Positive Ergebnisse nach Zustand im Bayes-Beispiel mit natürlichen Häufigkeiten."
+#| fig-width: 8
+#| fig-height: 5
+p_bayes_base_rates
+```
+
+:::
+
+Die Säule der falsch positiven Ergebnisse ist nicht deshalb höher, weil die Sensitivität niedrig wäre, sondern weil die Gruppe ohne Störung sehr viel grösser ist. Gemeinsam bilden die beiden Säulen den Nenner des Satzes von Bayes: alle positiven Ergebnisse, unabhängig davon, auf welchem Pfad sie entstanden sind.
+
+::: {.callout-tip title="Kernidee"}
+
+**Die Basisrate ist wichtig:** Hier ist die Prävalenz die Ausgangswahrscheinlichkeit oder *Basisrate*. Die Sensitivität allein kann die Frage «Wie wahrscheinlich ist die Störung nach einem positiven Ergebnis?» nicht beantworten. Prävalenz, Sensitivität und Spezifität müssen gemeinsam verwendet werden.
+:::
+
+Bisher waren Ereignisse Gruppen wie «positives Ergebnis» oder «hohe Prüfungsangst». Nun gehen wir von Ereignisbezeichnungen zu numerischen Ergebnissen über. Dafür brauchen wir die Idee einer Zufallsvariablen.
+
+---
+
+### Zufallsvariablen {.cs-heading}
+
+In der Wahrscheinlichkeitsrechnung ordnet eine *Zufallsvariable* jedem möglichen Ergebnis eines Zufallsexperiments eine Zahl zu. Bei einem Münzwurf könnten wir Kopf als 1 und Zahl als 0 codieren. Bei einem Würfelwurf kann die Zahl auf der Oberseite den Wert der Zufallsvariablen bilden. Wir verwenden den Grossbuchstaben $X$ für die Zufallsvariable und den Kleinbuchstaben $x$ für einen möglichen numerischen Wert, den sie annehmen kann.
+
+**Diskrete Zufallsvariablen** können nur getrennte, abzählbare Werte annehmen. Die Anzahl Erfolge bei mehreren Versuchen ist diskret: Sie kann 0, 1, 2, 3 und so weiter betragen, aber nicht 2.7. Jeder mögliche Wert kann eine eigene positive Wahrscheinlichkeit haben, und alle diese Wahrscheinlichkeiten summieren sich zu 1.
+
+**Stetige Zufallsvariablen** können grundsätzlich jeden Wert innerhalb eines Bereichs annehmen, einschliesslich Werten zwischen zwei angezeigten Zahlen. Ihre Wahrscheinlichkeiten werden Intervallen und nicht einzelnen exakten Punkten zugeordnet. Nach den diskreten Variablen kommen wir auf diese Unterscheidung zurück.
+
+Jede Zufallsvariable besitzt eine *Wahrscheinlichkeitsverteilung*. Sie ist eine idealisierte Beschreibung davon, welche Werte möglich sind und wie sich die Wahrscheinlichkeit auf sie verteilt. Bei einer diskreten Variablen listen wir Wahrscheinlichkeiten für einzelne Werte auf. Bei einer stetigen Variablen verwenden wir eine Dichtekurve und berechnen Flächen.
+
+Wir beginnen mit dem diskreten Fall, weil seine Wahrscheinlichkeiten Wert für Wert dargestellt werden können.
+
+---
+
+### Diskrete Zufallsvariablen: Erwartungswert, Varianz und Verteilungsfunktion {.cs-heading}
+
+Für eine diskrete Zufallsvariable $X$ sind drei Grössen besonders wichtig.
+
+Der *Erwartungswert* oder Mittelwert von $X$, geschrieben als $E(X)$, ist der mit den Wahrscheinlichkeiten gewichtete Mittelwert aller möglichen Werte:
+
+$$E(X) = \sum_{x} x \cdot P(X = x)$$
+
+Lies die Formel so:
+
+- $\sum_x$ bedeutet «addiere einen Term für jeden möglichen Wert $x$»,
+- $x$ ist ein möglicher Wert von $X$ und
+- $P(X=x)$ ist die diesem Wert zugeordnete Wahrscheinlichkeit.
+
+Der Erwartungswert beschreibt das langfristige durchschnittliche Ergebnis über viele Wiederholungen des Experiments. Er muss kein Wert sein, den $X$ tatsächlich annehmen kann: Bei einem fairen Würfel gilt $E(X) = 3.5$, obwohl der Würfel nie 3.5 zeigt.
+
+Die *Varianz* von $X$ misst, wie stark die Verteilung um ihren Erwartungswert streut:
+
+$$\text{Var}(X) = \sum_{x} (x - E(X))^2 \cdot P(X = x)$$
+
+Für jeden möglichen Wert ist $x-E(X)$ sein Abstand vom Erwartungswert. Durch Quadrieren tragen negative und positive Abstände positiv bei. Die Multiplikation mit $P(X=x)$ gewichtet Werte stärker, die häufiger auftreten, und $\sum_x$ addiert die gewichteten quadrierten Abstände. Die Standardabweichung ist $\text{SD}(X)=\sqrt{\text{Var}(X)}$ und bringt die Streuung wieder in die ursprüngliche Einheit von $X$.
+
+Eine *Wahrscheinlichkeitsfunktion* (PMF) ordnet jedem einzelnen Wert einer diskreten Zufallsvariablen eine Wahrscheinlichkeit zu. Eine *kumulative Verteilungsfunktion* (CDF) addiert dagegen die Wahrscheinlichkeiten bis zu einem ausgewählten Wert. *Kumulativ* bedeutet, dass die Summe beim Weg von kleineren zu grösseren Werten schrittweise aufgebaut wird. Die CDF wird geschrieben als
+
+$$F(x) = P(X \leq x)$$
+
+Hier ist $F(x)$ die kumulative Wahrscheinlichkeit bei $x$, und das Symbol $\leq$ bedeutet «kleiner oder gleich». Eine CDF kann nicht abnehmen, weil sie bei einem grösseren $x$ alle früheren Wahrscheinlichkeiten behält und allenfalls weitere hinzufügt.
+
+Betrachte ein neu entwickeltes Beispiel, in dem $X$ die Anzahl Rückfragen zu einem zufällig ausgewählten Archivfall bezeichnet.
+
+| $x$ | 0 | 1 | 2 | 4 |
+|---|---:|---:|---:|---:|
+| $P(X=x)$ | 0.10 | 0.35 | 0.40 | 0.15 |
+| $F(x)=P(X\leq x)$ | 0.10 | 0.45 | 0.85 | 1.00 |
+
+: Rechenbeispiel für Wahrscheinlichkeitsfunktion und kumulative Verteilungsfunktion. {#tbl-discrete-worked-example}
+
+Die Zeile der PMF enthält nichtnegative Wahrscheinlichkeiten, die sich zu 1 summieren. Die CDF-Zeile wird von links nach rechts aufgebaut. Beispielsweise gilt $F(2)=0.10+0.35+0.40=0.85$. Der Erwartungswert lautet
+
+$$E(X)=0(0.10)+1(0.35)+2(0.40)+4(0.15)=1.75.$$
+
+Für eine kürzere Varianzberechnung bestimmen wir zuerst den erwarteten quadrierten Wert:
+
+$$E(X^2)=0^2(0.10)+1^2(0.35)+2^2(0.40)+4^2(0.15)=4.35.$$
+
+Danach verwenden wir $\operatorname{Var}(X)=E(X^2)-[E(X)]^2$. Das ergibt $4.35-1.75^2=1.2875$. Diese Abkürzung ist algebraisch gleichwertig mit der obigen Varianzformel.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Verschiebbare Abbildung zu Wahrscheinlichkeitsfunktion und kumulativer Verteilungsfunktion"}
+
+```{r}
+#| label: fig-pmf-cdf
+#| fig-alt: "Zwei Teilgrafiken derselben diskreten Verteilung: einzelne Wahrscheinlichkeitsmassen bei null, eins, zwei und vier sowie eine kumulative Treppenfunktion, die bis eins ansteigt."
+#| fig-cap: "Wahrscheinlichkeitsmasse und kumulative Wahrscheinlichkeit für die diskrete Beispielverteilung."
+#| fig-width: 9
+#| fig-height: 4.8
+p_pmf_cdf
+```
+
+:::
+
+Vergleiche die Höhe bei $x=2$ in beiden Teilgrafiken. Die PMF-Höhe 0.40 ist die Wahrscheinlichkeit für genau zwei Rückfragen. Die CDF-Höhe 0.85 ist dagegen die Wahrscheinlichkeit für höchstens zwei Rückfragen. Eine CDF kann nie abnehmen, weil sie die zuvor angesammelte Wahrscheinlichkeit beibehält.
+
+Die nächste Verteilung ist ein besonderes diskretes Modell für wiederholte Versuche mit genau zwei möglichen Ergebnissen pro Versuch.
+
+---
+
+### Die Binomialverteilung {.cs-heading}
+
+Die *Binomialverteilung* modelliert eine Anzahl Erfolge über wiederholte Versuche. Ein *Versuch* ist eine Wiederholung des Vorgangs, zum Beispiel ein einzelner Münzwurf oder eine beantwortete Frage. «Erfolg» bezeichnet hier einfach das Ergebnis, das wir zählen möchten, und muss nichts Wünschenswertes sein.
+
+Die Notation $X\sim B(n,\pi)$ wird gelesen als «$X$ folgt einer Binomialverteilung mit den Parametern $n$ und $\pi$». Dabei gilt:
+
+- $X$ ist die Gesamtzahl der Erfolge,
+- $n$ ist die feste Anzahl Versuche und
+- $\pi$, der griechische Buchstabe Pi, ist die Erfolgswahrscheinlichkeit bei jedem Versuch.
+
+Die Wahrscheinlichkeit für genau $x$ Erfolge in $n$ Versuchen beträgt:
+
+$$P(X = x) = \binom{n}{x} \pi^x (1-\pi)^{n-x}$$
+
+Die Formel verbindet drei Bestandteile:
+
+- $\binom{n}{x}$, der *Binomialkoeffizient*, zählt, wie viele verschiedene Anordnungen unter $n$ Versuchen genau $x$ Erfolge enthalten,
+- $\pi^x$ ist der Wahrscheinlichkeitsbeitrag der $x$ Erfolge und
+- $(1-\pi)^{n-x}$ ist der Wahrscheinlichkeitsbeitrag der verbleibenden $n-x$ Misserfolge.
+
+Der Koeffizient ist $\binom{n}{x}=\dfrac{n!}{x!(n-x)!}$. Das Ausrufezeichen bezeichnet eine *Fakultät*: $n!=n\cdot(n-1)\cdots2\cdot1$, und $0!=1$. Du musst nicht jede mögliche Reihenfolge von Hand auflisten, weil der Koeffizient sie für dich zählt.
+
+Rechenbeispiel
+:   Sei $X\sim B(4,0.25)$. Für genau zwei Erfolge gilt
+
+    $$P(X=2)=\binom{4}{2}(0.25)^2(0.75)^2=6(0.0625)(0.5625)\approx0.211.$$
+
+    Das Symbol $\approx$ zeigt, dass das dargestellte Ergebnis gerundet ist. Für «mindestens einen Erfolg» ist das Komplement kürzer als die Addition von vier einzelnen Wahrscheinlichkeiten:
+
+    $$P(X\geq1)=1-P(X=0)=1-(0.75)^4\approx0.684.$$
+
+    Das Ereignis «keine Erfolge» ist das Komplement von «mindestens ein Erfolg».
+
+Erwartungswert und Varianz einer binomialverteilten Zufallsvariablen lauten:
+
+$$E(X) = n\pi \qquad \text{Var}(X) = n\pi(1-\pi)$$
+
+Ein einzelner Versuch hat zwei Kategorien, Erfolg und Misserfolg. Die binomiale Zufallsvariable ist die *Anzahl über alle Versuche*, weshalb sie die Werte $0,1,\ldots,n$ annehmen kann. Bei zwei Münzwürfen kann die Anzahl Kopf zum Beispiel 0, 1 oder 2 betragen.
+
+Beispiel
+:   Eine Hochschulprüfung enthält 10 Multiple-Choice-Fragen mit jeweils vier Antwortmöglichkeiten, von denen nur eine richtig ist. Bei zufälligem Raten beträgt die Erfolgswahrscheinlichkeit pro Frage $\pi = 0.25$. Die Anzahl richtiger Antworten folgt $B(10, 0.25)$. Der Erwartungswert beträgt $E(X) = 10 \times 0.25 = 2.5$, und $\text{Var}(X) = 10 \times 0.25 \times 0.75 = 1.875$.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+
+**Prüfe vor der Verwendung des Binomialmodells vier Bedingungen:** (1) Die Anzahl Versuche $n$ steht im Voraus fest; (2) jeder Versuch wird genau einem von zwei Ergebnissen zugeordnet, Erfolg oder Misserfolg; (3) die Erfolgswahrscheinlichkeit $\pi$ bleibt von Versuch zu Versuch gleich; und (4) die Versuche sind unabhängig, das Ergebnis eines Versuchs verändert also die Erfolgswahrscheinlichkeit eines anderen Versuchs nicht.
+
+Eine verbreitete Warnung betrifft die Auswahl aus einer kleinen, begrenzten Grundgesamtheit. *Ziehen ohne Zurücklegen* bedeutet, dass eine einmal ausgewählte Einheit nicht erneut ausgewählt werden kann. Jede Auswahl verändert dadurch die verbleibenden Einheiten. Die Erfolgswahrscheinlichkeit kann sich ändern, und die Auswahlen sind nicht mehr unabhängig. Das Binomialmodell darf nur verwendet werden, wenn diese Veränderungen für die modellierte Situation vernachlässigbar sind.
+:::
+
+| Formulierung der Frage | Wahrscheinlichkeitsaussage | Effiziente Berechnung |
+|---|---|---|
+| Genau $k$ | $P(X=k)$ | Eine binomiale Einzelwahrscheinlichkeit |
+| Höchstens $k$ | $P(X\leq k)$ | Kumulative Summe von 0 bis $k$ |
+| Weniger als $k$ | $P(X<k)$ | $P(X\leq k-1)$ |
+| Mindestens $k$ | $P(X\geq k)$ | $1-P(X\leq k-1)$ |
+| Mehr als $k$ | $P(X>k)$ | $1-P(X\leq k)$ |
+
+: Übersetzung häufiger Formulierungen binomialer Fragen in Wahrscheinlichkeitsaussagen. {#tbl-binomial-question-language}
+
+Lies die fünf Zeilen, indem du sowohl die Seite der Grenze als auch die Einbeziehung der Grenze prüfst. **Genau $k$** wählt nur die einzelne Anzahl $k$. **Höchstens $k$** ist die untere Seite einschliesslich $k$, weshalb die kumulative Summe von 0 bis $k$ reicht. **Weniger als $k$** ist die untere Seite ohne $k$, weshalb die Summe bei $k-1$ endet. **Mindestens $k$** ist die obere Seite einschliesslich $k$; ihr Komplement enthält nur Werte unter $k$, also 0 bis $k-1$. **Mehr als $k$** ist die obere Seite ohne $k$; ihr Komplement enthält alle Werte bis einschliesslich $k$. Diese sprachlichen Unterschiede entscheiden, ob der Grenzwert zur Wahrscheinlichkeit gehört.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Verschiebbare Abbildung zu den Formen der Binomialverteilung"}
+
+```{r}
+#| label: fig-binomial-shape-grid
+#| fig-alt: "Drei Säulendiagramme binomialer Wahrscheinlichkeiten für zwölf Versuche und Erfolgswahrscheinlichkeiten von 0.20, 0.50 und 0.80; sie zeigen entsprechend Rechtsschiefe, Symmetrie und Linksschiefe."
+#| fig-cap: "Form der Binomialverteilung bei einer festen Anzahl Versuche und drei Erfolgswahrscheinlichkeiten."
+#| fig-width: 10
+#| fig-height: 4.5
+p_binomial_shape
+```
+
+:::
+
+Alle drei Teilgrafiken verwenden $n=12$, weshalb jede horizontale Achse von 0 bis 12 Erfolge reicht. Bei $\pi=0.20$ sind kleine Anzahlen am wahrscheinlichsten, und die Säulen laufen zu grösseren Anzahlen hin aus. Bei $\pi=0.50$ ist die Verteilung um 6 symmetrisch. Bei $\pi=0.80$ sind grosse Anzahlen am wahrscheinlichsten. Die erwartete Anzahl $n\pi$ verschiebt sich mit steigender Erfolgswahrscheinlichkeit von 2.4 über 6 zu 9.6.
+
+Die Binomialverteilung beschreibt getrennte Anzahlen. Nun wechseln wir zu stetigen Werten, bei denen Wahrscheinlichkeit durch Flächen statt durch einzelne Säulen dargestellt wird.
+
+---
+
+### Stetige Zufallsvariablen und die Normalverteilung {.cs-heading}
+
+Stetige Zufallsvariablen können jeden Wert innerhalb eines Bereichs annehmen. Weil es unendlich viele mögliche Werte gibt, weisen wir einem einzelnen exakten Punkt keine positive Wahrscheinlichkeit zu. Stattdessen zeichnet eine *Dichtefunktion* $f(x)$ eine Kurve, und Wahrscheinlichkeit wird durch die Fläche unter dieser Kurve über einem Intervall dargestellt.
+
+| Verteilungsobjekt | Diskrete Variable | Stetige Variable |
+|---|---|---|
+| Grundfunktion | PMF $p(x)=P(X=x)$ | Dichte $f(x)$ |
+| Wahrscheinlichkeit bei einem exakten Wert | Kann positiv sein | $P(X=x)=0$ |
+| Intervallwahrscheinlichkeit | Summe der enthaltenen Einzelwahrscheinlichkeiten | Fläche $\int_a^b f(x)\,dx$ |
+| Gesamtwahrscheinlichkeit | $\sum_x p(x)=1$ | $\int_{-\infty}^{\infty} f(x)\,dx=1$ |
+| CDF | $F(x)=\sum_{t\leq x}p(t)$ | $F(x)=\int_{-\infty}^{x}f(t)\,dt$ |
+
+: Wahrscheinlichkeitsfunktionen für diskrete und stetige Variablen. {#tbl-distribution-objects}
+
+Lies die beiden Spalten nebeneinander. In der diskreten Spalte liegt Wahrscheinlichkeit auf getrennten möglichen Werten und kann addiert werden. In der stetigen Spalte verteilt sich Wahrscheinlichkeit über ein Intervall und muss als Fläche gelesen werden. Beide Spalten erfüllen weiterhin dieselben zwei Bedingungen: Die Gesamtwahrscheinlichkeit ist 1, und die CDF hält fest, wie viel Wahrscheinlichkeit sich bis zu einer gewählten Grenze angesammelt hat.
+
+Das Integralzeichen $\int$ bedeutet «Fläche ansammeln». In $\int_a^b f(x)\,dx$ sind $a$ und $b$ die untere und obere Intervallgrenze, $f(x)$ gibt die Kurvenhöhe an und $dx$ zeigt, dass die Fläche über Werte von $x$ angesammelt wird. Der Ausdruck $\int_{-\infty}^{\infty}f(x)\,dx=1$ besagt, dass die Gesamtfläche unter einer Dichtekurve 1 ist. $-\infty$ und $\infty$ bedeuten hier, dass der gesamte mögliche Wertebereich einbezogen wird.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Verschiebbare Abbildung einer stetigen Dichte"}
+
+```{r}
+#| label: fig-density-interval
+#| fig-alt: "Eine symmetrische glockenförmige Dichtekurve mit einer markierten Fläche zwischen minus 0.75 und 1.25; beide Intervallgrenzen sind durch gestrichelte Linien gekennzeichnet."
+#| fig-cap: "Eine stetige Wahrscheinlichkeit wird durch eine markierte Fläche über einem Intervall dargestellt."
+#| fig-width: 8
+#| fig-height: 4.6
+p_density_interval
+```
+
+:::
+
+Die Kurvenhöhe zeigt, wo Werte dichter konzentriert sind, ist allein aber noch keine Wahrscheinlichkeit. Die markierte *Fläche* ist die Wahrscheinlichkeit. Eine Veränderung einer Intervallgrenze verändert die Fläche. Ob ein einzelner exakter Endpunkt ein- oder ausgeschlossen wird, verändert eine stetige Wahrscheinlichkeit nicht, weil ein einzelner Punkt die Wahrscheinlichkeit 0 besitzt.
+
+Bei einer stetigen Verteilung bezeichnet $\mu$ (Mu) den Erwartungswert und $\sigma^2$ (Sigma zum Quadrat) die Varianz. Die CDF $F(x)=P(X\leq x)$ gibt die Fläche links von $x$ an. Ein *Quantil* kehrt diese Frage um: Es beginnt mit einem kumulativen Anteil wie 0.99 und sucht die Grenze, links von der dieser Flächenanteil liegt.
+
+Erwartungswert und Varianz verwenden dieselben Ideen wie bei einer diskreten Variablen. Eine stetige Dichte benötigt aber Flächen statt einzelner Wahrscheinlichkeitsmassen:
+
+$$E(X)=\int_{-\infty}^{\infty}x f(x)\,dx$$
+
+$$\operatorname{Var}(X)=\int_{-\infty}^{\infty}[x-E(X)]^2 f(x)\,dx.$$
+
+In der ersten Formel wird jeder mögliche Wert $x$ durch die Dichte in seiner Umgebung gewichtet. In der zweiten wird jeder quadrierte Abstand vom Erwartungswert auf dieselbe Weise gewichtet. Die Integrale verbinden diese gewichteten Beiträge über den gesamten Wertebereich der Variablen.
+
+Die *Normalverteilung* ist das wichtigste stetige Wahrscheinlichkeitsmodell, das wir hier verwenden. Sie ist symmetrisch, besitzt einen Gipfel und hat die bekannte Glockenform. Die Notation $X\sim N(\mu,\sigma^2)$ bedeutet, dass $X$ einer Normalverteilung mit Erwartungswert $\mu$ und Varianz $\sigma^2$ folgt.
+
+Ihre Dichtefunktion lautet
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\!\left(-\frac{(x - \mu)^2}{2\sigma^2}\right).$$
+
+Du musst diese Dichte hier nicht von Hand berechnen, aber jedes Symbol hat eine Aufgabe. Der Wert $x$ ist der Punkt auf der horizontalen Skala, $\mu$ legt die Mitte fest und $\sigma$ die Streuung. Der quadrierte Abstand $(x-\mu)^2$ lässt die Kurve mit wachsender Entfernung von der Mitte abfallen. Der Ausdruck $\exp(\cdot)$ ist eine Exponentialfunktion, welche die glatte Glockenform erzeugt. In dieser Formel ist $\pi$ die mathematische Konstante mit einem ungefähren Wert von 3.1416. Sie ist nicht die binomiale Erfolgswahrscheinlichkeit, für die zuvor derselbe griechische Buchstabe verwendet wurde.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+
+**Eine Normalverteilung ist ein Modell:** Sie ist eine idealisierte Beschreibung und keine Behauptung, dass jeder reale Datensatz vollkommen glockenförmig ist. Frage vor ihrer Verwendung, ob eine symmetrische Kurve mit einem Gipfel die modellierte Grösse angemessen beschreibt.
+:::
+
+---
+
+### Standardnormalverteilung und z-Werte {.cs-heading}
+
+Normalverteilungen können unterschiedliche Mitten und Streuungen besitzen. Die *z-Transformation* bringt sie auf eine gemeinsame Referenzskala:
+
+$$z = \frac{x - \mu}{\sigma}.$$
+
+Hier ist $x$ der ursprüngliche Wert, $\mu$ der Mittelwert der Grundgesamtheit und $\sigma$ die Standardabweichung der Grundgesamtheit. Durch das Abziehen von $\mu$ wird zuerst der Abstand des Werts vom Mittelwert berechnet. Die Division durch $\sigma$ drückt diesen Abstand in Standardabweichungseinheiten aus. Die entstehende Zahl $z$ heisst *z-Wert*.
+
+Thema 1 standardisierte Werte innerhalb einer beobachteten Stichprobe mit $z=(x-\bar{x})/s$. Hier standardisieren wir ein Wahrscheinlichkeitsmodell für eine Grundgesamtheit mit $z=(x-\mu)/\sigma$. Der Zweck ist in beiden Fällen gleich: Ein Wert wird als Abstand von seinem Mittelwert in Standardabweichungseinheiten ausgedrückt. Die Standardisierung verändert die Mitte und die Einheit, nicht aber die grundlegende Form der Verteilung.
+
+Ein z-Wert von 0 liegt genau beim Mittelwert. Ein positiver z-Wert liegt darüber, ein negativer darunter. Im veranschaulichenden Modell mit $\mu=100$ und $\sigma=15$ hat ein Wert von 130 beispielsweise
+
+$$z=\frac{130-100}{15}=2,$$
+
+und liegt damit zwei Standardabweichungen über dem Mittelwert.
+
+Nach der z-Transformation folgt eine normalverteilte Variable der *Standardnormalverteilung*, geschrieben als $Z\sim N(0,1)$. Der Grossbuchstabe $Z$ bezeichnet die standardisierte Zufallsvariable, 0 ihren Mittelwert und 1 ihre Varianz und somit auch ihre Standardabweichung. Eine Standardnormalverteilungstabelle gibt die Fläche links von ausgewählten z-Werten an. Nach der Standardisierung lässt sich dieselbe Referenztabelle für jede Normalverteilung verwenden.
+
+Da Werte auf jeder Normalverteilungsskala nun in z-Werte umgerechnet werden können, können wir vier wiederkehrende Arten von Normalverteilungsfragen lösen.
+
+---
+
+### Vier Fragetypen zur Normalverteilung {.cs-heading}
+
+Bestimme vor jeder Berechnung, ob die Frage eine Grenze vorgibt und nach einer Fläche fragt oder eine Fläche vorgibt und nach einer Grenze fragt. Die vier Kombinationen unten decken die wiederkehrenden Fragetypen ab. Wir verwenden das beispielhafte Modell $X\sim N(100,15^2)$ mit $\mu=100$, $\sigma=15$ und $\sigma^2=225$.
+
+Typ 1: Wahrscheinlichkeit unterhalb eines Schwellenwerts
+:   Welcher Anteil liegt bei oder unter 110? Standardisiere die Grenze: $z=(110-100)/15\approx0.67$. Der Tabelleneintrag $z=0.67$ ergibt eine kumulative Fläche von ungefähr 0.75. Damit liegen ungefähr 75% der Modellverteilung bei oder unter 110.
+
+Typ 2: Wert bei einem gegebenen Perzentil
+:   Welche Grenze hat 99% der Fläche links von sich? Die Tabelle gibt für eine kumulative Fläche von 0.99 den Wert $z\approx2.33$ an. Kehre die z-Transformation um: $x=\mu+z\sigma=100+2.33(15)=134.95$. Die gesuchte Grenze beträgt daher ungefähr 135.
+
+Typ 3: Wahrscheinlichkeit oberhalb eines Schwellenwerts
+:   Welcher Anteil liegt über 110? Typ 1 ergab ungefähr 0.75 bei oder unter 110. Die Fläche darüber ist das Komplement: $P(X>110)\approx1-0.75=0.25$.
+
+Typ 4: Wahrscheinlichkeit innerhalb eines Intervalls
+:   Welcher Anteil liegt zwischen 100 und 110? Die Fläche bei oder unter 110 beträgt ungefähr 0.75, und aufgrund der Symmetrie liegen 0.50 bei oder unter dem Mittelwert 100. Subtrahiere die kleinere kumulative Fläche von der grösseren: $P(100\leq X\leq110)\approx0.75-0.50=0.25$.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Verschiebbare Abbildung zu vier Fragetypen der Normalverteilung"}
+
+```{r}
+#| label: fig-normal-question-types
+#| fig-alt: "Vier Normalverteilungskurven mit markierten Flächen unterhalb einer Grenze, unterhalb einer unbekannten Grenze mit kumulativer Wahrscheinlichkeit von neunundneunzig Prozent, oberhalb einer Grenze und zwischen zwei Grenzen."
+#| fig-cap: "Vier häufige Fragen zur Normalverteilung. Vorwärtsfragen beginnen mit Grenzen; eine Umkehrfrage beginnt mit einer Fläche und sucht ihre Grenze."
+#| fig-width: 9
+#| fig-height: 6.8
+p_normal_questions
+```
+
+:::
+
+Die Abbildung folgt derselben Reihenfolge wie die vier Erklärungen. In der ersten und dritten Teilgrafik teilt eine bekannte Grenze die Kurve. In der vierten schliessen zwei Grenzen die gesuchte Fläche ein. Die zweite Teilgrafik kehrt die übliche Richtung um: Die Fläche 0.99 ist bekannt, und die Grenze ist die unbekannte Grösse. Wenn du vor der Berechnung auf den gesuchten Bereich zeigst, vermeidest du leichter Verwechslungen zwischen linker und rechter Verteilungsseite.
+
+Bisher beschrieb das Normalmodell Werte innerhalb einer Grundgesamtheit. Statistische Forschung beobachtet normalerweise nur eine Stichprobe aus dieser Grundgesamtheit. Im nächsten Abschnitt fragen wir, was geschieht, wenn die Stichprobenziehung selbst wiederholt wird.
+
+---
+
+### Grundgesamtheit, Stichprobe und Stichprobenverteilungen {.cs-heading}
+
+Die *Grundgesamtheit* ist die vollständige Gruppe von Einheiten, auf die sich die Forschungsfrage bezieht. Eine Einheit kann eine Person, ein Datensatz, eine Schule oder ein anderer untersuchter Gegenstand sein. Eine *Stichprobe* ist die kleinere Gruppe, die tatsächlich beobachtet wird. Wir verwenden eine Stichprobe, weil die Messung jeder Einheit der Grundgesamtheit oft nicht praktikabel ist.
+
+Bei einer *einfachen Zufallsstichprobe* fester Grösse besitzt jede mögliche Stichprobe dieser Grösse dieselbe Auswahlwahrscheinlichkeit. Dadurch hat jede Einheit der Grundgesamtheit dieselbe Chance, einbezogen zu werden. Diese zufällige Auswahlregel ist wichtig, weil sie das, was wir in der Stichprobe beobachten, mit der Grundgesamtheit verbindet, die wir beschreiben möchten.
+
+Ein numerisches Merkmal einer Grundgesamtheit heisst *Parameter*. Ein Parameter ist für diese Grundgesamtheit fest, aber normalerweise unbekannt. Ein aus der beobachteten Stichprobe berechnetes numerisches Merkmal heisst *Statistik*. Eine Statistik kann die Stichprobe beschreiben und zugleich als *Schätzer* dienen, also als stichprobenbasierte Grösse zur Schätzung eines unbekannten Parameters der Grundgesamtheit.
+
+| Grösse | Parameter der Grundgesamtheit | Stichprobenstatistik zur Schätzung |
+|---|---|---|
+| Mittelwert | $\mu$ | $\bar{x}$ |
+| Varianz | $\sigma^2$ | $s^2$ |
+
+: Grössen der Grundgesamtheit und ihre stichprobenbasierten Schätzer. {#tbl-parameter-statistic-notation}
+
+Die griechischen Symbole $\mu$ und $\sigma^2$ beziehen sich auf die Grundgesamtheit. Die Symbole $\bar{x}$ und $s^2$ beziehen sich auf eine beobachtete Stichprobe. Diese Symbole auseinanderzuhalten erinnert uns daran, welche Grössen aus den Daten bekannt sind und welche weiterhin unbekannte Zielgrössen der Grundgesamtheit bilden.
+
+Stell dir nun vor, dasselbe Zufallsstichprobenverfahren viele Male zu wiederholen. Ziehe jedes Mal eine neue Stichprobe der Grösse $n$ und berechne ihren Mittelwert. Die Mittelwerte unterscheiden sich, weil die Stichproben unterschiedliche Einheiten enthalten. Die Wahrscheinlichkeitsverteilung all dieser möglichen Mittelwerte ist die *Stichprobenverteilung des Mittelwerts*. Sie beschreibt theoretisch, wie der Stichprobenmittelwert über wiederholte Zufallsstichproben variiert.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Verschiebbare Prozessabbildung von einer Grundgesamtheit über wiederholte Stichproben zu einer Stichprobenverteilung"}
+
+```{r}
+#| label: fig-sampling-process
+#| fig-alt: "Ein Prozess verläuft von oben nach unten von einer Grundgesamtheit über viele Zufallsstichproben der Grösse n und einen Mittelwert pro Stichprobe bis zur Sammlung dieser Mittelwerte in der Stichprobenverteilung des Mittelwerts."
+#| fig-cap: "Wie wiederholte Zufallsstichproben eine Stichprobenverteilung erzeugen."
+#| fig-width: 10
+#| fig-height: 5.6
+p_sampling_process
+```
+
+:::
+
+Lies die Abbildung von oben nach unten. Die Grundgesamtheit ist die Quelle. Wiederholte Zufallsstichproben werden mit derselben Stichprobengrösse und Auswahlregel gezogen. Aus jeder Stichprobe wird ein Mittelwert berechnet. Die Sammlung dieser möglichen Mittelwerte ergibt die Stichprobenverteilung.
+
+Drei verwandte Verteilungen müssen auseinandergehalten werden:
+
+| Verteilung | Was ihre Werte darstellen | Beispiel |
+|---|---|---|
+| Verteilung der Grundgesamtheit | Werte der Variablen über alle Einheiten der Grundgesamtheit | Der Wert jeder Person in der Grundgesamtheit |
+| Verteilung einer Stichprobe | Beobachtete Werte in einer ausgewählten Stichprobe | Die Werte der einmal ausgewählten Personen |
+| Stichprobenverteilung einer Statistik | Eine Statistik aus jeder möglichen wiederholten Stichprobe | Der Mittelwert aus jeder wiederholten Stichprobe |
+
+: Verteilung der Grundgesamtheit, Verteilung einer Stichprobe und Stichprobenverteilung einer Statistik beschreiben unterschiedliche Wertmengen. {#tbl-three-distributions}
+
+Das Wort *Stichproben* in «Stichprobenverteilung» bezieht sich auf wiederholte Stichproben und nicht auf die Beobachtungen innerhalb einer einzelnen Stichprobe. Auch andere Statistiken wie Median oder Varianz können Stichprobenverteilungen besitzen. Dieses Thema konzentriert sich auf den Stichprobenmittelwert.
+
+Zwei zentrale Eigenschaften der Stichprobenverteilung des Mittelwerts sind:
+
+$$E(\bar{X}) = \mu, \qquad \operatorname{Var}(\bar{X})=\frac{\sigma^2}{n}, \qquad \text{SD}(\bar{X}) = \frac{\sigma}{\sqrt{n}}.$$
+
+Der Ausdruck mit dem Grossbuchstaben $\bar{X}$ bezeichnet den Stichprobenmittelwert, bevor eine bestimmte Stichprobe gezogen wurde, weshalb er von Stichprobe zu Stichprobe variieren kann. Der beobachtete Wert aus einer konkreten Stichprobe wird als $\bar{x}$ geschrieben. Die erste Formel besagt, dass die Stichprobenverteilung beim Mittelwert der Grundgesamtheit $\mu$ zentriert ist. Die zweite gibt ihre Varianz an und die dritte ihre Standardabweichung. Diese Standardabweichung heisst *Standardfehler des Mittelwerts*.
+
+#### Auswahlrahmen, Auswahl und Nichtteilnahme
+
+Eine Formel für Zufallsstichproben ist nur nützlich, wenn das Auswahlverfahren die interessierende Grundgesamtheit erreichen kann. Die *Zielpopulation* ist die vollständige Gruppe, die in der Forschungsfrage genannt wird. Der *Auswahlrahmen* ist die Liste oder das praktische Verfahren, mit dem potenzielle Teilnehmende erreicht werden. Die *realisierte Stichprobe* ist die Gruppe, die schliesslich brauchbare Daten liefert. Diese drei Gruppen können sich unterscheiden.
+
+Wenn manche Mitglieder der Zielpopulation nicht im Auswahlrahmen vorkommen können, liegt eine *Unterabdeckung* vor. Wenn sich antwortende Personen systematisch von nicht antwortenden Personen unterscheiden, kann eine *Verzerrung durch Nichtteilnahme* entstehen. *Verzerrung* bedeutet hier eine systematische Tendenz eines Schätzers, sein Ziel in der Grundgesamtheit in eine bestimmte Richtung zu verfehlen. Auch eine sehr grosse Stichprobe kann verzerrt sein, wenn sie wiederholt aus dem falschen Rahmen gezogen wird oder von selektiver Teilnahme abhängt.
+
+Die folgende Lehrsimulation macht den Unterschied sichtbar. Sie erzeugt eine Zielpopulation von 10 000 Interessenwerten. Bei einer Zufallsstichprobe hat jede Einheit der Grundgesamtheit dieselbe Auswahlchance. Bei einer freiwilligen Teilnahme antworten Einheiten mit höherem Interesse dagegen eher. Beide Stichproben enthalten `r bias_response_n` Einheiten. Der Vergleich verändert somit das Auswahlverfahren und nicht die Stichprobengrösse.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Verschiebbare Abbildung zur Stichprobenverzerrung"}
+
+```{r}
+#| label: fig-sampling-bias-comparison
+#| fig-alt: "Drei Säulen vergleichen den simulierten mittleren Interessenwert in der Zielpopulation, einer gleich grossen Zufallsstichprobe und unter freiwillig Antwortenden, deren Antwortwahrscheinlichkeit mit dem Interesse steigt. Der Mittelwert der Zufallsstichprobe liegt nahe am Ziel, jener der Antwortenden höher."
+#| fig-cap: "In dieser Simulation bleibt die Zufallsauswahl nahe am Zielmittelwert, während eine vom Interesse abhängige Teilnahme den Mittelwert der freiwillig Antwortenden nach oben verschiebt."
+#| fig-width: 8
+#| fig-height: 5
+p_sampling_bias_theory
+```
+
+:::
+
+Der Mittelwert der Zielpopulation ist `r round(bias_plot_data$mean[1], 1)`. Die gleich grosse Zufallsstichprobe hat den Mittelwert `r round(bias_plot_data$mean[2], 1)`, die freiwillig Antwortenden den Mittelwert `r round(bias_plot_data$mean[3], 1)`. Der Unterschied der Zufallsstichprobe ist gewöhnliche Zufallsvariation. Der Mittelwert der Antwortenden liegt systematisch höher, weil Einheiten mit hohem Interesse häufiger antworten. Mehr Antwortende aus demselben selektiven Prozess würden diesen Mittelwert stabiler machen, aber nicht repräsentativ für die Zielpopulation.
+
+Damit trennen wir zwei Fragen. *Präzision* fragt, wie stark ein Schätzwert über wiederholte Stichproben variieren würde. *Repräsentativität* fragt, ob das Auswahlverfahren erlaubt, mit dem Schätzwert die beabsichtigte Grundgesamtheit zu beschreiben. Nun untersuchen wir die Präzision mithilfe des Standardfehlers.
+
+---
+
+### Standardfehler und zentraler Grenzwertsatz {.cs-heading}
+
+Der *Standardfehler des Mittelwerts* beschreibt, wie stark Stichprobenmittelwerte über wiederholte Zufallsstichproben derselben Grösse variieren. Ein kleinerer Standardfehler bedeutet, dass die möglichen Stichprobenmittelwerte enger um den Mittelwert der Grundgesamtheit konzentriert sind.
+
+$$\text{SE} = \frac{\sigma}{\sqrt{n}}$$
+
+In der Formel ist $\sigma$ die Standardabweichung der Grundgesamtheit, $n$ die Anzahl Beobachtungen in jeder Stichprobe und $\sqrt{n}$ die Quadratwurzel der Stichprobengrösse. Normalerweise ist $\sigma$ unbekannt. Wir setzen dann die Stichprobenstandardabweichung $s$ an ihrer Stelle ein:
+
+$$\widehat{\text{SE}}=\frac{s}{\sqrt{n}}.$$
+
+Das Dach über $\widehat{\text{SE}}$ kennzeichnet einen Schätzwert. Diese Ersetzung heisst *Plug-in-Schätzung*, weil der bekannte Stichprobenwert $s$ an jener Stelle in die Formel eingesetzt wird, an der sonst der unbekannte Populationswert $\sigma$ stünde.
+
+Zwei Folgen ergeben sich direkt aus der Formel:
+
+1. **Grössere Stichproben führen zu präziseren Schätzungen:** Mit zunehmendem $n$ nimmt der SE ab. Eine Vervierfachung der Stichprobengrösse halbiert den Standardfehler.
+2. **Stärker streuende Grundgesamtheiten führen zu weniger präzisen Schätzungen:** Ein höheres $\sigma$ bedeutet einen höheren SE.
+
+Die Form der Stichprobenverteilung hängt zuerst von der Grundgesamtheit ab. Wenn die Grundgesamtheit selbst normalverteilt ist, ist die Stichprobenverteilung von $\bar{X}$ bei jeder positiven Stichprobengrösse $n$ normalverteilt:
+
+$$\bar{X}\sim N\!\left(\mu,\frac{\sigma^2}{n}\right).$$
+
+Wenn die Grundgesamtheit nicht normalverteilt ist, erklärt der *zentrale Grenzwertsatz*, was mit wachsendem $n$ geschieht. Die hier verwendete Aussage setzt *unabhängige* Beobachtungen voraus, bei denen eine Beobachtung keine andere bestimmt, und *identisch verteilte* Beobachtungen, die alle aus derselben Verteilung der Grundgesamtheit stammen. Ausserdem muss die Grundgesamtheit eine definierte, endliche Varianz besitzen, sodass ihre Streuung durch einen endlichen Wert $\sigma^2$ beschrieben werden kann. Unter diesen Bedingungen wird die Stichprobenverteilung des Mittelwerts zunehmend gut durch eine Normalverteilung angenähert:
+
+$$\bar{X} \approx N\!\left(\mu,\, \frac{\sigma^2}{n}\right)$$
+
+Das Symbol $\approx$ bedeutet «ist annähernd verteilt wie». Es gibt keine einzelne Stichprobengrösse, bei der die Annäherung plötzlich richtig wird. Das bereitgestellte Kursmaterial verwendet $n>30$ stellenweise als grobe Orientierung für den Unterricht, nicht als Modellbedingung oder Garantie. Die Beispiele zeigen, weshalb die Angemessenheit von der ursprünglichen Form der Grundgesamtheit abhängt. Eine stark schiefe Grundgesamtheit benötigt normalerweise ein grösseres $n$ als eine Form, die bereits einer Normalverteilung nahekommt.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+
+**Was wird annähernd normalverteilt?** Der Satz betrifft die Verteilung der *Stichprobenmittelwerte über wiederholte Stichproben*. Er besagt nicht, dass die einzelnen Beobachtungen in der Grundgesamtheit normalverteilt werden.
+:::
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Verschiebbare Vergleichsabbildung von Stichprobenverteilungen"}
+
+```{r}
+#| label: fig-sampling-distribution-grid
+#| fig-alt: "Ein Raster aus drei mal drei Histogrammen zeigt Stichprobenmittelwerte aus normalverteilten, gleichverteilten und rechtsschiefen standardisierten Ausgangspopulationen bei Stichprobengrössen von eins, fünf und dreissig. Feinere Klassen halten die Formen sichtbar, während die Verteilungen schmaler und glockenförmiger werden."
+#| fig-cap: "Stichprobenverteilungen des Mittelwerts bei verschiedenen Ausgangsformen und Stichprobengrössen, dargestellt mit gemeinsamen Skalen für die horizontale Achse und die Dichte."
+#| fig-width: 10
+#| fig-height: 8
+p_sampling_grid
+```
+
+:::
+
+Jede Zeile beginnt mit einer anderen Form der Grundgesamtheit. Lies von links nach rechts, während die Stichprobengrösse von 1 über 5 auf 30 steigt. Alle Felder verwenden dieselbe horizontale und vertikale Skala. Deshalb lassen sich die Breiten der Verteilungen und die Höhen ihrer Dichtebalken direkt vergleichen. Bei $n=1$ enthält jeder «Mittelwert» nur eine Beobachtung, weshalb die Stichprobenverteilung dieselbe Form wie die Grundgesamtheit hat. Mit wachsendem $n$ streuen die Stichprobenmittelwerte weniger. Da die Gesamtfläche jeder Dichte immer 1 beträgt, werden die Balken im Zentrum zugleich höher, wenn die Verteilung schmaler wird. Die Zeile mit einer normalverteilten Grundgesamtheit bleibt durchgehend normalverteilt. Die gleichverteilten und rechtsschiefen Zeilen werden allmählich glockenförmiger. Dies veranschaulicht eine schrittweise Annäherung und keinen plötzlichen Grenzwert.
+
+---
+
+::: {.callout-warning title="Mögliche Stolperfallen"}
+
+- **$P(A \mid B)$ und $P(B \mid A)$ verwechseln.** Sie beantworten unterschiedliche Fragen. Die Wahrscheinlichkeit eines positiven Tests bei Vorliegen einer Störung ist nicht dasselbe wie die Wahrscheinlichkeit einer Störung bei positivem Test. Eine Umkehr der Bedingung führt zu grossen und folgenreichen Fehlern.
+- **Einander ausschliessende Ereignisse als unabhängig behandeln.** Einander ausschliessende Ereignisse mit Wahrscheinlichkeiten grösser als null können nicht beide eintreten. Ist eines eingetreten, ist das andere nicht eingetreten. Sie sind abhängig, nicht unabhängig.
+- **Die Basisrate ignorieren.** Die Prävalenz, auch Basisrate genannt, ist der Anteil der Grundgesamtheit, der den Zustand vor dem Test aufweist. Wenn ein Zustand selten ist, kann die grosse Gruppe ohne den Zustand auch bei einem gut funktionierenden Test viele falsch positive Ergebnisse hervorbringen. Die Sensitivität allein zeigt deshalb nicht, wie wahrscheinlich der Zustand nach einem positiven Ergebnis ist. Prävalenz, Sensitivität und Spezifität müssen gemeinsam verwendet werden.
+- **Die Binomialverteilung bei verletzten Annahmen verwenden.** Sie erfordert eine feste Anzahl Versuche $n$, zwei mögliche Ergebnisse pro Versuch, dieselbe Erfolgswahrscheinlichkeit $\pi$ bei jedem Versuch und unabhängige Versuche. Wenn ein Versuch die Erfolgswahrscheinlichkeit eines anderen verändert oder die Erfolgswahrscheinlichkeit von Versuch zu Versuch wechselt, ist das Binomialmodell nicht anwendbar.
+- **Dichte als Wahrscheinlichkeit lesen.** Bei stetigen Verteilungen ist die Kurvenhöhe an einem Punkt ein Dichtewert, keine Wahrscheinlichkeit. Wahrscheinlichkeiten entsprechen Flächen beziehungsweise Intervallen. Die Wahrscheinlichkeit eines einzelnen exakten Werts ist null.
+- **Standardabweichung und Standardfehler verwechseln.** Die Standardabweichung ($s$ oder $\sigma$) beschreibt die Streuung einzelner Beobachtungen. Der Standardfehler ($s/\sqrt{n}$) beschreibt die Präzision des Stichprobenmittelwerts als Schätzung. Mit wachsendem $n$ sinkt der SE, während $s$ ungefähr konstant bleibt.
+:::
+
+---
+
+### Von der Wahrscheinlichkeit zur statistischen Inferenz {.cs-heading}
+
+Thema 1 lehrte uns, einen beobachteten Datensatz zu beschreiben. Dieses Thema ergänzte eine zweite Ebene: ein Modell dafür, was sich verändern könnte, wenn ein Ereignis oder ein Stichprobenverfahren wiederholt würde. Ereignisregeln ordnen Unsicherheit, Wahrscheinlichkeitsverteilungen beschreiben zufällige numerische Ergebnisse und Stichprobenverteilungen zeigen, wie sich eine Statistik wie der Stichprobenmittelwert von Stichprobe zu Stichprobe verändert.
+
+Diese letzte Verbindung öffnet den Weg zu [Hypothesentests und Konfidenzintervallen](t03_hypothesis-testing.qmd). Ein Stichprobenmittelwert beschreibt eine Stichprobe, genau wie in Thema 1. Seine Stichprobenverteilung zeigt, wie stark dieser Mittelwert bei wiederholten Zufallsstichproben normalerweise variieren würde, und der Standardfehler fasst diese Variation zusammen. Thema 3 verwendet diese Grundlage, um zu beurteilen, ob ein beobachtetes Ergebnis unter einer festgelegten Hypothese überraschend ist, und um die Unsicherheit einer Schätzung für einen Populationswert auszudrücken.
+
+Die Logik baut schrittweise aufeinander auf: Beschreibe zuerst die beobachteten Daten, formuliere danach das Wahrscheinlichkeitsmodell und schliesse nur dann von der Stichprobe auf die Grundgesamtheit, wenn Stichprobenverfahren und Modellannahmen diesen Schritt rechtfertigen. Wahrscheinlichkeit lässt Unsicherheit nicht verschwinden. Sie macht sie sichtbar und messbar.
+
+## Simuliertes Beispiel
+
+### Simulierte Studie: Prüfungsangst in einer Kohorte des ersten Studienjahrs {.cs-heading}
+
+Eine forschende Person möchte die Prüfungsangst unter Psychologiestudierenden im ersten Studienjahr untersuchen und Studierende in zwei selbstberichteten Stressgruppen vergleichen. Eine *Kohorte* ist eine Gruppe, die gemeinsam untersucht wird. Die Daten auf dieser Seite wurden vollständig vom Computer erzeugt. Keine reale Person wurde gemessen.
+
+Wie die [simulierte Studie in Thema 1](t01_descriptive.qmd#simulated-study) erklärte, folgt eine Simulation einem angegebenen Computerrezept, und ein fester Startwert ermöglicht allen, dieselben künstlichen Daten erneut zu erzeugen. Diese Seite verwendet denselben Aufbau. Ihre 160 Fälle, Tabellen, Abbildungen und Berechnungen bleiben deshalb bei jedem Neuaufbau konsistent.
+
+Von Anfang an müssen zwei Arten von Zahlen getrennt werden. Das Rezept enthält Wahrscheinlichkeiten und Verteilungseinstellungen, die vor der Erzeugung der Fälle festgelegt wurden. Die fertige künstliche Kohorte enthält die tatsächlich entstandenen Häufigkeiten und relativen Häufigkeiten. Diese erzeugten Werte liegen normalerweise nahe bei den Rezeptwerten, müssen ihnen aber nicht genau entsprechen. Diese Kohorte enthält nur 160 zufallsähnliche Ergebnisse und nicht jedes Ergebnis, das das Rezept erzeugen könnte.
+
+Stell dir zunächst vor, dass eine Zeile zufällig aus dieser festen künstlichen Kohorte ausgewählt wird. Wie wahrscheinlich ist ein Ergebnis mit hoher Prüfungsangst, und wie verändert sich diese Wahrscheinlichkeit, sobald die Stressgruppe des ausgewählten Falls bekannt ist? Das ist die zentrale Frage der Kohortenanalyse. Die späteren Veranschaulichungen mit wiederholten Stichproben erweitern den Rahmen und werden gesondert gekennzeichnet.
+
+Das Rezept besteht aus drei Teilen:
+
+1. Erzeuge 160 Fälle.
+2. Ordne jeden Fall mit Wahrscheinlichkeit 0.55 der Gruppe mit niedrigem Stress oder mit Wahrscheinlichkeit 0.45 der Gruppe mit hohem Stress zu.
+3. Erzeuge einen Prüfungsangstwert aus einer Normalverteilung. Die Verteilung der Gruppe mit niedrigem Stress hat den Mittelwert 18, jene der Gruppe mit hohem Stress den Mittelwert 24. Beide besitzen die Standardabweichung 5. Runde den Wert auf die nächste ganze Zahl und halte ihn zwischen 0 und 40.
+
+Jede Zeile enthält vier nützliche Variablen. Die Teilnehmenden-ID identifiziert die Zeile, ist aber keine gemessene Grösse. Die Stressgruppe ist *kategorial*, weil sie eine Gruppenbezeichnung und keine Menge erfasst. Obwohl die Wörter «niedrig» und «hoch» im Alltag eine Reihenfolge besitzen, verwendet dieses Beispiel sie als zwei nominale Gruppierungskategorien. Die Bezeichnungen trennen die Fälle in zwei Gruppen, und wir rechnen mit den Gruppencodes nicht so, als wären sie gemessene Stresswerte. Die Prüfungsangst ist *quantitativ*, weil sie einen numerischen Wert erfasst. Wir behandeln Wertdifferenzen als sinnvoll, behaupten aber nicht, dass ein Wert von 24 doppelt so viel Angst wie ein Wert von 12 darstellt. Das Angstniveau ist schliesslich *binär kategorial*: Es erfasst nur eine von zwei Möglichkeiten, einen Wert von mindestens 23 oder einen Wert unter 23.
+
+Die Grenze bei 23 dient ausschliesslich dem Erlernen von Ereigniswahrscheinlichkeiten. Sie darf nicht zur Diagnose oder gesundheitlichen Klassifikation einer Person verwendet werden. Die Simulation weist der Gruppe mit hohem Stress absichtlich eine höhere Wertemitte zu. Wenn wir dieses Muster später finden, bestätigt es nur das Rezept und liefert keine Evidenz über reale Studierende.
+
+Der erste Teil begleitet eine Kohorte von Ereignishäufigkeiten über Komplement, Addition, gemeinsame und bedingte Wahrscheinlichkeiten sowie Unabhängigkeit bis zur Binomialrechnung. Danach kehren wir zum stetigen Wertemodell zurück, bevor wir zu einer einfacheren Grundgesamtheit wechseln, die Stichprobenverteilungen isoliert. Ein letzter Vergleich trennt Zufallsstichproben von selektiver Teilnahme.
+
+Drei Fragen verbinden diese Etappen:
+
+> Wenn sich die Formulierung von «Prüfungsangst» zu «Prüfungsangst unter der Bedingung von hohem Stress» verändert, welche Gruppe gehört dann in den Nenner? Wie beschreiben Wahrscheinlichkeitsmodelle Ergebnisse, die noch nicht beobachtet wurden? Weshalb kann eine grössere Zufallsstichprobe die Präzision verbessern, während eine grössere selektive Stichprobe weiterhin systematisch nicht repräsentativ sein kann?
+
+Wenn du diese Fragen im Blick behältst, verwendest du nicht eine einzige Wahrscheinlichkeit so, als würde sie jede Art von Unsicherheit beantworten.
+
+---
+
+**Schritt 1: Simulierte Zeilen prüfen**
+
+Beginne mit den Zeilen, bevor du Wahrscheinlichkeiten berechnest. Die Tabelle ist interaktiv: Du kannst sie durchsuchen, eine Spalte sortieren und durch ihre Seiten blättern.
+
+```{r}
+#| label: tbl-simulated-anxiety-data
+datatable(
+  display_dat,
+  options = topic_dt_options(topic_locale),
+  class    = "compact stripe hover",
+  rownames = FALSE,
+  caption  = "Simulierte Daten: 160 Fälle mit Stressgruppe, Prüfungsangstwert und daraus abgeleitetem Angstniveau."
+)
+```
+
+Jede Zeile stellt einen simulierten Fall dar. Wenn du nach Prüfungsangst sortierst, werden die niedrigsten und höchsten beobachteten Werte sichtbar. Die Spalte zum Angstniveau zeigt die aus dem gerundeten Wert abgeleitete Kategorie. Ein Blick auf die Stressgruppenspalte bestätigt, dass beide Gruppen vorkommen. Weil das Rezept absichtlich einen höheren Mittelwert für die Gruppe mit hohem Stress verwendet, liegen viele ihrer Werte weiter oben auf der Skala.
+
+Nun verwandeln wir diese Zeilen in Ereignishäufigkeiten und Anteile.
+
+---
+
+**Schritt 2: Häufigkeiten in Ereigniswahrscheinlichkeiten umwandeln**
+
+Eine *relative Häufigkeit* ist die Häufigkeit eines Ereignisses geteilt durch die Gesamtzahl der Fälle. Wenn ein Fall gleichförmig aus dieser festen Kohorte ausgewählt wird, also jede Zeile dieselbe Auswahlchance besitzt, ist die relative Häufigkeit die exakte Wahrscheinlichkeit für das Ereignis:
+
+$$\text{relative Häufigkeit von Ereignis }A=\frac{\text{Anzahl Fälle in }A}{160}.$$
+
+In diesem Lehrbeispiel gehört ein Wert von mindestens 23 zum Ereignis «hohe Prüfungsangst», ein Wert unter 23 zum Gegenteil «niedrige Prüfungsangst».
+
+```{r}
+#| label: tbl-empirical-event-probabilities
+kable(
+  prob_tbl,
+  col.names = c("Ereignis", "Anzahl", "Wahrscheinlichkeit (relative Häufigkeit)"),
+  align     = c("l", "c", "c"),
+  caption   = "Ereignishäufigkeiten und gerundete Dezimalwahrscheinlichkeiten bei gleichförmiger Auswahl aus der festen simulierten Kohorte."
+)
+```
+
+Die Wahrscheinlichkeit, dass ein zufällig ausgewählter simulierter Fall hohe Prüfungsangst besitzt, ist genau `r n_high_anx`/`r n_total` und nach Rundung der dargestellten Dezimalzahl ungefähr `r round(p_ha, 3)`. Die Wahrscheinlichkeit, einen Fall aus der Gruppe mit hohem Stress auszuwählen, ist `r n_high_s`/`r n_total` $=$ `r round(p_hs, 3)`. Das Rezept ordnete hohen Stress mit Wahrscheinlichkeit 0.45 zu, diese eine erzeugte Kohorte enthält jedoch `r round(p_hs * 100, 1)`% Fälle mit hohem Stress. Dieser Unterschied ist **Simulationsvariabilität**, also der gewöhnliche Zufallsunterschied zwischen einer erzeugenden Wahrscheinlichkeit und einer endlichen Menge erzeugter Ergebnisse. Die Werte sind exakte Wahrscheinlichkeiten für diese feste künstliche Kohorte und keine Schätzungen aus realen Studierenden.
+
+Mit diesen Ereigniswahrscheinlichkeiten können wir nach «nicht» und «oder» fragen.
+
+---
+
+**Schritt 3: Komplement- und Additionsregel anwenden**
+
+Die Komplementregel beantwortet eine «nicht»-Frage. Weil niedrige Prüfungsangst hier als nicht hohe Prüfungsangst definiert ist, decken die beiden Ereignisse alle 160 Fälle ohne Überlappung ab:
+
+$$P(\text{niedrige Prüfungsangst}) = 1 - P(\text{hohe Prüfungsangst}) = \frac{`r n_low_anx`}{`r n_total`} \approx `r round(1 - p_ha, 3)`$$
+
+Ungefähr `r round((1 - p_ha) * 100, 1)`% der simulierten Fälle liegen im Bereich niedriger Prüfungsangst.
+
+Die Additionsregel beantwortet eine «oder»-Frage. Sei $H_S$ hoher Stress und $H_A$ hohe Prüfungsangst. Die Vereinigung $H_S\cup H_A$ enthält Fälle mit hohem Stress, hoher Prüfungsangst oder beidem:
+
+$$P(H_S \cup H_A)=\frac{`r n_high_s`+`r n_high_anx`-`r n_both`}{`r n_total`}=`r round(p_union, 4)`.$$
+
+Die Addition der ersten beiden Häufigkeiten zählt die `r n_both` Fälle, die zu beiden Ereignissen gehören, doppelt. Durch einmaliges Subtrahieren dieser gemeinsamen Häufigkeit wird die Doppelzählung korrigiert. Die Vereinigung enthält ungefähr `r round(100 * p_union, 1)`% der Kohorte.
+
+---
+
+**Schritt 4: Eine gemeinsame Wahrscheinlichkeit bestimmen**
+
+Nun wechseln wir von «oder» zu «und». Eine *gemeinsame Wahrscheinlichkeit* beschreibt das gleichzeitige Eintreten zweier Ereignisse. Die Tabelle zeigt jede Kombination von Stressgruppe und Angstkategorie. Eine Tabelle, die Fälle anhand zweier kategorialer Variablen kreuzklassifiziert, heisst *zweidimensionale Häufigkeitstabelle*. Die Summen am Ende jeder Zeile und Spalte zeigen, wie sich die 160 Fälle verteilen.
+
+```{r}
+#| label: tbl-stress-anxiety-contingency
+kable(
+  cont_tbl,
+  caption = "Zweidimensionale Häufigkeitstabelle: Stressgruppe nach Klassifikation hoher Prüfungsangst.",
+  align   = c("l", "c", "c", "c")
+)
+```
+
+Die gemeinsame Wahrscheinlichkeit ist:
+
+$$P(\text{hohe Prüfungsangst} \cap \text{hoher Stress}) = \frac{`r n_both`}{`r n_total`} \approx `r round(p_both, 3)`$$
+
+Der Nenner umfasst weiterhin alle `r n_total` Fälle, weil noch keine Bedingung die Bezugsgruppe eingeschränkt hat. Ungefähr `r round(p_both * 100, 1)`% der Kohorte gehören zu beiden Ereignissen.
+
+Die nächste Frage liefert zusätzliche Information über den ausgewählten Fall. Deshalb muss sich der Nenner ändern.
+
+---
+
+**Schritt 5: Bezugsgruppe mit bedingter Wahrscheinlichkeit einschränken**
+
+Eine bedingte Wahrscheinlichkeit verändert den Nenner. Sobald wir wissen, dass ein Fall zur Gruppe mit hohem Stress gehört, bleiben nur die `r n_high_s` Fälle mit hohem Stress in der Bezugsgruppe. Davon weisen `r n_both` auch hohe Prüfungsangst auf:
+
+$$P(\text{hohe Prüfungsangst} \mid \text{hoher Stress}) = \frac{`r n_both`}{`r n_high_s`} \approx `r round(p_ha_given_hs, 3)`$$
+
+```{r}
+#| label: tbl-conditional-anxiety-probabilities
+kable(
+  cond_tbl,
+  caption = "Bedingte Wahrscheinlichkeit jedes Angstniveaus innerhalb jeder Stressgruppe.",
+  align   = c("l", "c", "c")
+)
+```
+
+```{r}
+#| label: fig-conditional-probability
+#| fig-alt: "Zwei horizontale Balken vergleichen die Wahrscheinlichkeit hoher Prüfungsangst innerhalb der Gruppe mit hohem Stress und innerhalb der Gruppe mit niedrigem Stress. Die Prozentwerte stehen neben den Balken."
+#| fig-cap: "Wahrscheinlichkeit hoher Prüfungsangst nach Einschränkung der Bezugsgruppe auf die jeweilige Stressgruppe."
+#| fig-height: 3.4
+accessible_plotly(
+  p_cond_bar,
+  "Zwei horizontale Balken vergleichen die Wahrscheinlichkeit hoher Prüfungsangst innerhalb der Gruppe mit hohem Stress und innerhalb der Gruppe mit niedrigem Stress. Die Prozentwerte stehen neben den Balken."
+)
+```
+
+Innerhalb der Gruppe mit hohem Stress weisen `r round(p_ha_given_hs * 100, 1)`% der Fälle hohe Prüfungsangst auf. Innerhalb der Gruppe mit niedrigem Stress sind es `r round(p_ha_given_ls * 100, 1)`%. Die Balken zeigen dieselben beiden zeilenbezogenen Anteile wie die Tabelle.
+
+Die umgekehrte Bedingung stellt eine andere Frage: Welcher Anteil der Fälle mit hoher Prüfungsangst gehört zur Gruppe mit hohem Stress? Direkt aus der Tabelle beträgt er `r n_both`/`r n_high_anx` $\approx$ `r round(p_hs_given_ha, 3)`. Der Satz von Bayes liefert denselben Wert:
+
+$$
+\begin{aligned}
+P(H_S\mid H_A)
+&=\frac{P(H_A\mid H_S)P(H_S)}{P(H_A)}\\
+&=\frac{(`r n_both`/`r n_high_s`)(`r n_high_s`/`r n_total`)}{`r n_high_anx`/`r n_total`}\\
+&\approx `r round(p_hs_given_ha, 3)`.
+\end{aligned}
+$$
+
+Die Richtung der Bedingung bestimmt den Nenner. Die erste bedingte Wahrscheinlichkeit verwendet alle Fälle mit hohem Stress. Die umgekehrte bedingte Wahrscheinlichkeit verwendet alle Fälle mit hoher Prüfungsangst. Obwohl beide dieselbe Tabelle verwenden, beantworten sie unterschiedliche Fragen.
+
+Mit diesen bedingten Werten können wir nun prüfen, ob die beiden Ereignisse in der simulierten Kohorte unabhängig sind.
+
+---
+
+**Schritt 6: Unabhängigkeit innerhalb der simulierten Kohorte prüfen**
+
+Zwei Ereignisse sind unabhängig, wenn die Kenntnis des einen Ereignisses die Wahrscheinlichkeit des anderen nicht verändert. Wir können diese Idee auf zwei gleichwertige Arten prüfen.
+
+Vergleiche zuerst die allgemeine oder *marginale* Wahrscheinlichkeit hoher Prüfungsangst mit den bedingten Wahrscheinlichkeiten. Marginal bedeutet, dass keine Stressgruppe als Bedingung vorgegeben wurde:
+
+- Unbedingt: $P(\text{hohe Prüfungsangst}) \approx `r round(p_ha, 3)`$
+- Bedingt: $P(\text{hohe Prüfungsangst} \mid \text{hoher Stress}) \approx `r round(p_ha_given_hs, 3)`$
+- Ausserdem: $P(\text{hohe Prüfungsangst} \mid \text{niedriger Stress}) = `r round(p_ha_given_ls, 3)`$
+
+Die bedingten Wahrscheinlichkeiten unterscheiden sich von der marginalen Wahrscheinlichkeit. Alternativ können wir das bei Unabhängigkeit verlangte Produkt mit der beobachteten gemeinsamen Wahrscheinlichkeit vergleichen:
+
+$$P(H_A)P(H_S)=`r round(p_ha, 3)`\times`r round(p_hs, 3)`\approx`r round(p_ha * p_hs, 3)`,$$
+
+während $P(H_A\cap H_S)\approx`r round(p_both, 3)`$ gilt. Die Werte sind nicht gleich. Hoher Stress und hohe Prüfungsangst sind innerhalb dieser simulierten Kohorte deshalb nicht unabhängig. Das ist zu erwarten, weil das Simulationsrezept für die beiden Stressgruppen absichtlich unterschiedliche Wertemitten verwendet.
+
+Alle bisherigen Berechnungen behandelten den Angstwert als Ereignis mit zwei Kategorien. Nun zählen wir, wie häufig dieses Ereignis bei einer festen Anzahl unabhängiger Ziehungen auftritt.
+
+---
+
+**Schritt 7: Fälle mit hoher Prüfungsangst in einem Binomialmodell zählen**
+
+Nun stellen wir eine neue Frage: Wenn derselbe Vorgang mit zwei Ergebnissen `r n_binom`-mal wiederholt würde, wie viele Ergebnisse mit hoher Prüfungsangst könnten wir zählen? Für ein Binomialmodell muss jede Wiederholung mit derselben Wahrscheinlichkeit beginnen und darf keine andere Wiederholung beeinflussen.
+
+Zuerst *passen* wir das Modell an. Das bedeutet, dass wir den Anteil hoher Prüfungsangst in der künstlichen Kohorte als Erfolgswahrscheinlichkeit des Modells verwenden. Danach ziehen wir `r n_binom`-mal unabhängig aus diesem Modell. Du kannst dir dies als **Ziehen mit Zurücklegen** vorstellen: Wähle einen Fall aus, notiere, ob er hohe Prüfungsangst besitzt, lege ihn zurück und wähle erst danach erneut. Das Zurücklegen hält die mögliche Auswahlmenge und die Erfolgswahrscheinlichkeit konstant. Dies ist ein Wahrscheinlichkeitsexperiment und keine Behauptung über zehn verschiedene Personen, die aus einer realen Kohorte entfernt werden.
+
+Wir verwenden den Kohortenanteil
+
+$$\widehat{\pi}=\frac{`r n_high_anx`}{`r n_total`}\approx`r round(p_ha, 4)`.$$
+
+Das Dach über $\widehat{\pi}$ erinnert daran, dass diese Wahrscheinlichkeit aus der künstlichen Kohorte stammt. In den Schritten 2 bis 6 beschrieb derselbe Bruch die Auswahl aus den festen 160 Zeilen. Hier wird er zur Erfolgswahrscheinlichkeit eines Modells für neue Wiederholungen. Sei $X$ die Anzahl Ziehungen unter den `r n_binom` unabhängigen Ziehungen, bei denen hohe Prüfungsangst auftritt. Unter den angegebenen Annahmen gilt
+
+$$X\sim B\!\left(`r n_binom`,\frac{`r n_high_anx`}{`r n_total`}\right).$$
+
+Die erwartete Anzahl ist
+
+$$E(X) = n\hat{\pi} = `r n_binom` \times \frac{`r n_high_anx`}{`r n_total`} = `r round(binom_ev, 4)`.$$
+
+Die Varianz beträgt $n\widehat{\pi}(1-\widehat{\pi})\approx`r round(binom_var, 4)`$, und ihre Quadratwurzel ergibt die Standardabweichung $\text{SD}(X)\approx`r round(binom_sd, 2)`$.
+
+```{r}
+#| label: fig-binomial-anxiety
+#| fig-alt: "Säulendiagramm der Binomialwahrscheinlichkeit für jede mögliche Anzahl Ergebnisse mit hoher Prüfungsangst bei zehn unabhängigen Ziehungen aus dem angepassten Modell mit zwei Ergebnissen."
+#| fig-cap: "Binomiale Anzahl bei zehn unabhängigen Ziehungen mit konstanter angepasster Wahrscheinlichkeit."
+accessible_plotly(
+  p_binom,
+  "Säulendiagramm der Binomialwahrscheinlichkeit für jede mögliche Anzahl Ergebnisse mit hoher Prüfungsangst bei zehn unabhängigen Ziehungen aus dem angepassten Modell mit zwei Ergebnissen."
+)
+```
+
+Das Diagramm zeigt die vollständige Wahrscheinlichkeitsverteilung, also die Wahrscheinlichkeit jeder möglichen Anzahl von 0 bis `r n_binom`. Die Wahrscheinlichkeit für genau 4 Ergebnisse mit hoher Prüfungsangst unter `r n_binom` unabhängigen Ziehungen beträgt $P(X = 4) \approx `r round(p_binom_4, 3)`$. Die Wahrscheinlichkeit für mehr als 5 beträgt $P(X > 5) \approx `r round(p_binom_over5, 3)`$.
+
+Lies die horizontale Achse als Anzahl und nicht als Angstwert. Eine Säule über 4 zeigt die Wahrscheinlichkeit, dass genau vier der `r n_binom` Modellziehungen als hohe Prüfungsangst klassifiziert werden. Gemeinsam enthalten die Säulen jede mögliche Anzahl, weshalb sich ihre Wahrscheinlichkeiten zu 1 summieren. Die höchsten Säulen kennzeichnen die Anzahlen, die unter der angepassten Wahrscheinlichkeit am plausibelsten sind. Sie sagen kein einzelnes Ergebnis mit Sicherheit voraus.
+
+```{r}
+#| label: tbl-binomial-pmf-cdf
+binom_dat |>
+  mutate(
+    probability = round(probability, 4),
+    cumulative_probability = round(cumulative_probability, 4)
+  ) |>
+  kable(
+    caption = "Binomiale Wahrscheinlichkeitsmasse und kumulative Wahrscheinlichkeit für jede mögliche Anzahl.",
+    col.names = c("Anzahl x", "P(X = x)", "F(x) = P(X <= x)"),
+    align = c("c", "c", "c")
+  )
+```
+
+Lies die mittlere Spalte für eine exakte Anzahl und die rechte Spalte für eine «Höchstens»-Frage. Der kumulative Eintrag bei 5 ist beispielsweise $P(X\leq5)$, weshalb sein Komplement $P(X>5)$ ist. Der letzte kumulative Wert ist 1, weil jede mögliche Anzahl enthalten ist.
+
+Hier liegt $\widehat{\pi}\approx`r round(p_ha, 3)`$ unter 0.50, weshalb die Säulen nicht vollkommen symmetrisch sind. Die Verteilung weist kleineren Anzahlen mehr Wahrscheinlichkeit zu, als dies bei einer Erfolgswahrscheinlichkeit von 0.50 der Fall wäre.
+
+Die binomiale Zufallsvariable ist eine Anzahl, die aus dem Ergebnis mit zwei Kategorien entsteht. Nun kehren wir zum vollständigen quantitativen Wert und zum stetigen Modell zurück, das ihn vor dem Runden erzeugte.
+
+---
+
+**Schritt 8: Ein Normalmodell für den vollständigen Wert verwenden**
+
+Das Rezept zur Datenerzeugung verwendet für jede Stressgruppe eine eigene Normalverteilung. Konzentriere dich auf das *stetige* Modell der Gruppe mit hohem Stress, bevor die Werte gerundet werden. Stetig bedeutet, dass ein Wert im Modell an jeder Stelle eines Intervalls der Punkteskala liegen kann und nicht nur an getrennten ganzzahligen Punkten. Sei $X$ ein Wert aus diesem Modell:
+
+$$X\sim N(24,5^2).$$
+
+Diese Notation besagt, dass das Modell den Mittelwert 24, die Standardabweichung 5 und die Varianz $5^2=25$ besitzt. Ein *Modell* ist eine vereinfachte Wahrscheinlichkeitsbeschreibung möglicher Werte. Das aufgezeichnete binäre Ereignis verwendet den gerundeten Wert: Hohe Prüfungsangst bedeutet einen gerundeten Wert von mindestens 23. Nach der bei der Datenerzeugung verwendeten Rundungsregel werden stetige Werte über 22.5 auf 23 oder höher gerundet. Das passende Ereignis im stetigen Modell ist deshalb $X>22.5$ und nicht $X\geq23$.
+
+Um diese Wahrscheinlichkeit zu bestimmen, wandeln wir die stetige Grenze zuerst in einen z-Wert um. Ein z-Wert gibt an, wie viele Standardabweichungen ein Wert über oder unter dem Mittelwert liegt:
+
+$$z=\frac{22.5-24}{5}=-0.30.$$
+
+Sei $Z$ die Standardnormalverteilung mit Mittelwert 0 und Standardabweichung 1. Dann gilt
+
+$$P(X>22.5)=P(Z>-0.30)\approx `r round(p_theor, 3)`.$$
+
+Bei einem stetigen Modell ist die Wahrscheinlichkeit, genau 22.5 zu erhalten, null. Daher gilt $P(X>22.5)=P(X\geq22.5)$, obwohl die Rundungsanweisung den Grenzwert selbst gesondert behandelt.
+
+```{r}
+#| label: fig-anxiety-normal-fit
+#| fig-alt: "Eine Normaldichtekurve mit Mittelpunkt 24. Eine gestrichelte Linie kennzeichnet die Grenze vor dem Runden bei 22.5, und die sichtbare Fläche jenseits dieser Grenze ist markiert."
+#| fig-cap: "Fläche des stetigen Modells jenseits der Grenze für gerundete Werte von mindestens 23."
+#| fig-height: 4.6
+accessible_plotly(
+  p_norm,
+  "Eine Normaldichtekurve mit Mittelpunkt 24. Eine gestrichelte Linie kennzeichnet die Grenze vor dem Runden bei 22.5, und die sichtbare Fläche jenseits dieser Grenze ist markiert."
+)
+```
+
+Die markierte Region ist die Fläche, nach der die Wahrscheinlichkeitsfrage sucht. Ihre Wahrscheinlichkeit von ungefähr `r round(p_theor, 3)` beschreibt eine neue Ziehung aus dem stetigen Generator der Gruppe mit hohem Stress vor dem Runden. Zum Vergleich enthält die feste simulierte Kohorte `r n_both` Fälle mit hoher Prüfungsangst unter `r n_high_s` tatsächlich entstandenen Fällen mit hohem Stress. Eine gleichförmige Auswahl innerhalb dieser Teilgruppe ergibt `r n_both`/`r n_high_s` $\approx`r round(n_both / n_high_s, 3)`$. Der kleine Unterschied ist endliche Simulationsvariabilität: Eine einzelne erzeugte Kohorte muss ihrer Generatorwahrscheinlichkeit nicht exakt entsprechen.
+
+Dies ist eine *Vorwärtsfrage*, weil die Grenze 22.5 bekannt und die Fläche unbekannt ist. Die Kurve wird über acht Standardabweichungen dargestellt, weshalb ihre nicht sichtbaren Randbereiche äusserst klein sind. Das Normalmodell selbst besitzt keine harte Endgrenze.
+
+Eine Umkehrfrage beginnt mit einer Fläche und sucht ihre Grenze. Die standardnormalverteilte Grenze, unter der 90% der Fläche liegen, ist ungefähr $z=1.28$. Die Rücktransformation auf die Angstskala ergibt
+
+$$x_{0.90}=24+1.28(5)\approx `r round(normal_q90, 1)`.$$
+
+Das Modell legt somit ungefähr 90% seiner stetigen Werte für die Gruppe mit hohem Stress bei oder unter `r round(normal_q90, 1)` und ungefähr 10% darüber. Dies ist eine Grenze im Lehrmodell vor dem Runden und darf nicht zur gesundheitlichen Klassifikation einer Person verwendet werden.
+
+Der Binomialabschnitt untersuchte eine Anzahl, der Normalverteilungsabschnitt einen einzelnen stetigen Wert. Als Nächstes betrachten wir eine dritte Zufallsgrösse: einen Mittelwert, der aus einer ganzen Stichprobe berechnet wird.
+
+---
+
+**Schritt 9: Eine Stichprobenverteilung des Mittelwerts aufbauen**
+
+Um die Idee der Stichprobenverteilung zu isolieren, verwendet dieser Schritt eine einfachere vorgestellte Grundgesamtheit. Die einzelnen Werte in dieser Grundgesamtheit folgen
+
+$$X\sim N(`r sampling_population_mean`,`r sampling_population_sd`^2).$$
+
+Der Mittelwert der Grundgesamtheit ist somit `r sampling_population_mean`, ihre Standardabweichung `r sampling_population_sd`. Jede Wiederholung folgt denselben drei Schritten:
+
+1. Ziehe eine neue Zufallsstichprobe von $n=`r sample_n`$ unabhängigen Werten aus der angegebenen Grundgesamtheit. Unabhängig bedeutet hier, dass ein gezogener Wert keinen anderen bestimmt.
+2. Berechne den Mittelwert $\bar{x}$ dieser Stichprobe.
+3. Wiederhole die ersten beiden Schritte 1 000-mal und sammle die 1 000 Mittelwerte.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Verschiebbare Prozessabbildung dazu, wie wiederholte Stichproben im simulierten Beispiel eine Stichprobenverteilung erzeugen"}
+
+```{r}
+#| label: fig-sampling-example-process
+#| fig-alt: "Ein Prozess verläuft von oben nach unten von einer Grundgesamtheit über viele Zufallsstichproben der Grösse n und einen Mittelwert pro Stichprobe bis zur Sammlung dieser Mittelwerte in der Stichprobenverteilung des Mittelwerts."
+#| fig-cap: "Die wiederholten Schritte zur Erzeugung der simulierten Stichprobenverteilung."
+#| fig-width: 10
+#| fig-height: 7.2
+accessible_plotly(
+  p_sampling_process,
+  "Interaktives Prozessdiagramm von oben nach unten: von einer Grundgesamtheit über wiederholte Zufallsstichproben und Stichprobenmittelwerte bis zu einer Stichprobenverteilung.",
+  tooltip = "label"
+)
+```
+
+:::
+
+Die Verteilung der gesammelten Mittelwerte ist die *Stichprobenverteilung des Mittelwerts*. Weil die Grundgesamtheit selbst normalverteilt ist, ist diese Stichprobenverteilung bei der angegebenen Stichprobengrösse normalverteilt:
+
+$$\bar{X}\sim N\!\left(`r sampling_population_mean`,\frac{`r sampling_population_sd`^2}{`r sample_n`}\right).$$
+
+Ihre Standardabweichung ist der *Standardfehler*. Er beschreibt in diesem wiederholten Zufallsstichprobenprozess die typische Streuung der Mittelwerte von Stichprobe zu Stichprobe um den Mittelwert der Grundgesamtheit:
+
+$$\text{SE}=\frac{`r sampling_population_sd`}{\sqrt{`r sample_n`}}\approx`r round(se_theoretical, 2)`.$$
+
+```{r}
+#| label: fig-sampling-distribution
+#| fig-alt: "Histogramm von eintausend Mittelwerten aus neuen Zufallsstichproben von dreissig Werten aus einer Normalverteilung mit Mittelwert zwanzig und Standardabweichung sechs. Die exakte normale Stichprobenverteilungsdichte ist überlagert."
+#| fig-cap: "Simulierte Stichprobenverteilung des Mittelwerts für Stichproben von dreissig Werten."
+#| fig-height: 4.6
+accessible_plotly(
+  p_sampling,
+  "Histogramm von eintausend Mittelwerten aus neuen Zufallsstichproben von dreissig Werten aus einer Normalverteilung mit Mittelwert zwanzig und Standardabweichung sechs. Die exakte normale Stichprobenverteilungsdichte ist überlagert."
+)
+```
+
+Die Simulation ergab einen Mittelwert der Mittelwerte von `r round(mean(sample_means), 2)` und eine Standardabweichung der Mittelwerte von `r round(sd(sample_means), 2)`. Diese Werte liegen nahe bei der theoretischen Mitte `r sampling_population_mean` und dem Standardfehler `r round(se_theoretical, 2)`. Die kleinen Unterschiede entstehen, weil die Abbildung 1 000 simulierte Stichproben und nicht jede mögliche Stichprobe enthält.
+
+```{r}
+#| label: tbl-sampling-precision-plan
+kable(
+  sampling_precision_tbl,
+  caption = "Theoretische Standardfehler für drei Stichprobengrössen bei einer Populationsstandardabweichung von 6.",
+  col.names = c("Stichprobengrösse", "Standardfehler"),
+  align = c("c", "c")
+)
+```
+
+Die Tabelle hält die Populationsstandardabweichung bei 6 fest und verändert nur $n$. Eine Erhöhung der Stichprobengrösse von 10 auf 90 multipliziert $n$ mit neun. Weil $\sqrt{9}=3$ gilt, wird der Standardfehler durch drei geteilt.
+
+Einzelne Werte besitzen die Standardabweichung `r sampling_population_sd`, die Stichprobenmittelwerte bei $n=`r sample_n`$ dagegen nur einen Standardfehler von ungefähr `r round(se_theoretical, 2)`. Mittelwerte variieren weniger als einzelne Beobachtungen, weil jeder Mittelwert `r sample_n` Werte verbindet.
+
+Der schrumpfende Standardfehler hängt vom angegebenen Zufallsstichprobenmodell ab. Ein letzter Vergleich zeigt, weshalb Präzision und repräsentative Auswahl unterschiedliche Fragen sind.
+
+---
+
+**Schritt 10: Zufallsstichprobe und selektive Teilnahme vergleichen**
+
+Die **beabsichtigte Grundgesamtheit** ist die vollständige Gruppe, die in der Forschungsfrage genannt wird. Für diese letzte Demonstration erzeugen wir eine künstliche Grundgesamtheit von 10 000 Interessenwerten. Daraus gewinnen wir zwei Stichproben derselben Grösse von jeweils `r bias_response_n`:
+
+1. Bei einer Zufallsstichprobe hat jede Einheit der Grundgesamtheit dieselbe Auswahlchance.
+2. Bei einer Stichprobe mit freiwilliger Teilnahme antworten Personen mit höherem Interesse wahrscheinlicher.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbarer Vergleich gleich grosser Zufallsstichproben und Stichproben mit freiwilliger Teilnahme"}
+
+```{r}
+#| label: fig-simulated-sampling-bias
+#| fig-alt: "Drei Säulen vergleichen den mittleren Interessenwert in einer simulierten Zielpopulation, einer gleich grossen Zufallsstichprobe und unter freiwillig Antwortenden, deren Antwortwahrscheinlichkeit mit dem Interesse steigt. Der Mittelwert der Zufallsstichprobe liegt nahe am Ziel, jener der Antwortenden höher."
+#| fig-cap: "Gleiche Stichprobengrössen garantieren in dieser Simulation nicht dieselbe Qualität: Die Zufallsauswahl bleibt nahe am Ziel, während selektive Teilnahme den Mittelwert verschiebt."
+#| fig-width: 8
+#| fig-height: 7
+accessible_plotly(
+  p_sampling_bias,
+  "Interaktive Säulen vergleichen den Mittelwert einer simulierten Zielpopulation mit einer Zufallsstichprobe und selektiv freiwillig Antwortenden.",
+  tooltip = "text"
+)
+```
+
+:::
+
+Der Mittelwert der Grundgesamtheit ist `r round(bias_plot_data$mean[1], 1)`. Der Mittelwert der Zufallsstichprobe ist `r round(bias_plot_data$mean[2], 1)`, also eine kleine zufällige Abweichung vom Ziel. Der Mittelwert der freiwillig Antwortenden ist `r round(bias_plot_data$mean[3], 1)` und liegt höher, weil die Teilnahme vom Interesse abhängt. Diese systematische Verschiebung ist **Selektionsverzerrung**: Die Art, wie Fälle in die Stichprobe gelangen, verschiebt das Ergebnis wiederholt vom Zielwert der Grundgesamtheit weg.
+
+Eine grössere Stichprobe verringert die Zufallsvariation, wenn das Stichprobenverfahren geeignet ist. Sie repariert keinen Prozess, der bestimmte Werte wiederholt überrepräsentiert. Das vollständige Beispiel trennt deshalb drei Ideen: exakte Wahrscheinlichkeiten innerhalb einer festen Kohorte, Modellwahrscheinlichkeiten für neue unabhängige Ziehungen und Populationsschätzungen, deren Qualität davon abhängt, wie die Stichprobe ausgewählt wurde.
+
+---
+
+### Mögliche Stolperfallen {.cs-heading}
+
+Die erzeugte Kohorte kann nicht stellvertretend für eine reale Grundgesamtheit stehen. Ihre Wahrscheinlichkeiten und Modellbestandteile wurden für Lehrzwecke konstruiert und sind deshalb keine Evidenz über reale Studierende. Eine grössere Stichprobe kann bei einem geeigneten Stichprobenverfahren die Zufallsvariation verringern. Sie kann aber weder selektive Teilnahme noch eine unvollständige Abdeckung der Zielpopulation beheben.
+
+- **Nenner vermischen.** Eine bedingte Wahrscheinlichkeit beschränkt die Betrachtung auf die genannte Gruppe. Ihr Nenner muss daher genau zu dieser Gruppe passen.
+- **Einen Anteil in einer festen Kohorte als Wahrscheinlichkeit eines neuen Versuchs behandeln.** Der beobachtete Anteil beschreibt eine Auswahl aus diesen 160 konstruierten Zeilen. Ein Binomialmodell beschreibt dagegen neue unabhängige Wiederholungen mit einer konstanten Erfolgswahrscheinlichkeit.
+- **Die Höhe einer Normaldichte als Wahrscheinlichkeit lesen.** Die Wahrscheinlichkeit im Normalmodell ist eine Fläche über einem stetigen Intervall vor dem Runden.
+- **Eine Stichprobenverteilung mit einer Verteilung von Personen verwechseln.** Eine Stichprobenverteilung beschreibt, wie ein Kennwert über wiederholte Stichproben variiert, und nicht, wie einzelne Beobachtungen verteilt sind.
+- **Präzision mit Repräsentativität gleichsetzen.** Eine grössere Stichprobe kann die zufällige Stichprobenvariation verringern und dennoch systematisch nicht repräsentativ bleiben.
+
+### Wie dieses Beispiel die Theorie zusammenführt {.cs-heading}
+
+Die zehn Schritte bilden einen zusammenhängenden Weg. Wir begannen mit Zeilen, wandelten Häufigkeiten in Ereigniswahrscheinlichkeiten um, veränderten bei bedingten Fragen die Nenner und prüften Unabhängigkeit. Danach verwendeten wir dasselbe Ergebnis mit zwei Kategorien in einem binomialen Zählmodell, kehrten mit einem Normalmodell zum vollständigen Wert zurück und untersuchten schliesslich die Variation von Stichprobenmittelwerten. Der abschliessende Stichprobenvergleich zeigte, weshalb ein präziser Schätzwert dennoch systematisch falsch liegen kann, wenn Fälle durch einen selektiven Prozess in die Stichprobe gelangen.
+
+Jedes numerische Muster wurde in dieses künstliche Beispiel eingebaut. Die Ergebnisse zeigen deshalb, dass die Berechnungen das angegebene Rezept wiederfinden. Sie zeigen weder, wie häufig Prüfungsangst unter realen Studierenden ist, noch dass Stress Angst verursacht oder dass eine Wertgrenze klinische Bedeutung besitzt. Eine reale Analyse benötigte eine begründete Zielpopulation, einen vertretbaren Auswahlrahmen, gültige Messungen und ein Untersuchungsdesign, das zur beabsichtigten Schlussfolgerung passt.
+
+Die nützlichste Gewohnheit für den weiteren Weg ist, die Bezugsgruppe einer Wahrscheinlichkeit zu benennen. Frage dich: Wahrscheinlichkeit unter wem, unter welchem Prozess und über welche möglichen Ergebnisse? Diese Frage verhindert, dass Komplemente, bedingte Wahrscheinlichkeiten, Modellwahrscheinlichkeiten und Populationsschätzungen miteinander verwechselt werden.
+
+## Übungen und Lösungen
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 2
+)
+```
+
+## Zusammenfassung
+
+{{< include ../../_shared/topic-summaries/de/t02.md >}}
+
+---
+
+### Zusammenfassung herunterladen {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 2
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Themenseitennavigation"}
+[Zurück: Deskriptive Statistik](t01_descriptive.qmd){.text-link-arrow .previous}
+[Übersicht zur Einführung](overview-intro-stats-de.qmd){.text-link-arrow}
+[Weiter: Hypothesentests](t03_hypothesis-testing.qmd){.text-link-arrow .next}
+:::

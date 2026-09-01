@@ -1,0 +1,129 @@
+---
+pagetitle: "Ratiomera | Offenes Lernen in Statistik und Mathematik"
+title-prefix: ""
+description: "Ratiomera ist eine zentral aufgebaute, von Freiwilligen entwickelte Lernplattform für klare, fundierte und praxisnahe Bildung in Statistik und Mathematik."
+lang: de-CH
+toc: false
+---
+
+::: {.section-intro .fade-in}
+# Statistik und Mathematik an einem Ort, offen für alle.
+
+Ratiomera ist eine von Freiwilligen entwickelte Lernplattform für Statistik und Mathematik. Die Erklärungen beginnen bei den Ideen hinter einer Methode, bauen sie sorgfältig auf und geben dir danach sinnvolle Möglichkeiten zum Üben. Ob du dich auf die Schule, das Studium, die Forschung oder den Beruf vorbereitest, du kannst ohne Konto, Abonnement oder Bezahlschranke lernen.
+
+::: {.hero-tagline}
+Kostenlos nutzbar · Kein Konto erforderlich · Keine Bezahlschranke · Keine Abonnements
+:::
+
+::: {.btn-row .hero-actions}
+[Ratiomera Statistics entdecken](../ratiomera-statistics/de/home-statistics-de.qmd){.dl-btn}
+[Warum es Ratiomera gibt](#about){.dl-btn .secondary}
+:::
+:::
+
+---
+
+## Warum es Ratiomera gibt {#about}
+
+::: {.landing-prose}
+Ratiomera entstand aus einer einfachen Beobachtung: Wie etwas erklärt wird, kann die Beziehung eines Menschen zum Lernen und manchmal auch seinen Bildungsweg verändern. Eine klare Erklärung kann mehr bewirken, als eine Unklarheit zu beseitigen. Wenn sie zeigt, weshalb eine Idee bedeutsam ist, und ihre innere Logik erkennen lässt, kann sie Neugier und die intrinsische Motivation wecken, weiterzudenken. Eine Formel passt vielleicht auf eine Zeile. Die Idee dahinter kann trotzdem unzugänglich bleiben, wenn niemand erklärt, welche Frage sie beantwortet, warum ihre Bestandteile so angeordnet sind oder wie das Ergebnis gelesen werden soll. Lernende sollen Verwirrung nicht mit fehlender Fähigkeit verwechseln müssen, nur weil ein wichtiger Schritt unausgesprochen blieb.
+
+Unsere eigenen akademischen und beruflichen Wege wurden von Lehrpersonen geprägt, die mehr taten, als Verfahren vorzustellen. Sie zeigten, warum eine Methode funktioniert, verbanden abstrakte Ideen mit aussagekräftigen Problemen und machten schwierigen Stoff verständlich. Später begegneten uns durch Nachhilfe, die Unterstützung anderer Lernender, die Arbeit im akademischen und beruflichen Umfeld sowie Gespräche mit Studierenden, Lehrpersonen, Dozierenden, Professorinnen und Professoren, Forschenden und Fachleuten immer wieder dieselben Bedürfnisse: klarere Erklärungen, besser aufgebaute Lernsequenzen, realistische Beispiele, umfangreiche Gelegenheiten zum Üben und Lösungen, die den Gedankengang hinter dem Endergebnis sichtbar machen.
+
+Ratiomera bringt diese Erkenntnisse an einem Ort zusammen und ordnet sie zu einem verbundenen Lernweg. Lernende sollen das grössere Bild erkennen, verstehen, wie eine Idee die nächste vorbereitet, und die Sicherheit entwickeln, Fragen zu stellen, zu rechnen, zu prüfen und zu erklären. Mit wachsendem Verständnis können auch die Neugier und die Bereitschaft wachsen, aus persönlich bedeutsamen Gründen weiterzulernen. Dieses Prinzip leitet sowohl Ratiomera Statistics als auch den künftigen Fachbereich Ratiomera Mathematics.
+:::
+
+---
+
+## Wie die Plattform entwickelt wurde
+
+::: {.landing-prose}
+Der didaktische Ansatz von Ratiomera wurde von vielen Menschen, Quellen und Lernkontexten geprägt. Die Plattform verbindet, was unsere Mitglieder durch Ausbildung, Forschung, Berufspraxis, Lehre, Nachhilfe und den fortlaufenden Austausch mit anderen gelernt haben. Die Entwicklung erfolgt Thema für Thema: Zuerst wird die zentrale Frage bestimmt. Danach werden die nötigen Vorkenntnisse zurückverfolgt, mögliche Erklärungen verglichen, Beispiele entwickelt und die entstandene Reihenfolge aus der Sicht von Lernenden geprüft.
+
+Die Arbeit umfasst deshalb mehr als das Schreiben von Text. Definitionen müssen über alle Seiten hinweg übereinstimmen. Formeln benötigen eine einheitliche Schreibweise. Abbildungen und Tabellen müssen dieselben Grössen erklären wie der umgebende Text. Übungen sollen genau die Ideen prüfen, die zuvor vermittelt wurden, und Lösungen müssen jeden Schritt nachvollziehbar machen. Zuerst wird die englische Fassung entwickelt. Anschliessend entstehen sorgfältig angepasste deutsche und albanische Fassungen, deren Aufbau, Berechnungen, Abbildungen und Lernziele übereinstimmen.
+
+Grosse Sprachmodelle helfen uns, Material effizienter zu organisieren, zu vergleichen, anzupassen und zu übersetzen. Wir nutzen diese Unterstützung in einem Entwicklungsprozess, in dem die Verantwortung für das fachliche Urteil bei Menschen bleibt. Quellen, Berechnungen, Terminologie, Barrierefreiheit und Darstellung benötigen weiterhin eine bewusste menschliche Prüfung. Ratiomera soll sich laufend verbessern, wenn Menschen mit einschlägiger fachlicher, didaktischer, wissenschaftlicher, beruflicher oder persönlicher Lernerfahrung das Material testen und auf unklare Stellen hinweisen.
+:::
+
+---
+
+## Offener Zugang ohne versteckte Stufen
+
+::: {.landing-prose}
+Ratiomera möchte Lernbarrieren abbauen und der Neugier Raum geben. Wenn eine Erklärung eine Frage bedeutsam macht, zeigt, wie eine Idee funktioniert, und zur nächsten Frage einlädt, kann sie die intrinsische Motivation zum Weiterlernen stärken. Wir sind überzeugt, dass auch schwieriger Stoff lernbar werden kann, wenn er die Neugier anspricht und in überschaubaren Schritten entwickelt wird. Deshalb sollst du von einer Erklärung zu einem Beispiel, vom Beispiel zur Übung und von der Übung zur vollständigen Lösung gelangen können, ohne durch eine Reihe von Zahlungsentscheidungen aufgehalten zu werden. Lernbereitschaft und Neugier sollen genügen, um den nächsten Schritt zu erreichen.
+
+Es gibt keine obligatorischen Konten, Abonnements, Premiumstufen, In-App-Käufe, kostenpflichtigen Lösungsschlüssel, Guthabensysteme, gesperrten vertiefenden Erklärungen, verpflichtenden Pakete, zeitlich begrenzten Testphasen oder einmaligen Käufe, die zum Weiterlernen nötig wären. Erklärungen, Übungsmaterialien und Lösungen gehören zum selben offenen Lernweg.
+
+Für Ratiomera gehören offener Zugang und ein hoher fachlicher Anspruch zusammen. Material, das alle erreichen können, verdient dieselbe Sorgfalt bei Erklärungen, Beispielen, Übungen und Lösungen. Jeder Teil der Plattform soll tiefer in das Thema hineinführen, ohne dass eine Kassenseite den Lernweg unterbricht. Wir möchten sorgfältig entwickeltes Wissen dann zugänglich machen, wenn es gebraucht wird, und dieses Versprechen auch beim Wachstum der Plattform sichtbar halten.
+:::
+
+::: {.open-access-list}
+- **Keine Anmeldung erforderlich**
+- **Keine Bezahlschranke**
+- **Kein Abonnement**
+- **Kein Premiumlehrplan**
+- **Keine kostenpflichtigen Lösungsschlüssel**
+- **Keine gesperrten Übungen**
+:::
+
+---
+
+## Die zwei Fachbereiche
+
+<div class="branch-cards">
+<a class="branch-card branch-card-statistics" href="../ratiomera-statistics/de/home-statistics-de.qmd">
+<img class="branch-card-mark branch-card-logo" src="../assets/brand/ratiomera-statistics-mark.svg" alt="">
+<span class="branch-card-name">Ratiomera Statistics</span>
+<span class="branch-card-description">Statistik auf Hochschulniveau für Geistes- und Sozialwissenschaften.</span>
+<span class="topic-chip review">{{< var status_de.review >}}</span>
+<span class="branch-card-support">Konzeptuelle Erklärungen, ausgearbeitete Beispiele, Zusammenfassungen, Übungen und Lösungen für Studierende und Fachpersonen aus Bereichen wie Psychologie, Bildungswissenschaften, Soziologie, Politikwissenschaft, Public Health und verwandten Disziplinen.</span>
+<span class="branch-card-cta">Ratiomera Statistics entdecken &rarr;</span>
+</a>
+<a class="branch-card branch-card-mathematics" href="../ratiomera-mathematics/de/home-mathematics-de.qmd">
+<img class="branch-card-mark branch-card-logo" src="../assets/brand/ratiomera-mathematics-mark.svg" alt="">
+<span class="branch-card-name">Ratiomera Mathematics</span>
+<span class="branch-card-description">Geplante Mathematikbildung von der Primarschule bis zur Gymnasialstufe.</span>
+<span class="topic-chip soon">In Planung</span>
+<span class="branch-card-support">Ein künftiger Lehrplan, der auf Gesprächen mit Lehrpersonen aus verschiedenen Regionen der Schweiz und auf relevanten Schullehrplänen beruht.</span>
+<span class="branch-card-cta">Mehr über Ratiomera Mathematics erfahren &rarr;</span>
+</a>
+</div>
+
+---
+
+## In der Schweiz entwickelt, für breiteren Zugang geschrieben
+
+::: {.landing-prose}
+Ratiomera ist in der Schweiz beheimatet und bietet sein Material derzeit auf Englisch, Deutsch und Albanisch an. In allen drei Sprachen folgen Lernende einem abgestimmten Bildungsweg. Die Erklärungen, Berechnungen, Abbildungen, Übungen, Lösungen und die dafür aufgewendete Sorgfalt bleiben aufeinander abgestimmt. Die Sprache wechselt, damit dieser Weg über ein einzelnes Klassenzimmer oder eine einzelne Sprachgemeinschaft hinausreichen kann.
+
+Die Wahl dieser ersten Sprachen entspricht den Kenntnissen, die derzeit im freiwilligen Team vertreten sind, und den Gemeinschaften, die wir verantwortungsvoll unterstützen können. Zugleich drückt sie einen umfassenderen Teil unserer Philosophie aus: Sprache soll einen Zugang zu einer Idee eröffnen und Lernenden das Gefühl geben, darin willkommen zu sein. Jede Fassung wird deshalb an ihren sprachlichen und bildungsbezogenen Kontext angepasst und bleibt zugleich mit den anderen abgestimmt. Du sollst derselben Idee in einer Sprache begegnen können, die klar, natürlich und unterstützend wirkt.
+
+Eine verantwortungsvolle Übersetzung überträgt auch den Gedankengang, die Schreibweise, die Beispiele, die visuellen Erklärungen und den unterstützenden Ton in die neue Sprache. Deshalb nimmt Ratiomera eine weitere Sprache erst dann auf, wenn Freiwillige mit den nötigen Sprachkenntnissen die Verantwortung für Übersetzung, Prüfung und laufende Pflege übernehmen können. Wenn das bestehende Team nicht beurteilen kann, ob eine Fassung korrekt und natürlich ist, kann eine automatische Übersetzung die nötige Sicherheit nicht allein bieten. Wir warten auf Menschen, die die Arbeit sorgfältig prüfen können, bevor wir eine neue Fassung als vertrauenswürdig präsentieren.
+
+Mit der freiwilligen Gemeinschaft können auch die angebotenen Sprachen wachsen. Mit der Zeit hoffen wir zudem, dass das Material Lehrpersonen, Schulen, Hochschulen, Verbände und andere Institutionen unterstützt, die einen breiteren Zugang zu sorgfältiger Bildung in Statistik und Mathematik anstreben.
+:::
+
+---
+
+## Danksagung
+
+::: {.landing-prose}
+Ratiomera wurde von mehr Menschen geprägt, als auf einer Teamseite Platz finden könnten. Wir danken allen, die eine Lernerfahrung geteilt, ihre Unterrichtspraxis erklärt, Stärken und Schwächen eines Lehrplans diskutiert, eine Erklärung getestet, eine Lücke aufgezeigt, eine Annahme hinterfragt oder berufliche und akademische Einblicke beigesteuert haben. Ein kurzes Gespräch darüber, wo eine lernende Person nicht mehr weiterkommt, kann ebenso wertvoll sein wie eine ausführliche fachliche Prüfung, denn beides kann einen fehlenden Schritt sichtbar machen.
+
+Wir danken den Lehrpersonen, die schwierige Ideen zugänglich machten, den Lernenden, deren Fragen unklare Erklärungen aufdeckten, sowie den Kolleginnen, Kollegen und Fachpersonen, die formale Verfahren mit echten Entscheidungen verbanden. Unser Dank gilt auch Privatpersonen und Institutionen, deren Gespräche, Erfahrungs- und Wissensaustausch die Grundsätze hinter der Plattform mitgeformt haben.
+
+Diese Danksagung bedeutet nicht, dass jede Person oder Institution aus unserer Entwicklungsgeschichte jede Ratiomera-Seite geprüft oder unterstützt hat. Die Verantwortung für die hier veröffentlichten Inhalte liegt bei den Menschen, die Ratiomera betreuen. Die Plattform entsteht im Geist gemeinschaftlicher Grosszügigkeit und soll für Korrekturen offen bleiben, sobald eine klarere oder genauere Erklärung möglich wird.
+:::
+
+---
+
+::: {.platform-cta}
+### Hilf Ratiomera, weiterhin von seiner Gemeinschaft zu lernen
+
+Hat eine Erklärung endlich etwas verständlich gemacht? Hat eine Abbildung eine wichtige Frage offengelassen? Rückmeldungen aus der Gemeinschaft zeigen uns, ob Material, das auf dem Papier vollständig wirkt, das Lernen auch tatsächlich unterstützt.
+
+Teile eine Korrektur mit, beschreibe, wo du den Faden verloren hast, schlage ein Beispiel oder eine Abbildung vor, stelle eine Frage zum Projekt oder erzähle uns, was die Plattform in deinem Umfeld nützlicher machen würde. Du kannst auch erfahren, wie Beiträge ohne Geldspende schon heute helfen und wie freiwillige Spenden die beiden Fachbereiche künftig unterstützen könnten. Unterstützung kauft weder Einfluss auf den Lehrplan noch einen anderen Zugang zu den Inhalten.
+
+[Ratiomera kontaktieren](pages/contact-ratiomera-de.qmd){.dl-btn}
+[Ratiomera unterstützen](pages/support-ratiomera-de.qmd){.dl-btn .secondary}
+:::

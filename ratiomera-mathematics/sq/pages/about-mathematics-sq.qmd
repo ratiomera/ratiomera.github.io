@@ -1,0 +1,14 @@
+---
+title: "Rreth Ratiomera Mathematics"
+pagetitle: "Rreth Ratiomera Mathematics"
+title-prefix: ""
+description: "Përmbledhja dhe gjendja e zhvillimit për Ratiomera Mathematics."
+lang: sq
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../home-mathematics-sq.html#overview">
+---
+
+Përmbledhja e degës tani gjendet në faqen kryesore të Ratiomera Mathematics. Vazhdo te [Rreth Ratiomera Mathematics](../home-mathematics-sq.qmd#overview).

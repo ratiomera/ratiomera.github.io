@@ -1,0 +1,13 @@
+---
+title: "Contact"
+pagetitle: "Contact | Ratiomera"
+title-prefix: ""
+description: "Shared contact information for Ratiomera and its branches."
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../../../en/pages/contact-ratiomera-en.html">
+---
+
+Contact is now shared across Ratiomera. Continue to the [Ratiomera Contact page](../../../en/pages/contact-ratiomera-en.qmd).

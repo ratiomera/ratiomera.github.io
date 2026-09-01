@@ -1,0 +1,13 @@
+---
+title: "About Ratiomera Statistics"
+pagetitle: "About Ratiomera Statistics"
+title-prefix: ""
+description: "Overview of Ratiomera Statistics and its curriculum."
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../home-statistics-en.html#overview">
+---
+
+The branch overview now lives on the Ratiomera Statistics landing page. Continue to [About Ratiomera Statistics](../home-statistics-en.qmd#overview).

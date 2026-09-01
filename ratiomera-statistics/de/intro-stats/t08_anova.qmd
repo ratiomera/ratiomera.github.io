@@ -1,0 +1,1341 @@
+---
+title: "Varianzanalyse (ANOVA)"
+subtitle: "Einführung in die Statistik · Thema 8"
+pagetitle: "Varianzanalyse | Ratiomera Statistics"
+title-prefix: ""
+description: "Einfaktorielle und faktorielle Varianzanalyse, geplante und Post-hoc-Vergleiche, feste und zufällige Faktoren, Messwiederholungen und das allgemeine lineare Modell."
+lang: de-CH
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "de"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t08-anova-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Themenabschnitte</h2>
+
+::: {.panel-tabset}
+
+## Theorie
+
+### Einführung: Mehrere Mittelwerte mit einem Modell vergleichen {.cs-heading}
+
+Ein t-Test vergleicht zwei Mittelwerte. Thema 3 trennte zwei Designs: Ein t-Test für unabhängige Stichproben vergleicht zwei Gruppen aus unterschiedlichen Fällen. Ein t-Test für verbundene Stichproben vergleicht zwei miteinander verknüpfte Messungen, oft von denselben Personen. Was tun wir, wenn die Frage von zwei auf drei, vier oder noch mehr Mittelwerte anwächst?
+
+Die ANOVA ist der breitere Rahmen für diesen nächsten Schritt. Ein **Faktor** ist eine kategoriale erklärende Variable, deren Kategorien **Stufen** heissen. Eine einfaktorielle ANOVA mit unabhängigen Gruppen erweitert den unabhängigen t-Test auf mehrere Stufen, die von unterschiedlichen Fällen besetzt werden. Eine einfaktorielle ANOVA mit Messwiederholungen erweitert den verbundenen t-Test auf mehrere verknüpfte Stufen oder Zeitpunkte, die bei denselben Fällen gemessen werden. Wenn für jedes Paar ein eigener *unbereinigter* t-Test durchgeführt wird, wird jeder Test beurteilt, ohne die anderen Tests derselben Menge zu berücksichtigen. So entstehen viele Gelegenheiten für einen Fehler 1. Art, also einen falsch positiven Befund, obwohl die zugehörige Nullhypothese wahr ist.
+
+Die *Varianzanalyse*, abgekürzt **ANOVA**, beginnt mit einem Omnibustest. *Omnibus* bedeutet, dass der Test eine einzige übergeordnete Frage über alle Gruppen hinweg stellt:
+
+> Gibt es Evidenz dafür, dass sich mindestens zwei Populationsmittelwerte unterscheiden?
+
+Der Name kann zunächst verwirrend wirken. Die ANOVA vergleicht Mittelwerte, indem sie Variation analysiert. Sie trennt die gesamte Variation der quantitativen Zielvariable in Variation, die mit der Gruppenzugehörigkeit verbunden ist, und Variation, die innerhalb der Gruppen verbleibt. Das Verhältnis dieser beiden Teile ergibt die $F$-Teststatistik.
+
+Die Methode für zwei Mittelwerte ist damit nicht verschwunden. Im Spezialfall von genau zwei unabhängigen Gruppen prüfen der gewöhnliche t-Test mit gepoolter Varianz und die einfaktorielle ANOVA mit festem Faktor unter denselben Bedingungen homogener Varianz dieselbe Gleichheit. Für ihre Teststatistiken gilt
+
+$$
+F(1,N-2)=t(N-2)^2.
+$$
+
+Durch das Quadrieren geht das Vorzeichen von $t$ verloren. $F$ zeigt deshalb nicht, welcher Mittelwert höher ist, sondern fragt nur, ob sich die beiden Mittelwerte unterscheiden. Der zweiseitige t-Test und dieser $F$-Test mit einem Zählerfreiheitsgrad ergeben somit denselben p-Wert. Besonders nützlich wird die ANOVA, wenn eine übergeordnete Frage mehr als zwei Mittelwerte oder mehr als einen Faktor koordinieren muss.
+
+Das ist keine Abkehr von der Regression. Thema 7 zeigte, wie ein kategorialer Prädiktor mit Dummy-Variablen dargestellt und wie mehrere zusammengehörige Koeffizienten gemeinsam geprüft werden können. Die ANOVA verwendet dieselbe Idee des linearen Modells und ordnet sie um Faktoren, Gruppenmittelwerte und Quadratsummen an.
+
+> **Leitfrage:** Wie kann ein einziger Globaltest beim Vergleich mehrerer Gruppenmittelwerte ihre Trennung gegen die verbleibende Variation innerhalb der Gruppen abwägen?
+
+| Sprache der multiplen Regression | Sprache der ANOVA | Dieselbe zugrunde liegende Idee |
+|---|---|---|
+| Quantitative Zielvariable | Quantitative Zielvariable | Für jede Beobachtungseinheit wird ein gemessener Wert modelliert |
+| Kategorialer Prädiktor | Faktor | Die Kategorienzugehörigkeit hilft, den angepassten Mittelwert festzulegen |
+| Referenzkategorie und Dummy-Koeffizienten | Faktorstufen und Gruppenvergleiche | Mehrere Kategorien benötigen mehrere aufeinander abgestimmte Parameter |
+| Globaler oder verschachtelter $F$-Test | Omnibus-$F$-Test | Eine gemeinsame Nullhypothese wird geprüft, indem dargestellte und verbleibende Variation verglichen werden |
+| Interaktionsterm | Faktorinteraktion | Die Beziehung eines Prädiktors oder Faktors hängt von einem anderen ab |
+
+: ANOVA und Regression verwenden unterschiedliche Begriffe für eng verbundene Fragen linearer Modelle. {#tbl-anova-regression-bridge}
+
+Das Vokabular verändert sich, weil sich der wissenschaftliche Schwerpunkt verändert. In der Regression beginnen wir oft mit dem Lesen einzelner Steigungen. In der ANOVA beginnen wir mit dem gesamten Faktor und fragen, ob alle zugehörigen Populationsmittelwerte gleich sein können. Angepasste Werte, Residuen, Quadratsummen und die $F$-Logik bleiben mit dem bereits Gelernten verbunden.
+
+::: {.callout-tip title="Kernidee"}
+Der Omnibus-$F$-Test fragt, ob sich irgendwelche Populationsmittelwerte unterscheiden. Er sagt nicht, welche Mittelwerte sich unterscheiden. Ein *geplanter Kontrast* ist ein gezielter Gruppenmittelwertvergleich, der vor der Untersuchung der Zielvariablen festgelegt wird. Ein *Post-hoc-Vergleich* wird danach ausgewählt. Diese Verfahren beantworten spezifischere Fragen und verwenden eine Bereinigung, wenn mehrere zusammengehörige Schlussfolgerungen geprüft werden.
+:::
+
+### Lernziele {.cs-heading}
+
+Nach Abschluss dieses Themas solltest du:
+
+- Faktoren, Stufen, Zellen sowie balancierte und unbalancierte Designs definieren können;
+- erklären können, weshalb eine Omnibus-ANOVA vielen unbereinigten t-Tests vorzuziehen ist;
+- die Hypothesen einer einfaktoriellen ANOVA korrekt formulieren können;
+- Quadratsummen, Freiheitsgrade, mittlere Quadrate und $F$ berechnen und interpretieren können;
+- eine vollständige Tabelle der einfaktoriellen ANOVA lesen und erstellen können;
+- Design und Modellannahmen vor der Interpretation des Tests prüfen können;
+- geplante Kontraste von Post-hoc-Vergleichen unterscheiden können;
+- erklären können, weshalb viele Gruppenvergleiche die Wahrscheinlichkeit mindestens eines Fehlalarms erhöhen und wie dieses Risiko begrenzt werden kann;
+- Zellmittelwerte, Randmittelwerte, Haupteffekte und Interaktionen unterscheiden können;
+- Faktoren mit bewusst gewählten Stufen von Faktoren unterscheiden können, deren Stufen eine breitere Grundgesamtheit vertreten;
+- erklären können, weshalb wiederholte Messungen derselben Person besonders berücksichtigt werden müssen; und
+- die ANOVA mit dem allgemeinen linearen Modell verbinden können, ohne dieses mit einem generalisierten linearen Modell zu verwechseln.
+
+---
+
+### Faktoren, Stufen, Zellen und Balance {.cs-heading}
+
+Die ANOVA verwendet eine quantitative **Zielvariable**, also den gemessenen Wert, dessen Mittelwerte verglichen werden, und eine oder mehrere kategoriale erklärende Variablen, die **Faktoren** genannt werden.
+
+Eine **Stufe** ist eine Kategorie eines Faktors. Ist der Faktor beispielsweise eine Studienbedingung mit vier Kategorien, hat er vier Stufen. Eine **Zelle** ist eine beobachtete Gruppe, die durch eine Kombination von Faktorstufen definiert wird. In einer einfaktoriellen ANOVA bildet jede Stufe eine Zelle. In einem Design mit zwei Faktoren bildet jede Kombination aus einer Stufe von Faktor A und einer Stufe von Faktor B eine eigene Zelle.
+
+| Begriff | Definition für den Einstieg | Beispielstruktur |
+|---|---|---|
+| Zielvariable | Quantitative Messung, deren Mittelwerte verglichen werden | Ein Lernpunktwert pro Fall |
+| Faktor | Kategoriale erklärende Variable | Studienbedingung |
+| Stufe | Eine Kategorie eines Faktors | Referenzbedingung |
+| Zelle | Fälle mit derselben Kombination von Faktorstufen | Stufe 1 von Faktor A zusammen mit Stufe 2 von Faktor B |
+| Balanciertes Design | Gleich viele Fälle in jeder relevanten Gruppe oder Zelle | 40 Fälle in jeder von vier Bedingungen |
+| Unbalanciertes Design | Ungleiche Gruppen- oder Zellgrössen | 30, 35, 40 und 55 Fälle |
+
+: Grundbegriffe des ANOVA-Designs. {#tbl-anova-design-terms}
+
+Lies die Tabelle von der Messung nach aussen. Bestimme zuerst die quantitative Zielvariable. Bestimme danach den kategorialen Faktor und liste seine Stufen auf. Bestimme anschliessend die Zellen, die durch die genauen Kombinationen der Stufen entstehen. Erst wenn diese Rollen geklärt sind, solltest du die Beobachtungen zählen und entscheiden, ob das Design balanciert ist. Diese Reihenfolge verhindert einen häufigen Fehler: Die aufgezeichneten Kategoriencodes selbst als sinnvolle quantitative Abstände zu behandeln.
+
+Das Wort *Zelle* ist in einem Design mit einem Faktor einfach, kann aber leichter verwechselt werden, sobald ein zweiter Faktor hinzukommt. Die nächste Abbildung stellt beide Strukturen nebeneinander.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbarer Vergleich von Stufen einer einfaktoriellen ANOVA und Zellen in einem gekreuzten Design mit zwei Faktoren"}
+
+```{r}
+#| label: fig-anova-cells
+#| fig-alt: "Zwei Felder vergleichen Zellen der ANOVA. Das erste zeigt vier Stufen eines Faktors, wobei jede Stufe eine Zelle bildet. Das zweite zeigt zwei Stufen von Faktor A, die mit drei Stufen von Faktor B gekreuzt werden. Dadurch entsteht ein Raster mit zwei mal drei und somit sechs Zellen, je eine für jede genaue Stufenkombination."
+#| fig-cap: "In einem einfaktoriellen Design bildet jede Faktorstufe eine Zelle; in einem faktoriellen Design definiert jede gekreuzte Kombination von Stufen eine eigene Zelle."
+#| fig-width: 10
+#| fig-height: 5.4
+p_anova_cells_en
+```
+
+:::
+
+Lies Feld A von links nach rechts. Ein Faktor besitzt vier Stufen, und jede Stufe bezeichnet eine Gruppe von Fällen. Somit gibt es vier Zellen. Wähle in Feld B eine Zeile von Faktor A und eine Spalte von Faktor B. Ihr Schnittpunkt ist eine Zelle. Zwei A-Stufen, die mit drei B-Stufen gekreuzt werden, bilden daher $2\times3=6$ Zellen.
+
+Die Kästen zeigen Positionen im Design und keine numerischen Werte der Zielvariable. Ein beobachteter Fall gehört aufgrund seiner Faktorstufen zu genau einer Zelle. Die Zielvariablen innerhalb dieser Zelle werden später durch einen Zellmittelwert zusammengefasst. Die Farben helfen, die Spalten auseinanderzuhalten, codieren aber keine höheren oder niedrigeren Werte. Das Diagramm sagt auch nicht, ob das Design balanciert ist. Die Balance hängt davon ab, wie viele Fälle sich tatsächlich in jeder Zelle befinden.
+
+Balance ist eine Eigenschaft des Designs und keine Voraussetzung der ANOVA. Eine einfaktorielle ANOVA kann ungleiche Gruppengrössen verwenden. Balance macht Arithmetik und Interpretation jedoch besonders klar. In faktoriellen Designs beeinflusst ein Ungleichgewicht zudem, wie verschiedene Effekte voneinander getrennt werden. Die gewählte Analyse muss deshalb sorgfältig dokumentiert werden.
+
+Die **Beobachtungseinheit** ist der Fall, der eine Zielvariable zur Analyse beiträgt. In einer Studie mit unabhängigen Gruppen gehört jede Person nur zu einer Gruppe und trägt eine Zielvariable zu diesem Vergleich bei. Wenn wir die Einheit bestimmen, können wir beurteilen, ob die Fälle unabhängig sind.
+
+Das Design bestimmt die möglichen Schlussfolgerungen. Zufallszuweisung bedeutet, dass der Zufall Fälle den Faktorstufen zuordnet. Wird sie in einem Experiment korrekt durchgeführt, können Gruppenunterschiede eine kausale Interpretation für den manipulierten Faktor stützen. Ohne Zufallszuweisung kann eine ANOVA weiterhin Mittelwertunterschiede beschreiben, aber für sich allein nicht belegen, dass der Faktor sie verursacht hat.
+
+#### Welches ANOVA-Design passt zur Frage? {.cs-heading}
+
+Stelle vor jeder Berechnung zwei Fragen: **Wie viele Faktoren gibt es, und erscheint dieselbe Person in mehr als einer Bedingung?** Die Antworten bestimmen das Design.
+
+| Design | Anordnung der Beobachtungen | Was es erweitert |
+|---|---|---|
+| Einfaktoriell mit unabhängigen Gruppen | Ein Faktor; unterschiedliche Personen befinden sich auf seinen Stufen | t-Test für unabhängige Stichproben bei zwei Stufen |
+| Einfaktoriell mit Messwiederholungen | Ein Faktor; dieselben Personen werden auf allen Stufen oder zu allen Zeitpunkten gemessen | t-Test für verbundene Stichproben bei zwei Stufen |
+| Mehrfaktoriell mit unabhängigen Gruppen | Zwei oder mehr Faktoren; unterschiedliche Personen befinden sich in den gekreuzten Zellen | Einfaktorielle ANOVA, nun mit Haupteffekten und Interaktionen |
+| Mehrfaktoriell mit Messwiederholungen | Zwei oder mehr Faktoren innerhalb von Personen; dieselben Personen liefern verknüpfte Beobachtungen für deren Kombinationen | Einfaktorielle ANOVA mit Messwiederholungen, nun mit mehreren Effekten innerhalb von Personen und Interaktionen |
+| Gemischtes Design | Mindestens ein Faktor zwischen Gruppen und mindestens ein Faktor innerhalb von Personen | Gruppenunterschiede und Veränderungen innerhalb von Personen in einem Design |
+
+: Das Beobachtungsmuster bestimmt, welche ANOVA-Struktur die Frage darstellt. {#tbl-anova-design-family}
+
+Werden beispielsweise drei unterschiedliche Gruppen einmal gemessen, liegt ein Design mit unabhängigen Gruppen vor. Werden dieselben Personen zu drei Zeitpunkten gemessen, liegt ein Design mit Messwiederholungen vor. Werden mehrere Gruppen zu mehreren Zeitpunkten untersucht, ist das Design gemischt: Die Gruppenzugehörigkeit liegt zwischen Personen, der Messzeitpunkt innerhalb von Personen.
+
+*Gemischtes Design* bezeichnet hier die Kombination von Faktoren zwischen und innerhalb von Personen. Später bezeichnet ein *gemischtes Modell mit festen und zufälligen Effekten* ein Modell, das beide Effektarten enthält. Diese Ideen begegnen einander häufig, doch die beiden Begriffe beantworten unterschiedliche Fragen. Der eine beschreibt, wie Beobachtungen erhoben wurden, der andere, wie Effekte dargestellt werden.
+
+> **Leitfrage:** Wenn eine Datenzeile zu einer Person gehört, darf dieselbe Person sinnvollerweise auf einer weiteren Faktorstufe erscheinen? Die Antwort zeigt, ob diese Zeilen als unabhängig behandelt werden dürfen.
+
+---
+
+### Weshalb nicht jeden möglichen t-Test durchführen? {.cs-heading}
+
+Bei $p$ Gruppen gibt es
+
+$$
+\frac{p(p-1)}{2}
+$$
+
+verschiedene paarweise Vergleiche. Vier Gruppen ergeben bereits sechs Paare, zehn Gruppen 45. Wenn jeder Vergleich auf demselben unbereinigten Niveau getestet wird, steigt die Wahrscheinlichkeit mindestens eines falsch positiven Befunds in der Familie. Die *familienweise Fehlerrate* ist die Wahrscheinlichkeit, innerhalb dieser definierten Menge von Schlussfolgerungen mindestens einen Fehler 1. Art zu begehen.
+
+Für $m$ **unabhängige** Tests, die je mit der Fehlerwahrscheinlichkeit $\alpha$ für einen Fehler 1. Art durchgeführt werden, lautet die exakte familienweise Fehlerrate
+
+$$
+\alpha_{\text{Familie}}=1-(1-\alpha)^m.
+$$
+
+Das Wort *Familie* bezeichnet die Menge der gemeinsam betrachteten Schlussfolgerungen. Die Unabhängigkeitsbedingung ist wichtig, weil paarweise Vergleiche aus denselben Gruppen häufig Beobachtungen teilen und deshalb abhängig sind.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbares Liniendiagramm des familienweisen Fehlers über unabhängige Tests"}
+
+```{r}
+#| label: fig-fwer-independent
+#| fig-alt: "Eine ansteigende Linie zeigt, dass bei unabhängigen Tests mit je 0,05 die Wahrscheinlichkeit mindestens eines Fehlers 1. Art von 0,05 bei einem Test auf ungefähr 0,265 bei sechs Tests steigt."
+#| fig-cap: "Unter Unabhängigkeit erhöhen wiederholte unbereinigte Tests die Wahrscheinlichkeit mindestens eines Fehlers 1. Art in der Familie."
+#| fig-width: 8
+#| fig-height: 4.8
+p_fwer_independent
+```
+
+:::
+
+Die horizontale Achse zählt, wie viele unabhängige Tests zur Familie gehören. Die vertikale Achse zeigt die Wahrscheinlichkeit mindestens eines falsch positiven Befunds, wenn alle zugehörigen Nullhypothesen wahr sind. Der erste Punkt liegt bei 0,05, weil ein Test auf dem Niveau 0,05 durchgeführt wird. Mit jeder weiteren Gelegenheit für einen falsch positiven Befund steigt die Linie und erreicht bei sechs Tests ungefähr 0,265. Die Kurve ist weder ein ANOVA-Ergebnis noch die Fehlerrate für jede Menge abhängiger Vergleiche. Sie veranschaulicht die oben angegebene exakte Formel für unabhängige Tests.
+
+Die Omnibus-ANOVA ersetzt diese Sammlung unbereinigter paarweiser Tests durch einen ersten Hypothesentest. Wenn dieser auf einen Unterschied hinweist, können gezielte Vergleiche mit einer zur Forschungsfrage passenden Vergleichsstrategie folgen.
+
+---
+
+### Die Frage und die Hypothesen der einfaktoriellen ANOVA {.cs-heading}
+
+Eine **einfaktorielle ANOVA** hat einen Faktor mit $p$ Stufen. $\mu_i$ sei der Populationsmittelwert auf Stufe $i$. Die Nullhypothese lautet
+
+$$
+H_0:\mu_1=\mu_2=\cdots=\mu_p.
+$$
+
+Die Alternativhypothese lautet
+
+$$
+H_1:\text{Mindestens zwei Populationsmittelwerte unterscheiden sich}.
+$$
+
+Die Alternativhypothese sagt nicht, dass sich jeder Mittelwert von jedem anderen unterscheidet. Sie legt auch nicht fest, welcher Unterschied besteht. Deshalb benötigt ein signifikanter Omnibusbefund eine zweite, gezieltere Stufe, bevor einzelne Gruppen benannt werden.
+
+Für Beobachtung $m$ auf Stufe $i$ schreiben wir die Zielvariable als $y_{im}$. $n_i$ sei die Anzahl Fälle auf Stufe $i$, $N=\sum_i n_i$ die Gesamtzahl der Fälle, $\bar y_i$ der Stichprobenmittelwert auf Stufe $i$ und $\bar y$ der Gesamtmittelwert über alle Fälle.
+
+Mit diesen Kennzahlen können wir die Gesamtvariation als zwei verbundene Abweichungen beschreiben.
+
+---
+
+### Die Gesamtquadratsumme zerlegen {.cs-heading}
+
+Für jede Beobachtung gilt
+
+$$
+y_{im}-\bar y
+=
+(\bar y_i-\bar y)+(y_{im}-\bar y_i).
+$$
+
+Lies diese Identität von links nach rechts:
+
+- $y_{im}-\bar y$ ist die gesamte Abweichung der Beobachtung vom Gesamtmittelwert.
+- $\bar y_i-\bar y$ ist die Abweichung ihrer Gruppe vom Gesamtmittelwert.
+- $y_{im}-\bar y_i$ ist die Abweichung der Beobachtung von ihrem eigenen Gruppenmittelwert.
+
+Alle drei Terme liegen auf derselben Skala der Zielvariable. Das folgende Diagramm verwendet eine bewusst einfache Beobachtung, um zu zeigen, wie ihre vertikalen Abstände zusammenpassen, bevor irgendein Wert quadriert wird.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbares ANOVA-Abweichungsdiagramm vom Gesamtmittelwert über den Gruppenmittelwert zu einer Beobachtung"}
+
+```{r}
+#| label: fig-anova-deviation
+#| fig-alt: "Ein vertikales Diagramm markiert einen Gesamtmittelwert von sechzig, einen Gruppenmittelwert von sechsundsechzig und einen beobachteten Wert von siebzig. Ein Pfeil zeigt die Gesamtabweichung von zehn, ein zweiter den Faktoranteil von sechs zwischen Gesamt- und Gruppenmittelwert und ein dritter den Anteil innerhalb der Gruppe von vier zwischen Gruppenmittelwert und Beobachtung."
+#| fig-cap: "Für eine Beobachtung entspricht der gesamte Abstand vom Gesamtmittelwert dem Anteil des Gruppenmittelwerts plus dem verbleibenden Anteil innerhalb der Gruppe."
+#| fig-width: 9
+#| fig-height: 6.2
+p_anova_deviation_en
+```
+
+:::
+
+Beginne beim Gesamtmittelwert 60. Der Weg zum Gruppenmittelwert dieses Falls bei 66 umfasst 6 Punkte. Das ist der Faktoranteil, weil er erfasst, wo das angepasste Gruppenzentrum relativ zum Gesamtzentrum liegt. Der Weg vom Gruppenmittelwert zum beobachteten Wert 70 umfasst die verbleibenden 4 Punkte. Das ist der Anteil innerhalb der Gruppe, weil er erfasst, wie sich dieser Fall von seinem eigenen Gruppenzentrum unterscheidet. Gemeinsam überdecken der grüne und der orangefarbene Pfeil den blauen Gesamtabstand: $10=6+4$.
+
+Die ANOVA wendet dieselbe Zerlegung auf jede Beobachtung an. Danach quadriert sie die Abstände, damit sich positive und negative Abweichungen nicht gegenseitig aufheben, und addiert sie über alle Fälle. Die Abbildung legt nicht nahe, dass jede Beobachtung oberhalb beider Mittelwerte liegt oder dass der Faktor den Sechs-Punkte-Anteil verursacht hat. Andere Fälle können unter einem oder beiden Mittelwerten liegen, und eine kausale Interpretation hängt weiterhin vom Design ab.
+
+Die ANOVA quadriert und summiert diese Abweichungen. Die **Gesamtquadratsumme** lautet
+
+$$
+SS_{\text{gesamt}}
+=
+\sum_{i=1}^{p}\sum_{m=1}^{n_i}(y_{im}-\bar y)^2.
+$$
+
+Die **Faktorquadratsumme**, auch Quadratsumme zwischen den Gruppen genannt, lautet
+
+$$
+SS_A
+=
+\sum_{i=1}^{p}n_i(\bar y_i-\bar y)^2.
+$$
+
+Die Multiplikation mit $n_i$ ist wichtig, weil ein Gruppenmittelwert jeden Fall dieser Gruppe darstellt.
+
+Die **Fehlerquadratsumme**, auch Quadratsumme innerhalb der Gruppen genannt, lautet
+
+$$
+SS_e
+=
+\sum_{i=1}^{p}\sum_{m=1}^{n_i}(y_{im}-\bar y_i)^2.
+$$
+
+Die exakte Zerlegung ist
+
+$$
+SS_{\text{gesamt}}=SS_A+SS_e.
+$$
+
+*Fehler* bedeutet hier nicht, dass jemand einen Irrtum begangen hat. Es ist die Variation, die durch die Mittelwerte der Faktorstufen in diesem Modell nicht dargestellt wird. Sie kann individuelle Unterschiede, Messvariation und jede andere nicht modellierte Quelle enthalten.
+
+Quadratsummen wachsen mit der Anzahl Beobachtungen und können deshalb nicht direkt verglichen werden, wenn sie unterschiedlich viele freie Bestandteile haben. Freiheitsgrade bilden den nächsten Schritt.
+
+---
+
+### Freiheitsgrade, mittlere Quadrate und der F-Quotient {.cs-heading}
+
+Die Freiheitsgrade der einfaktoriellen ANOVA lauten
+
+$$
+df_A=p-1,\qquad df_e=N-p,\qquad df_{\text{gesamt}}=N-1.
+$$
+
+Sie zerfallen genauso wie die Quadratsummen:
+
+$$
+df_{\text{gesamt}}=df_A+df_e.
+$$
+
+Der Ausdruck **Freiheitsgrade** bedeutet, wie viele Informationsteile sich frei verändern können, nachdem eine Einschränkung festgelegt wurde. Stell dir drei Zahlen vor, die zusammen 5 ergeben müssen. Die ersten beiden kannst du frei wählen. Die dritte ist danach festgelegt, damit die Summe 5 wird. Die drei Zahlen haben somit nur zwei freie Bestandteile, also $3-1$ Freiheitsgrade.
+
+Die Zählungen der ANOVA folgen derselben Logik. Sobald der Gesamtmittelwert festliegt, können sich nur $N-1$ Gesamtabweichungen frei verändern. Sobald $p$ Gruppenmittelwerte mit diesem Gesamtmittelwert verbunden sind, bleiben nur $p-1$ unabhängige Abweichungen der Gruppenmittelwerte. Innerhalb der Gruppen verbraucht die Schätzung eines Mittelwerts pro Gruppe $p$ Bestandteile, sodass $N-p$ Residualfreiheitsgrade verbleiben.
+
+Ein **mittleres Quadrat** ist eine Quadratsumme geteilt durch ihre Freiheitsgrade:
+
+$$
+MS_A=\frac{SS_A}{df_A},
+\qquad
+MS_e=\frac{SS_e}{df_e}.
+$$
+
+Die Omnibus-Teststatistik lautet
+
+$$
+F=\frac{MS_A}{MS_e}.
+$$
+
+Der Zähler beschreibt die Trennung der Gruppenmittelwerte relativ zu seinen Freiheitsgraden. Der Nenner beschreibt die verbleibende Variation innerhalb der Gruppen. Wenn die Populationsmittelwerte gleich sind und die Modellbedingungen gelten, schätzen beide mittleren Quadrate dieselbe Fehlervariation und $F$ liegt tendenziell nahe bei 1. Grössere Werte bedeuten, dass die Gruppenmittelwerte stärker getrennt sind, als es die Variation innerhalb der Gruppen normalerweise erwarten liesse.
+
+Dieses Verhältnis ist die zentrale Idee der ANOVA. Die nächsten beiden Felder halten die drei Gruppenmittelwerte fest und verändern nur, wie stark die Beobachtungen innerhalb dieser Gruppen streuen.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare zweiteilige Abbildung dazu, wie die Streuung innerhalb der Gruppen den F-Quotienten verändert"}
+
+```{r}
+#| label: fig-anova-f-intuition
+#| fig-alt: "Zwei Felder zeigen drei Gruppen mit denselben Mittelwerten von fünfzig, sechzig und siebzig. Dicke durchscheinende vertikale Bereiche und einzelne Punkte zeigen im ersten Feld eine kleine und im zweiten eine grosse Streuung innerhalb der Gruppen. Jedes Feld beschriftet die mittlere Faktorquadratsumme, die mittlere Fehlerquadratsumme und den daraus entstehenden F-Quotienten direkt. Weisse Rauten markieren die Gruppenmittelwerte, eine gestrichelte Linie den Gesamtmittelwert."
+#| fig-cap: "Die mittlere Faktorquadratsumme bleibt bei 600, weil die Gruppenmittelwerte unverändert sind. Die mittlere Fehlerquadratsumme wächst, wenn die Beobachtungen weiter um diese Mittelwerte streuen. Dadurch wird F kleiner."
+#| fig-width: 10
+#| fig-height: 5.4
+p_anova_f_intuition_en
+```
+
+:::
+
+In beiden Feldern liegen die weissen Rauten bei 50, 60 und 70, und die gestrichelte Linie des Gesamtmittelwerts liegt bei 60. Die mit dem Faktor verbundene Trennung ist somit gleich. Beide Felder bestätigen dies numerisch mit $MS_A=600.00$. Die dicken durchscheinenden Bereiche und die Punkte zeigen, was sich verändert: die vertikalen Abstände der Beobachtungen von ihrer jeweiligen Gruppenraute.
+
+Im linken Feld sind diese Abstände kurz. Deshalb gilt $MS_e=`r format_t08(anova_f_panel_labels$ms_error[1], 2)`$ und $F=`r format_t08(anova_f_panel_labels$f_value[1], 2)`$. Im rechten Feld haben sich die Gruppenmittelwerte nicht bewegt, doch die Abstände innerhalb der Gruppen sind viel länger. Der Nenner steigt auf $MS_e=`r format_t08(anova_f_panel_labels$ms_error[2], 2)`$ und verkleinert den Quotienten auf $F=`r format_t08(anova_f_panel_labels$f_value[2], 2)`$. Darin liegt die gesamte visuelle Logik von $F$: Dasselbe Signal im Zähler fällt weniger deutlich auf, wenn die Hintergrundvariation im Nenner grösser wird.
+
+Die Zahlen bilden einen konstruierten Vergleich, der nur die Logik des Quotienten isoliert. Sie liefern keine Evidenz über eine reale Grundgesamtheit und legen keine allgemeingültige Grenze zwischen einem grossen und einem kleinen $F$ fest. Wir benötigen weiterhin die Referenzverteilung und ihre beiden Freiheitsgrade, um zu beurteilen, wie ungewöhnlich ein beobachteter Quotient unter $H_0$ ist.
+
+Die $F$-Verteilung wird durch zwei Freiheitsgrade bestimmt, $df_A$ und $df_e$. Der p-Wert ist unter $H_0$ die Wahrscheinlichkeit im rechten Verteilungsschwanz für einen $F$-Wert, der mindestens so gross ist wie der beobachtete.
+
+| Quelle | Quadratsumme | df | Mittleres Quadrat | F |
+|---|---:|---:|---:|---:|
+| Faktor A | $SS_A$ | $p-1$ | $SS_A/(p-1)$ | $MS_A/MS_e$ |
+| Fehler | $SS_e$ | $N-p$ | $SS_e/(N-p)$ |  |
+| Gesamt | $SS_{\text{gesamt}}$ | $N-1$ |  |  |
+
+: Allgemeine Tabelle der einfaktoriellen ANOVA. {#tbl-general-one-way-anova}
+
+Die Zeilen zeigen, welcher Quelle die Variation in diesem Modell zugeordnet wird. Die Faktorzeile misst die Trennung zwischen angepassten Gruppenmittelwerten. Die Fehlerzeile misst die Abweichungen der Fälle um diese angepassten Mittelwerte. Die Gesamtzeile enthält die gesamte Variation der Zielvariable um den Gesamtmittelwert. Lies die Faktorzeile von links nach rechts, um den Test nachzuvollziehen: Teile ihre Quadratsumme durch ihre Freiheitsgrade, um $MS_A$ zu erhalten. Teile diesen Wert danach durch $MS_e$ aus der Fehlerzeile, um $F$ zu erhalten. Leere Zellen sind beabsichtigt. Fehler- und Gesamtzeile erhalten in dieser Tabelle nicht je eine eigene Omnibus-$F$-Teststatistik.
+
+Ein signifikantes $F$-Ergebnis verwirft die Gleichheit aller Populationsmittelwerte. Es sagt noch nicht, welche Mittelwerte sich unterscheiden, ob die Unterschiede praktisch bedeutsam sind oder ob der Faktor sie verursacht hat.
+
+---
+
+### Anforderungen des Designs und Modellannahmen {.cs-heading}
+
+Im hier entwickelten einfaktoriellen Modell werden die Faktorstufen bewusst ausgewählt, weil genau diese Bedingungen im Mittelpunkt stehen. Das wird als *fester Faktor* bezeichnet. Jede Beobachtung kann so geschrieben werden:
+
+$$
+y_{im}=\mu_i+\varepsilon_{im},
+$$
+
+wobei $\varepsilon_{im}$ die Abweichung des Falls von seinem Populationsgruppenmittelwert ist. Dieses Modell setzt Folgendes voraus:
+
+1. **Unabhängige Fälle.** Der Fehler eines Falls darf den Fehler eines anderen Falls nicht bestimmen. In einem Experiment mit unabhängigen Gruppen stützt die Zufallszuweisung diese Struktur. Rekrutierung und Zuweisungsverfahren müssen dennoch geprüft werden.
+2. **Eine quantitative Zielvariable und ein kategorialer Faktor.** Die Mittelwerte und Abweichungen innerhalb der Gruppen müssen zu diesen Messrollen passen.
+3. **Homogene Fehlervarianz.** Es wird angenommen, dass die Populationsfehlervarianz über alle Faktorstufen gleich ist. Ein Stichprobenresiduum ist ein beobachteter Punktwert minus seinen angepassten Gruppenmittelwert. Ein Residuen-gegen-angepasste-Werte-Diagramm kann deutliche Unterschiede in der Residuenstreuung sichtbar machen.
+4. **Normalverteilte Fehler innerhalb der Stufen.** Ein Q-Q-Diagramm kann klare Abweichungen sichtbar machen. Die Annahme betrifft die Modellfehler und nicht die Faktorbezeichnungen.
+5. **Keine unberücksichtigten einflussreichen Beobachtungen.** Thema 5 führte eine einflussreiche Beobachtung als einen Fall ein, dessen Anwesenheit ein wichtiges angepasstes Ergebnis merklich verändert. Hier kann ein ungewöhnlicher Wert einen Gruppenmittelwert, die Quadratsumme innerhalb der Gruppe und den $F$-Quotienten beeinflussen.
+6. **Ein Design, das zur Schlussfolgerung passt.** Zufallszuweisung, fehlende Zielvariablen, Abweichungen vom geplanten Studienablauf und ungleiche Gruppengrössen müssen ehrlich berichtet werden.
+
+Diagnostische Grafiken beweisen keine Annahmen. Sie helfen, Muster zu erkennen, die dem Modell widersprechen. Lösche nie eine unbequeme Beobachtung nur deshalb, weil $F$ dadurch grösser wird.
+
+Wiederholte Messungen derselben Person sind keine unabhängigen Fälle. Sie benötigen die später in diesem Thema besprochene Messwiederholungsstruktur.
+
+---
+
+### Geplante Kontraste und Post-hoc-Vergleiche {.cs-heading}
+
+Ein Omnibusbefund sagt, dass irgendwo ein Unterschied besteht. Ein **Kontrast** verwandelt einen gezielten Mittelwertvergleich in eine gewichtete Summe:
+
+$$
+D=\sum_{i=1}^{p}c_i\bar y_i,
+\qquad
+\sum_{i=1}^{p}c_i=0.
+$$
+
+Die Zahlen $c_i$ sind **Kontrastgewichte**. Positive und negative Gewichte stellen die Stufen auf gegensätzliche Seiten des Vergleichs. Werden alle Gewichte mit derselben Zahl ungleich null multipliziert, verändert sich die Skala von $D$, aber nicht der inhaltliche Vergleich.
+
+Ein **einfacher Kontrast** vergleicht zwei Stufen. Deshalb sind nur zwei Gewichte ungleich null. Ein **komplexer Kontrast** kombiniert mehr als zwei Stufen. Er kann beispielsweise den Durchschnitt mehrerer aktiver Bedingungen mit einer Referenz vergleichen. Gewichte können auch ein vorab festgelegtes geordnetes Muster codieren, wenn genau dieser Trend die wissenschaftliche Hypothese ist.
+
+Ein **geplanter Kontrast** wird aus der Forschungsfrage abgeleitet, bevor die Zielvariablen untersucht werden. Ein **Post-hoc-Vergleich** wird nach der Omnibusanalyse oder nach der Untersuchung der Daten ausgewählt. Post hoc bedeutet nicht ungültig. Die Auswahl muss jedoch ehrlich beschrieben und ihre *Multiplizität* berücksichtigt werden, also das zusätzliche Risiko falsch positiver Befunde durch mehrere zusammengehörige Schlussfolgerungen.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbares Diagramm zum Vergleich geplanter, Tukey- und Dunnett-Vergleichsfamilien"}
+
+```{r}
+#| label: fig-comparison-types
+#| fig-alt: "Drei Diagramme zeigen einen gewichteten geplanten Kontrast über vier Stufen, alle sechs paarweisen Verbindungen einer Tukey-Familie und drei Verbindungen von einer Referenzstufe für eine Dunnett-Familie."
+#| fig-cap: "Das Vergleichsverfahren sollte zur Frage passen: ein vorab festgelegter gewichteter Kontrast, jedes Paar oder jede aktive Stufe gegen eine Referenz."
+#| fig-width: 10
+#| fig-height: 4.5
+p_comparison_types
+```
+
+:::
+
+- In der linken Teilgrafik teilt ein vorab festgelegtes Gewichtsmuster die vier Stufen in genau den Vergleich, den die Forschenden prüfen möchten.
+- In der mittleren Teilgrafik ist jede Stufe mit jeder anderen verbunden. Bei vier Stufen bilden diese sechs Verbindungen die Tukey-Familie aller Paare.
+- In der rechten Teilgrafik beginnen drei Verbindungen bei einer Referenzstufe. Das ist die gezieltere Dunnett-Familie.
+
+Die Teilgrafiken enthalten dieselben vier Faktorstufen, beantworten aber verschiedene Fragen. Die Wahl zwischen ihnen ist deshalb Teil der Definition der wissenschaftlichen Aussage und keine technische Entscheidung, die erst nach der Suche nach dem kleinsten p-Wert getroffen wird.
+
+- **Tukeys Honestly-Significant-Difference-Verfahren** berücksichtigt alle paarweisen Gruppenvergleiche und kontrolliert den familienweisen Fehler für diese Familie aller Paare.
+- **Dunnetts Verfahren** berücksichtigt jede ausgewählte Stufe gegen eine Referenzstufe und verwendet keinen Multiplizitätsschutz für Vergleiche, nach denen die Frage gar nicht verlangt.
+- **Ein geplanter linearer Kontrast** kann mithilfe seiner Gewichte zwei Stufen, zusammengefasste Stufenmengen oder ein theoretisch festgelegtes Muster vergleichen.
+
+Für ein balanciertes einfaktorielles Design mit $n$ Fällen pro Stufe hat der hier verwendete Kontrasttest die Form
+
+$$
+SS_D=\frac{nD^2}{\sum_i c_i^2},
+\qquad
+F_D=\frac{SS_D}{MS_e},
+$$
+
+mit einem Zählerfreiheitsgrad von 1 und $df_e$ Nennerfreiheitsgraden. Auch mehrere geplante Kontraste bilden eine Familie, wenn sie eine zusammengehörige Menge von Aussagen stützen. Die Planung allein lässt Multiplizität deshalb nicht verschwinden.
+
+---
+
+### Familienweiser Fehler, Sidak und Bonferroni {.cs-heading}
+
+Die **testbezogene Fehlerrate** ist die Wahrscheinlichkeit eines Fehlers 1. Art für einen Vergleich. Die **familienweise Fehlerrate**, abgekürzt **FWER**, ist die Wahrscheinlichkeit mindestens eines Fehlers 1. Art über die definierte Familie hinweg.
+
+Für $m$ voneinander unabhängige Tests ergibt das Auflösen der exakten familienweisen Gleichung nach dem Niveau pro Test die **Sidak-Schwelle**:
+
+$$
+\alpha_{\text{Test}}
+=
+1-(1-\alpha_{\text{Familie}})^{1/m}.
+$$
+
+Diese Gleichheit gilt unter Unabhängigkeit exakt. Im balancierten Modell mit normalverteilten Fehlern, das hier verwendet wird, sind orthogonale Kontrastschätzungen und ihre Zählerquadratsummen unabhängig. Ihre Gewichtsvektoren sind orthogonal, wenn die Summe ihrer paarweisen Gewichtsprodukte null ist. Teststatistiken können in ihren Nennern dennoch dasselbe geschätzte mittlere Fehlerquadrat teilen. Orthogonalität allein garantiert deshalb nicht, dass die Tests selbst voneinander unabhängig sind. Die exakte Sidak-Gleichheit sollte nur verwendet werden, wenn die Unabhängigkeit der Tests begründet wurde.
+
+Die **Bonferroni-Schwelle** lautet
+
+$$
+\alpha_{\text{Test}}=\frac{\alpha_{\text{Familie}}}{m}.
+$$
+
+Bonferroni kontrolliert den familienweisen Fehler auf höchstens dem gewählten Niveau, ohne unabhängige Tests vorauszusetzen. Das Verfahren ist oft konservativ. Das bedeutet, dass der tatsächliche familienweise Fehler unter der Grenze liegen und die Teststärke sinken kann.
+
+```{r}
+#| label: tbl-multiplicity-thresholds
+multiplicity_display |>
+  kable(
+    caption = "Familienweiser Fehler und Schwellen pro Test für ein angestrebtes familienweises Niveau von 0,05.",
+    col.names = c(
+      "Anzahl Vergleiche",
+      "Rohe FWER bei Unabhängigkeit",
+      "Sidak-Alpha pro Test bei Unabhängigkeit",
+      "Bonferroni-Alpha pro Test"
+    ),
+    align = c("r", "r", "r", "r")
+  )
+```
+
+Die erste numerische Spalte zeigt unter Unabhängigkeit das unbereinigte familienweise Risiko und steigt deshalb mit der Anzahl Vergleiche. Die Sidak- und Bonferroni-Spalten beantworten die umgekehrte Frage: Wie klein muss die Schwelle jedes Tests werden, damit die gesamte Familie nahe bei oder unter 0,05 bleibt? Beide Schwellen sinken, wenn die Familie wächst. Sidak verwendet die exakte Gleichung für unabhängige Tests. Bonferroni verwendet die einfache Divisionsregel und ist in den dargestellten Zeilen etwas strenger.
+
+Bei sechs unabhängigen Tests beträgt das unbereinigte familienweise Risiko `r multiplicity_display$raw_fwer[6]` und nicht 0,05. Für ein familienweises Zielniveau von 0,05 zeigt die Tabelle eine Sidak-Schwelle von `r multiplicity_display$sidak_alpha[6]` pro Test, sofern die Unabhängigkeit begründet ist. Die Bonferroni-Schwelle beträgt `r multiplicity_display$bonferroni_alpha[6]` und kontrolliert die familienweise Obergrenze ohne diese Unabhängigkeitsvoraussetzung. Ein Ergebnis mit einem unbereinigten p-Wert von 0,03 könnte somit einen einzelnen Test auf dem Niveau 0,05 bestehen, aber keine der beiden Schwellen für sechs Tests. Die Verfahren schützen die gesamte Menge von Aussagen, indem jedes Mitglied einer grösseren Familie stärkere Evidenz benötigt.
+
+Keine der beiden Methoden repariert eine Familie, die erst nach der Suche nach attraktiven Ergebnissen festgelegt wurde. Die Zahl $m$ muss die wissenschaftliche Vergleichsfamilie abbilden, und diese Familie muss berichtet werden. Multiplizität gehört zur wissenschaftlichen Interpretation, denn sie gibt an, wie viele zusammengehörige Gelegenheiten für einen falsch positiven Befund die Analyse schafft.
+
+Definiere die Familie anhand der wissenschaftlichen Aussagen und nicht anhand jener Ergebnisse, die zufällig vielversprechend aussehen. Einige Vergleiche, die vor der Betrachtung der Zielvariablen ausgewählt wurden, liefern stärkere Evidenz für vorab festgelegte Hypothesen als dieselben Vergleiche, wenn sie erst danach ausgewählt und so beschrieben werden, als seien sie geplant gewesen.
+
+---
+
+### Faktorielle ANOVA: Zellen, Randmittelwerte und Interaktionen {.cs-heading}
+
+Eine **faktorielle ANOVA** enthält zwei oder mehr Faktoren. Bei Faktor A und Faktor B bildet jede Kombination aus einer A-Stufe und einer B-Stufe eine Zelle. Ein Modell mit zwei festen Faktoren trennt drei Fragen:
+
+- Der **Haupteffekt von A** vergleicht die Randmittelwerte von A, gemittelt über die Stufen von B.
+- Der **Haupteffekt von B** vergleicht die Randmittelwerte von B, gemittelt über die Stufen von A.
+- Die **Interaktion zwischen A und B** fragt, ob sich das Muster über A mit der Stufe von B verändert.
+
+Ein **Randmittelwert** ist ein Durchschnitt über die Zellen, die zu einer Stufe eines Faktors gehören. Ein **Zellmittelwert** gehört zu genau einer Kombination von Stufen.
+
+Die Anzahl Zellen ist das Produkt der Stufenzahlen. Ein Faktor mit zwei Stufen, gekreuzt mit einem Faktor mit drei Stufen, ergibt $2\times3=6$ Zellen. Das Hinzufügen von Faktoren kann die benötigte Gruppenzahl deshalb schnell erhöhen. Ein Design muss in den entstehenden Zellen genügend Beobachtungen haben, um die untersuchten Muster schätzen zu können.
+
+Für zwei feste Faktoren lautet die Effektdarstellung
+
+$$
+y_{ijm}
+=
+\mu+\alpha_i+\beta_j+(\alpha\beta)_{ij}+\varepsilon_{ijm}.
+$$
+
+Dabei ist $\mu$ der Gesamtmittelwert, $\alpha_i$ stellt den Effekt für Stufe $i$ von Faktor A dar, $\beta_j$ den Effekt für Stufe $j$ von Faktor B, $(\alpha\beta)_{ij}$ ihre Interaktion in dieser Zelle und $\varepsilon_{ijm}$ den individuellen Fehler. Die drei Omnibus-Nullhypothesen setzen alle $\alpha_i$, alle $\beta_j$ beziehungsweise alle Interaktionsterme $(\alpha\beta)_{ij}$ auf null.
+
+Die Effektterme benötigen einen Bezugspunkt. Ohne ihn könnten dieselben Zellmittelwerte auf unendlich viele gleichwertige Arten geschrieben werden. In dieser Effektdarstellung lauten die üblichen Bedingungen zur eindeutigen Bestimmung
+
+$$
+\sum_i\alpha_i=0,
+\qquad
+\sum_j\beta_j=0,
+$$
+
+und für die Interaktion
+
+$$
+\sum_i(\alpha\beta)_{ij}=0\ \text{für jedes }j,
+\qquad
+\sum_j(\alpha\beta)_{ij}=0\ \text{für jedes }i.
+$$
+
+Diese Bedingungen behaupten nicht, dass die Effekte verschwunden sind. Sie legen den Nullpunkt der Effektterme fest. Damit ist $\mu$ der Gesamtmittelwert, jedes $\alpha_i$ die Abweichung der betreffenden A-Stufe von diesem Gesamtmittelwert nach Mittelung über B und jedes $\beta_j$ die entsprechende Abweichung für B. Die Interaktion ist der zellenspezifische Rest, nachdem beide additiven Haupteffektanteile dargestellt wurden.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare Diagramme mit sechs Haupteffekt- und Interaktionsmustern"}
+
+```{r}
+#| label: fig-factorial-patterns
+#| fig-alt: "Sechs Zellmittelwertdiagramme zeigen keine Effekte, nur einen Haupteffekt von A, nur einen Haupteffekt von B, zwei additive Haupteffekte, eine nicht kreuzende Interaktion und eine kreuzende Interaktion mit gleichen Randmitteln."
+#| fig-cap: "Parallele Linien stellen additive Muster dar, nicht parallele Linien Interaktionen. Eine Kreuzung ist eine mögliche Form der Interaktion, aber keine Voraussetzung."
+#| fig-width: 10
+#| fig-height: 7.4
+p_factorial_patterns
+```
+
+:::
+
+Lies die sechs Teilgrafiken in drei Durchgängen. Frage zuerst, ob sich die durchschnittliche Höhe von A1 zu A2 verändert. Das ist der Haupteffekt von A. Frage danach, ob eine farbige Linie im Durchschnitt höher liegt als die andere. Das ist der Haupteffekt von B. Prüfe zuletzt, ob die beiden Linien parallel sind. Wenn sich ihr Abstand oder ihre Richtung verändert, liegt eine Interaktion vor.
+
+1. **Keine Haupteffekte und keine Interaktion.** Beide Linien sind horizontal und überlappen sich. Jeder Zellmittelwert beträgt 55. Keiner der Faktoren verändert somit den angepassten Mittelwert.
+2. **Nur ein Haupteffekt von A.** Die Linien überlappen sich, steigen aber gemeinsam von A1 zu A2. Beim Mitteln über B bleibt die A-Differenz erhalten, während die Randmittelwerte von B gleich sind.
+3. **Nur ein Haupteffekt von B.** Die Linien sind horizontal und vertikal getrennt. Beim Mitteln über A bleibt die B-Differenz erhalten, während die Randmittelwerte von A gleich sind.
+4. **Beide Haupteffekte ohne Interaktion.** Beide Linien steigen gleich stark und behalten denselben Abstand. A und B weisen je eine Randmittelwertdifferenz auf. Ihre Beiträge sind jedoch additiv, weil die A-Veränderung bei B1 und B2 gleich ist.
+5. **Nicht kreuzende Interaktion.** Beide Linien steigen, aber eine deutlich stärker. Haupteffekte können weiterhin bestehen, doch der Effekt von A ist über B nicht konstant. Dieses Feld ist wichtig, weil sich Linien für eine Interaktion nicht kreuzen müssen.
+6. **Kreuzende Interaktion mit gleichen Randmitteln.** Eine Linie steigt, während die andere gleich stark fällt. Alle dargestellten Randmittelwerte betragen 55. Beide Haupteffekte verschwinden, obwohl die Umkehrung auf Zellebene stark ist.
+
+> **Leitfrage:** Welche dieser Geschichten würdest du übersehen, wenn du nur die Randmittelwerte zusammenfassen würdest?
+
+```{r}
+#| label: tbl-factorial-marginals
+factorial_marginals_table |>
+  kable(
+    caption = "Randmittelwerte für die sechs konstruierten Zellmittelwertmuster.",
+    col.names = c("Muster", "A1-Randmittel", "A2-Randmittel", "B1-Randmittel", "B2-Randmittel"),
+    align = c("l", "r", "r", "r", "r")
+  )
+```
+
+In der kreuzenden Teilgrafik ist jeder Randmittelwert gleich 55. Trotzdem verändert sich das Zellmuster vollständig über den anderen Faktor. Deshalb muss eine Interaktion direkt untersucht werden. Wenn eine Interaktion vorliegt, ist ein Haupteffekt nur ein Durchschnitt über ein Muster, das sich zwischen Zellen stark unterscheiden kann.
+
+Die Randmittelwerttabelle bestätigt, was die Abbildung verbergen könnte. Vergleiche die ersten vier Zeilen, um zu erkennen, wie horizontale Verläufe, vertikale Trennung und gleiche Steigungen Haupteffekte ohne Interaktion erzeugen oder ausbleiben lassen. Vergleiche danach die letzten beiden Zeilen. Das nicht kreuzende Muster behält Randmittelwertdifferenzen, obwohl sich die Steigungen unterscheiden. Beim kreuzenden Muster sind alle vier Randmittelwerte 55. Keine Randmittelwertmenge zeigt somit die Umkehrung. Die Abbildung verhindert eine Überbetonung der Durchschnittswerte, während die Tabelle numerisch belegt, dass Interaktion und Haupteffekte unterschiedliche Fragen beantworten.
+
+Die Tabelle einer faktoriellen ANOVA enthält getrennte Zeilen für A, B und $A\times B$, jeweils mit einer eigenen Quadratsumme, eigenen Freiheitsgraden, einem eigenen mittleren Quadrat und einem $F$-Quotienten gegen den angegebenen Fehlerterm. Detaillierte Berechnungen für unbalancierte Designs und Designs mit festen und zufälligen Faktoren erfordern ausdrückliche Modellentscheidungen und gehen über diese knappe Einführung hinaus.
+
+---
+
+### Feste Faktoren, Zufallsfaktoren und Varianzkomponenten {.cs-heading}
+
+Ein **fester Faktor** hat bewusst ausgewählte Stufen, weil genau diese Bedingungen im Mittelpunkt stehen. Seine Hypothese betrifft die entsprechenden Populationsmittelwerte oder festen Effekte.
+
+Bei einem **Zufallsfaktor** werden die beobachteten Stufen durch einen Zufallsprozess aus einer breiteren Population möglicher Stufen gezogen. Im Mittelpunkt steht nicht die Rangfolge der konkret gezogenen Stufen. Untersucht wird der Anteil der Variation der Zielvariable, der mit Unterschieden zwischen Stufen in dieser Population verbunden ist. Eine *Varianzkomponente* ist jener Teil der gesamten Modellvarianz, der einer zufälligen Quelle zugeordnet wird, beispielsweise Unterschieden zwischen den gezogenen Stufen.
+
+| Merkmal | Fester Faktor | Zufallsfaktor |
+|---|---|---|
+| Wie werden die Stufen erhalten? | Ausgewählt, weil diese Bedingungen inhaltlich wichtig sind | Gezogen, um eine breitere Population möglicher Stufen darzustellen |
+| Wichtigstes Ziel | Unterschiede zwischen den ausgewählten Populationsmittelwerten | Varianzkomponente zwischen den Stufen $\sigma_A^2$ |
+| Einfaktorielle Nullhypothese | Alle ausgewählten Stufenmittelwerte sind gleich | $H_0:\sigma_A^2=0$ |
+| Wiederholung der Studie | Dieselben geplanten Stufen bleiben relevant | Eine neue Zufallsstichprobe von Stufen könnte gezogen werden |
+
+: Feste Faktoren und Zufallsfaktoren beantworten unterschiedliche Populationsfragen. {#tbl-fixed-random}
+
+Die Unterscheidung betrifft das Populationsziel und nicht die Frage, ob die beobachteten Bezeichnungen auf der Seite fest aussehen. Wenn genau die ausgewählten Bedingungen wissenschaftlich im Mittelpunkt stehen, vergleichst du ihre Mittelwerte als feste Stufen. Wenn die beobachteten Stufen gezogen wurden, um eine breitere Population möglicher Stufen darzustellen, schätzt du, wie stark die Zielvariablen über diese Population variieren. Eine Wiederholung der Studie verdeutlicht den Unterschied: Eine Studie mit festem Faktor behält die Zielstufen. Eine Studie mit Zufallsfaktor könnte neue Stufen ziehen.
+
+Dieselbe Art von Bezeichnung kann deshalb in einer Frage fest und in einer anderen zufällig sein. Angenommen, eine Studie erfasst Zielwerte bei fünf Lehrpersonen. Wurden genau diese fünf benannten Lehrpersonen bewusst ausgewählt und betrifft die Frage ihre konkreten Mittelwertunterschiede, ist der Faktor Lehrperson fest. Wurden fünf Lehrpersonen zufällig gezogen und betrifft die Frage die Variation über die breitere Population von Lehrpersonen, ist der Faktor zufällig. Die Datenspalte kann in beiden Studien gleich aussehen, obwohl sich Ziehungsprozess und Inferenzziel unterscheiden.
+
+Prüfe vor der Rollenwahl drei Punkte:
+
+1. Wurden genau diese Stufen ausgewählt, weil jede einzelne wichtig ist, oder wurden sie als Vertreterinnen vieler möglicher Stufen gezogen?
+2. Sollte eine Wiederholung dieselben Stufen verwenden oder neue ziehen?
+3. Betrifft die Schlussfolgerung benannte Mittelwertunterschiede oder die Variation über eine Population von Stufen?
+
+> **Leitfrage:** Möchtest du die Stufen vergleichen, die du benennen kannst, oder herausfinden, wie stark Zielwerte über Stufen variieren, die du hättest ziehen können?
+
+Das balancierte einfaktorielle Zufallsfaktormodell lautet
+
+$$
+y_{im}=\mu+\alpha_i+\varepsilon_{im},
+$$
+
+wobei die zufälligen Stufeneffekte $\alpha_i$ um null zentriert sind, ihr Populationsmittel also null ist, und die Zufallsfehler $\varepsilon_{im}$ im selben Sinn um null zentriert sind. Die beiden Zufallskomponenten sind unabhängig. Das Modell nimmt für beide Komponenten zudem Normalverteilungen an.
+
+Für ein balanciertes einfaktorielles Zufallsfaktormodell mit $n$ Beobachtungen auf jeder Stufe schätzen wir
+
+$$
+\widehat{\sigma}_A^2=\frac{MS_A-MS_e}{n},
+\qquad
+\widehat{\sigma}_e^2=MS_e.
+$$
+
+Die **Intraklassenkorrelation**, kurz ICC, lautet
+
+$$
+ICC
+=
+\frac{\widehat{\sigma}_A^2}
+{\widehat{\sigma}_A^2+\widehat{\sigma}_e^2}.
+$$
+
+Sie beschreibt den Anteil der Modellvarianz, der mit dem Zufallsfaktor verbunden ist. Gleichbedeutend beschreibt sie, wie ähnlich Beobachtungen tendenziell sind, wenn sie zur selben gezogenen Stufe gehören. Die ICC ist wichtig, weil Unabhängigkeit unplausibel wird, wenn Beobachtungen derselben Stufe einander stark ähneln. Sie macht diese Gruppierung zu einer Kennzahl, statt sie nur als visuellen Eindruck stehen zu lassen.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare Punktdiagramme zum Vergleich geringer und hoher Ähnlichkeit innerhalb der Stufen eines Zufallsfaktors"}
+
+```{r}
+#| label: fig-icc-patterns
+#| fig-alt: "Zwei Punktdiagramme zeigen fünf Stufen eines Zufallsfaktors. In der Teilgrafik mit geringer Ähnlichkeit überlappen sich die Werte stark zwischen den Stufen. In der Teilgrafik mit hoher Ähnlichkeit liegen die Werte innerhalb jeder Stufe eng zusammen und sind zwischen den Stufen getrennt. Eine Beschriftung im Feld mit hoher Ähnlichkeit nennt die mittlere Quadratsumme zwischen den Stufen, die mittlere Quadratsumme innerhalb der Stufen und die berechnete ICC."
+#| fig-cap: "Eine grössere einfaktorielle ICC für einen Zufallsfaktor entspricht einer engeren Ähnlichkeit innerhalb der Stufen und einer deutlicheren Trennung zwischen den Stufen. Das Feld mit hoher Ähnlichkeit zeigt zusätzlich die Kennzahlen seiner ICC-Berechnung."
+#| fig-width: 9
+#| fig-height: 4.8
+p_icc_patterns
+```
+
+:::
+
+In der Teilgrafik mit geringer Ähnlichkeit überlappen sich die Werte der fünf Stufen stark. Wenn wir die Stufe eines Falls kennen, erfahren wir wenig über seine Zielvariable. Die Komponente zwischen den Stufen ist deshalb klein im Verhältnis zur Variation innerhalb der Stufen. In der Teilgrafik mit hoher Ähnlichkeit liegen die Punkte innerhalb jeder Stufe eng zusammen und die Stufengruppen weiter auseinander. Fälle derselben Stufe sind einander dann ähnlicher. Dieses Muster wird durch eine grössere ICC dargestellt.
+
+Berechnen wir nun die ICC für das Feld mit hoher Ähnlichkeit, statt sie nur nach Augenmass zu beurteilen. Jede seiner fünf Stufen des Zufallsfaktors enthält $n=`r icc_numeric_n_per_level`$ konstruierte Beobachtungen.
+
+```{r}
+#| label: tbl-icc-numeric-walkthrough
+icc_numeric_table |>
+  kable(
+    caption = "Numerische Berechnung der einfaktoriellen ICC für das Feld mit hoher Ähnlichkeit.",
+    col.names = c("Kennzahl", "Wert"),
+    align = c("l", "r")
+  )
+```
+
+Die mittlere Quadratsumme zwischen den Stufen, $MS_A=`r format_t08(icc_numeric_components$ms_factor, 3)`$, ist gross, weil die fünf Stufenmittelwerte weit auseinanderliegen. Die mittlere Quadratsumme innerhalb der Stufen, $MS_e=`r format_t08(icc_numeric_components$ms_error, 3)`$, ist klein, weil Beobachtungen derselben Stufe nahe beieinanderliegen. Das Einsetzen ergibt
+
+$$
+\widehat{\sigma}_A^2
+=
+\frac{`r format_t08(icc_numeric_components$ms_factor, 3)`-
+`r format_t08(icc_numeric_components$ms_error, 3)`}
+{`r icc_numeric_n_per_level`}
+=
+`r format_t08(icc_numeric_between_variance, 3)`,
+$$
+
+während $\widehat{\sigma}_e^2=MS_e=`r format_t08(icc_numeric_error_variance, 3)`$ gilt. Damit erhalten wir
+
+$$
+ICC
+=
+\frac{`r format_t08(icc_numeric_between_variance, 3)`}
+{`r format_t08(icc_numeric_between_variance, 3)`+
+`r format_t08(icc_numeric_error_variance, 3)`}
+=
+`r format_t08(icc_numeric_value, 3)`.
+$$
+
+Dieser Wert liegt nahe bei 1, weil der grösste Teil der Modellvarianz in diesem konstruierten Feld damit verbunden ist, zu welcher Stufe des Zufallsfaktors eine Beobachtung gehört. Er bedeutet nicht, dass `r format_t08(100 * icc_numeric_value, 1)`% der individuellen Zielwerte richtig vorhergesagt wurden. Er beschreibt die Gruppierung innerhalb dieses balancierten einfaktoriellen Zufallsfaktormodells.
+
+Die oben angegebene einfaktorielle ICC-Formel gehört zu genau diesem balancierten einfaktoriellen Zufallsfaktormodell. Sie darf nicht als allgemeingültige ICC-Formel für jede Situation mit wiederholten oder gruppierten Beobachtungen behandelt werden.
+
+#### Wenn zwei Faktoren feste und zufällige Rollen haben {.cs-heading}
+
+Bei zwei Faktoren muss die Rolle jedes Faktors feststehen, bevor die $F$-Tests konstruiert werden.
+
+| Hier verwendeter Modelltyp | Faktorrollen | Wichtigste Inferenzziele |
+|---|---|---|
+| Modell I | Beide Faktoren fest | Mittelwertunterschiede für A, Mittelwertunterschiede für B und ihre feste Interaktion |
+| Modell II | Beide Faktoren zufällig | Varianzkomponenten für A, B und ihre zufällige Interaktion |
+| Modell III | Ein Faktor fest und einer zufällig | Ein festes Mittelwertmuster sowie Varianzkomponenten für Zufallsfaktor und zufällige Interaktion |
+
+: Bei einer ANOVA mit zwei Faktoren verändern sich die Populationsfragen mit den Faktorrollen. {#tbl-anova-fixed-random-models}
+
+Diese Modelle können unterschiedliche mittlere Quadrate in den Nennern ihrer $F$-Quotienten verwenden. Die gewohnte Regel aus festen Modellen, jedes mittlere Faktorquadrat durch $MS_e$ zu teilen, gilt daher nicht allgemein, sobald Zufallsfaktoren vorkommen. Der Statistiksoftware muss mitgeteilt werden, welche Faktoren fest und welche zufällig sind. Die detaillierten Herleitungen der Nenner gehen über diese Einführung hinaus. Die Designentscheidung selbst ist jedoch nicht optional.
+
+---
+
+### Messwiederholungs-ANOVA und Abhängigkeit innerhalb von Personen {.cs-heading}
+
+Eine ANOVA mit unabhängigen Gruppen weist unterschiedliche Personen verschiedenen Stufen zu. Eine **Messwiederholungs-ANOVA** erfasst dieselben Personen auf mehreren Stufen oder zu mehreren Zeitpunkten. Messungen derselben Person hängen zusammen, weil sie dieselben Grundmerkmale dieser Person teilen. Sie als unabhängig zu behandeln, würde im Design enthaltene Information ignorieren.
+
+| Design | Wer liefert die Stufen? | Abhängigkeitsstruktur | Variation, die das Modell darstellen muss |
+|---|---|---|---|
+| Unabhängige Gruppen | Unterschiedliche Personen befinden sich auf unterschiedlichen Stufen | Fälle sind zwischen den beabsichtigten Einheiten unabhängig | Gruppenunterschiede und Unterschiede innerhalb der Gruppen |
+| Messwiederholung | Dieselben Personen treten auf mehreren Stufen oder zu mehreren Zeitpunkten auf | Messungen sind innerhalb jeder Person verbunden | Bedingungsunterschiede, stabile Personenunterschiede und verbleibende Variation innerhalb der Personen |
+
+: Eine Messwiederholungs-ANOVA muss die Verbindungen zwischen Beobachtungen derselben Person erhalten. {#tbl-anova-between-repeated}
+
+Das hier verwendete einfaktorielle Messwiederholungsmodell lautet
+
+$$
+y_{im}=\mu+\alpha_i+\pi_m+\varepsilon_{im},
+$$
+
+wobei $\alpha_i$ der feste Zeit- oder Bedingungseffekt und $\pi_m$ der zufällige Personeneffekt ist. Der Personenterm trennt stabile Unterschiede zwischen Personen von Veränderungen innerhalb einer Person.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbares Liniendiagramm wiederholter Beobachtungen, die innerhalb von Personen verbunden sind"}
+
+```{r}
+#| label: fig-repeated-design
+#| fig-alt: "Ein Liniendiagramm folgt 12 konstruierten Personen über drei Messzeitpunkte. Jede blaue Linie verbindet die Werte einer Person. Eine dickere orange Linie verbindet die Mittelwerte der Messzeitpunkte."
+#| fig-cap: "Wiederholte Beobachtungen sind innerhalb von Personen verbunden. Die Analyse muss deshalb sowohl Unterschiede zwischen Messzeitpunkten als auch Unterschiede zwischen Personen darstellen."
+#| fig-width: 8
+#| fig-height: 5
+p_repeated_design
+```
+
+:::
+
+Jede dünne blaue Linie gehört zu einer konstruierten Person. Ihre vertikale Position zeigt, dass Personen bei unterschiedlichen Niveaus der Zielvariable beginnen können. Ihre Bewegung über die Messzeitpunkte zeigt, dass sich auch Veränderungen innerhalb einer Person unterscheiden können. Die dicke orange Linie verbindet die Mittelwerte der Messzeitpunkte und fasst das durchschnittliche Muster zusammen. Eine Analyse nur dieser orangen Linie würde die darunter sichtbare Struktur zwischen Personen ignorieren.
+
+Was verändert sich genau, wenn der Personenterm aufgenommen wird? Der nächste Vergleich passt dieselben 36 konstruierten Messungen zweimal an. Die Messwiederholungsversion enthält sowohl den Messzeitpunkt als auch die Person. Die inkorrekte Vergleichsversion enthält den Messzeitpunkt, ignoriert aber die Person. Damit behandelt sie stabile Ausgangsunterschiede als Teil eines undifferenzierten Residuums.
+
+```{r}
+#| label: tbl-repeated-person-term
+repeated_model_comparison |>
+  transmute(
+    Analyse = analysis,
+    `SS Messzeitpunkt` = format_t08(occasion_ss, 3),
+    `df Messzeitpunkt` = occasion_df,
+    `MS Messzeitpunkt` = format_t08(occasion_ms, 3),
+    `Fehler-SS` = format_t08(error_ss, 3),
+    `Fehler-df` = error_df,
+    `Fehler-MS` = format_t08(error_ms, 3),
+    `F für Messzeitpunkt` = format_t08(f_value, 3)
+  ) |>
+  kable(
+    caption = "Derselbe Vergleich der Messzeitpunkte mit und ohne Personenterm.",
+    align = c("l", "r", "r", "r", "r", "r", "r", "r")
+  )
+```
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbarer Vergleich der mittleren Fehlerquadratsumme und des F-Quotienten bei Messwiederholung mit und ohne Personenterm"}
+
+```{r}
+#| label: fig-repeated-person-term
+#| fig-alt: "Zwei Felder mit Balkendiagrammen vergleichen eine Analyse mit Personenterm mit einer Analyse, die den Personenterm ignoriert. Mit Personenterm ist die mittlere Fehlerquadratsumme kleiner und der F-Quotient für den Messzeitpunkt grösser, weil stabile Unterschiede zwischen Personen vom Fehler innerhalb der Personen getrennt werden."
+#| fig-cap: "Die Darstellung stabiler Ausgangsunterschiede zwischen Personen verändert den Fehlernenner für die Beurteilung des Messzeitpunkts. Die Quadratsumme des Messzeitpunkts bleibt in diesem balancierten Beispiel unverändert."
+#| fig-width: 10
+#| fig-height: 5.2
+p_repeated_person_term
+```
+
+:::
+
+Die Quadratsumme des Messzeitpunkts beträgt in beiden Zeilen `r format_t08(repeated_model_comparison$occasion_ss[1], 3)`. Das ist in dieser balancierten Konstruktion zu erwarten: Die drei Mittelwerte der Messzeitpunkte und ihre Trennung sind gleich, unabhängig davon, welcher Nenner danach verwendet wird. Der Unterschied liegt darin, was als Fehler zählt.
+
+Mit Personenterm wird die Variation so geordnet:
+
+$$
+SS_{\text{gesamt}}
+=SS_{\text{Messzeitpunkt}}+SS_{\text{Person}}+SS_e.
+$$
+
+Stabile vertikale Unterschiede zwischen den blauen Personenlinien erhalten ihre eigene Komponente $SS_{\text{Person}}$. Das verbleibende $MS_e=`r format_t08(repeated_model_comparison$error_ms[1], 3)`$ beschreibt Variation, die übrig bleibt, nachdem sowohl Messzeitpunkt als auch Person dargestellt wurden. Die Teststatistik für den Messzeitpunkt lautet dann $F=`r format_t08(repeated_model_comparison$f_value[1], 3)`$.
+
+Wenn die Person ignoriert wird, gelangen diese stabilen Ausgangsunterschiede in das Residuum. Seine mittlere Fehlerquadratsumme steigt auf `r format_t08(repeated_model_comparison$error_ms[2], 3)`. Dieselbe mittlere Quadratsumme des Messzeitpunkts wird nun durch einen grösseren und für die Frage ungeeigneten Nenner geteilt. Das entstehende $F=`r format_t08(repeated_model_comparison$f_value[2], 3)`$ beantwortet die Frage nach dem Messzeitpunkt weniger effizient und beruht auf der falschen Vorstellung, Messungen derselben Person seien unverbunden.
+
+Die Lektion betrifft die Struktur und ist kein Trick, um $F$ zu vergrössern. Der Personenterm gehört in das Modell, weil dieselben Personen wiederholt gemessen wurden. Würden an den verschiedenen Messzeitpunkten unterschiedliche Personen gemessen, würde das Hinzufügen einer Personenkennung daraus kein Messwiederholungsdesign machen.
+
+#### Von einem wiederholten Faktor zu faktoriellen und gemischten Designs {.cs-heading}
+
+Das einfaktorielle Modell oben fragt, ob sich ein Faktor innerhalb von Personen über seine Stufen verändert. Dieselbe Designlogik lässt sich in zwei Richtungen erweitern:
+
+- In einem **faktoriellen Messwiederholungsdesign** durchlaufen dieselben Personen jede Kombination aus zwei oder mehr Faktoren innerhalb von Personen. Das Modell kann jeden Haupteffekt innerhalb von Personen und die Interaktion ihrer Muster prüfen.
+- Ein **gemischtes Design** verbindet mindestens einen Faktor zwischen Gruppen mit mindestens einem Faktor innerhalb von Personen. Unterschiedliche Gruppen werden durch dieselben wiederholten Bedingungen oder Messzeitpunkte begleitet.
+
+Angenommen, mehrere Gruppen werden zu mehreren Messzeitpunkten untersucht. Der Gruppenhaupteffekt fragt, ob sich die Gruppen im Durchschnitt über die Messzeitpunkte unterscheiden. Der Haupteffekt des Messzeitpunkts fragt, ob sich die Zielvariable im Durchschnitt über die Gruppen verändert. Die Interaktion zwischen Gruppe und Messzeitpunkt stellt die designspezifischste Frage: **Unterscheidet sich das Veränderungsmuster zwischen den Gruppen?** Parallele Gruppenverläufe sprechen gegen eine Interaktion. Nicht parallele Verläufe zeigen, dass sich der Gruppenunterschied über die Messzeitpunkte verändert.
+
+Die zusätzlichen Faktoren heben die Abhängigkeit nicht auf. Alle Beobachtungen derselben Person bleiben miteinander verbunden, während Beobachtungen unterschiedlicher Personen getrennte Einheiten bleiben. Das passende Modell muss beide Teile darstellen. Ein gemischtes Design ist deshalb mehr als eine faktorielle Tabelle mit wiederholten Zeilen. Die Beziehungen zwischen den Zeilen bestimmen die Fehlerstruktur für jede Frage.
+
+Zusätzlich zu den Normalitäts- und Unabhängigkeitsbedingungen für die Zufallsterme setzt der gewöhnliche $F$-Test für Messwiederholungen **Sphärizität** voraus. Sphärizität bedeutet, dass die Populationsvarianzen aller paarweisen Differenzwerte gleich sind. Bei drei Messzeitpunkten vergleichen wir die Varianz der Differenzen erster minus zweiter, erster minus dritter und zweiter minus dritter Zeitpunkt. Die Differenzen müssen weder eine Varianz von null noch gleiche Mittelwerte haben. Unter der Annahme müssen ihre Varianzen gleich sein.
+
+Ungleiche Zeitabstände oder andere Muster innerhalb von Personen können die Sphärizität verletzen. Die **Greenhouse-Geisser-Korrektur** verwendet eine Schätzung $\widehat\varepsilon$ von höchstens 1, um sowohl Zähler- als auch Nennerfreiheitsgrade zu verringern:
+
+$$
+df_{\text{Bedingung}}^*
+=
+\widehat\varepsilon\,df_{\text{Bedingung}},
+\qquad
+df_e^*
+=
+\widehat\varepsilon\,df_e.
+$$
+
+Der beobachtete $F$-Quotient bleibt gleich. Sein p-Wert oder kritischer Wert wird jedoch anhand der korrigierten Freiheitsgrade neu berechnet. Werte von $\widehat\varepsilon$, die weiter unter 1 liegen, ergeben eine stärkere Korrektur. Die Korrektur betrifft die Referenzverteilung des Tests. Sie macht die ursprünglichen Messungen nicht unabhängig.
+
+---
+
+### ANOVA als allgemeines lineares Modell {.cs-heading}
+
+Die ANOVA gehört zum **allgemeinen linearen Modell**, das in den Themen 5 bis 8 entwickelt wurde:
+
+- Die Regression verwendet eine quantitative Zielvariable mit quantitativen und gegebenenfalls kategorialen Prädiktoren.
+- Die ANOVA verwendet eine quantitative Zielvariable mit kategorialen Prädiktoren.
+- Die Kovarianzanalyse kombiniert kategoriale und quantitative Prädiktoren.
+
+Ein kategorialer Faktor kann über Dummy-Variablen in eine Regressionsgleichung eingehen. Beginnen wir mit einem Faktor mit drei Stufen und wählen Stufe 1 als Referenz. Zwei Dummy-Variablen genügen:
+
+$$
+\widehat Y=b_0+b_1D_2+b_2D_3.
+$$
+
+| Faktorstufe | $D_2$ | $D_3$ | Angepasster Gruppenmittelwert |
+|---|---:|---:|---|
+| Stufe 1, Referenz | 0 | 0 | $b_0$ |
+| Stufe 2 | 1 | 0 | $b_0+b_1$ |
+| Stufe 3 | 0 | 1 | $b_0+b_2$ |
+
+: Durch Dummy-Codierung kann eine Regressionsgleichung alle drei angepassten Gruppenmittelwerte wiedergeben. {#tbl-anova-dummy-bridge}
+
+Lies die Zeilen durch Einsetzen. Wenn beide Dummy-Variablen 0 sind, ist der angepasste Wert der Referenzmittelwert $b_0$. Wird $D_2$ eingeschaltet, kommt $b_1$ hinzu. Dieser Koeffizient ist somit Stufe 2 minus Referenz. Wird $D_3$ eingeschaltet, kommt $b_2$ hinzu, also die Differenz von Stufe 3 zur Referenz. Die Dummy-Werte sind Schalter und keine gemessenen Abstände zwischen Kategorien.
+
+Der Omnibus-$F$-Test der multiplen Regression in Thema 7 fragte, ob eine Menge von Prädiktoren das angepasste Modell gemeinsam verbessert. Hier fragt der Omnibus-$F$-Test der ANOVA, ob die Dummy-Koeffizienten eines Faktors gemeinsam null sein können. Beide vergleichen dargestellte Variation mit verbleibender Fehlervariation. ANOVA und Regression sind deshalb unterschiedliche Darstellungen desselben Rahmens linearer Modelle. Die wissenschaftliche Frage bestimmt, welches Vokabular klarer ist.
+
+> **Leitfrage:** Welchen angepassten Mittelwert würde jede Faktorstufe erhalten, wenn alle Dummy-Koeffizienten null wären?
+
+#### Jede wissenschaftliche Frage dem passenden F-Test zuordnen {.cs-heading}
+
+Die Bezeichnung «$F$-Test» steht nicht für eine einzige allgemeine Frage. Die ANOVA verwendet dieselbe grundlegende Quotientenlogik für mehrere unterschiedliche Nullhypothesen. Der Zähler verändert sich mit dem Effekt oder Vergleich, der geprüft wird. In den hier entwickelten Fällen mit festen Effekten liefert die passende mittlere Fehlerquadratsumme den Nenner.
+
+| Wissenschaftliche Frage | Nullhypothese | In diesem Thema behandelter Test |
+|---|---|---|
+| Unterscheiden sich bei einem Faktor mit $p$ Stufen irgendwelche Mittelwerte? | $H_0:\mu_1=\cdots=\mu_p$ | Einfaktorieller Omnibus-$F$-Test mit $p-1$ Zählerfreiheitsgraden |
+| Weicht ein vorab festgelegter gewichteter Vergleich von null ab? | $H_0:D=\sum_i c_i\mu_i=0$ | Kontrast-$F$-Test mit einem Zählerfreiheitsgrad |
+| Gibt es nach Mittelung über B einen Haupteffekt von Faktor A? | $H_0:\alpha_i=0$ für jedes $i$ | $F$-Test für Faktor A |
+| Gibt es nach Mittelung über A einen Haupteffekt von Faktor B? | $H_0:\beta_j=0$ für jedes $j$ | $F$-Test für Faktor B |
+| Verändert sich das Muster von A über die Stufen von B? | $H_0:(\alpha\beta)_{ij}=0$ in jeder Zelle | $F$-Test der Interaktion |
+
+: Omnibus-, Kontrast-, Haupteffekt- und Interaktionstests verwenden eine F-Statistik, beantworten aber unterschiedliche Fragen. {#tbl-anova-test-map}
+
+Die dummy-codierte Gleichung mit drei Stufen macht die erste Unterscheidung besonders greifbar. Ihr Omnibustest für den Faktor prüft die gemeinsame Hypothese
+
+$$
+H_0:\beta_1=\beta_2=0.
+$$
+
+Der Test des einzelnen Koeffizienten mit $H_0:\beta_1=0$ vergleicht dagegen nur Stufe 2 mit der gewählten Referenzstufe. Er macht keine direkte Aussage zu Stufe 3 gegen die Referenz oder zu Stufe 2 gegen Stufe 3. Bei genau zwei Faktorstufen gibt es nur einen Dummy-Koeffizienten. Unter denselben Bedingungen gleicher Varianzen gilt deshalb für die Omnibusstatistik mit einem Zählerfreiheitsgrad und die entsprechende zweiseitige Koeffizientenstatistik $F=t^2$. Bei drei oder mehr Stufen benötigt man den gemeinsamen $F$-Test, um den ganzen Faktor auf einmal zu prüfen.
+
+In einer faktoriellen ANOVA sind die drei Zeilen für A, B und $A\times B$ ebenfalls drei getrennte Tests. Eine signifikante Interaktion besagt, dass sich das Muster des einen Faktors über den anderen Faktor verändert. Sie benennt nicht automatisch die dafür verantwortlichen Zellvergleiche und kann einen randbezogenen Haupteffekt zu einer unvollständigen Zusammenfassung machen. Geplante Kontraste oder begründete Anschlussvergleiche stellen die nächsten, gezielteren Fragen.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+Dieser Abschnitt betrifft das **allgemeine lineare Modell**. Ein **generalisiertes lineares Modell** ist eine andere Modellfamilie und wird in dieser Lernsequenz zu Statistik 1 nicht eingeführt. Die ähnlichen Bezeichnungen dürfen nicht austauschbar verwendet werden.
+:::
+
+Wiederholte Daten und *verschachtelte Daten*, bei denen Fälle in grösseren Einheiten gruppiert sind, beispielsweise Lernende in Klassen, können flexibler mit einem *gemischten linearen Modell* dargestellt werden. Ein solches Modell verbindet feste und zufällige Effekte, um sowohl durchschnittliche Muster als auch gruppierungsbezogene Variation darzustellen. Diese Erweiterung behält die zentrale Lektion bei: Beziehungen zwischen Beobachtungen gehören in das Modell und nicht in eine nachträgliche Randbemerkung.
+
+::: {.callout-warning title="Mögliche Stolperfallen"}
+- **Jeden paarweisen t-Test so durchführen, als stünde er allein.** Zusammengehörige Vergleiche bilden eine Familie, deren Risiko falsch positiver Ergebnisse eine ausdrückliche Strategie erfordert.
+- **Den Omnibus-$F$-Test überinterpretieren.** Ein signifikantes Ergebnis zeigt nicht, dass sich jeder Gruppenmittelwert von jedem anderen unterscheidet.
+- **Einen Vergleich nach der Betrachtung der Zielvariablen als geplant bezeichnen.** Ein geplanter Kontrast muss festgelegt werden, bevor die Ergebnisse zu seiner Auswahl verwendet werden.
+- **Einen Haupteffekt interpretieren, bevor die Interaktion geprüft wurde.** Eine Interaktion kann dazu führen, dass sich das Muster auf Zellebene von einem Randmittelwert unterscheidet.
+- **Feste und zufällige Faktoren verwechseln.** Bewusst ausgewählte und zufällig gezogene Stufen stützen unterschiedliche Geltungsbereiche der Interpretation.
+- **Wiederholte Beobachtungen als unabhängige Fälle behandeln.** Messungen derselben Person sind miteinander verbunden. Das Modell muss diese Abhängigkeit berücksichtigen.
+- **Eine ICC-Formel auf jedes Design anwenden.** Die einfaktorielle Formel lässt sich nicht unverändert auf jede gruppierte Struktur oder jedes Messwiederholungsdesign übertragen.
+- **Ein unauffälliges diagnostisches Diagramm als Beweis behandeln.** Diagnostische Darstellungen untersuchen ausgewählte Modellmerkmale. Sie können nicht jede Design- oder Modellbedingung bestätigen.
+:::
+
+---
+
+### Weshalb all dies wichtig ist: Wesen und Bedarf der ANOVA {.cs-heading}
+
+Die ANOVA wird benötigt, weil eine Sammlung von Gruppenmittelwerten zwei Probleme gleichzeitig erzeugt. Erstens können sichtbare Stichprobenunterschiede entstehen, obwohl die Populationsmittelwerte gleich sind. Zweitens schafft der getrennte Test jedes Paars eine wachsende Familie von Möglichkeiten für falsch positive Schlussfolgerungen. Die ANOVA beginnt mit einer koordinierten Frage: **Ist die Trennung zwischen den angepassten Gruppen- oder Zellmittelwerten gross im Verhältnis zu jener Variation, die innerhalb dieser angepassten Gruppen verbleibt?**
+
+Dieser Vergleich ist das Wesen des $F$-Quotienten. Der Zähler stellt genau das in der Hypothese bezeichnete Muster dar, etwa einen ganzen Faktor, einen geplanten Kontrast oder eine Interaktion. Der Nenner stellt eine geeignete Schätzung der verbleibenden Fehlervariation dar. Ein grosser Quotient spricht gegen genau diese Nullhypothese. Er ist keine allgemeine Erklärung dafür, dass jede Gruppe verschieden sei, jeder Koeffizient eine Rolle spiele oder das Ergebnis praktisch bedeutsam sei.
+
+Die Methode folgt deshalb einem bewussten Rhythmus. Untersuche zuerst das Design und die Verteilungen. Frage danach mit einem Omnibus- oder effektspezifischen $F$-Test, ob ein strukturiertes Muster erkennbar ist. Verwende erst anschliessend vorab festgelegte Kontraste oder multiziplitätsbewusste Anschlussvergleiche, um die Unterschiede zu lokalisieren, die der breite Test nicht benennen konnte. Diese Trennung erlaubt dir, genau zu sagen, welche Frage geplant war, welche explorativ entstand und welche Familie von Schlussfolgerungen geschützt werden muss.
+
+Die Erweiterungen lassen sich leichter ordnen, wenn ihr Zweck sichtbar bleibt. Eine einfaktorielle ANOVA vergleicht die Stufen eines Faktors. Eine faktorielle ANOVA ergänzt weitere Faktoren und fragt, ob ihre Effekte additiv sind oder interagieren. Ein zufälliger Faktor verschiebt das Populationsziel von ausgewählten Mittelwertunterschieden zu einer Varianzkomponente. Eine ANOVA mit Messwiederholungen stellt die Verbindung zwischen Beobachtungen derselben Person dar, statt so zu tun, als seien diese Zeilen unabhängig. Jede Erweiterung reagiert mit einer Modelländerung auf eine andere wissenschaftliche Frage oder Abhängigkeitsstruktur. Darin liegt die Verbindung zwischen den Formeln.
+
+Schliesslich schliesst die ANOVA die Regressionsabfolge ab. Durch Dummy-Codierung kann eine Regressionsgleichung Gruppenmittelwerte wiedergeben, und der gemeinsame Test der zugehörigen Dummy-Koeffizienten ist der Faktortest der ANOVA. Faktorielle Interaktionen sind das kategoriale Gegenstück zu den Interaktionstermen der multiplen Regression. Die Quadratsummen trennen weiterhin dargestellte von residualer Variation. Diese gemeinsame Struktur macht aus der ANOVA keine isolierte Tabelle, sondern eine kohärente Art zu fragen, ob kategoriale Prädiktoren bedeutsame Variation in der Zielvariablen ordnen.
+
+> **Abschlussfrage:** Kannst du die angepassten Mittelwerte oder das Zellmuster benennen, genau angeben, welche Koeffizienten oder Effekte unter der Nullhypothese gemeinsam null sind, die passende Fehlerstruktur erkennen und erklären, was ein signifikantes Ergebnis weiterhin nicht aussagt? Dann hast du die zentrale Logik der ANOVA erfasst.
+
+### Ein zuverlässiger ANOVA-Ablauf {.cs-heading}
+
+Gehe in dieser Reihenfolge vor:
+
+1. Bestimme die quantitative Zielvariable, Faktoren, Stufen, Zellen und die Beobachtungseinheit.
+2. Beschreibe Zuweisung, Stichprobenziehung, Balance und allfällige Messwiederholungen.
+3. Formuliere die Omnibushypothesen, bevor du Testergebnisse untersuchst.
+4. Stelle die Verteilungen und Mittelwerte der Gruppen oder Zellen grafisch dar.
+5. Passe das Modell an und prüfe die Struktur der Quadratsummen und Freiheitsgrade.
+6. Untersuche Residuenstreuung, Normalität und ungewöhnliche Beobachtungen.
+7. Interpretiere den Omnibus-$F$-Test eng.
+8. Wende vorab festgelegte Kontraste oder eine begründete Post-hoc-Familie mit Multiplizitätskontrolle an.
+9. Untersuche Interaktionen, bevor du randbezogene Haupteffekte zusammenfasst.
+10. Stimme feste, zufällige oder wiederholte Terme auf die Populationsfrage ab.
+11. Trenne statistische Signifikanz, praktische Bedeutung und kausale Interpretation.
+
+Das simulierte Beispiel wendet nun den einfaktoriellen Kern dieses Ablaufs an. Faktorielle Analysen, Zufallsfaktoranalysen und Messwiederholungsanalysen werden nicht demselben Datensatz hinzugefügt.
+
+## Simuliertes Beispiel
+
+### Simulierte Studie: Randomisierter Vergleich von vier Lernroutinen {.cs-heading}
+
+Thema 1 führte Simulationen, Zufallszahlengeneratoren, feste Startwerte und Reproduzierbarkeit ein. Dieses Beispiel verwendet dieselbe bekannte Grundlage: Ein gespeichertes Rezept und ein Startwert erzeugen bei jedem Aufbau der Seite dieselben künstlichen Werte.
+
+Das Beispiel umfasst `r sim_n` künstliche Teilnehmende. Es ist eine *einfaktorielle* Studie, weil es genau einen kategorialen Faktor gibt, die Studienbedingung. *Zufallszuweisung* bedeutet, dass ein Zufallsprozess die Bedingung jeder Person bestimmt und nicht ein Merkmal der Person oder die Entscheidung der analysierenden Person. Hier ordnet dieser Prozess jeder der vier Bedingungen mit Lernroutinen genau `r sim_n_per_level` Personen zu. Die Zielvariable ist ein konstruierter Lernpunktwert von 0 bis 100.
+
+Auf der Seite werden vier Stichprobenmittelwerte erscheinen. Sichtbare Unterschiede zwischen ihnen sind aber erst der Anfang der Überlegung. Drei Fragen führen dich durch die Analyse:
+
+> Sind die Mittelwertunterschiede gross im Vergleich zur Punktwertvariation, die innerhalb der Gruppen verbleibt? Was kann ein einziger Gesamt- oder *Omnibustest* zeigen, ohne zu behaupten, dass sich jedes Paar unterscheidet? Wie sollte ein vor der Betrachtung der Zielvariablen gewählter Vergleich von einer anschliessenden Untersuchung aller Paare getrennt werden?
+
+Gemeinsam führen diese Fragen zur zentralen Analyse: Unterscheiden sich die Populationsmittelwerte der Lernpunktwerte zwischen den vier randomisierten Studienbedingungen in diesem konstruierten Modell?
+
+| Designelement | Rolle in der Simulation |
+|---|---|
+| Zielvariable | Lernpunktwert von 0 bis 100 |
+| Faktor | Studienbedingung |
+| Stufen | Referenz, Planungshilfe, Abrufhinweise, kombinierte Routine |
+| Zelle | Eine Bedingung, weil dies ein einfaktorielles Design ist |
+| Zuweisung | Durch das Simulationsrezept randomisiert |
+| Balance | 40 Fälle auf jeder Stufe |
+| Beobachtungseinheit | Eine künstliche teilnehmende Person |
+
+: Design der konstruierten Lehrstudie zur einfaktoriellen ANOVA. {#tbl-t08-simulation-design}
+
+Die Designtabelle ist eine Checkliste für die Wahl des Modells. Es gibt eine quantitative Zielvariable, einen kategorialen Faktor, vier Stufen und eine Beobachtung von jeder künstlichen Person. Gleiche Gruppengrössen machen das Design balanciert. Die Zufallszuweisung ist Teil des Rezepts. Die simulierte Analyse kann deshalb die Logik eines Experiments veranschaulichen. Da keine realen Personen beteiligt sind, bleiben alle inhaltlichen Schlussfolgerungen fiktiv.
+
+Das Beispiel beginnt mit der Omnibusanalyse. Danach folgen ein *vorab festgelegter Kontrast*, also ein gezielter Vergleich, der vor der Betrachtung der Zielvariablen gewählt wird, und eine *Post-hoc-Familie* aller Paare, also eine Menge von Vergleichen, die nach dem Gesamtergebnis untersucht wird. Diese Reihenfolge ist wichtig: Wir durchsuchen nicht zuerst die paarweise Tabelle und behaupten danach, der ansprechendste Vergleich sei geplant gewesen.
+
+---
+
+**Schritt 1: Zeilen und Gruppengrössen überprüfen**
+
+Jede teilnehmende Person trägt eine Zielvariable in einer Bedingung bei. Die interaktive Tabelle enthält alle `r sim_n` randomisierten Zeilen. Verwende das Suchfeld, die Sortierfunktionen und die Seitensteuerung, um die Zuweisungen zu untersuchen und dabei die Bedingung und die Zielvariable jeder Person zusammenzuhalten.
+
+```{r}
+#| label: tbl-t08-simulated-data
+DT::datatable(
+  sim_data |>
+    select(participant_id, condition, learning_score),
+  colnames = c("Teilnehmenden-ID", "Studienbedingung", "Lernpunktwert"),
+  caption = "Vollständige konstruierte randomisierte einfaktorielle Studie.",
+  options = topic_dt_options(topic_locale),
+  class = "compact stripe hover",
+  rownames = FALSE
+)
+```
+
+Die Tabelle bestätigt, dass jede Teilnehmenden-ID zusammen mit einer Bedingung und einem Lernpunktwert auftritt. Teilnehmenden-IDs sind Bezeichnungen und keine quantitativen Messungen. Jede Berechnung verwendet diesen vollständigen Datensatz.
+
+Die Gruppenzusammenfassungen bestätigen die balancierte Zuweisung.
+
+```{r}
+#| label: tbl-t08-group-summaries
+sim_group_summary |>
+  kable(
+    caption = "Gruppenzusammenfassungen für die vier konstruierten Studienbedingungen.",
+    col.names = c("Studienbedingung", "n", "Mittelwert", "SD", "Minimum", "Maximum"),
+    align = c("l", "r", "r", "r", "r", "r")
+  )
+```
+
+Lies die Tabelle der Gruppenzusammenfassungen in zwei Richtungen. Quer über eine Zeile bestimmt der Mittelwert das Zentrum einer Bedingung, die Standardabweichung beschreibt die typische Streuung innerhalb der Bedingung und Minimum und Maximum zeigen den beobachteten Bereich. In der Tabelle nach unten ist jedes $n$ gleich `r sim_n_per_level`, was die Balance bestätigt. Die Mittelwerte liefern zugleich die erste sichtbare Evidenz für eine Trennung der Gruppen. Der Gesamtmittelwert über alle `r sim_n` Punktwerte beträgt `r format_t08(sim_components$grand_mean, 3)`. Eine Tabelle allein kann die Verteilung einzelner Punktwerte nicht zeigen. Deshalb stellt der nächste Schritt jede Beobachtung grafisch dar.
+
+---
+
+**Schritt 2: Die Gruppenverteilungen vor dem Test darstellen**
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare Box- und Punktgrafik der Lernpunktwerte in vier Studienbedingungen"}
+
+```{r}
+#| label: fig-t08-simulated-groups
+#| fig-alt: "Box- und Punktgrafiken zeigen je 40 Lernpunktwerte in vier konstruierten Bedingungen. Die Gruppenmittelwerte steigen von der Referenzbedingung bis zur kombinierten Routine. Gleichzeitig bleibt eine deutliche Überlappung innerhalb der Gruppen bestehen."
+#| fig-cap: "Die Gruppenmittelwerte unterscheiden sich, doch die individuellen Punktwerte variieren weiterhin innerhalb jeder randomisierten Bedingung."
+topic8_plotly(
+  p_sim_groups,
+  paste(
+    "Box- und Punktgrafiken zeigen je 40 Lernpunktwerte in vier konstruierten Bedingungen.",
+    "Beim Überfahren eines Punkts werden die Teilnehmenden-ID, die Studienbedingung und der Lernpunktwert angezeigt.",
+    "Weisse Rauten markieren die Gruppenmittelwerte, und die gestrichelte Linie markiert den Gesamtmittelwert."
+  )
+)
+```
+
+:::
+
+Jeder Punkt ist eine künstliche teilnehmende Person. Die leichte Positionsverschiebung dient nur dazu, überlappende Punkte sichtbar zu machen, und hat keine numerische Bedeutung. Die Linie in jeder Box markiert den Median. Die Box enthält die mittlere Hälfte der Punktwerte. Die darüberliegende Mittelwertmarkierung zeigt jene Kennzahl, die in der ANOVA-Berechnung verwendet wird. Die Stichprobenmittelwerte steigen über die vier Bedingungen. Boxen und Punkte überlappen sich aber ebenfalls. Das erinnert daran, dass die ANOVA die Grösse der Trennung zwischen den Gruppen mit der verbleibenden Variation innerhalb der Gruppen vergleicht. Sie setzt nicht voraus, dass jeder Punktwert einer Gruppe höher ist als jeder Punktwert einer anderen.
+
+Die Populationshypothesen lauten
+
+$$
+H_0:\mu_{\text{Referenz}}
+=\mu_{\text{Planung}}
+=\mu_{\text{Abruf}}
+=\mu_{\text{kombiniert}}
+$$
+
+und
+
+$$
+H_1:\text{Mindestens zwei dieser Populationsmittelwerte unterscheiden sich}.
+$$
+
+---
+
+**Schritt 3: Die Variation zerlegen**
+
+Die Berechnung von Hand ergibt:
+
+```{r}
+#| label: tbl-t08-ss-check
+sim_ss_check |>
+  kable(
+    caption = "Numerische Prüfungen der Zerlegungen von Quadratsummen und Freiheitsgraden.",
+    col.names = c("Kennzahl", "Wert"),
+    align = c("l", "r")
+  )
+```
+
+Die Tabelle enthält zwei parallele Prüfungen. Die Quadratsummenzeilen bestätigen, wie die beobachtete Variation der Zielvariable aufgeteilt wird. Die Zeilen der Freiheitsgrade bestätigen, wie die verfügbare Information aufgeteilt wird. Abgesehen von der angezeigten Rundung gelten die beiden Gleichheiten:
+
+$$
+`r format_t08(sim_components$ss_total, 3)`
+=
+`r format_t08(sim_components$ss_factor, 3)`
++
+`r format_t08(sim_components$ss_error, 3)`,
+$$
+
+$$
+`r sim_components$df_total`
+=
+`r sim_components$df_factor`
++
+`r sim_components$df_error`.
+$$
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbare gestapelte Balken, welche die Gesamtquadratsumme in Faktor- und Fehlerkomponente zerlegen"}
+
+```{r}
+#| label: fig-t08-ss-partition
+#| fig-alt: "Zwei gleich lange horizontale Balken vergleichen die Gesamtquadratsumme mit einem unterteilten Balken aus Faktorquadratsumme und Fehlerquadratsumme."
+#| fig-cap: "Faktor- und Fehlerquadratsumme ergeben zusammen exakt die Gesamtquadratsumme."
+topic8_plotly(
+  p_sim_ss_partition,
+  paste(
+    "Zwei interaktive Balken vergleichen die Gesamtquadratsumme mit einer Zerlegung in Faktor- und Fehlerquadratsumme.",
+    "Beim Überfahren werden die Komponente und ihre genaue Quadratsumme angezeigt.",
+    "Beide Balken besitzen dieselbe Gesamtlänge."
+  )
+)
+```
+
+:::
+
+Beide Balken haben dieselbe Gesamtlänge, weil sie dieselbe Gesamtquadratsumme beschreiben. Der erste Balken behält diese Variation als einen Teil. Der zweite öffnet sie in die Faktor- und Fehlerkomponente. Das Faktorsegment erfasst die Trennung der vier Bedingungsmittelwerte vom Gesamtmittelwert. Das grössere Fehlersegment erfasst die individuellen Abweichungen um diese Bedingungsmittelwerte. Seine Grösse allein entscheidet nicht über die Bedeutung des Faktors, denn $F$ vergleicht die zugehörigen mittleren Quadrate nach Berücksichtigung ihrer verschiedenen Freiheitsgrade.
+
+---
+
+**Schritt 4: Die ANOVA-Tabelle vervollständigen und interpretieren**
+
+Die mittleren Quadrate lauten
+
+$$
+MS_A
+=
+\frac{`r format_t08(sim_components$ss_factor, 3)`}{`r sim_components$df_factor`}
+=
+`r format_t08(sim_components$ms_factor, 3)`,
+$$
+
+$$
+MS_e
+=
+\frac{`r format_t08(sim_components$ss_error, 3)`}{`r sim_components$df_error`}
+=
+`r format_t08(sim_components$ms_error, 3)`.
+$$
+
+Daher gilt
+
+$$
+F
+=
+\frac{`r format_t08(sim_components$ms_factor, 3)`}
+{`r format_t08(sim_components$ms_error, 3)`}
+=
+`r format_t08(sim_components$f_value, 3)`.
+$$
+
+```{r}
+#| label: tbl-t08-anova-table
+sim_anova_table |>
+  kable(
+    caption = "Vollständige Tabelle der einfaktoriellen ANOVA für die konstruierte randomisierte Studie.",
+    col.names = c("Quelle", "SS", "df", "MS", "F", "p"),
+    align = c("l", "r", "r", "r", "r", "r")
+  )
+```
+
+Die ANOVA-Tabelle verdichtet die ganze Berechnung in Zeilen. Die Faktorzeile enthält $SS_A$, $df_A$, $MS_A$ und das daraus entstehende $F$. Die Fehlerzeile liefert $SS_e$, $df_e$ und den Nenner $MS_e$. Die Gesamtzeile bestätigt die vollständige Variation der Zielvariable, benötigt aber keinen eigenen $F$-Wert. Wenn du die Faktorzeile quer liest, reproduzierst du die Formeln unmittelbar darüber.
+
+Das Ergebnis lautet $F(`r sim_components$df_factor`, `r sim_components$df_error`)=`r format_t08(sim_components$f_value, 3)`$, $p<.001$. Unter den Modellannahmen sind die Daten nur schwer mit gleichen Populationsmittelwerten in allen vier konstruierten Bedingungen vereinbar. Mindestens zwei Mittelwerte unterscheiden sich.
+
+Die ANOVA-Tabelle gibt den p-Wert numerisch an. Die nächste Abbildung zeigt genau, wo diese Wahrscheinlichkeit in der Referenzverteilung liegt.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollbare F-Verteilung mit der simulierten Omnibus-Teststatistik und dem p-Wert im rechten Verteilungsschwanz"}
+
+```{r}
+#| label: fig-t08-simulated-f-tail
+#| fig-alt: "Eine rechtsschiefe F-Verteilung unter der Nullhypothese enthält eine gestrichelte Linie bei der beobachteten F-Teststatistik der simulierten Studie. Die kleine Fläche bei und jenseits dieses Werts ist als p-Wert im rechten Verteilungsschwanz schattiert."
+#| fig-cap: "Der Omnibus-p-Wert ist unter dem Nullmodell die Wahrscheinlichkeit einer F-Teststatistik, die mindestens so gross ist wie der beobachtete Quotient."
+topic8_plotly(
+  p_sim_f_tail_en,
+  paste(
+    "Eine interaktive rechtsschiefe F-Verteilung unter der Nullhypothese enthält eine gestrichelte Linie bei der beobachteten F-Teststatistik.",
+    "Beim Überfahren der Kurve wird die F-Position angezeigt.",
+    "Die Fläche bei und rechts vom beobachteten Wert ist als p-Wert im rechten Verteilungsschwanz schattiert."
+  )
+)
+```
+
+:::
+
+Die horizontale Achse enthält mögliche $F$-Quotienten unter gleichen Populationsmittelwerten und den angegebenen Modellbedingungen. Die Höhe der Kurve ist eine Dichte. Der p-Wert ist daher eine Fläche und nicht die Höhe an einem einzelnen Punkt. Die gestrichelte Linie markiert das beobachtete $F$. Jeder Wert im blassen vertikalen Bereich rechts davon ist mindestens ebenso gross. Der p-Wert ist die Fläche unter der Dichtekurve in diesem Bereich. Sie ist hier so klein, dass die gefüllte Form beinahe auf der horizontalen Achse liegt.
+
+Nur der rechte Verteilungsschwanz wird verwendet, weil ein $F$-Quotient durch einen ungewöhnlich grossen Wert Evidenz gegen $H_0$ liefert. Ein Quotient nahe 1 ist damit vereinbar, dass Faktor- und Fehlermittelquadrat ähnlich gross sind. Der schattierte Bereich gibt weder die Wahrscheinlichkeit an, dass $H_0$ wahr ist, noch misst er die praktische Bedeutung oder zeigt, welche Mittelwerte sich im Einzelnen unterscheiden.
+
+Der Omnibusbefund sagt nicht, dass sich jedes Paar unterscheidet. Er zeigt auch nicht, welche Lernroutine für den Befund verantwortlich ist. Wir wenden uns nun dem Vergleich zu, der vor der Untersuchung der Zielvariablen festgelegt wurde.
+
+---
+
+**Schritt 5: Einen vorab festgelegten Kontrast prüfen**
+
+Die geplante Frage vergleicht den Durchschnitt der drei aktiven Routinen mit der Referenzbedingung. Die Gewichte $(-3,1,1,1)$ summieren sich zu null.
+
+```{r}
+#| label: tbl-t08-planned-weights
+planned_contrast_table |>
+  kable(
+    caption = "Gewichte und gewichtete Stichprobenmittelwerte für den vorab festgelegten Kontrast.",
+    col.names = c("Studienbedingung", "Gruppenmittelwert", "Gewicht", "Gewicht mal Mittelwert"),
+    align = c("l", "r", "r", "r")
+  )
+```
+
+Die Gewichtstabelle zeigt den Vergleich, bevor sie den Test zeigt. Der Referenzmittelwert erhält das Gewicht $-3$. Jeder der drei aktiven Mittelwerte erhält das Gewicht $+1$. Die Gewichte summieren sich zu null, wie es ein gültiger Kontrast verlangt. Die letzte Spalte zeigt den Beitrag jeder Gruppe zur gewichteten Summe. Die Addition dieser Spalte ergibt $D$.
+
+Der gewichtete Kontrastwert ist $D=`r format_t08(planned_d, 4)`$. Weil die gewählten Gewichte die Differenz zwischen aktiven Routinen und Referenz mit 3 skalieren, ergibt die Division durch 3 die direkt interpretierbare Differenz zwischen dem durchschnittlichen Mittelwert der aktiven Routinen und dem Referenzmittelwert:
+
+$$
+\frac{D}{3}=`r format_t08(planned_average_difference, 3)`\text{ Punkte}.
+$$
+
+Für das balancierte Design gilt
+
+$$
+SS_D
+=
+\frac{`r sim_n_per_level`(`r format_t08(planned_d, 4)`)^2}
+{(-3)^2+1^2+1^2+1^2}
+=
+`r format_t08(planned_ss, 3)`,
+$$
+
+und
+
+$$
+F_D
+=
+\frac{`r format_t08(planned_ss, 3)`}
+{`r format_t08(sim_components$ms_error, 3)`}
+=
+`r format_t08(planned_f, 3)`.
+$$
+
+```{r}
+#| label: tbl-t08-planned-result
+planned_result_table |>
+  kable(
+    caption = "Ergebnis des einzelnen vorab festgelegten Kontrasts der aktiven Routinen.",
+    col.names = c(
+      "Vergleich",
+      "Mittelwertdifferenz",
+      "Kontrast-SS",
+      "Zähler-df",
+      "Nenner-df",
+      "F",
+      "p"
+    ),
+    align = c("l", "r", "r", "r", "r", "r", "r")
+  )
+```
+
+Die Ergebnistabelle verbindet danach den wissenschaftlichen Vergleich mit seinem Inferenztest. Die Spalte der Mittelwertdifferenz gibt den Effekt in Lernpunktwerten an. Kontrast-SS drückt diesen Vergleich als einen Anteil der Variation der Zielvariable mit einem Freiheitsgrad aus. Die Division durch dasselbe $MS_e$, das im Omnibusmodell verwendet wurde, ergibt $F_D$.
+
+Die konstruierten aktiven Routinen liegen im Durchschnitt `r format_t08(planned_average_difference, 3)` Punkte über der Referenz, mit $F(1, `r sim_components$df_error`)=`r format_t08(planned_f, 3)`$, $p<.001$. Dies ist in der Simulation ein tatsächlich vorab festgelegter Test und kein Vergleich, der ausgewählt wurde, weil sein Ergebnis günstig aussah.
+
+---
+
+**Schritt 6: Eine Post-hoc-Familie aller Paare für explorative Details verwenden**
+
+Nehmen wir an, die analysierende Person möchte nach dem signifikanten Omnibusbefund zusätzlich jedes Paar untersuchen. Das ist *explorativ*, weil detailliertere Muster nach der Betrachtung der Zielvariablen untersucht werden und nicht nur ein vorab festgelegter Vergleich geprüft wird. Tukeys Verfahren behandelt alle sechs Paare als eine Familie und berichtet familienweise bereinigte p-Werte und simultane 95%-Konfidenzintervalle. *Simultan* bedeutet, dass die 95%-Abdeckung unter dem Verfahren für die ganze Menge paarweiser Intervalle gemeinsam gilt und nicht getrennt für jedes Intervall, als ob keine weiteren Vergleiche bestünden.
+
+```{r}
+#| label: tbl-t08-tukey
+sim_tukey |>
+  kable(
+    caption = "Tukey-Post-hoc-Vergleiche aller Paare für die konstruierte Studie.",
+    col.names = c(
+      "Vergleich",
+      "Mittelwertdifferenz",
+      "Untere 95%-Grenze",
+      "Obere 95%-Grenze",
+      "Bereinigtes p"
+    ),
+    align = c("l", "r", "r", "r", "r")
+  )
+```
+
+Jede Tukey-Zeile ist eine gerichtete Subtraktion. Eine als "A-B" geschriebene Bezeichnung berichtet den Mittelwert von A minus den Mittelwert von B. Das Vorzeichen muss deshalb in genau dieser dargestellten Reihenfolge gelesen werden. Die Spalte der Mittelwertdifferenz gibt die geschätzte Distanz an. Untere und obere Grenze zeigen ihr simultanes Intervall. Ein Intervall, das null enthält, ist unter diesem Verfahren auf Familienebene mit keiner Differenz für dieses Paar vereinbar. Ein Intervall, das vollständig auf einer Seite von null liegt, stützt auf dem geschützten Familienniveau eine gerichtete Differenz. Der bereinigte p-Wert prüft dasselbe Paar unter Berücksichtigung aller sechs paarweisen Vergleiche.
+
+Die Tabelle verwandelt explorative Vergleiche nicht in geplante Hypothesen. Sie beantwortet eine breitere Frage zu allen Paaren mit dem entsprechenden Multiplizitätsschutz.
+
+Eine Dunnett-Familie wäre gezielter, wenn die einzige Post-hoc-Frage lautete, wie jede aktive Routine im Vergleich zur Referenz abschneidet. Die Wahl von Tukey oder Dunnett ist eine Entscheidung über die Frage und keine Suche nach jenem Verfahren, das kleinere p-Werte ergibt.
+
+---
+
+**Schritt 7: Modelldiagnostik untersuchen und Grenzen nennen**
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare Residuen- und normale Q-Q-Diagnostik für die simulierte ANOVA"}
+
+```{r}
+#| label: fig-t08-diagnostics
+#| fig-alt: "Zwei diagnostische Grafiken zeigen standardisierte Residuen gegen standardisierte angepasste Werte und ein normales Q-Q-Diagramm. Die Residuenstreuung ist über die angepassten Gruppenmittelwerte ähnlich. Die Q-Q-Punkte bleiben hinreichend nahe an der Referenzlinie."
+#| fig-cap: "Residuen- und Q-Q-Diagramme untersuchen die Annahmen gleicher Streuung und normalverteilter Fehler. Sie beweisen diese Annahmen nicht."
+topic8_plotly(
+  p_sim_diagnostics,
+  paste(
+    "Zwei interaktive diagnostische Grafiken zeigen standardisierte Residuen gegen standardisierte angepasste Werte und ein Normal-Q-Q-Diagramm.",
+    "Beim Überfahren werden die dargestellten Koordinaten und die Studienbedingung angezeigt.",
+    "Die Residuenstreuung ist über die angepassten Gruppenmittelwerte ähnlich, und die Q-Q-Punkte bleiben hinreichend nahe an der Referenzlinie."
+  )
+)
+```
+
+:::
+
+Die Teilgrafik Residuen gegen angepasste Werte zeigt vier vertikale Bänder, weil jeder Fall in einer Bedingung denselben angepassten Gruppenmittelwert hat. Vergleiche die vertikale Streuung dieser Bänder, statt zwischen ihnen nach einem geneigten Zusammenhang zu suchen. Ihre Streuungen sind in diesem konstruierten Datensatz hinreichend ähnlich. Die Q-Q-Teilgrafik ordnet die standardisierten Residuen und vergleicht sie mit Werten, die unter einer Normalverteilung erwartet werden. Punkte in angemessener Nähe zur Referenzlinie zeigen, dass in dieser Simulation keine schwere Abweichung angelegt wurde. Keine der beiden Teilgrafiken beweist jedoch eine Annahme.
+
+Unabhängigkeit und Zufallszuweisung können aus diesen Grafiken nicht diagnostiziert werden. Sie sind Eigenschaften der Verfahren zur Datenerzeugung und Studiendurchführung. Hier erzeugt das Rezept die Punktwertvariation jeder Person unabhängig und gibt jeder Person eine Zielvariable. So entsteht die in diesem künstlichen Beispiel eingebaute Unabhängigkeit. Der getrennte Schritt der Zufallszuweisung bestimmt die Bedingungsbezeichnungen. Zufallszuweisung allein würde keine unabhängigen Fehler garantieren.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+Die vier konstruierten Bedingungsmittelwerte sind nicht alle gleich. Der vorab festgelegte Vergleich schätzt, dass die drei aktiven Routinen im Durchschnitt `r format_t08(planned_average_difference, 3)` Punkte über der Referenz liegen. Die Tukey-Tabelle beschreibt die bereinigte Nachuntersuchung aller Paare. Diese Ergebnisse gehören zum künstlichen randomisierten Modell und beschreiben keine realen Lernenden.
+:::
+
+### Mögliche Stolperfallen {.cs-heading}
+
+Diese Simulation ist balanciert, vollständig und randomisiert und wurde mit ähnlichen Streuungen innerhalb der Gruppen erzeugt. Reale Studien können fehlende Zielvariablen, ungleiche Zellgrössen, Abweichungen vom geplanten Ablauf, nicht normalverteilte Fehler, ungewöhnliche Beobachtungen mit starkem Einfluss auf das Modell oder abhängige Fälle aufweisen.
+
+- **Das Omnibusergebnis als Beweis behandeln, dass sich jedes Paar unterscheidet.** Der Gesamttest zeigt unter dem Modell nur, dass nicht alle Mittelwerte der Grundgesamtheiten gleich sind.
+- **Viele unbereinigte paarweise Tests durchführen.** Die zusammengehörigen Vergleiche bilden eine Familie, deren Risiko falsch positiver Ergebnisse berücksichtigt werden muss.
+- **Einen Post-hoc-Vergleich als geplant bezeichnen.** Ein geplanter Kontrast muss festgelegt werden, bevor die Zielvariablen seine Auswahl leiten.
+- **Die Unabhängigkeitsbedingung der Sidak-Berechnung ignorieren.** Die dargestellte exakte Gleichung für den familienweisen Fehler verwendet unabhängige Tests.
+- **Bonferroni so behandeln, als setze das Verfahren unabhängige Tests voraus.** Sein Schutz durch eine obere Schranke hängt nicht von derselben Unabhängigkeitsannahme ab.
+- **Aus dem künstlichen $F$-Test einen realen kausalen oder praktisch bedeutsamen Effekt ableiten.** Die randomisierte Simulation veranschaulicht die Designlogik, enthält aber weder reale Teilnehmende noch einen realen Interventionseffekt.
+
+### Wie dieses Beispiel die Theorie zusammenführt {.cs-heading}
+
+Die sieben Schritte folgten der einfaktoriellen Logik aus dem Reiter Theorie. Wir benannten Zielvariable und Faktor, prüften das Design, stellten jede Gruppe grafisch dar, zerlegten die Gesamtvariation in Faktor- und Fehlerkomponente, bildeten deren Quotienten aus mittleren Quadraten, interpretierten den Omnibusbefund und hielten danach den vorab festgelegten Kontrast von der explorativen Familie aller Paare getrennt. Die Diagnostik lenkte den Blick zurück auf die Residuen und auf jene Designbedingungen, die eine Grafik nicht prüfen kann.
+
+Das letzte Thema schliesst die Lernsequenz ab, indem es zeigt, dass die späteren Verfahren verschiedene Ansichten einer zusammengehörigen Menge linearer Fragen sind.
+
+| Thema | Ausgangsfrage | Was angepasst oder zusammengefasst wird | Wie es weiterführt |
+|---|---|---|---|
+| Kovarianz und Korrelation | Variieren zwei quantitative Variablen gemeinsam? | Richtung und Stärke der gepaarten linearen Bewegung | Legt den Zusammenhang fest, den die Regression mit einer Geraden darstellen wird |
+| Einfache lineare Regression | Wie verändert sich eine angepasste Zielvariable mit einem quantitativen Prädiktor? | Eine Gerade, angepasste Werte und Residuen | Führt Vorhersage, Quadratsummen und Modellfehler ein |
+| Partielle Korrelation | Bewegen sich zwei Variablen noch gemeinsam, nachdem beide um eine Drittvariable bereinigt wurden? | Korrelation zwischen zwei Residuen-Spalten | Macht statistische Bereinigung sichtbar |
+| Multiple Regression | Wie hängt eine Zielvariable gleichzeitig mit mehreren Prädiktoren zusammen? | Bedingte Steigungen, Dummy-Koeffizienten, Interaktionen und gemeinsame Tests | Vereint quantitative und kategoriale Prädiktoren in einer Gleichung |
+| ANOVA | Unterscheiden sich Populationsmittelwerte zwischen Stufen kategorialer Faktoren? | Gruppenmittelwerte, zerlegte Variation, Kontraste und Omnibus-$F$-Tests | Drückt den Gruppenvergleich als weiteres lineares Modell aus |
+
+: Die späteren Themen von Statistik 1 stellen zunehmend strukturierte Versionen einer gemeinsamen Frage linearer Modelle. {#tbl-anova-course-synthesis}
+
+Beginne oben in der Tabelle. Die Korrelation ist symmetrisch. Sie sagt, dass sich zwei Variablen gemeinsam bewegen, weist aber keine Zielvariable zu. Die einfache Regression benennt eine Zielvariable, passt ihren Mittelwert aus einem Prädiktor an und hinterlässt Residuen aus beobachtetem minus angepasstem Wert. Die partielle Korrelation verwendet diese Residuen, um eine Frage zu einem bereinigten Zusammenhang zu stellen. Die multiple Regression behält eine Zielvariable und bringt mehrere Prädiktorbeiträge in denselben angepassten Wert.
+
+Die ANOVA spezialisiert diesen Rahmen danach für kategoriale Prädiktoren. Die Verbindung wird im einfachsten Fall mit zwei Gruppen sichtbar. Codiere die Gruppenzugehörigkeit mit $D=0$ für die Referenzgruppe und $D=1$ für die Vergleichsgruppe:
+
+$$
+\widehat{Y}=b_0+b_1D.
+$$
+
+Für die Referenzgruppe ergibt das Einsetzen von $D=0$ den angepassten Mittelwert $b_0$. Für die Vergleichsgruppe ergibt $D=1$ den angepassten Mittelwert $b_0+b_1$. Der Koeffizient $b_1$ ist somit die Differenz zwischen den beiden angepassten Gruppenmittelwerten. Bei mehr als zwei Stufen stellen $k-1$ Dummy-Variablen die Gruppenmittelwerte dar. Der Omnibus-$F$-Test der ANOVA fragt, ob ihre aufeinander abgestimmten Populationskoeffizienten alle null sein können.
+
+Dieselbe Verbindung erklärt die Arithmetik im simulierten Beispiel. $SS_A$ ist die mit dem kategorialen Prädiktor verbundene Modellvariation, genau wie $SS_{\text{Modell}}$ die dargestellte Variation in der Regression erfasst. $SS_e$ ist die Residualvariation um angepasste Gruppenmittelwerte, genau wie Regressionsresiduen die Distanzen zwischen beobachtetem und angepasstem Wert messen. Das Verhältnis ihrer mittleren Quadrate erzeugt die $F$-Teststatistik der ANOVA. Ein globaler oder verschachtelter $F$-Test in der Regression verwendet dieselbe breite Logik von dargestellter Variation im Verhältnis zu dem, was verbleibt.
+
+Auch die Erweiterungen passen in dieses Bild. Eine faktorielle ANOVA fügt weitere kategoriale Prädiktoren und ihre Interaktionen hinzu. Die Kovarianzanalyse verbindet kategoriale und quantitative Prädiktoren. Ein Zufallsfaktor verändert das Ziel von ausgewählten Mittelwertdifferenzen zu einer Varianzkomponente. Messwiederholungen fügen einen Personenterm hinzu, weil Beobachtungen derselben Person miteinander verbunden sind. Das sind keine unverbundenen Tests, die auswendig gelernt werden müssen. Es sind Modellentscheidungen, welche Variablen, Design, Abhängigkeit und wissenschaftliche Frage abbilden.
+
+Die einprägsamste Art, sich die Reihenfolge zu merken, lautet: Beschreibe zuerst, wie sich Variablen gemeinsam bewegen. Passe danach eine Gerade an. Frage anschliessend, was nach der Bereinigung verbleibt. Erlaube dann mehrere Prädiktoren. Erkenne zum Schluss Gruppenvergleiche als Teil derselben Familie angepasster Modelle. Die Formeln werden leichter, sobald jede an diese Geschichte gebunden ist.
+
+## Übungen und Lösungen
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 8
+)
+```
+
+## Zusammenfassung
+
+{{< include ../../_shared/topic-summaries/de/t08.md >}}
+
+---
+
+### Zusammenfassung herunterladen {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 8
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Themenseitennavigation"}
+[Zurück: Multiple Regression](t07_multiple-regression.qmd){.text-link-arrow .previous}
+[Downloads zu Thema 8](../downloads/overview-downloads-de.qmd#dl-topic-8){.text-link-arrow .download}
+[Weiter: Übersicht zur Einführung](overview-intro-stats-de.qmd){.text-link-arrow .next}
+:::

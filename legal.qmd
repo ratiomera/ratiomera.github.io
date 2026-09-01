@@ -1,0 +1,12 @@
+---
+title: "Legal Notice"
+pagetitle: "Legal Notice | Ratiomera"
+title-prefix: ""
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=en/pages/legal-ratiomera-en.html">
+---
+
+Continue to the [Ratiomera Legal Notice](en/pages/legal-ratiomera-en.qmd).

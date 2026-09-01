@@ -1,0 +1,36 @@
+# Canonical public contact addresses. All role addresses are managed through
+# the Cyon-hosted Ratiomera mailbox structure.
+contact:
+  info: "info@ratiomera.ch"
+  statistics: "statistics@ratiomera.ch"
+  mathematics: "mathematics@ratiomera.ch"
+  volunteering: "volunteering@ratiomera.ch"
+  informatics: "informatics@ratiomera.ch"
+
+# Canonical public labels for the shared development-status system.
+status:
+  not_started: "Not Started"
+  planned: "Planned"
+  draft: "Draft"
+  in_progress: "In Progress"
+  review: "In Review"
+  published: "Published"
+  updating: "Updating"
+
+status_de:
+  not_started: "Nicht begonnen"
+  planned: "Geplant"
+  draft: "Entwurf"
+  in_progress: "In Bearbeitung"
+  review: "In Prüfung"
+  published: "Veröffentlicht"
+  updating: "Wird aktualisiert"
+
+status_sq:
+  not_started: "Nuk ka filluar"
+  planned: "E planifikuar"
+  draft: "Version paraprak"
+  in_progress: "Në zhvillim"
+  review: "Në rishikim"
+  published: "E publikuar"
+  updating: "Duke u përditësuar"

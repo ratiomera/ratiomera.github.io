@@ -1,0 +1,12 @@
+---
+title: "Ratiomera Statistics"
+pagetitle: "Ratiomera Statistics"
+title-prefix: ""
+description: "University-level statistics for the humanities and social sciences."
+toc: false
+include-in-header:
+  text: |
+    <meta http-equiv="refresh" content="0; url=en/home-statistics-en.html">
+---
+
+Redirecting to [Ratiomera Statistics](en/home-statistics-en.qmd)&hellip;

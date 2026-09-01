@@ -1,0 +1,57 @@
+---
+title: "Downloads"
+pagetitle: "Downloads | Ratiomera Statistics"
+title-prefix: ""
+description: "Das vollständige Materialpaket, einzelne Themenpakete oder einzelne PDF- und Word-Dateien zur Einführung in die Statistik herunterladen."
+lang: de-CH
+toc: false
+---
+
+::: {.downloads-lead .fade-in}
+::: {.downloads-lead-copy}
+## Nach der Lernsequenz aufgebaut
+
+Die Bibliothek ist nach Lernsequenz und danach nach Thema gegliedert. Zusammengehörige Materialien bleiben beieinander, während spätere Sammlungen aus Statistik und Mathematik einen eigenen klaren Platz erhalten. Über den Sammlungslink in der Seitenleiste gelangst du direkt zu den Materialien.
+
+Die Einführung in die Statistik umfasst derzeit acht Themen. Wähle das vollständige Paket für die ganze Lernsequenz, ein Themenpaket für dessen sechs Dokumente oder öffne bei einem Thema die Auswahl der Einzeldateien, wenn du nur eine PDF- oder Word-Datei benötigst.
+:::
+
+::: {.downloads-material-key}
+### Bei jedem Thema enthalten
+
+**Zusammenfassung**  
+Eine quellengestützte Übersicht mit drei Seiten für deine eigenen Notizen.
+
+**Übungsblatt**  
+Theoretische und begriffliche Fragen, gefolgt von Aufgaben für den Taschenrechner.
+
+**Vollständige Lösungen**  
+Dieselben Aufgabenkennungen mit schrittweise erklärten Überlegungen und Berechnungen.
+:::
+
+::: {.downloads-lead-note}
+**Formate und Pakete.** Jedes Lerndokument bleibt als druckbares PDF und als bearbeitbare Word-Datei verfügbar. Ein Themen-ZIP hält die sechs Dateien eines Themas zusammen. Das vollständige ZIP ordnet alle acht Themen in chronologischen Ordnern. Kleinere Sammlungen, die nur Zusammenfassungen, Übungsblätter oder Lösungen enthalten, bleiben in der nachgeordneten Auswahl verfügbar.
+
+**Ehrliche Paketzahlen.** Die neun sichtbaren Felder gehören zu den acht Themen-ZIPs und zum einen vollständigen ZIP. Sobald ein Anbieter für veröffentlichte Dateien verbunden ist, meldet jedes Feld abgeschlossene Downloads genau dieser ZIP-Datei. Die Zahl steht nicht für einzelne Personen, Seitenaufrufe, lokale Klicks oder die einzelnen PDF- und Word-Dateien. Solange die Website lokal läuft, ist der zurückhaltende Strich nur ein Platzhalter.
+:::
+:::
+
+```{r}
+#| label: download-library
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_downloads(
+  "../../_shared/downloads.yml",
+  "de",
+  "../../../config/counters.yml"
+)
+```
+
+::: {.downloads-overview-cta}
+## Möchtest du dem begleiteten Lernweg folgen?
+
+Die Übersicht zur Einführung erklärt, weshalb die acht Themen in dieser Reihenfolge stehen und wie jedes Thema das nächste vorbereitet. Kehre dorthin zurück, wenn du den Lernzusammenhang statt einer Dateiliste suchst.
+
+[Übersicht zur Einführung öffnen](../intro-stats/overview-intro-stats-de.qmd){.downloads-overview-link}
+:::

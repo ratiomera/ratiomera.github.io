@@ -1,0 +1,83 @@
+---
+pagetitle: "Ratiomera Statistics | Statistikë e nivelit universitar për shkencat humane dhe shoqërore"
+title-prefix: ""
+description: "Statistikë e nivelit universitar për shkencat humane dhe shoqërore, me shpjegime konceptuale, shembuj të zgjidhur, ushtrime dhe zgjidhje të plota."
+lang: sq
+toc: false
+sidebar: statistics-home-sq-sidebar
+breadcrumbs: false
+---
+
+::: {.section-intro .branch-hero .branch-hero-statistics .fade-in}
+<span class="branch-status branch-status-statistics">{{< var status_sq.review >}}</span>
+
+# Ratiomera Statistics
+
+Statistikë e nivelit universitar për shkencat humane dhe shoqërore, e shpjeguar nga parimet themelore dhe e lidhur me pyetje realiste kërkimore.
+:::
+
+::: {.landing-prose}
+## Përmbledhje {#overview}
+
+Ratiomera Statistics ofron arsimim statistikor në nivel universitar për shkencat humane dhe shoqërore. Përmbajtja është hartuar për studentë dhe profesionistë në fusha si psikologjia, arsimi, sociologjia, shkencat politike, shëndeti publik dhe disiplina të ngjashme.
+
+Kurrikula mbështetet në përvojën akademike, kërkimore, mësimore dhe profesionale të anëtarëve tanë, në shkëmbime të gjera me studentë të shkencave humane dhe shoqërore në universitete dhe universitete të shkencave të aplikuara në mbarë Zvicrën, si dhe në biseda me ligjërues, profesorë, hulumtues dhe profesionistë.
+
+Ratiomera Statistics zhvillon emëruesin e përbashkët që kemi hasur në këto mjedise të ndryshme mësimore: idetë kryesore që përsëriten dhe që duhet t'i kuptosh, pyetjet që vazhdimisht shkaktojnë vështirësi, si dhe shpjegimet e zbatimet që ndihmojnë në lidhjen e këtyre ideve. Kjo bazë e përbashkët bëhet një renditje koherente mësimore. Kurrikula zyrtare dhe udhëzimet e vlerësimit të çdo institucioni mbeten plotësisht përcaktuese.
+
+Për çdo temë të trajtuar, Ratiomera Statistics synon të ofrojë teori konceptuale, shpjegime intuitive, përmbledhje të shkurtra, shembuj të zgjidhur, ushtrime dhe zgjidhje të plota që shpjegojnë arsyetimin.
+:::
+
+---
+
+::: {.landing-prose}
+## Ku të fillosh {#where-to-begin}
+
+Hyrje në Statistikë është pika fillestare e kurrikulës aktuale të Ratiomera Statistics. Ajo mbulon renditjen kryesore të ideve statistikore që përdoren zakonisht në hulumtimin e shkencave shoqërore, duke filluar me statistikën përshkruese dhe duke vazhduar me probabilitetin, inferencën statistikore, korrelacionin, regresionin dhe analizën e variancës.
+
+Temat janë hartuar për t'u ndjekur me radhë, sepse materiali i mëvonshëm mbështetet në konceptet e paraqitura më herët.
+:::
+
+::: {.btn-row}
+[Hap Hyrje në Statistikë](intro-stats/overview-intro-stats-sq.qmd){.dl-btn}
+[Shfleto shkarkimet](downloads/overview-downloads-sq.qmd){.dl-btn .secondary}
+:::
+
+---
+
+## Gjendja e platformës {#platform-status}
+
+Kjo tabelë tregon gjendjen aktuale të renditjes së parë mësimore, shkarkimeve mbështetëse dhe infrastrukturës së përbashkët të platformës. Renditja e plotë mësimore tani është në rishikim, ndonëse ende asnjë material mësimor nuk shënohet si i publikuar. Secila gjendje shkruhet me tekst dhe dallohet edhe vizualisht.
+
+::: {.status-legend role="list" aria-label="Legjenda e gjendjes së zhvillimit"}
+<span class="status-badge not-started" role="listitem">{{< var status_sq.not_started >}}</span>
+<span class="status-badge planned" role="listitem">{{< var status_sq.planned >}}</span>
+<span class="status-badge draft" role="listitem">{{< var status_sq.draft >}}</span>
+<span class="status-badge in-progress" role="listitem">{{< var status_sq.in_progress >}}</span>
+<span class="status-badge review" role="listitem">{{< var status_sq.review >}}</span>
+<span class="status-badge published" role="listitem">{{< var status_sq.published >}}</span>
+<span class="status-badge updating" role="listitem">{{< var status_sq.updating >}}</span>
+:::
+
+<div class="table-scroll" role="region" aria-label="Gjendja e platformës Ratiomera Statistics" tabindex="0">
+<table class="roadmap-table">
+<thead>
+<tr><th scope="col">Moduli ose tema</th><th scope="col">Gjendja</th></tr>
+</thead>
+<tbody>
+<tr class="roadmap-module"><th scope="row">Hyrje në Statistikë</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">1</span>Statistika përshkruese</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">2</span>Probabiliteti</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">3</span>Testimi i hipotezave &amp; intervalet e besimit</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">4</span>Kovarianca &amp; korrelacioni</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">5</span>Regresioni i thjeshtë linear</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">6</span>Korrelacioni i pjesshëm</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">7</span>Regresioni i shumëfishtë</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">8</span>Analiza e variancës</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+</tbody>
+<tbody class="roadmap-supporting">
+<tr class="roadmap-module"><th scope="row">Shkarkimet</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+<tr class="roadmap-module"><th scope="row">Numëruesit e përdorimit</th><td><span class="status-badge review">{{< var status_sq.review >}}</span></td></tr>
+</tbody>
+</table>
+</div>

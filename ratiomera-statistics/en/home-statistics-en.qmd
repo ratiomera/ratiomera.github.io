@@ -1,0 +1,92 @@
+---
+pagetitle: "Ratiomera Statistics | University-Level Statistics for the Humanities and Social Sciences"
+title-prefix: ""
+description: "University-level statistics for the humanities and social sciences, with conceptual explanations, worked examples, exercises, and complete solutions."
+toc: false
+sidebar: statistics-home-sidebar
+breadcrumbs: false
+aliases:
+  - /advanced-stats/index.html
+  - /advanced-stats/t01_isl.html
+  - /advanced-stats/t02_recursive-partitioning.html
+  - /advanced-stats/t03_prediction-rule-ensembles.html
+  - /advanced-stats/t04_time-series.html
+  - /advanced-stats/t05_rasch.html
+  - /data-analysis/index.html
+  - /stat2/index.html
+  - /stat3/index.html
+---
+
+::: {.section-intro .branch-hero .branch-hero-statistics .fade-in}
+<span class="branch-status branch-status-statistics">{{< var status.review >}}</span>
+
+# Ratiomera Statistics
+
+University-level statistics for the humanities and social sciences, explained from first principles and connected to realistic research questions.
+:::
+
+::: {.landing-prose}
+## Overview {#overview}
+
+Ratiomera Statistics provides university-level statistics education for the humanities and social sciences. It is designed for students and professionals in fields such as psychology, education, sociology, political science, public health, and related disciplines.
+
+The curriculum is informed by our members' academic, research, teaching, tutoring, and professional experience. It also draws on extensive exchanges with humanities and social-science students at universities and universities of applied sciences across Switzerland, as well as conversations with lecturers, professors, researchers, and practitioners.
+
+Ratiomera Statistics develops the common denominator we have encountered across these different learning settings: the recurring core ideas students are expected to understand, the questions that repeatedly cause difficulty, and the explanations and applications that help those ideas connect. It brings that shared foundation into one coherent educational sequence. Each institution's official curriculum and assessment guidance remains fully in place.
+
+For every topic covered, Ratiomera Statistics should aim to provide conceptual theory, intuitive explanations, concise summaries, worked examples, exercises, and complete solutions that explain the reasoning.
+:::
+
+---
+
+::: {.landing-prose}
+## Where to Begin {#where-to-begin}
+
+Introduction to Statistics is the starting point for the current Ratiomera Statistics curriculum. It covers the core sequence of statistical ideas commonly used in social-science research, beginning with descriptive statistics and progressing through probability, statistical inference, correlation, regression, and analysis of variance.
+
+The topics are designed to be followed in order because later material builds on concepts introduced earlier.
+:::
+
+::: {.btn-row}
+[Open Introduction to Statistics](intro-stats/overview-intro-stats-en.qmd){.dl-btn}
+[Browse Downloads](downloads/overview-downloads-en.qmd){.dl-btn .secondary}
+:::
+
+---
+
+## Platform Status {#platform-status}
+
+This table shows the current state of the first learning sequence, its supporting downloads, and shared platform infrastructure. The complete sequence has now entered review, although none of the educational material is marked as published yet. Each status is written out as text as well as distinguished visually.
+
+::: {.status-legend role="list" aria-label="Development status legend"}
+<span class="status-badge not-started" role="listitem">{{< var status.not_started >}}</span>
+<span class="status-badge planned" role="listitem">{{< var status.planned >}}</span>
+<span class="status-badge draft" role="listitem">{{< var status.draft >}}</span>
+<span class="status-badge in-progress" role="listitem">{{< var status.in_progress >}}</span>
+<span class="status-badge review" role="listitem">{{< var status.review >}}</span>
+<span class="status-badge published" role="listitem">{{< var status.published >}}</span>
+<span class="status-badge updating" role="listitem">{{< var status.updating >}}</span>
+:::
+
+<div class="table-scroll" role="region" aria-label="Ratiomera Statistics platform status" tabindex="0">
+<table class="roadmap-table">
+<thead>
+<tr><th scope="col">Module or topic</th><th scope="col">Status</th></tr>
+</thead>
+<tbody>
+<tr class="roadmap-module"><th scope="row">Introduction to Statistics</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">1</span>Descriptive Statistics</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">2</span>Probability</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">3</span>Hypothesis Testing &amp; Confidence Intervals</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">4</span>Covariance &amp; Correlation</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">5</span>Simple Linear Regression</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">6</span>Partial Correlation</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">7</span>Multiple Regression</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+<tr class="roadmap-topic"><th scope="row"><span class="roadmap-topic-number">8</span>Analysis of Variance</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+</tbody>
+<tbody class="roadmap-supporting">
+<tr class="roadmap-module"><th scope="row">Downloads</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+<tr class="roadmap-module"><th scope="row">Usage counters</th><td><span class="status-badge review">{{< var status.review >}}</span></td></tr>
+</tbody>
+</table>
+</div>

@@ -1,0 +1,1610 @@
+---
+title: "Deskriptive Statistik"
+subtitle: "Einführung in die Statistik · Thema 1"
+pagetitle: "Deskriptive Statistik | Ratiomera Statistics"
+title-prefix: ""
+description: "Skalenniveaus, zentrale Tendenz, Variabilität und Verteilungsform als Grundbegriffe der statistischen Beschreibung."
+lang: de-CH
+toc-title: "Auf dieser Seite"
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "de"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t01-descriptive-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Themenabschnitte</h2>
+
+::: {.panel-tabset}
+
+## Theorie
+
+### Einführung: Warum wir mit deskriptiver Statistik beginnen {.cs-heading}
+
+Rohdaten erklären sich selten von selbst. Eine Tabelle kann Fragebogenantworten, Reaktionszeiten oder Testwerte enthalten. Viele Zahlenzeilen zeigen aber noch nicht, welcher Wert typisch ist, wie stark sich Personen unterscheiden oder ob ein ungewöhnlicher Wert genauer geprüft werden sollte.
+
+Die deskriptive Statistik macht aus diesen Beobachtungen ein erstes verständliches Bild. Wir klären, was jede Variable bedeutet, ordnen ihre Werte, beschreiben ihre Lage und Streuung und betrachten die Form der Verteilung. Eine **Verteilung** ist das Muster, das durch die Werte einer Variablen und deren Häufigkeiten entsteht. Ihre **Lage** beschreibt einen typischen Bereich, ihre **Streuung** das Ausmass der Unterschiede und ihre **Form** die Anordnung der Werte über den gesamten Wertebereich.
+
+Diese sorgfältige erste Betrachtung kommt vor jedem Versuch, eine Aussage zu verallgemeinern oder eine Behauptung zu testen. Die tatsächlich beobachteten Personen, Objekte oder anderen Fälle bilden die **Stichprobe**. Deskriptive Statistik hilft uns, Datenprobleme zu erkennen, zum Skalenniveau passende Kennwerte zu wählen und ehrlich zu beschreiben, wie diese Stichprobe aussieht. Die Formeln geben bereits verständlichen Fragen eine präzise Form und vertiefen dadurch unser Verständnis.
+
+> **Leitfrage:** Wie können wir aus einer Tabelle mit Rohbeobachtungen ein klares Bild gewinnen, ohne mehr zu behaupten, als die Daten zeigen?
+
+::: {.callout-tip title="Kernidee"}
+
+Deskriptive Statistik ist ein unverzichtbarer erster Schritt der Datenanalyse. Sie zeigt, wie die Daten aussehen, bevor weitere Analysen durchgeführt werden, verringert das Risiko von Fehlinterpretationen und vermittelt ein ehrliches Bild der Stichprobe.
+:::
+
+### Lernziele {.cs-heading}
+
+Nach Abschluss dieses Themas solltest du:
+
+- Nominal-, Ordinal-, Intervall-, Verhältnis- und Absolutskalen unterscheiden und die Voraussetzungen jeder Einordnung erklären können,
+- erklären können, welche Umcodierungen die Bedeutung der einzelnen Skalenniveaus bewahren,
+- absolute, relative und kumulative Häufigkeitsverteilungen erstellen und interpretieren können,
+- geeignete Lage- und Streuungsmasse auswählen und interpretieren können,
+- Säulendiagramme, Histogramme, Kreisdiagramme und Tukey-Boxplots kritisch lesen können,
+- erklären können, wie die Addition einer Konstante oder die Multiplikation aller Werte Lage, Streuung, Form und Rangfolge beeinflusst,
+- einen z-Wert berechnen und interpretieren können sowie
+- die Richtung eines Verteilungsschwanzes, die Anzahl der Gipfel und ungewöhnlich weit entfernte Werte erkennen können, ohne Form und Streuung zu verwechseln.
+
+---
+
+### Statistische Notation lesen {.cs-heading}
+
+Statistische Formeln sind verdichtete Anweisungen. Sie lassen sich leichter lesen, wenn du zuerst die Rechenoperation und danach die Symbole bestimmst. Ein Bruch wie $a/b$ bedeutet, dass der gesamte Zähler $a$ durch den gesamten Nenner $b$ geteilt wird. Klammern zeigen, welche Terme zusammengehören. $(x_i-\bar{x})^2$ bedeutet daher, von einer Beobachtung den Mittelwert abzuziehen und anschliessend diese Abweichung zu quadrieren.
+
+Der griechische Grossbuchstabe Sigma, $\sum$, bedeutet, dass eine Folge von Termen addiert wird. Im Ausdruck
+
+$$\sum_{i=1}^{n} x_i,$$
+
+ist $i$ der veränderliche Index, $i=1$ sein Startwert, $n$ sein Endwert und $x_i$ der *Summand*, also der bei jedem Schritt addierte Ausdruck. Bei vier Beobachtungen wird die Anweisung zu $x_1+x_2+x_3+x_4$ ausgeschrieben.
+
+Ein einfaches Muster wird später nützlich. Wenn zu jeder Beobachtung dieselbe Zahl addiert wird, erscheint diese Zahl auch für jede Beobachtung einmal in der Gesamtsumme. Werden beispielsweise zu den drei Werten 4, 7 und 9 jeweils 2 addiert, ergibt sich
+
+$$(4+2)+(7+2)+(9+2)=(4+7+9)+3\cdot2.$$
+
+Du musst dir an dieser Stelle keine allgemeine Regel merken. Das Beispiel zeigt lediglich, dass eine Veränderung aller Werte auch Kennwerte wie den Mittelwert auf vorhersehbare Weise verändert. Der Abschnitt zu linearen Transformationen greift diese Idee wieder auf, sobald die grundlegenden deskriptiven Kennwerte vertraut sind.
+
+Zwei ähnlich aussehende Ausdrücke können unterschiedliche Berechnungen darstellen. Der Ausdruck $\sum_{i=1}^{n} x_i^2$ quadriert jede Beobachtung und addiert danach die Quadrate. Der Ausdruck $(\sum_{i=1}^{n} x_i)^2$ addiert zuerst die Beobachtungen und quadriert anschliessend diese eine Summe. Für die Werte 2 und 3 ergibt der erste Ausdruck $2^2+3^2=13$, der zweite dagegen $(2+3)^2=25$.
+
+::: {.callout-tip title="Kernidee"}
+
+Lies eine Formel von der innersten Rechenoperation nach aussen: Bestimme jede Beobachtung, berechne den Ausdruck in den Klammern, wende Potenzen an, addiere über die Beobachtungen und dividiere zuletzt. Diese Reihenfolge hilft dir bei Mittelwerten, Varianzen, z-Werten und späteren inferenzstatistischen Formeln.
+:::
+
+---
+
+<span id=warum-die-psychologie-auf-deskriptive-statistik-angewiesen-ist></span>
+
+### Warum deskriptive Statistik in den Sozial- und Geisteswissenschaften wichtig ist {#why-psychologists-depend-on-descriptive-statistics .cs-heading}
+
+Die Sozial- und Geisteswissenschaften untersuchen Menschen, Gemeinschaften, Institutionen, Texte und kulturelle Praktiken. Ihre Fragen können Stress und Gedächtnis, Bildungschancen, politische Beteiligung, Sprachgebrauch, Arbeitsbedingungen, Migration oder den Wandel von Ideen betreffen. In all diesen Bereichen unterscheiden sich die erhobenen Beobachtungen. Diese Variation gehört zum Forschungsgegenstand und muss sorgfältig beschrieben werden, bevor eine weitergehende Aussage getroffen wird.
+
+Deskriptive Statistik beantwortet unter anderem folgende Fragen:
+
+- Was ist ein typischer Wert in dieser Stichprobe?
+- Wie stark unterscheiden sich Personen voneinander?
+- Liegen die meisten Werte eng beieinander oder streuen sie weit?
+- Gibt es ungewöhnlich hohe oder niedrige Werte, die Kennwerte verzerren könnten?
+- Unterscheiden sich zwei Gruppen bereits, bevor ein formaler Test durchgeführt wird?
+
+Diese Fragen helfen zu beurteilen, ob die erhobenen Daten plausibel sind, ob ein Messinstrument wie beabsichtigt funktioniert hat und ob der nächste Analyseschritt verantwortbar ist. Ohne diese Prüfung könnte beispielsweise berichtet werden, eine Gruppe sei im Allgemeinen ängstlicher, obwohl zwei oder drei extreme Beobachtungen den grössten Teil des Unterschieds erzeugen. Dasselbe Problem tritt beim Vergleich von Schulen, Befragungsgruppen, historischen Zeiträumen, Regionen oder Textsammlungen auf.
+
+Gute Forschung beginnt deshalb immer mit deskriptiver Statistik. Dieses erste Verständnis schützt vor unhaltbaren Interpretationen in späteren Schritten.
+
+::: {.callout-tip title="Kernidee"}
+
+Unterschiede zwischen Menschen und sozialen Kontexten sind oft inhaltlich bedeutsam. Deskriptive Statistik macht diese Muster sichtbar. Sie zeigt, was in den Datensatz eingegangen ist und wie stark die Beobachtungen variieren, bevor allgemeinere Schlüsse gezogen werden. Eine Berechnung kann rechnerisch korrekt sein und die Evidenz trotzdem schlecht beschreiben. Deshalb ist eine sorgfältige Beschreibung in allen Fachgebieten dieses Kurses wichtig.
+:::
+
+---
+
+### Von der empirischen Forschung zum analysierbaren Datensatz {.cs-heading}
+
+**Empirische Forschung** beantwortet Fragen anhand systematisch erhobener Beobachtungen oder Messungen. Sie durchläuft mehrere miteinander verbundene Phasen. Eine Forschungsfrage und die zugehörigen theoretischen Konzepte leiten das Untersuchungsdesign. Das Design bestimmt, wer oder was untersucht wird und wie jedes Merkmal gemessen werden soll. Die Datenerhebung erzeugt aufgezeichnete Werte, und die statistische Analyse hilft Forschenden, die daraus entstehende Evidenz zu beurteilen. Die deskriptive Statistik eröffnet die Analysephase, doch ihre Qualität hängt von allen vorangegangenen Entscheidungen ab.
+
+Wir können diesen Weg in sechs miteinander verbundene Phasen gliedern. Lies sie als zusammenhängende Kette und nicht als isolierte Kästchen:
+
+1. **Exploration:** Mache dich mit dem Problem vertraut und kläre, was noch verstanden werden muss.
+2. **Theorie:** Formuliere die Ideen oder Erklärungen, welche die Forschungsfrage leiten.
+3. **Planung:** Entscheide, welche Fälle, Variablen, Messungen und Abläufe die Frage beantworten können.
+4. **Untersuchung:** Setze den Plan um und zeichne die Beobachtungen auf.
+5. **Analyse:** Ordne, beschreibe und beurteile die entstandenen Daten.
+6. **Entscheidung:** Kehre zur ursprünglichen Frage zurück und entscheide, welche Aussagen durch die Evidenz gestützt werden und welche nicht.
+
+Statistik ist in den letzten beiden Phasen am deutlichsten sichtbar, lässt sich aber nicht von den ersten vier trennen. Wenn eine Variable unklar definiert wurde oder die falschen Fälle beobachtet wurden, beantwortet selbst eine fehlerfreie Berechnung die falsche Frage. Deshalb halten wir bei Struktur und Bedeutung eines Datensatzes inne, bevor wir einen Mittelwert berechnen.
+
+Die meisten Datensätze lassen sich anhand von drei Grundelementen verstehen:
+
+| Element | Bedeutung | Beispiel in der fiktiven Lehrstudie |
+|---|---|---|
+| Fall oder Beobachtung | Die Einheit, die durch eine Zeile dargestellt wird | Eine studierende Person im ersten Studienjahr |
+| Variable | Ein Merkmal, das durch eine Spalte dargestellt wird | Prüfungsangst oder Schlafstunden |
+| Wert | Das aufgezeichnete Ergebnis eines Falls für eine Variable | Ein Angstwert von 28 |
+
+: Grundstruktur eines rechteckigen Forschungsdatensatzes. {#tbl-data-structure}
+
+Lies die Tabelle von der Zeile zur Spalte. Ein **Fall** sagt dir, wofür eine Zeile steht. Eine **Variable** sagt dir, was eine Spalte aufzeichnet. An ihrem Schnittpunkt steht ein **Wert**, also das konkrete Ergebnis dieses Falls auf dieser Variablen. Die Zeile kann zum Beispiel die studierende Person 17 darstellen, die Spalte die Prüfungsangst und die Zelle einen Wert von 28 enthalten. Wenn du diese drei Ebenen auseinanderhältst, vermeidest du einen verbreiteten Anfängerfehler: Eine Identifikationsnummer, die eine Zeile lediglich benennt, wird dann nicht mit einer gemessenen Grösse verwechselt.
+
+Prüfe vor der Zusammenfassung einer Variable, ob die Zeilen die vorgesehenen Fälle darstellen, die Spalten eindeutig definiert sind, Kategoriencodes nicht mit Mengen verwechselt wurden, unzulässige Werte untersucht wurden und **fehlende Werte**, also Zellen ohne aufgezeichneten Wert, einheitlich dargestellt sind. Eine sorgfältig gestaltete Tabelle kann einen unklaren Messprozess nicht ausgleichen.
+
+::: {.callout-tip title="Kernidee"}
+
+Statistik beginnt mit der Messung, nicht mit der Berechnung. Kläre, was jede Zeile, jede Spalte und jeder Wert darstellt, bevor du über die Zusammenfassung entscheidest.
+:::
+
+---
+
+### Was deskriptive Statistik nicht reparieren kann {.cs-heading}
+
+Eine sorgfältige Beschreibung kann verdächtige Werte und Muster sichtbar machen, aber ein schwaches Untersuchungsdesign nicht ungeschehen machen. Die **Grundgesamtheit** ist die vollständige Gruppe, über die eine Forschungsfrage etwas erfahren möchte. Wenn sich die Personen, die an einer Studie teilnehmen konnten, systematisch von dieser beabsichtigten Grundgesamtheit unterscheiden, beschreibt auch ein sorgfältig berechneter Mittelwert oder eine ansprechend gestaltete Grafik nur die verfügbare Stichprobe. Thema 2 greift dieses Problem bei Zufallsstichproben und verzerrten Stichproben wieder auf.
+
+Ein Gesamtmittelwert kann ausserdem Unterschiede zwischen Gruppen verdecken. Noch wichtiger ist, dass ein beobachteter Gruppenunterschied oder Zusammenhang nicht zeigt, wodurch er verursacht wurde. Andere Unterschiede zwischen den beteiligten Personen oder Situationen können alternative Erklärungen liefern. Thema 4 kommt bei der Einführung der Korrelation auf diese kausale Grenze zurück.
+
+Stelle vor der Interpretation einer Zusammenfassung vier Fragen: Wer konnte in den Datensatz gelangen? Wer fehlt? Welche Variablen wurden wie gemessen? Welche alternativen Erklärungen bleiben bestehen? Deskriptive Statistik hilft dir, die vorhandene Evidenz zu erkennen. Sie erzeugt jedoch keine Evidenz, die durch das Untersuchungsdesign nicht erhoben wurde.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+
+Ein Unterschied zwischen Gruppen oder ein Zusammenhang zwischen Variablen kann wichtig sein, doch eine Beschreibung allein kann seine Ursache nicht bestimmen. Eine kausale Interpretation erfordert ein Design und Annahmen, die relevante Alternativerklärungen ausschliessen.
+:::
+
+---
+
+### Skalenniveaus verstehen {.cs-heading}
+
+Bevor eine Variable zusammengefasst wird, muss bestimmt werden, **um welche Art von Variable es sich handelt**. Das ist keine bürokratische Formalität. Das Skalenniveau entscheidet darüber, welche statistischen Kennwerte sinnvoll sind und welche zwar präzise aussehen, aber nichts Reales beschreiben.
+
+Die Farbe eines Raums, der Rang einer Person, eine Temperaturmessung und die Anzahl Geschwister enthalten unterschiedliche Arten von Information. Jede Art erlaubt andere Operationen. Eine ungeeignete Operation liefert unsinnige Ergebnisse. Der Durchschnitt von «Rot», «Blau» und «Grün» ist keine Farbe.
+
+Viele Einführungen unterscheiden vier Skalenniveaus: **Nominal-, Ordinal-, Intervall- und Verhältnisskala**. Diese Lernsequenz behandelt zusätzlich die **Absolutskala** als strengeren Untertyp für natürliche Anzahlen mit fester Einheit. Die Fünf-Niveaus-Darstellung macht diese zusätzliche Unterscheidung ausdrücklich sichtbar. Intervall-, Verhältnis- und Absolutskalen werden hier zusammen als **metrische Skalen** bezeichnet, weil sie numerische Grössen mit gleichen Abständen zwischen den Werten darstellen.
+
+Ein Skalenniveau hängt von der Bedeutung seiner Werte und von den Umcodierungen ab, welche diese Bedeutung bewahren. Eine solche Umcodierung heisst *zulässige Transformation*. Eine Schlussfolgerung wird durch das Skalenniveau gestützt, wenn sie nach jeder zulässigen Umcodierung sinnvoll bleibt.
+
+Damit die fünf Skalenniveaus anschaulich werden, begleiten wir dieselben zwölf Lernenden in einem fiktiven Lernworkshop. Die Tabelle enthält je eine Variable auf jedem Skalenniveau. Lies zunächst eine Zeile. Lernende Person 1 bevorzugte durchgerechnete Beispiele, schätzte ihre Sicherheit mit 3 ein, erlebte eine Raumtemperatur von 18 °C, lernte freiwillig 0 Minuten und bearbeitete 0 Übungsfragen. Jede Spalte beschreibt dieselbe Person auf eine andere Weise und erlaubt deshalb andere Zusammenfassungen.
+
+```{r}
+#| label: tbl-scale-workshop-data
+scale_learning_data |>
+  transmute(
+    `Lernende Person` = learner,
+    `Bevorzugtes Lernformat` = learning_format,
+    `Sicherheit (1–5)` = confidence,
+    `Raumtemperatur (°C)` = room_temperature,
+    `Lernzeit (Minuten)` = study_minutes,
+    `Übungsfragen` = practice_questions
+  ) |>
+  kable(
+    caption = "Ein fiktiver Workshop-Datensatz mit je einer Variable auf jedem der fünf Skalenniveaus.",
+    align = c("r", "l", "c", "r", "r", "r")
+  )
+```
+
+Die Nummer der lernenden Person kennzeichnet lediglich eine Zeile und darf nicht gemittelt werden. In den folgenden Abschnitten betrachten wir jeweils eine inhaltliche Spalte. Zuerst lesen wir eine Tabelle, danach bestimmen wir die begründbaren Kennwerte und schliesslich wählen wir Diagramme, welche die Bedeutung der Variable bewahren.
+
+---
+
+#### Nominalskala {.cs-subheading}
+
+Eine *nominalskalierte Variable* teilt Beobachtungen in **benannte Kategorien ohne natürliche Reihenfolge** ein. Ihre Bezeichnungen zeigen, zu welcher Kategorie ein Fall gehört. Sie messen keine Menge oder Intensität.
+
+Beispiele:
+
+- Art der erhaltenen Unterstützung (Einzelberatung, Gruppenberatung, Online-Selbsthilfe)
+- klinische Diagnose (Depression, Angststörung, keine Diagnose)
+- Händigkeit (links-, rechts- oder beidhändig)
+- bevorzugte Lernzeit (morgens, nachmittags, abends)
+
+Im Workshop-Datensatz ist das *bevorzugte Lernformat* nominalskaliert. «Durchgerechnete Beispiele», «Visuelle Erklärungen» und «Angeleitete Übung» sind drei Wahlmöglichkeiten. Ihre Reihenfolge in einer Tabelle kann geändert werden, ohne dass sich die Bedeutung einer Antwort verändert.
+
+```{r}
+#| label: tbl-scale-nominal-example
+scale_nominal_frequency |>
+  transmute(
+    `Bevorzugtes Lernformat` = learning_format,
+    `Lernende` = n,
+    `Prozent` = sprintf("%.1f%%", 100 * proportion)
+  ) |>
+  kable(
+    caption = "Häufigkeitstabelle für die nominalskalierte Variable zum Lernformat.",
+    align = c("l", "r", "r")
+  )
+```
+
+Beginne mit drei Leitfragen. Welche Antworten gehören zur gleichen Kategorie? Wie viele Lernende wählten jede Kategorie? Welchen Anteil an allen zwölf Lernenden bildet jede Häufigkeit? Die Tabelle beantwortet diese Fragen, ohne eine Rangfolge zu erfinden. Fünf Lernende wählten durchgerechnete Beispiele. Diese Kategorie umfasst damit `r sprintf("%.1f", 100 * max(scale_nominal_frequency$proportion))` % der kleinen Gruppe.
+
+Geeignete Kennwerte
+:   **Absolute Häufigkeiten** geben die Zahl der Lernenden in jeder Kategorie an. **Anteile oder Prozentwerte** machen die Kategoriegrössen zwischen Datensätzen mit unterschiedlichen Gesamtzahlen vergleichbar. Der **Modalwert** bezeichnet die häufigste Kategorie, hier also durchgerechnete Beispiele. Jeder dieser Kennwerte beantwortet eine nützliche Frage allein mithilfe der Kategoriezugehörigkeit.
+
+Jede eineindeutige Umbenennung ist zulässig. Einzelberatung, Gruppenberatung und Online-Selbsthilfe könnten mit 1, 2 und 3 oder mit 20, 10 und 70 codiert werden, sofern jede ursprüngliche Kategorie weiterhin einen eigenen eindeutigen Code besitzt. Das Zusammenfassen zweier Kategorien unter demselben Code geht über eine Umbenennung hinaus und verwirft Information.
+
+Geeignete Diagramme
+:   Ein **Säulendiagramm** stellt jede Häufigkeit als Länge von einer gemeinsamen Basislinie aus dar. Dadurch lassen sich Kategorien leicht vergleichen. Ein **Kreisdiagramm** stellt jede Kategorie als Anteil eines Ganzen dar. Es kann eine einfache Zusammensetzung vermitteln, doch ähnliche Sektorwinkel lassen sich schwerer vergleichen als Säulenlängen.
+
+```{r}
+#| label: fig-scale-nominal-bar
+#| fig-alt: "Säulendiagramm mit fünf Lernenden für durchgerechnete Beispiele, vier für visuelle Erklärungen und drei für angeleitete Übung."
+#| fig-cap: "Die Häufigkeiten der nominalen Lernformate als vergleichbare Säulenlängen."
+#| fig-width: 7
+#| fig-height: 4
+p_scale_nominal_bar
+```
+
+Lies das Säulendiagramm von der vertikalen Basislinie aus. Die Säule der durchgerechneten Beispiele reicht bis 5, jene der visuellen Erklärungen bis 4 und jene der angeleiteten Übung bis 3. Die horizontalen Positionen trennen die Kategorien, ohne ein Lernformat als grundsätzlich höher darzustellen.
+
+```{r}
+#| label: fig-scale-nominal-pie
+#| fig-alt: "Kreisdiagramm mit denselben Anteilen der bevorzugten Lernformate wie in der vorangehenden Häufigkeitstabelle und im Säulendiagramm."
+#| fig-cap: "Dieselben nominalen Häufigkeiten als Anteile der gesamten Gruppe von zwölf Lernenden."
+#| fig-width: 7
+#| fig-height: 4.8
+p_scale_nominal_pie
+```
+
+Die Sektoren ergeben zusammen 100 % und betonen dadurch die Zusammensetzung. Vergleiche sie mit den Säulen. Die grösste und die kleinste Kategorie sind weiterhin gut erkennbar, während sich der Unterschied zwischen 4 und 3 anhand der Säulenlängen leichter beurteilen lässt. Beide Diagramme sind zulässig. Für genaue Vergleiche ist das Säulendiagramm meistens geeigneter.
+
+Zu vermeiden
+:   Vermeide Arithmetik mit Kategorienbezeichnungen. Werden drei Unterstützungsarten mit 1, 2 und 3 codiert, hat ein Mittelwertcode von 1.8 keine inhaltliche Bedeutung. Die Ziffern dienen als Bezeichnungen. Studierenden-IDs wie 104, 217 und 902 funktionieren auf dieselbe Weise.
+
+---
+
+#### Ordinalskala {.cs-subheading}
+
+Eine *ordinalskalierte Variable* besitzt **Kategorien mit einer sinnvollen Reihenfolge**. Die Abstände zwischen benachbarten Kategorien müssen jedoch nicht gleich gross sein.
+
+Beispiele:
+
+- Schulnoten, etwa 1 bis 6 in der Schweiz mit 6 als bester Note, 1 bis 6 in Deutschland mit 1 als bester Note oder A bis F in anderen Systemen
+- Kategorien der Symptomschwere («keine», «leicht», «mittel», «schwer»)
+- Likert-Antworten (1 = stimme überhaupt nicht zu bis 5 = stimme vollständig zu)
+- Platzierungen in einem Wettbewerb (1., 2. und 3. Rang)
+
+Eine Ordinalskala zeigt, wer mehr oder weniger von einer Eigenschaft aufweist. Im schweizerischen Notensystem ist eine 6 besser als eine 4. In Deutschland ist die Richtung umgekehrt, und die 1 ist die beste Note. Die Kategorie «schwer» bezeichnet eine stärkere Belastung als «leicht». Die *Abstände* zwischen benachbarten Kategorien bleiben unbekannt. Ein Schritt um eine Notenstufe muss nicht an jedem Punkt der Skala dieselbe Leistungsdifferenz darstellen.
+
+Unser gemeinsames Beispiel verwendet die Frage «Wie sicher fühlst du dich vor dem Workshop?» Die Antworten reichen von 1, sehr unsicher, bis 5, sehr sicher. Eine Bewertung von 4 drückt mehr Sicherheit aus als eine Bewertung von 2. Die Skala sagt jedoch nicht, dass der gedankliche Schritt von 1 zu 2 genau gleich gross ist wie jener von 4 zu 5.
+
+```{r}
+#| label: tbl-scale-ordinal-example
+scale_ordinal_frequency |>
+  transmute(
+    `Sicherheitseinschätzung` = confidence_category,
+    `Lernende` = n,
+    `Prozent` = sprintf("%.1f%%", 100 * proportion),
+    `Kumulierte Prozent` = sprintf("%.1f%%", 100 * cumulative_proportion)
+  ) |>
+  kable(
+    caption = "Geordnete Häufigkeiten der Sicherheit vor dem fiktiven Workshop.",
+    align = c("c", "r", "r", "r")
+  )
+```
+
+Lies die kumulierte Spalte von der niedrigsten zur höchsten Kategorie. Sie beantwortet Fragen wie «Welcher Anteil wählte 3 oder weniger?» Hier lautet die Antwort `r sprintf("%.1f", 100 * scale_ordinal_frequency$cumulative_proportion[3])` %. Diese laufende Summe ist sinnvoll, weil die Kategorien eine begründbare Reihenfolge besitzen.
+
+Jede streng monoton steigende Umcodierung ist zulässig, weil sie die Reihenfolge bewahrt. Die Codierung von niedrig, mittel und hoch als 1, 2 und 3 oder als 10, 20 und 100 erhält die Rangfolge, obwohl sich die numerischen Abstände ändern. Eine Umcodierung, die Kategorien umkehrt oder zusammenbindet, bewahrt die ursprüngliche ordinale Bedeutung nicht.
+
+Geeignete Kennwerte
+:   **Häufigkeiten und Prozentwerte** beschreiben jede Kategorie. **Kumulierte Prozentwerte** zeigen, welcher Anteil der Gruppe auf oder unter jeder Stufe liegt. Der **Median** bezeichnet die mittlere geordnete Antwort, hier die Bewertung `r median(scale_learning_data$confidence)`. **Perzentile** bezeichnen weitere Positionen in der geordneten Gruppe. Der **Modalwert** zeigt die Bewertung `r as.numeric(names(which.max(table(scale_learning_data$confidence))))` als häufigste Antwort. Diese Kennwerte verwenden Reihenfolge oder Häufigkeit und benötigen keine gleichen Abstände.
+
+Geeignete Diagramme
+:   Ein **geordnetes Säulendiagramm** trennt alle Kategorien und ordnet sie in ihrer sinnvollen Reihenfolge an. Dadurch wird sichtbar, ob sich die Antworten eher am unteren, mittleren oder oberen Ende konzentrieren.
+
+```{r}
+#| label: fig-scale-ordinal-bar
+#| fig-alt: "Geordnetes Säulendiagramm mit der Zahl der Lernenden auf jeder Sicherheitseinschätzung von 1 bis 5."
+#| fig-cap: "Sicherheitseinschätzungen in ihrer natürlichen ordinalen Reihenfolge."
+#| fig-width: 7
+#| fig-height: 4
+p_scale_ordinal_bar
+```
+
+Gehe von links nach rechts, während die Sicherheit zunimmt. Die Säulenhöhen geben die Häufigkeiten an, und der Gipfel bei Bewertung 3 zeigt den Modalwert. Durch die geordneten Positionen lässt sich auch die Mediankategorie leichter verstehen. Ein Kreisdiagramm würde die Anteile ebenfalls bewahren, die Reihenfolge und das kumulierte Muster jedoch weniger deutlich zeigen.
+
+Zum Mittelwert
+:   Forschende berechnen häufig Mittelwerte für Likert-Antworten, wenn sie eine näherungsweise Annahme gleicher Abstände begründen können. Das ordinale Skalenniveau allein liefert diese Annahme nicht. Wird ein Mittelwert berichtet, sollten die Begründung der Messannahme und die geordnete Verteilung ebenfalls sichtbar sein.
+
+---
+
+#### Intervallskala {.cs-subheading}
+
+Eine *intervallskalierte Variable* besitzt **gleiche Abstände zwischen allen Werten**. Unterschiede sind deshalb numerisch sinnvoll. Es fehlt ihr jedoch ein **natürlicher Nullpunkt**. Der Wert null ist durch Konvention festgelegt und bedeutet nicht, dass die gemessene Eigenschaft vollständig fehlt.
+
+Das anschaulichste Beispiel ist die Temperatur in Grad Celsius oder Fahrenheit. Der Abstand zwischen 10 °C und 20 °C ist genauso gross wie der Abstand zwischen 20 °C und 30 °C. 0 °C bedeutet aber nicht, dass keine Temperatur vorhanden ist. Der Wert bezeichnet lediglich den Gefrierpunkt von Wasser als festgelegte Referenz. Ohne natürlichen Nullpunkt sind Verhältnisaussagen sinnlos: 40 °C ist nicht «doppelt so warm» wie 20 °C.
+
+Viele aus mehreren Items gebildete Messwerte in den Sozialwissenschaften, darunter psychologische und pädagogische Skalen, werden näherungsweise als intervallskaliert analysiert. Gleiche Abstände sind eine arbeitspraktische Messannahme, die durch Konstruktion und Validierung des Instruments gestützt werden muss. Aufgedruckte Zahlen allein können sie nicht belegen. Ein Wert von 0 kann lediglich das untere Ende eines Instruments bezeichnen und muss nicht das vollständige Fehlen des zugrunde liegenden Merkmals bedeuten.
+
+Eine positive **Verschiebungs- und Skalierungsregel** der Form $y = a + b x$ mit $b > 0$ ist zulässig. Die feste Zahl $a$ verschiebt den Nullpunkt, während der positive Multiplikator $b$ die Einheit verändert. Gleiche Differenzen bleiben dabei erhalten. Die Umrechnung von Celsius in Fahrenheit ist das übliche Beispiel.
+
+Die Raumtemperaturen im Workshop bilden ein kleines Beispiel für eine Intervallskala. Jeder Unterschied von 1 °C hat dieselbe Bedeutung. Die Werte können nach Fahrenheit verschoben und skaliert werden, ohne dass sich eine in den Daten dargestellte Temperaturdifferenz verändert.
+
+```{r}
+#| label: tbl-scale-interval-example
+scale_learning_data |>
+  select(learner, room_temperature) |>
+  transmute(
+    `Lernende Person` = learner,
+    `Raumtemperatur (°C)` = room_temperature
+  ) |>
+  kable(
+    caption = "Raumtemperaturen in Grad Celsius für die zwölf fiktiven Lernenden.",
+    align = c("r", "r")
+  )
+```
+
+Frage dich, was die gleichen Abstände erlauben. Wir können die Temperaturen addieren und einen Mittelwert berechnen. Wir können Abweichungen in Grad beschreiben und ihre Grösse vergleichen. Ausserdem können wir die Werte ordnen und rangbasierte Kennwerte verwenden. Der konventionelle Nullpunkt verhindert weiterhin die Aussage, 20 °C seien doppelt so warm wie 10 °C.
+
+Geeignete Kennwerte
+:   Der **Mittelwert** von `r sprintf("%.1f", mean(scale_learning_data$room_temperature))` °C bezeichnet das arithmetische Zentrum. Die **Standardabweichung** von `r sprintf("%.1f", sd(scale_learning_data$room_temperature))` °C beschreibt die Grössenordnung der Abweichungen darum. Der **Median** von `r median(scale_learning_data$room_temperature)` °C und der **IQR** von `r IQR(scale_learning_data$room_temperature)` °C beschreiben die geordnete Mitte und die Streuung der mittleren Hälfte. Die **Spannweite** von `r min(scale_learning_data$room_temperature)` °C bis `r max(scale_learning_data$room_temperature)` °C prüft den gesamten beobachteten Bereich. Häufigkeiten und Modalwert können ebenfalls angegeben werden, wenn wiederholte exakte Werte wichtig sind. Ein **z-Wert** drückt den Abstand einer Temperatur vom Mittelwert in Standardabweichungseinheiten aus. Mit einer zweiten intervall- oder metrisch skalierten Variable kann eine Korrelation einen linearen Zusammenhang zusammenfassen. Alle diese Anwendungen beruhen auf bedeutsamen numerischen Differenzen.
+
+Geeignete Diagramme
+:   Ein **Histogramm** gruppiert benachbarte metrische Werte und zeigt Konzentration, Lücken und Form. Ein **Boxplot** verdichtet Median, mittlere 50 %, Whisker und mögliche Ausreisser in einer Darstellung. Bei sehr kleinen Datensätzen kann ein Punktdiagramm besonders hilfreich sein, weil jede beobachtete Ausprägung sichtbar bleibt.
+
+```{r}
+#| label: fig-scale-interval-histogram
+#| fig-alt: "Histogramm von zwölf Raumtemperaturen zwischen 18 und 23 Grad Celsius, wobei die meisten Werte zwischen 20 und 21 Grad liegen."
+#| fig-cap: "Die intervallskalierten Temperaturen in gleich breite Ein-Grad-Klassen gruppiert."
+#| fig-width: 7
+#| fig-height: 4
+p_scale_interval_hist
+```
+
+Jede Säule umfasst dasselbe Ein-Grad-Intervall. Dadurch lassen sich die Säulenhöhen vergleichen. Die Konzentration um 20 °C und 21 °C wird sichtbar, während die Endpunkte zeigen, dass die beobachteten Werte von 18 °C bis 23 °C reichen.
+
+```{r}
+#| label: fig-scale-interval-boxplot
+#| fig-alt: "Boxplot mit einzelnen Punkten für die zwölf Raumtemperaturen in Grad Celsius."
+#| fig-cap: "Dieselben intervallskalierten Temperaturen als Boxplot mit sichtbaren Einzelbeobachtungen."
+#| fig-width: 5.5
+#| fig-height: 4
+p_scale_interval_box
+```
+
+Der Boxplot bietet einen schnellen Blick auf Lage und Streuung. Die eingezeichneten Punkte erinnern gleichzeitig daran, wie viele Einzelheiten der Kennwert verdichtet. Beide Darstellungen gemeinsam sind informativer, als von einer einzigen alle Antworten zu erwarten.
+
+Zu vermeiden
+:   Verhältnisaussagen. Es ist nicht zulässig zu behaupten, eine Person mit einem IQ von 120 sei «doppelt so intelligent» wie eine Person mit einem IQ von 60.
+
+---
+
+#### Verhältnisskala {.cs-subheading}
+
+Eine *verhältnisskalierte Variable* besitzt wie eine intervallskalierte Variable gleiche Abstände. Zusätzlich hat sie einen **natürlichen Nullpunkt**, bei dem null tatsächlich das vollständige Fehlen der gemessenen Grösse ausdrückt. Dadurch werden Verhältnisaussagen sinnvoll.
+
+Beispiele:
+
+- Körpergewicht in Kilogramm, wobei 0 kg keine Masse bedeutet und 80 kg tatsächlich das Doppelte von 40 kg sind
+- Reaktionszeit in Millisekunden, wobei 0 ms keine verstrichene Zeit bedeutet und 600 ms doppelt so lang wie 300 ms sind
+- Schlafdauer pro Nacht (0 Stunden bedeutet, dass kein Schlaf stattgefunden hat)
+
+Der praktische Unterschied zur Intervallskala besteht darin, dass nun Aussagen wie «Die mittlere Reaktionszeit von Gruppe A ist 1.5-mal so hoch wie jene von Gruppe B» sinnvoll sind.
+
+Positive multiplikative Transformationen der Form $y = b x$ mit $b > 0$ sind zulässig. Sie verändern die Einheit, lassen den Nullpunkt unverändert und bewahren Verhältnisse, wie bei der Umrechnung von Zentimetern in Meter.
+
+Im Workshop-Beispiel wird die *freiwillige Lernzeit* in Minuten gemessen. Ein Wert von 0 bedeutet, dass keine Lernzeit erfasst wurde, und 60 Minuten sind doppelt so viel Zeit wie 30 Minuten. Die Umrechnung von Minuten in Stunden verändert die Einheit und bewahrt dabei null sowie jedes Verhältnis.
+
+```{r}
+#| label: tbl-scale-ratio-example
+scale_learning_data |>
+  select(learner, study_minutes) |>
+  transmute(
+    `Lernende Person` = learner,
+    `Lernzeit (Minuten)` = study_minutes
+  ) |>
+  kable(
+    caption = "Freiwillige Lernzeit der zwölf fiktiven Lernenden.",
+    align = c("r", "r")
+  )
+```
+
+Lies vor der Berechnung die Endpunkte. Das beobachtete Minimum von 0 Minuten besitzt eine direkte Bedeutung, und das Maximum beträgt 90 Minuten. Vergleiche danach die Mitte der Verteilung mit ihrer längeren oberen Seite. Diese erste Prüfung hilft zu entscheiden, ob Mittelwert mit Standardabweichung, Median mit IQR oder beide Paare die klarste Beschreibung liefern.
+
+Geeignete Kennwerte
+:   Verhältnisskalierte Daten erlauben alle Kennwerte, die für intervallskalierte Daten begründet sind. Der **Mittelwert** beträgt hier `r sprintf("%.1f", mean(scale_learning_data$study_minutes))` Minuten und die **Standardabweichung** `r sprintf("%.1f", sd(scale_learning_data$study_minutes))` Minuten. Sie verwenden jeden Wert und beschreiben ein arithmetisches Zentrum mit der Variation darum. Der **Median** beträgt `r median(scale_learning_data$study_minutes)` Minuten und der **IQR** `r IQR(scale_learning_data$study_minutes)` Minuten. Sie beschreiben die geordnete Mitte und die Streuung der mittleren Hälfte mit geringerem Einfluss der längsten Lernzeiten. Die **Spannweite** prüft den gesamten Bereich. Der **Modalwert** ist nützlich, wenn eine genaue Dauer häufig wiederholt wird. Verhältnisse wie 60/30 = 2 beantworten Fragen zur relativen Menge.
+
+Geeignete Diagramme
+:   **Histogramme**, **Boxplots** und Punktdiagramme eignen sich, weil die Werte eine metrische Skala bilden. Ein Histogramm betont Form und Konzentration. Ein Boxplot betont Lage, Streuung der mittleren Hälfte und ungewöhnlich weit entfernte Werte.
+
+```{r}
+#| label: fig-scale-ratio-histogram
+#| fig-alt: "Histogramm der freiwilligen Lernzeiten von null bis neunzig Minuten für zwölf fiktive Lernende."
+#| fig-cap: "Die verhältnisskalierten Lernzeiten in gleich breite Fünfzehn-Minuten-Klassen gruppiert."
+#| fig-width: 7
+#| fig-height: 4
+p_scale_ratio_hist
+```
+
+Die Säulen zeigen, wie sich die Lernzeiten über den Bereich von 0 bis 90 Minuten verteilen. Die meisten Beobachtungen liegen unter den längsten Zeiten, sodass sich das obere Ende weiter als die Hauptkonzentration erstreckt. Die Tabelle zeigt die Einzelwerte, während das Histogramm das Gesamtmuster leichter erkennbar macht.
+
+```{r}
+#| label: fig-scale-ratio-boxplot
+#| fig-alt: "Boxplot mit einzelnen Punkten für die freiwillige Lernzeit in Minuten."
+#| fig-cap: "Dieselben verhältnisskalierten Lernzeiten als Boxplot mit sichtbaren Einzelbeobachtungen."
+#| fig-width: 5.5
+#| fig-height: 4
+p_scale_ratio_box
+```
+
+Die Medianlinie und die Box fassen die geordnete Mitte der Daten zusammen. Die einzelnen Punkte zeigen, woher diese Zusammenfassung stammt. Dazu gehören die lernende Person mit 0 erfassten Minuten und die längeren Lernzeiten am oberen Ende.
+
+---
+
+#### Absolutskala {.cs-subheading}
+
+Eine *absolutskalierte Variable* erlaubt hinsichtlich zulässiger Transformationen die stärksten Einschränkungen. Wie eine verhältnisskalierte Variable besitzt sie einen natürlichen Nullpunkt und gleiche Abstände. Zusätzlich hat sie eine **natürliche, feste Einheit**, die nicht verändert werden kann.
+
+Absolutskalierte Variablen sind typischerweise **ganzzahlige Anzahlen unteilbarer Objekte**. Solche Werte heissen **diskret**, weil zwischen getrennten möglichen Werten wie 2 und 3 keine weitere zulässige Anzahl liegt:
+
+- Anzahl Geschwister
+- Anzahl richtiger Antworten in einem Test
+- Anzahl erinnerter Wörter in einem Gedächtnistest
+- Anzahl besuchter Therapiesitzungen
+- Anzahl Fehler in einer kognitiven Aufgabe
+
+Eine Person kann nicht 1.5 Geschwister haben, und «5 Geschwister» lassen sich nicht in eine andere Einheit umrechnen. Die Art der Zählung bestimmt die Einheit eins. Nur die Identitätstransformation $y = x$ ist zulässig. In der Praxis werden absolutskalierte Variablen mit denselben Kennwerten wie verhältnisskalierte Variablen beschrieben.
+
+Die letzte Workshop-Variable zählt, wie viele Übungsfragen jede lernende Person bearbeitet hat. Jeder Schritt um eins bedeutet eine weitere bearbeitete Frage. Null bedeutet keine, und die Einheit kann nicht durch Minuten, Kilogramm oder eine andere frei wählbare Masseinheit ersetzt werden.
+
+```{r}
+#| label: tbl-scale-absolute-example
+scale_absolute_frequency |>
+  transmute(
+    `Bearbeitete Fragen` = practice_questions,
+    `Lernende` = n,
+    `Prozent` = sprintf("%.1f%%", 100 * proportion)
+  ) |>
+  kable(
+    caption = "Häufigkeitstabelle für die absolute Anzahl bearbeiteter Übungsfragen.",
+    align = c("r", "r", "r")
+  )
+```
+
+Die Tabelle hält die diskreten Schritte sichtbar. Zwei bearbeitete Fragen sind der häufigste Wert. Die Anzahl 6 kommt nicht vor, und das Maximum von 7 gehört zu einer lernenden Person. Diese Einzelheiten würden verschwinden, wenn nur ein Durchschnitt berichtet würde.
+
+Geeignete Kennwerte
+:   Der **Mittelwert** von `r sprintf("%.2f", mean(scale_learning_data$practice_questions))` Fragen beschreibt das arithmetische Zentrum. Die **Standardabweichung** von `r sprintf("%.2f", sd(scale_learning_data$practice_questions))` Fragen beschreibt die Variation darum. Der **Median** von `r median(scale_learning_data$practice_questions)` liegt in der Mitte der beiden zentralen Anzahlen und bezeichnet die geordnete Mitte, obwohl niemand eine halbe Frage bearbeiten kann. Der **IQR** von `r IQR(scale_learning_data$practice_questions)` Fragen beschreibt die Streuung der mittleren Hälfte. Der **Modalwert** 2 bezeichnet die häufigste genaue Anzahl. Die **Spannweite** von 0 bis 7 prüft den gesamten beobachteten Bereich. Häufigkeiten, Prozentwerte und Verhältnisvergleiche bleiben ebenfalls sinnvoll.
+
+Geeignete Diagramme
+:   Bei wenigen möglichen Anzahlen zeigt ein **Säulendiagramm** die Häufigkeit jeder ganzen Zahl. Ein **Histogramm** wird nützlich, wenn die Anzahl viele Werte umfasst und eine Gruppierung die Form leichter erkennbar macht. Ein **Boxplot** bietet dieselbe kompakte Darstellung von Lage und Streuung wie bei anderen metrischen Variablen.
+
+```{r}
+#| label: fig-scale-absolute-bar
+#| fig-alt: "Säulendiagramm mit der Häufigkeit jeder beobachteten Anzahl bearbeiteter Übungsfragen von null bis sieben."
+#| fig-cap: "Genaue Häufigkeiten der absoluten Anzahl bearbeiteter Übungsfragen."
+#| fig-width: 7
+#| fig-height: 4
+p_scale_absolute_bar
+```
+
+Jede horizontale Position bezeichnet eine mögliche ganzzahlige Anzahl. Die fehlende Säule bei 6 ist inhaltlich bedeutsam, weil niemand genau sechs Fragen bearbeitet hat. Die getrennten Säulen bewahren die diskrete Natur der Variable.
+
+```{r}
+#| label: fig-scale-absolute-boxplot
+#| fig-alt: "Boxplot mit einzelnen Punkten für die Anzahl bearbeiteter Übungsfragen."
+#| fig-cap: "Dieselben absoluten Anzahlen als Boxplot mit sichtbaren Einzelbeobachtungen."
+#| fig-width: 5.5
+#| fig-height: 4
+p_scale_absolute_box
+```
+
+Der Boxplot erleichtert den Vergleich von Lage und Streuung mit einer anderen Gruppe. Die Punkte halten gleichzeitig die ursprünglichen Anzahlen sichtbar. Diese Kombination ist besonders hilfreich in einem kleinen Beispiel, in dem jede Beobachtung gezeigt werden kann.
+
+---
+
+#### Skalenniveaus im Überblick {.cs-subheading}
+
+| Skala | Geordnet | Gleiche Abstände | Natürlicher Nullpunkt | Feste Einheit | Beispiel |
+|---|---|---|---|---|---|
+| Nominal | Nein | Nein | Nein | Nein | Therapieart |
+| Ordinal | Ja | Nein | Nein | Nein | Schulnote (1–6) |
+| Intervall | Ja | Ja | Nein | Nein | Temperatur (°C) |
+| Verhältnis | Ja | Ja | Ja | Nein | Körpergewicht (kg) |
+| Absolut | Ja | Ja | Ja | Ja | Anzahl Geschwister |
+
+: Eigenschaften, anhand derer die fünf Skalenniveaus dieser Lernsequenz unterschieden werden. {#tbl-scale-level-properties}
+
+Jedes Skalenniveau umfasst alle Eigenschaften der darüberstehenden Niveaus. Weiter unten in der Tabelle werden daher mehr statistische Operationen zulässig. Das Skalenniveau einer Variable vor jeder Berechnung zu bestimmen, gehört zu den grundlegenden Gewohnheiten einer sorgfältigen Datenanalyse.
+
+| Skala | Zulässige Transformation | Zu bewahrende Eigenschaft |
+|---|---|---|
+| Nominal | Eineindeutige Umbenennung | Gleichheit und Ungleichheit der Kategorien |
+| Ordinal | Jede streng monoton steigende Umcodierung | Rangfolge |
+| Intervall | $y = a + b x$, wobei $b > 0$ | Gleichheit von Differenzen |
+| Verhältnis | $y = b x$, wobei $b > 0$ | Verhältnisse und natürlicher Nullpunkt |
+| Absolut | $y = x$ | Fester Nullpunkt und natürliche Einheit |
+
+: Zulässige Transformationen für die fünf Skalenniveaus. {#tbl-scale-level-transformations}
+
+Die erste Tabelle ist eine Checkliste der Messeigenschaften. Die zweite übersetzt diese Eigenschaften in eine praktische Prüfung: Wenn eine zulässige Umcodierung die Bedeutung einer geplanten Berechnung verändert, ist diese Berechnung nicht allein durch das Skalenniveau gerechtfertigt. Ordinale Codes 1, 2 und 3 dürfen zum Beispiel durch 10, 20 und 100 ersetzt werden, weil ihre Reihenfolge gleich bleibt. Ihr numerischer Mittelwert verändert sich dabei stark. Das zeigt, weshalb ein Mittelwert für ordinale Daten eine zusätzliche Annahme gleicher Abstände benötigt.
+
+Die drei im nächsten Abschnitt eingeführten Lagemasse werden auf unterschiedlichen Stufen dieser Hierarchie sinnvoll:
+
+| Lagemass | Niedrigstes Skalenniveau, das den Kennwert erlaubt | Verwendete Information |
+|---|---|---|
+| Modalwert | Nominal | Welcher Wert oder welche Kategorie am häufigsten vorkommt |
+| Median | Ordinal | Reihenfolge der Beobachtungen |
+| Mittelwert | Intervall | Gleiche numerische Abstände zwischen Werten |
+
+: Das jeweils niedrigste Skalenniveau, auf dem ein Lagemass gerechtfertigt ist. {#tbl-center-by-scale-level}
+
+Lies diese Tabelle von oben nach unten als Erweiterung. Metrische Variablen sind ebenfalls geordnet und können deshalb auch einen Median und einen Modalwert haben. Eine ordinale Variable kann neben dem Median auch einen Modalwert haben. Beim Abstieg durch die Messhierarchie werden zusätzliche Kennwerte vertretbar, während die früheren erhalten bleiben.
+
+::: {.callout-tip title="Kernidee"}
+
+Jede statistische Entscheidung beginnt beim Skalenniveau. Nominaldaten erlauben Häufigkeiten, Anteile und den Modalwert. Ordinaldaten erlauben zusätzlich ordnungsbasierte Kennwerte wie Median und Perzentile. Metrische Daten erlauben Mittelwerte, Standardabweichungen, Korrelationen und weitere Verfahren. Eine Operation ist nur dann sinnvoll, wenn ihr Ergebnis unter jeder zulässigen Umcodierung des Skalenniveaus erhalten bleibt.
+:::
+
+---
+
+### Von Rohwerten zur Häufigkeitsverteilung {.cs-heading}
+
+Sobald das Skalenniveau bekannt ist, werden die beobachteten Werte geordnet, ohne ihr Muster zu verbergen. Eine *Häufigkeitsverteilung* ordnet sie Kategorien oder numerischen Intervallen zu und hält fest, wie oft jeder Wert auftritt. Sie ist häufig die erste Zusammenfassung einer Variable, weil sie fehlende Kategorien, unzulässige Codes, schwach besetzte Gruppen und Häufungen sichtbar macht, die ein einzelnes Lagemass verdecken würde.
+
+Für Kategorie oder Intervall $j$ bezeichnet $n_j$ die absolute Häufigkeit und $n$ die Gesamtzahl der Beobachtungen. Die *relative Häufigkeit* lautet:
+
+$$f_j = \frac{n_j}{n}$$
+
+Relative Häufigkeiten können als Anteile angegeben oder für Prozentwerte mit 100 multipliziert werden. Für Kategorien mit einer sinnvollen Reihenfolge ist die *kumulative relative Häufigkeit* bis einschliesslich Kategorie $j$:
+
+$$F_j = \sum_{k=1}^{j} f_k$$
+
+| Häufigkeitsart | Bedeutung | Geeignete Variablen |
+|---|---|---|
+| Absolute Häufigkeit $n_j$ | Anzahl Beobachtungen in Kategorie $j$ | Jedes Skalenniveau |
+| Relative Häufigkeit $f_j$ | Anteil oder Prozentsatz in Kategorie $j$ | Jedes Skalenniveau |
+| Kumulative relative Häufigkeit $F_j$ | Anteil bis einschliesslich Kategorie $j$ | Ordinale oder metrische Variablen |
+
+: Absolute, relative und kumulative relative Häufigkeiten. {#tbl-frequency-types}
+
+Absolute Häufigkeiten müssen sich zu $n$ und relative Häufigkeiten, abgesehen von kleinen Rundungsabweichungen, zu 1 summieren. Kumulative relative Häufigkeiten sind für nominale Kategorien nicht sinnvoll, weil eine Summe «bis» zu einer Kategorie eine Reihenfolge voraussetzt, die das Skalenniveau nicht besitzt.
+
+Die fiktiven Zufriedenheitsbewertungen bieten ein kleines Rechenbeispiel. Die Spalte mit den absoluten Häufigkeiten zeigt, wie viele Studierende jede geordnete Kategorie gewählt haben. Wird jede Häufigkeit durch 160 geteilt, entsteht die relative Häufigkeit. Durch fortlaufendes Addieren der relativen Häufigkeiten ab Bewertung 1 entsteht der kumulative Anteil.
+
+```{r}
+#| label: tbl-worked-frequencies
+tab_satisfaction |>
+  transmute(
+    `Zufriedenheitswert` = satisfaction,
+    `Häufigkeit` = n,
+    `Relative Häufigkeit` = sprintf("%.3f", n / sum(n)),
+    `Kumulativer Anteil` = sprintf("%.3f", cumsum(n / sum(n)))
+  ) |>
+  kable(
+    caption = "Absolute und relative Häufigkeiten sowie kumulative Anteile der geordneten Zufriedenheitswerte.",
+    align = c("c", "r", "r", "r")
+  )
+```
+
+Lies die letzte Spalte von oben nach unten. Beim Wert 4 erreicht sie `r sprintf("%.3f", cumsum(tab_satisfaction$n / sum(tab_satisfaction$n))[4])`. Damit wählten `r sprintf("%.1f", 100 * cumsum(tab_satisfaction$n / sum(tab_satisfaction$n))[4])`% der Studierenden in diesem fiktiven Datensatz eine Bewertung von höchstens 4. Die letzte Zeile erreicht 1.000, weil sie alle Beobachtungen umfasst. Der Wert wird aus denselben Häufigkeiten berechnet, die in der Tabelle stehen. Dadurch bleibt die schriftliche Interpretation auch dann passend, wenn die Lehrdaten später bewusst neu erzeugt werden.
+
+::: {.callout-tip title="Kernidee"}
+
+Eine Häufigkeitstabelle bewahrt mehr Einzelheiten als ein einzelner Durchschnittswert. Prüfe Summen, Kategorien mit einer Häufigkeit von null, Reihenfolge und Bezugsgrössen, bevor du zu einer Grafik oder numerischen Zusammenfassung übergehst.
+:::
+
+---
+
+### Zentrale Tendenz: Einen typischen Wert beschreiben {.cs-heading}
+
+Nach der Bestimmung des Skalenniveaus stellt sich eine naheliegende Frage: Wo liegen diese Beobachtungen im Allgemeinen? Eine Liste von zwölf oder zwölftausend Werten lässt sich kaum im Kopf behalten. Ein **Lagemass** verdichtet diese Liste zu einem Bezugspunkt. Dadurch können wir eine Gruppe beschreiben, Gruppen vergleichen und Beobachtungen erkennen, die weit von der Hauptkonzentration entfernt liegen.
+
+Das Wort *typisch* verlangt Sorgfalt. Es bedeutet nicht, dass jede Person den berichteten Wert besitzt, und die numerische Mitte muss nicht einmal ein beobachteter Wert sein. Gemeint ist eine begründbare Darstellung der Lage einer Verteilung. **Mittelwert**, **Median** und **Modalwert** bestimmen diese Lage auf unterschiedliche Weise. Die beste Wahl hängt vom Skalenniveau, von der Verteilungsform und von der inhaltlichen Frage ab.
+
+Stell dir die Frage vor, wo eine Klasse bei der Lernzeit typischerweise liegt. Der Mittelwert gleicht alle erfassten Minuten aus, der Median verortet die mittlere Person in der geordneten Klasse und der Modalwert bezeichnet die häufigste genaue Dauer. Diese Antworten können sich unterscheiden, ohne dass eine Berechnung falsch ist. Sie beantworten verschiedene Varianten der Frage «Was ist typisch?»
+
+---
+
+#### Mittelwert {.cs-subheading}
+
+Der Mittelwert ist das arithmetische Mittel. Dazu werden alle Werte summiert und durch die Anzahl Beobachtungen geteilt:
+
+$$\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i$$
+
+Dabei ist $n$ die Stichprobengrösse, $x_i$ der Wert der $i$-ten Beobachtung, und die Summe läuft von $i = 1$ bis $i = n$.
+
+Die Abweichungen vom Mittelwert summieren sich immer zu null:
+
+$$\sum_{i=1}^{n}(x_i - \bar{x}) = 0$$
+
+Positive Abweichungen oberhalb des Mittelwerts gleichen negative Abweichungen unterhalb des Mittelwerts genau aus. Diese Identität erklärt, weshalb rohe Abweichungen nicht zur Messung der Variabilität gemittelt werden können und später quadrierte Abweichungen verwendet werden.
+
+Diese Ausgleichseigenschaft zeigt den hauptsächlichen Zweck des Mittelwerts. Er liefert einen Bezugspunkt, der jeden Wert verwendet und spätere Berechnungen auf der Grundlage von Abweichungen ermöglicht. Dazu gehören Varianz, Regression und viele inferenzstatistische Verfahren. Bei einer metrischen Verteilung mit einer annähernd symmetrischen Hauptkonzentration beschreibt der Mittelwert die Lage oft besonders effizient.
+
+Ein konkretes Beispiel: Fünf Studierende geben Körpergewichte von 65, 70, 58, 72 und 80 Kilogramm an. Der Mittelwert beträgt:
+
+$$\bar{x} = \frac{65 + 70 + 58 + 72 + 80}{5} = \frac{345}{5} = 69 \text{ kg}$$
+
+Der Mittelwert berücksichtigt jeden Wert im Datensatz. Bei annähernd symmetrischen Verteilungen ist er deshalb sehr informativ. Diese Empfindlichkeit gegenüber allen Werten ist zugleich seine Schwäche: Eine einzige extreme Beobachtung kann ihn deutlich verschieben. Wiegt die schwerste Person statt 80 kg nun 140 kg, ergibt sich:
+
+$$\bar{x} = \frac{65 + 70 + 58 + 72 + 140}{5} = \frac{405}{5} = 81 \text{ kg}$$
+
+Der neue Mittelwert von 81 kg beschreibt die typische Person möglicherweise nicht mehr angemessen, weil eine ungewöhnliche Beobachtung ihn nach oben zieht.
+
+Verwende den Mittelwert, wenn numerische Differenzen bedeutsam sind und das arithmetische Zentrum die Forschungsfrage beantwortet. Untersuche zuvor immer die Verteilung. Ein extremer Wert kann ein Datenfehler, ein seltener gültiger Fall oder ein wichtiger Teil der Grundgesamtheit sein. Kläre diese Möglichkeiten, bevor du über den Umgang mit ihm entscheidest.
+
+---
+
+#### Median {.cs-subheading}
+
+Der Median ist ein Wert, der die geordneten Beobachtungen so teilt, dass **mindestens die Hälfte auf oder unter ihm und mindestens die Hälfte auf oder über ihm liegt**. Diese Formulierung bleibt auch bei gebundenen Werten korrekt.
+
+Der Median verortet die Mitte anhand der Position. Weil er vor allem auf der Reihenfolge beruht, bleibt er für ordinale Daten und für metrische Verteilungen informativ, deren Ränder oder ungewöhnliche Werte den Mittelwert von der Hauptgruppe wegziehen. Fragen nach einem typischen Einkommen, einer Wartezeit oder einer Reaktionszeit profitieren häufig von dieser rangbasierten Sicht.
+
+Bei einer ungeraden Anzahl Beobachtungen ist der Median der einzelne mittlere Wert der geordneten Liste. Bei einer geraden Anzahl metrischer Beobachtungen gibt Software üblicherweise das arithmetische Mittel der beiden zentralen Werte aus. Bei einer rein ordinalen Variable kann dieser Durchschnitt eine Zahl oder Kategorie erzeugen, die auf der Skala nicht definiert ist. Berichte in diesem Fall die zentralen geordneten Kategorien oder verwende eine dokumentierte Konvention, ohne einen metrischen Abstand zwischen ihnen vorzutäuschen.
+
+Für die fünf geordneten Körpergewichte 58, 65, 70, 72 und 80 ist der Median der dritte Wert: **70 kg**.
+
+Mit dem Ausreisser lautet die Reihe 58, 65, 70, 72 und 140. Der Median bleibt der dritte Wert: **70 kg**. In diesem Beispiel verändert die extreme Beobachtung ihn nicht. Das veranschaulicht die zentrale Eigenschaft des Medians: Er ist **robust gegenüber Ausreissern**, sodass eine kleine Zahl extremer Werte ihn gewöhnlich nur begrenzt beeinflusst.
+
+Diese Robustheit ist in der Verhaltens- und Sozialforschung wichtig. Reaktionszeiten bei geteilter Aufmerksamkeit sind häufig rechtsschief. Die meisten Personen reagieren innerhalb von 350 bis 600 Millisekunden, einzelne benötigen jedoch 1,500 Millisekunden oder mehr. In dieser Situation beschreibt der Median die typische Leistung der Hauptgruppe oft klarer als der Mittelwert, der sich in Richtung der langsamsten Reaktionen verschiebt.
+
+---
+
+#### Modalwert {.cs-subheading}
+
+Der Modalwert ist der **am häufigsten auftretende Wert oder die häufigste Kategorie**. Anders als Mittelwert und Median lässt er sich für jedes Skalenniveau bestimmen, auch für Nominalvariablen. Soll die häufigste Therapieform einer Klinik benannt werden, ist der Modalwert der geeignete Kennwert.
+
+Der Modalwert erfüllt einen direkten praktischen Zweck. Er zeigt, welche Antwort, Kategorie oder welcher exakte Wert am häufigsten vorkommt. Dadurch ist er das einzige Lagemass für eine rein nominalskalierte Variable. Er ist auch hilfreich, wenn die häufigste Wahl selbst inhaltlich wichtig ist, etwa die am stärksten nachgefragte Sprache für ein Angebot oder die häufigste Zahl besuchter Sitzungen.
+
+Was geschieht aber, wenn zwei Werte gleich häufig vorkommen und beide die höchste Häufigkeit besitzen? Betrachte 1, 2, 2, 3, 3 und 4. Die Werte 2 und 3 treten je zweimal auf. Beide sind Modalwerte, und die Daten sind **bimodal**. Teilen mehr als zwei Werte die höchste Häufigkeit, besitzt der Datensatz mehrere Modalwerte und kann als **multimodal** bezeichnet werden. Treten alle Werte gleich häufig auf, gibt es keinen eindeutigen Modalwert.
+
+Bei ungruppierten numerischen Daten bezieht sich der Modalwert auf exakt wiederholte Werte. Ein Gipfel im Histogramm ist damit verwandt, hängt jedoch von den gewählten Klassen ab. Er darf deshalb nicht automatisch als exakter Modalwert der Stichprobe behandelt werden. Frage dich, ob du den häufigsten beobachteten Wert oder eine durch die Gruppierung benachbarter Werte entstandene Konzentration bestimmst.
+
+Bei quantitativen Daten ist der Modalwert besonders nützlich, wenn:
+
+- eine Verteilung **zwei oder mehr Gipfel** besitzt, die unterschiedliche Teilgruppen darstellen könnten,
+- der häufigste Wert praktisch bedeutsam ist, etwa die häufigste Anzahl Therapiesitzungen vor einem Abbruch.
+
+Ein merklicher Unterschied zwischen Mittelwert und Median kann auf Schiefe hindeuten, doch ihre Reihenfolge allein belegt keine bestimmte Verteilungsform. Zeigt ein Histogramm zusätzlich einen langen rechten Randbereich, ist ein Mittelwert über dem Median damit vereinbar, dass hohe Werte den Mittelwert nach oben ziehen, während der Median stabiler bleibt. In dieser Situation kann der Median den typischen Wert besser erfassen.
+
+::: {.callout-tip title="Kernidee"}
+
+Mittelwert, Median und Modalwert definieren «typisch» auf unterschiedliche Weise. Der Mittelwert ist bei annähernd symmetrischen metrischen Daten häufig informativ. Median und IQR sind oft informativer, wenn Schiefe oder ungewöhnliche Werte den Mittelwert und die Standardabweichung von der Hauptkonzentration wegziehen würden. Der Modalwert eignet sich für Nominaldaten oder wenn der häufigste Wert inhaltlich wichtig ist. Mehr als ein Kennwert kann nützlich sein. Transparente Forschung nennt die verwendeten Kennwerte und erklärt die Gründe für ihre Wahl.
+:::
+
+---
+
+### Variabilität: Wie stark sich Personen unterscheiden {.cs-heading}
+
+Nach der Bestimmung der Lage müssen wir fragen, wie eng sich die Beobachtungen darum gruppieren. **Variabilität** beschreibt, wie stark sich Werte innerhalb eines Datensatzes unterscheiden. Sie zeigt, ob ein einzelnes Zentrum eine ziemlich ähnliche Gruppe angemessen darstellt oder eine grosse Bandbreite an Erfahrungen in einer allzu einfachen Zahl verdichtet.
+
+Stell dir zwei Klassen mit demselben mittleren Testwert von 70 vor. In einer Klasse erreichen fast alle Personen Werte zwischen 68 und 72. In der anderen reichen die Werte von 35 bis 100. Der gemeinsame Mittelwert verdeckt einen wesentlichen Unterschied. Die erste Klasse ist eng gebündelt, während die zweite viel stärker variiert. Das kann unser Verständnis von Bildungsbedürfnissen, Ungleichheit, Messqualität oder möglichen Teilgruppen verändern.
+
+Variabilität erfüllt deshalb mehrere Zwecke. Sie zeigt, wie repräsentativ ein Zentrum ist, macht Unterschiede zwischen Personen oder Fällen sichtbar, hilft bei der Erkennung ungewöhnlicher oder unplausibler Beobachtungen und bereitet spätere Fragen zur Unsicherheit vor. Kein einzelnes Streuungsmass erfasst jeden Aspekt. Die Spannweite verwendet die beiden Endpunkte, der IQR konzentriert sich auf die mittlere Hälfte und Varianz mit Standardabweichung beschreibt Abweichungen vom Mittelwert.
+
+---
+
+#### Spannweite {.cs-subheading}
+
+Die Spannweite ist das direkteste Streuungsmass:
+
+$$\text{Spannweite} = x_{\max} - x_{\min}$$
+
+Sie zeigt den Abstand zwischen den beiden extremsten beobachteten Werten. Ihr hauptsächlicher Zweck ist eine schnelle Prüfung des gesamten Bereichs. Reichen erfasste Alterswerte von 18 bis 240 Jahren, weisen die Endpunkte sofort auf einen Wert hin, der untersucht werden muss. Die Spannweite lässt sich ausserdem leicht vermitteln, wenn die vollständige Ausdehnung wichtig ist.
+
+Dieses Mass hängt vollständig von Minimum und Maximum ab. Eine einzelne ungewöhnlich hohe oder niedrige Beobachtung kann die Spannweite stark vergrössern, obwohl alle anderen Werte unverändert bleiben. Verwende sie deshalb als Teil einer umfassenderen Beschreibung und nicht als alleinige Interpretation der Variabilität.
+
+---
+
+#### Quantile und Perzentile {.cs-subheading}
+
+*Quantile* zeigen, wo Beobachtungen im geordneten Datensatz liegen. Ein $p$-Quantil ist ein Schwellenwert, bei oder unter dem ein festgelegter Anteil der geordneten Beobachtungen liegt. Perzentile drücken $p$ auf einer Skala von 0 bis 100 aus.
+
+Quantile erfüllen einen anderen Zweck als ein Durchschnitt. Sie bezeichnen relative Positionen. Ein Wert am 90. Perzentil liegt auf oder über den meisten Beobachtungen der gewählten Bezugsgruppe, auch wenn die Verteilung schief ist. Quantile definieren ausserdem nützliche Schwellen zur Beschreibung des unteren, mittleren und oberen Bereichs, ohne gleiche Abstände zwischen Kategorien vorauszusetzen.
+
+Drei Perzentile sind in der deskriptiven Statistik besonders wichtig:
+
+- Das **25. Perzentil**, auch **erstes Quartil (Q1)** genannt: Ungefähr 25 % der Beobachtungen liegen auf oder darunter.
+- Das **50. Perzentil**, auch **zweites Quartil (Q2)** genannt: Es entspricht dem Median.
+- Das **75. Perzentil**, auch **drittes Quartil (Q3)** genannt: Ungefähr 75 % der Beobachtungen liegen auf oder darunter.
+
+Zusammen beschreiben die drei Quartile vier aufeinanderfolgende Viertel der geordneten Daten. In einer endlichen Stichprobe führen gebundene Werte und Interpolation dazu, dass diese Viertel nicht immer vier Gruppen mit exakt derselben Beobachtungszahl bilden. Statistiksoftware verwendet zudem mehrere vertretbare Konventionen für Stichprobenquantile, weshalb sich berichtete Quartile geringfügig unterscheiden können. Gib die Konvention an, wenn genaue Quartilswerte eine Schlussfolgerung wesentlich beeinflussen.
+
+---
+
+#### Interquartilsabstand und Whisker im Boxplot {.cs-subheading}
+
+Der **Interquartilsabstand (IQR)** misst die Streuung zwischen dem ersten und dem dritten Quartil:
+
+$$\text{IQR} = Q_3 - Q_1$$
+
+Der IQR beantwortet eine besonders nützliche Frage: Über welchen Bereich erstreckt sich die mittlere Hälfte des Datensatzes, und wie breit ist dieser Bereich? Dieser Teil der Verteilung beschreibt häufig die gewöhnliche Variation. Der IQR passt natürlich zum Median, weil beide auf geordneten Positionen beruhen und gegenüber wenigen extremen Beobachtungen vergleichsweise robust sind.
+
+Weil der IQR von zwei zentralen Quantilen und nicht von den Endpunkten abhängt, hat eine kleine Zahl extremer Beobachtungen gewöhnlich nur begrenzten Einfluss auf ihn. Stichprobenquartile können sich dennoch verändern. Robustheit ist daher graduell. Bei ordinalen Kategorien sind die Quartilskategorien selbst sinnvoll. Die Interpretation ihrer numerischen Differenz als IQR setzt zusätzlich bedeutsame Abstände voraus.
+
+Der IQR bestimmt auch die Reichweite der Whisker im Boxplot. Die untere und obere Grenze lauten:
+
+$$\text{Untere Grenze} = Q_1 - 1.5 \cdot \text{IQR}$$
+$$\text{Obere Grenze} = Q_3 + 1.5 \cdot \text{IQR}$$
+
+Der untere Whisker reicht bis zum **kleinsten beobachteten Wert auf oder oberhalb der unteren Grenze**. Der obere Whisker reicht bis zum **grössten beobachteten Wert auf oder unterhalb der oberen Grenze**. Beobachtungen ausserhalb dieser Grenzen werden einzeln als Punkte dargestellt und gelten als mögliche Ausreisser. Solche Werte sind nicht automatisch Fehler. Sie sind im Verhältnis zur restlichen Gruppe ungewöhnlich und sollten genauer geprüft werden.
+
+---
+
+#### Varianz {.cs-subheading}
+
+Die *korrigierte Stichprobenvarianz* summiert die quadrierten Abweichungen vom Stichprobenmittelwert und teilt ihre Summe durch $n - 1$ Freiheitsgrade:
+
+$$s^2 = \frac{1}{n - 1} \sum_{i=1}^{n} (x_i - \bar{x})^2$$
+
+Warum werden die Abweichungen quadriert? Würden die Ausdrücke $(x_i - \bar{x})$ ohne Quadrieren summiert, höben sich positive und negative Abweichungen auf. Ihre Summe wäre unabhängig von der Streuung immer null. Das Quadrieren verhindert diese Aufhebung und lässt grössere Abweichungen stärker in die Summe eingehen.
+
+Die Varianz erfüllt einen zentralen mathematischen Zweck. Sie macht alle Abweichungen nichtnegativ und verbindet sie zu einem Mass der Streuung um den Mittelwert. Quadrierte Abweichungen besitzen zudem günstige mathematische Eigenschaften in Wahrscheinlichkeitsmodellen, Standardfehlern, Regression, ANOVA und vielen späteren Verfahren. Die quadrierte Einheit erschwert die direkte Interpretation. Deshalb übersetzen wir die Varianz mithilfe der Standardabweichung zurück in die ursprüngliche Einheit.
+
+Warum wird $n - 1$ verwendet? Nach der Berechnung des Stichprobenmittelwerts müssen sich die Abweichungen zu null summieren. Sind die ersten $n - 1$ Abweichungen bekannt, ist die letzte festgelegt. Die korrigierte Stichprobenvarianz berücksichtigt diesen verlorenen Freiheitsgrad mit $n - 1$. Thema 3 entwickelt die Begründung anhand wiederholter Stichproben. Verwende die Formel an dieser Stelle konsequent und halte den Unterschied zwischen Stichprobe und vollständiger Grundgesamtheit sichtbar.
+
+Stellen die beobachteten Werte die gesamte interessierende Grundgesamtheit und nicht eine zur Schätzung verwendete Stichprobe dar, lautet die Populationsvarianz:
+
+$$\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i - \mu)^2$$
+
+Dabei bezeichnen $N$ und $\mu$ die Grösse und den Mittelwert der Grundgesamtheit. Die Formeln beantworten unterschiedliche Fragen. Nenner und Notation sollten deshalb erkennen lassen, ob die Daten als Stichprobe oder als vollständige Grundgesamtheit behandelt werden.
+
+Da die Varianz in quadrierten Einheiten der ursprünglichen Variable ausgedrückt wird, etwa kg² bei Körpergewicht, lässt sie sich auf der ursprünglichen Skala nicht direkt interpretieren. Die Standardabweichung behebt dieses Problem.
+
+**Ausführliche Stichprobenberechnung.** Angenommen, vier Lernende erzielen Konzentrationswerte von 3, 6, 7 und 12 Punkten. Ihr Stichprobenmittelwert beträgt $\bar{x}=(3+6+7+12)/4=7$ Punkte. In der Berechnung bleibt jede Abweichung sichtbar:
+
+| Beobachtung $x_i$ | Abweichung $x_i-\bar{x}$ | Quadrierte Abweichung $(x_i-\bar{x})^2$ |
+|---:|---:|---:|
+| 3 | $3-7=-4$ | 16 |
+| 6 | $6-7=-1$ | 1 |
+| 7 | $7-7=0$ | 0 |
+| 12 | $12-7=5$ | 25 |
+| **Summe** | **0** | **42** |
+
+: Vollständige Abweichungstabelle für eine korrigierte Stichprobenvarianz. {#tbl-worked-sample-variance}
+
+Die Abweichungen summieren sich wie erforderlich zu null. Die Summe ihrer Quadrate beträgt 42. Da diese vier Beobachtungen als Stichprobe behandelt werden, wird durch $n-1=3$ geteilt:
+
+$$s^2=\frac{42}{4-1}=14\,\text{Punkte}^2.$$
+
+Durch das Ziehen der Quadratwurzel kehren wir anschliessend zur ursprünglichen Einheit zurück:
+
+$$s=\sqrt{14}=3.74\text{ Punkte}.$$
+
+Die Varianz beträgt 14 Quadratpunkte, während die Standardabweichung die Grössenordnung der Abweichungen mit ungefähr 3.74 Punkten angibt. Wären diese vier Werte die gesamte interessierende Grundgesamtheit, wäre der Nenner stattdessen $N=4$, und das Ergebnis würde eine andere Frage beantworten.
+
+---
+
+#### Standardabweichung {.cs-subheading}
+
+Die **Standardabweichung** ist die Quadratwurzel der Varianz. Dadurch wird das Streuungsmass wieder in der ursprünglichen Einheit ausgedrückt:
+
+$$s = \sqrt{s^2} = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2}$$
+
+Die Standardabweichung drückt die Grössenordnung der Abweichungen vom Mittelwert in der ursprünglichen Einheit der Variable aus. Darin liegt ihr wichtigster praktischer Vorteil. Wird ein Testwert in Punkten gemessen, besitzt auch seine SD die Einheit Punkte. Dadurch lässt sich die Variation leichter mit dem Instrument verbinden. Die SD wird aus quadrierten Abweichungen hergeleitet und darf nicht als arithmetischer Mittelwert der absoluten Abstände verstanden werden.
+
+Eine kleinere SD zeigt auf derselben Skala eine engere Bündelung um den Mittelwert als eine grössere SD. Der Vergleich ist besonders informativ, wenn die Gruppen dasselbe Instrument in ähnlichen Kontexten verwenden. Welcher Anteil der Beobachtungen innerhalb eines bestimmten Abstands vom Mittelwert liegt, hängt weiterhin von der Verteilungsform ab.
+
+Angenommen, dieselbe Wohlbefindensskala von 0 bis 60 wird in zwei vergleichbaren Gemeinschaften verwendet, die beide einen Mittelwert von 45 haben. Eine SD von 3 zeigt eine wesentlich engere Bündelung um 45 als eine SD von 15. Der Vergleich ist sinnvoll, weil beide Werte dasselbe Instrument und dieselbe Einheit verwenden. Ohne Skala und Kontext hat eine SD keine universelle Bedeutung.
+
+Die Standardabweichung sollte immer zusammen mit dem Mittelwert angegeben werden. Ein Mittelwert von 20 ohne Information zur Variabilität sagt fast nichts über die Verteilung oder die individuellen Unterschiede in der Gruppe aus.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+
+Mittelwert und Standardabweichung bilden ein zusammengehöriges Paar und sollten gemeinsam interpretiert werden. Ein Mittelwert von 20 mit SD = 2 beschreibt eine eng gebündelte Gruppe. Derselbe Mittelwert mit SD = 10 beschreibt eine breit gestreute Gruppe. Die Angabe der Standardabweichung verhindert, dass der gemeinsame Mittelwert diesen Unterschied verdeckt.
+:::
+
+::: {.callout-tip title="Kernidee"}
+
+Variabilität trägt inhaltliche Information. Die Standardabweichung drückt die Variation um den Mittelwert in der Einheit der Variable aus. Der IQR beschreibt die mittlere Hälfte der geordneten Daten, und die Spannweite zeigt den gesamten Abstand vom kleinsten zum grössten Wert. Kombiniere ein Lagemass mit einem Streuungsmass und erkläre, weshalb dieses Paar zum Skalenniveau, zur Form und zur Forschungsfrage passt.
+:::
+
+---
+
+### Das passende Diagramm auswählen {.cs-heading}
+
+Das Skalenniveau einer Variable bestimmt unmittelbar, welche Visualisierungen informativ sind. Ein ungeeignetes Diagramm ist mehr als ein ästhetisches Problem, weil es zu falschen Schlüssen führen kann. Die folgenden Abschnitte zeigen die Diagrammtypen anhand eines fiktiven Lehrdatensatzes zur Prüfungsangst bei Studierenden im ersten Studienjahr.
+
+---
+
+#### Säulendiagramm: Nominaldaten {.cs-subheading}
+
+Ein Säulendiagramm ist das Standardwerkzeug für **nominalskalierte Variablen**. Solche Variablen teilen Beobachtungen in benannte Kategorien ohne natürliche Reihenfolge ein. Die Höhe jeder Säule zeigt, wie viele Beobachtungen zur jeweiligen Kategorie gehören.
+
+Im Datensatz ist das Geschlecht eine nominalskalierte Variable. Die Teilnehmenden bezeichneten sich als Frau, Mann oder divers. Zwischen diesen Kategorien besteht keine natürliche numerische Rangfolge.
+
+```{r}
+#| label: fig-gender-bar
+#| fig-width: 7
+#| fig-height: 4
+#| fig-alt: "Säulendiagramm der Geschlechtskategorien Frau, Mann und divers mit den Häufigkeiten von insgesamt 160 Studierenden."
+#| fig-cap: "Geschlechtshäufigkeiten im fiktiven Lehrdatensatz."
+p_bar_gender
+```
+
+So wird das Diagramm gelesen
+:   Jede Säule auf der horizontalen Achse steht für eine Geschlechtskategorie. Ihre Höhe gibt an, wie viele Studierende dieser Kategorie angehören. Die Säulen dürfen alphabetisch, nach Häufigkeit oder in einer anderen Reihenfolge angeordnet werden, weil die Kategorien keine natürliche Rangfolge besitzen.
+
+Aussage des Diagramms
+:   In diesem fiktiven Lehrdatensatz gehören 112 Studierende zur Kategorie Frau, 42 zur Kategorie Mann und 6 zur Kategorie divers. Diese erzeugten Häufigkeiten beschreiben nur den fiktiven Datensatz. Ein Mittelwert oder Median dieser Kategorien lässt sich nicht sinnvoll berechnen. Eine Aussage wie «Das durchschnittliche Geschlecht beträgt 1.4» ist nicht interpretierbar. Geeignete Kennwerte sind Häufigkeit, Anteil und häufigste Kategorie.
+
+Praktische Prüfung
+:   Die Säulen sollten zusammen die Stichprobengrösse von 160 ergeben. Fehlt eine Kategorie vollständig, kann dies auf ein Problem bei der Dateneingabe hinweisen.
+
+---
+
+#### Kreisdiagramm: Nominaldaten {.cs-subheading}
+
+Ein Kreisdiagramm ist eine Alternative zum Säulendiagramm für **nominalskalierte Variablen**. Es eignet sich vor allem, wenn die Anteile weniger Kategorien am Ganzen hervorgehoben werden sollen. Statt der Säulenhöhe stellt der **Winkel eines Sektors** den Anteil dar. Der vollständige Kreis entspricht immer 100 % der Stichprobe.
+
+Im Datensatz ist die Stressgruppe eine nominalskalierte Variable mit den Kategorien niedrige und hohe Belastung. Die Teilnehmenden ordneten sich vor der Prüfung selbst einer dieser Gruppen zu.
+
+Zuerst werden dieselben beiden Häufigkeiten als Säulen dargestellt. Die Beschriftungen über den Säulen machen die genauen Werte sichtbar.
+
+```{r}
+#| label: fig-stress-bar
+#| fig-alt: "Säulendiagramm mit 76 Studierenden in der Gruppe mit niedriger Belastung und 84 Studierenden in der Gruppe mit hoher Belastung."
+#| fig-cap: "Die Häufigkeiten der beiden Belastungsgruppen als Säulenlängen."
+#| fig-width: 6
+#| fig-height: 4
+p_bar_stress
+```
+
+Das folgende Kreisdiagramm zeigt die identischen Häufigkeiten als Anteile eines Ganzen. Der Vergleich verdeutlicht die jeweilige Stärke: Säulenlängen lassen sich genauer vergleichen, während Kreissektoren hervorheben, welchen Anteil jede Kategorie an 100% hat.
+
+```{r}
+#| label: fig-stress-pie
+#| fig-width: 5
+#| fig-height: 4.5
+#| fig-alt: "Kreisdiagramm mit den Anteilen der Studierenden in den Gruppen mit niedriger und hoher selbstberichteter Belastung."
+#| fig-cap: "Anteile der Studierenden in den beiden selbstberichteten Belastungsgruppen."
+p_pie_group
+```
+
+So wird das Diagramm gelesen
+:   Der gesamte Kreis steht für alle 160 Studierenden. Jeder farbige Sektor stellt eine Stressgruppe dar. Je grösser der Sektor, desto grösser ist ihr Anteil. Die Prozentangabe im Sektor macht den Anteil direkt sichtbar.
+
+Aussage des Diagramms
+:   Die beiden Stressgruppen sind ähnlich gross: 52.5 % der Studierenden gehören zur Gruppe mit hoher Belastung und 47.5 % zur Gruppe mit niedriger Belastung. Dieses annähernde Gleichgewicht unterstützt einen anschaulichen visuellen Vergleich, ohne nahezulegen, dass die Anteile im Lehrdatensatz Schätzungen für eine Grundgesamtheit sind.
+
+Kreis- oder Säulendiagramm
+:   Kreisdiagramme eignen sich am besten für zwei oder drei Kategorien, wenn ihre Anteile im Vordergrund stehen. Bei fünf oder mehr Kategorien sind Säulendiagramme fast immer klarer. Das Auge kann Höhen leichter vergleichen als ähnlich grosse Sektorwinkel.
+
+---
+
+#### Geordnetes Säulendiagramm: Ordinaldaten {.cs-subheading}
+
+Ein geordnetes Säulendiagramm zeigt **ordinalskalierte Variablen**. Deren Kategorien besitzen eine sinnvolle Reihenfolge, die Abstände zwischen benachbarten Kategorien müssen aber nicht gleich sein. Anders als bei nominalen Daten müssen die Säulen in ihrer natürlichen Reihenfolge erscheinen. Eine Umordnung würde genau jene Information zerstören, die Ordinal- von Nominaldaten unterscheidet.
+
+Die Studienzufriedenheit wird im Datensatz auf einer Skala von 1 bis 5 erhoben. 1 bedeutet sehr unzufrieden, 5 sehr zufrieden. Höhere Werte stehen für höhere Zufriedenheit. Es wird jedoch nicht angenommen, dass der Unterschied zwischen 1 und 2 gleich gross ist wie jener zwischen 4 und 5.
+
+```{r}
+#| label: fig-satisfaction-bar
+#| fig-width: 7
+#| fig-height: 4
+#| fig-alt: "Geordnetes Säulendiagramm der Zufriedenheitswerte von 1 bis 5 mit der jeweiligen Anzahl Studierender."
+#| fig-cap: "Häufigkeiten der Studienzufriedenheit in ihrer natürlichen ordinalen Reihenfolge."
+p_bar_satisfaction
+```
+
+So wird das Diagramm gelesen
+:   Die horizontale Achse zeigt die fünf Kategorien in ihrer natürlichen Reihenfolge von links nach rechts, von sehr unzufrieden (1) bis sehr zufrieden (5). Die Höhe jeder Säule gibt an, wie viele Studierende den jeweiligen Wert gewählt haben. Beim Lesen von links nach rechts bewegst du dich vom unzufriedensten zum zufriedensten Ende der Skala.
+
+Aussage des Diagramms
+:   Die meisten Studierenden wählten die Werte 4 oder 5, weniger den Wert 3 und eine Person den Wert 2. Keine Person wählte in diesem fiktiven Lehrdatensatz den Wert 1. Die Verteilung ist zum oberen Ende hin konzentriert und zeigt in diesen erzeugten Daten eine vergleichsweise hohe berichtete Studienzufriedenheit.
+
+Regel zur Reihenfolge
+:   Die Säulen müssen von links nach rechts als 1, 2, 3, 4 und 5 erscheinen. Eine Anordnung von der höchsten zur niedrigsten Säule würde die Daten wie nominale Kategorien behandeln und die Ranginformation verwerfen.
+
+---
+
+#### Histogramm: Metrische Daten {.cs-subheading}
+
+Ein Histogramm ist das wichtigste Diagramm für **metrische Variablen**, also Intervall-, Verhältnis- oder Absolutskalen. Es teilt den gesamten Wertebereich in gleich breite Intervalle, sogenannte Klassen, und zeichnet für jedes Intervall eine Säule. Deren Höhe zeigt, wie viele Beobachtungen in die Klasse fallen.
+
+Für Histogramme gilt eine entscheidende Regel: **Die Fläche muss proportional zur Häufigkeit sein.** Wenn alle Klassen gleich breit sind, wie in diesem Beispiel, bilden Höhe und Fläche die Häufigkeit gleichermassen korrekt ab. Bei unterschiedlich breiten Klassen wäre die Höhe allein irreführend. Eine breitere Klasse würde bei gleicher Höhe mehr Beobachtungen zu enthalten scheinen als eine schmalere, selbst wenn die Häufigkeiten identisch wären.
+
+In einem Dichtehistogramm ergibt sich die Höhe der Klasse $j$ aus ihrer relativen Häufigkeit geteilt durch ihre Breite:
+
+$$\text{Höhe}_j = \frac{f_j}{w_j}$$
+
+Die Fläche beträgt dann $w_j \times \text{Höhe}_j = f_j$. Auch die Wahl der Klassen beeinflusst das Erscheinungsbild. Zu wenige breite Klassen können wichtige Strukturen verdecken. Zu viele schmale Klassen können zufällige Schwankungen wie ein Muster aussehen lassen. Vergleiche mehrere plausible Klassenbreiten und bevorzuge eine Darstellung, die stabile Merkmale zeigt, ohne das dramatischste Bild zu suchen.
+
+Die Prüfungsangst ist im Datensatz als mehrteiliger Summenwert von 0 bis 40 erfasst. Ein Gesamtwert von 0 bedeutet, dass bei keinem Angstitem eine Zustimmung erfolgte. Er belegt jedoch nicht die vollständige Abwesenheit des zugrunde liegenden Konstrukts. Für die deskriptive Analyse behandeln wir den Wert deshalb näherungsweise als intervallskaliert und vermeiden Verhältnisinterpretationen.
+
+```{r}
+#| label: fig-anxiety-histogram
+#| fig-width: 7
+#| fig-height: 4
+#| fig-alt: "Histogramm der Prüfungsangstwerte von 0 bis 40. Die meisten der 160 Werte liegen im mittleren Bereich."
+#| fig-cap: "Verteilung der Prüfungsangstwerte im fiktiven Lehrdatensatz."
+p_hist_exam
+```
+
+So wird das Diagramm gelesen
+:   Die horizontale Achse zeigt Angstwerte von 0 bis 40. Jede Säule umfasst ein Intervall von zwei Punkten (Klassenbreite = 2). Ihre Höhe gibt an, wie viele Studierende in diesem Bereich liegen. Die Säulen berühren sich, weil ein Histogramm eine geordnete numerische Skala in benachbarte Intervalle einteilt. Die gerundeten Summenwerte sind diskret. Die aneinanderliegenden Säulen belegen daher nicht, dass die Variable kontinuierlich ist.
+
+Aussage des Diagramms
+:   Die meisten Studierenden erreichen auf der Angstskala Werte zwischen ungefähr 16 und 26. An beiden Enden liegen weniger Beobachtungen. Bei dieser Klasseneinteilung wirkt die Verteilung annähernd symmetrisch und unimodal. Nahe beieinanderliegende Werte für Mittelwert und Median würden diese visuelle Einschätzung stützen, doch weder ihre Nähe noch das Histogramm allein belegen die Form der zugrunde liegenden Grundgesamtheit.
+
+Wichtige Einsicht
+:   Ein Histogramm zeigt Form, Streuung, Gipfel und mögliche Ausreisser unmittelbarer als eine Zahlentabelle. Deshalb sollte die grafische Prüfung die numerischen Kennwerte ergänzen, bevor die endgültige Zusammenfassung festgelegt wird.
+
+---
+
+#### Boxplot: Metrische Daten {.cs-subheading}
+
+Ein Tukey-Boxplot, auch Box-Whisker-Diagramm genannt, fasst eine metrische Verteilung kompakt zusammen. Die Box zeigt das **erste Quartil (Q1)**, den **Median** und das **dritte Quartil (Q3)**. Die Whisker reichen bis zu den kleinsten beziehungsweise grössten beobachteten Werten innerhalb der durch den IQR bestimmten Grenzen. Beobachtungen, die weiter als das 1.5-Fache des IQR von der Box entfernt liegen, werden einzeln dargestellt und als mögliche Ausreisser gekennzeichnet.
+
+Bevor wir Gruppen miteinander vergleichen, hilft es, die Bestandteile eines einzelnen Boxplots getrennt zu betrachten. Die nächste Abbildung verwendet konstruierte Kennwerte, um diesen Aufbau sichtbar zu machen. Sie ist eine schematische Darstellung der Boxplot-Bestandteile und keine Zusammenfassung, die aus einem zugrunde liegenden Rohdatensatz berechnet wurde.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollbare beschriftete Abbildung zum Aufbau eines Boxplots"}
+
+```{r}
+#| label: fig-boxplot-anatomy
+#| fig-alt: "Beschrifteter horizontaler Tukey-Boxplot mit erstem Quartil, Median, drittem Quartil, Interquartilsabstand, inneren Grenzen, beobachteten Whisker-Enden und einem möglichen Ausreisser."
+#| fig-cap: "Aufbau eines Tukey-Boxplots. Die Grenzen sind berechnete Schwellen, während die Whisker bei den äussersten beobachteten Werten innerhalb dieser Schwellen enden."
+#| fig-width: 9
+#| fig-height: 5
+p_boxplot_anatomy
+```
+
+:::
+
+Lies die Abbildung von der Box nach aussen. Q1 und Q3 schliessen die mittlere Hälfte der geordneten Werte ein. Der Abstand zwischen ihnen ist deshalb der IQR. Der Median teilt die Box beim 50. Perzentil. Von jeder Boxkante aus legt das 1.5-Fache des IQR eine **innere Grenze** fest. Diese berechnete Schwelle dient dazu, möglicherweise ungewöhnliche Werte zu erkennen. Die Whisker reichen nicht automatisch bis zu diesen Grenzen. Sie enden bei der kleinsten und grössten Beobachtung, die noch innerhalb der Grenzen liegt. Der einzelne Punkt jenseits der oberen Grenze wird deshalb als möglicher Ausreisser dargestellt. Er sollte untersucht werden, doch die Abbildung allein beweist weder, dass er fehlerhaft ist, noch rechtfertigt sie seine Löschung.
+
+Boxplots eignen sich besonders gut für **Vergleiche mehrerer Gruppen**, weil sie viele Informationen über die Verteilungen auf kleinem Raum zeigen.
+
+```{r}
+#| label: fig-anxiety-boxplot
+#| fig-width: 6
+#| fig-height: 5
+#| fig-alt: "Zwei Boxplots vergleichen die Prüfungsangst bei niedriger und hoher selbstberichteter Belastung. Die Gruppe mit hoher Belastung liegt insgesamt höher. Die Streuungen sind ähnlich, ihr Interquartilsabstand ist jedoch etwas grösser."
+#| fig-cap: "Prüfungsangst im Vergleich zwischen den selbstberichteten Belastungsgruppen."
+p_box_exam
+```
+
+So wird das Diagramm gelesen
+:   Jede farbige Box steht für eine Stressgruppe. Ihre Unter- und Oberkante entsprechen Q1 und Q3, die horizontale Linie im Inneren dem Median. Unter der gewählten Stichprobenquantil-Konvention liegen ungefähr 25 %, 50 % und 75 % der Werte auf oder unter diesen Schwellen. Gebundene Werte und Interpolation können die exakten Anteile beeinflussen. Die Boxhöhe entspricht dem IQR und beschreibt die mittlere Hälfte der geordneten Daten. Die Whisker reichen bis zum kleinsten und grössten beobachteten Wert innerhalb der Tukey-Grenzen. Werte jenseits der Whisker werden einzeln als mögliche Ausreisser dargestellt.
+
+Aussage des Diagramms
+:   Die Gruppe mit hoher Belastung (rot) hat einen höheren Median als die Gruppe mit niedriger Belastung (blau), was mit der Erzeugung der Lehrwerte übereinstimmt. Die separat berechneten Standardabweichungen sind ähnlich, während die Gruppe mit hoher Belastung einen etwas grösseren IQR aufweist. Der wichtigste sichtbare Unterschied betrifft die Lage und nicht einen grossen Unterschied der gesamten Streuung.
+
+Boxplot oder Histogramm
+:   Ein Histogramm zeigt die detaillierte Form einer Verteilung. Ein Tukey-Boxplot verdichtet Quartile, Median, den Bereich ohne mögliche Ausreisser und mögliche Ausreisser und ermöglicht dadurch einen effizienten Vergleich von zwei oder mehr Gruppen. Beide Darstellungen beantworten unterschiedliche Fragen und sind häufig gemeinsam am nützlichsten.
+
+::: {.callout-tip title="Kernidee"}
+
+Ordne jedes Diagramm der Variablenart zu. Verwende Säulendiagramme oder sorgfältig gestaltete Kreisdiagramme für Nominaldaten, geordnete Säulendiagramme für Ordinaldaten und Histogramme oder Boxplots für metrische Daten. Prüfe die Grafik, bevor du die endgültigen numerischen Kennwerte wählst, und kontrolliere, ob Achsenskalierung, Klassendefinitionen und Bezugsgrössen die Daten unverfälscht darstellen.
+:::
+
+---
+
+### Lineare Transformationen {.cs-heading}
+
+In der Forschung müssen Variablen häufig umskaliert werden. Beispiele sind die Umrechnung von Celsius in Fahrenheit, die Angabe eines Fragebogenwerts als Prozent des Maximalwerts oder das Verschieben einer Skala um einen konstanten Betrag. Solche Operationen heissen **lineare Transformationen**.
+
+Eine lineare Transformation erzeugt eine neue Variable $y$ aus der ursprünglichen Variable $x$ nach folgender Regel:
+
+$$y_i = a + b \cdot x_i$$
+
+Dabei ist $a$ eine **additive Verschiebung** und $b$ ein **multiplikativer Streckungsfaktor**. Die Wirkung auf deskriptive Kennwerte folgt einfachen Regeln.
+
+Der **Mittelwert** wird mit derselben Formel transformiert wie die einzelnen Datenpunkte:
+
+$$\bar{y} = a + b \cdot \bar{x}$$
+
+Die **Varianz** wird mit $b^2$ multipliziert. Die Verschiebung $a$ beeinflusst die Variabilität nicht, weil sich die Abstände zwischen den Werten nicht ändern, wenn zu allen derselbe Betrag addiert wird:
+
+$$s_y^2 = b^2 \cdot s_x^2$$
+
+Die **Standardabweichung** wird mit dem Absolutbetrag von $b$ multipliziert:
+
+$$s_y = |b| \cdot s_x$$
+
+Mit diesen Regeln lässt sich vorhersagen, wie sich Kennwerte beim Umskalieren verändern, ohne alle Berechnungen von Grund auf zu wiederholen.
+
+**Beispiel 1: Celsius in Fahrenheit.** Die Umrechnungsformel lautet $F = 32 + 1.8 \cdot C$, also $a = 32$ und $b = 1.8$. Angenommen, die mittlere Temperatur eines Datensatzes beträgt $20\,^{\circ}\mathrm{C}$ bei einer Standardabweichung von $5\,^{\circ}\mathrm{C}$. Nach der Umrechnung ergibt sich:
+
+- Mittelwert: $32 + 1.8 \cdot 20 = 68\,^{\circ}\mathrm{F}$
+- Varianz: $1.8^2 \cdot 5^2 = 3.24 \cdot 25 = 81\,(^{\circ}\mathrm{F})^2$
+- Standardabweichung: $|1.8| \cdot 5 = 9\,^{\circ}\mathrm{F}$
+
+Die additive Verschiebung um 32 Grad verändert den Mittelwert, nicht aber Varianz oder Standardabweichung. Der Faktor 1.8 skaliert die Standardabweichung mit 1.8 und die Varianz mit $1.8^2$. Zusammen ergeben die beiden Operationen einen Mittelwert von $68\,^{\circ}\mathrm{F}$, eine Varianz von $81\,(^{\circ}\mathrm{F})^2$ und eine SD von $9\,^{\circ}\mathrm{F}$. Der Mittelwert entsteht nicht allein durch proportionale Skalierung.
+
+**Beispiel 2: Umskalierung eines Fragebogenwerts.** Soll eine Forscherin einen Angstwert von 0 bis 40 als Prozentsatz des Maximums von 100 ausdrücken, lautet die Transformation $y = 0 + 2.5 \cdot x$. Somit gilt $a = 0$ und $b = 2.5$. Ein Wert von 28 wird zu 70 %. Bei einem Gruppenmittelwert von 20 und einer Standardabweichung von 5 beträgt der neue Mittelwert $2.5 \cdot 20 = 50$ und die neue Standardabweichung $2.5 \cdot 5 = 12.5$.
+
+Das Verständnis linearer Transformationen verhindert Missverständnisse, wenn Variablen umskaliert, zwischen Instrumenten umgerechnet oder über Studien hinweg verglichen werden.
+
+Diese allgemeine mathematische Regel ist umfassender als die zulässigen Transformationen, durch die Skalenniveaus definiert werden. Bei einer Intervallskala muss $b$ positiv sein, damit die Richtung erhalten bleibt. Bei einer Verhältnisskala muss zudem $a$ gleich null sein, damit der natürliche Nullpunkt bewahrt wird. Ein negatives $b$ kann für eine beabsichtigte Umpolung nützlich sein, kehrt aber die Rangfolge und die Interpretationsrichtung um. Die transformierte Variable muss deshalb entsprechend bezeichnet und interpretiert werden.
+
+::: {.callout-tip title="Kernidee"}
+
+Eine lineare Transformation verändert Lage und Skala nach festen Regeln. Bei $b > 0$ bleiben die Orientierung der Form und die Rangfolge erhalten. Bei $b < 0$ wird die Verteilung gespiegelt und die Rangfolge umgekehrt. Die Verschiebung $a$ verändert den Mittelwert, nicht aber die Variabilität. Der Betrag $|b|$ skaliert die Standardabweichung, und $b^2$ skaliert die Varianz.
+:::
+
+---
+
+### Die z-Transformation {.cs-heading}
+
+Ein besonders wichtiger Spezialfall der linearen Transformation ist die **z-Transformation**, auch **Standardisierung** genannt.
+
+Für jede Beobachtung $x_i$ in einem Datensatz mit Mittelwert $\bar{x}$ und Standardabweichung $s$ lautet der z-Wert:
+
+$$z_i = \frac{x_i - \bar{x}}{s}$$
+
+Für eine nicht konstante Stichprobe mit einer definierten, von null verschiedenen Standardabweichung ist dies eine lineare Transformation mit $a = -\bar{x}/s$ und $b = 1/s$. Aus den allgemeinen Transformationsregeln folgen zwei Eigenschaften:
+
+- Die transformierte Variable hat einen **Mittelwert von genau 0**. Durch das Subtrahieren von $\bar{x}$ wird die Verteilung um null zentriert.
+- Die transformierte Variable hat eine **Standardabweichung von genau 1**. Die Division durch $s$ skaliert alle Abstände so, dass eine Standardabweichung einer Einheit auf der z-Skala entspricht.
+
+Der z-Wert einer Beobachtung gibt an, **wie viele Standardabweichungen über oder unter dem Mittelwert** sie liegt.
+
+- Ein z-Wert von $+2.0$ bedeutet, dass der Wert 2 Standardabweichungen über dem Mittelwert liegt.
+- Ein z-Wert von $-1.5$ bedeutet, dass der Wert 1.5 Standardabweichungen unter dem Mittelwert liegt.
+- Ein z-Wert von 0 entspricht genau dem Mittelwert.
+
+**Wozu ist das nützlich?** Zwei Studierende werden mit unterschiedlichen Instrumenten untersucht, die Prüfungsangst messen sollen. Person A erreicht 28 Punkte auf einer Skala von 0 bis 40. In der relevanten Referenzgruppe beträgt der Mittelwert 20 und die Standardabweichung 5. Der z-Wert ist $(28 - 20)/5 = 1.6$. Person B erreicht 73 Punkte auf einer Skala von 0 bis 100. In deren relevanter Referenzgruppe beträgt der Mittelwert 60 und die Standardabweichung 8. Der z-Wert ist somit $(73 - 60)/8 = 1.625$.
+
+Die Rohwerte sind nicht direkt vergleichbar, weil sie unterschiedliche Skalen verwenden. Die z-Werte zeigen, dass beide Personen innerhalb ihrer jeweiligen Referenzverteilung eine ähnliche relative Position einnehmen, ungefähr 1.6 Standardabweichungen über dem Mittelwert. Dieser Vergleich ist nur sinnvoll, wenn die Instrumente dasselbe Konstrukt erfassen und die Referenzgruppen für die jeweilige Person angemessen sind. Eine Standardisierung macht unterschiedliche Konstrukte oder ungeeignete Referenzgruppen nicht automatisch vergleichbar.
+
+Diese Eigenschaft ist für viele statistische Verfahren grundlegend. Standardisierte Regressionskoeffizienten, z-Tests, Korrelationskoeffizienten und zahlreiche weitere Konzepte beruhen auf der Idee der z-Transformation. Wer sie hier sicher versteht, kann spätere Verfahren leichter einordnen.
+
+::: {.callout-note title="Wichtige Unterscheidung"}
+
+Ein z-Wert verändert nicht die relative Position einer Person innerhalb der gewählten Referenzverteilung. Er drückt diese Position lediglich in Standardabweichungseinheiten aus. Ein z-Wert von +1.0 bedeutet «eine Standardabweichung über dem Referenzmittelwert». Vergleiche zwischen Instrumenten setzen weiterhin ein gemeinsames Konstrukt, eine vergleichbare Messqualität und geeignete Referenzgruppen voraus.
+:::
+
+---
+
+### Form einer Verteilung {.cs-heading}
+
+Lage und Variabilität beschreiben zwei Dimensionen einer Verteilung, und die Form ergänzt eine weitere wesentliche Sicht. Sie zeigt, wie sich Werte über den Bereich verteilen. Die Form beeinflusst die Wahl der Kennwerte, die Interpretation von Gruppenunterschieden und das Verständnis des zugrunde liegenden menschlichen oder sozialen Prozesses. Die kleinen Lehrdatensätze unten wurden so konstruiert, dass jede Form leicht erkennbar ist. Sie sind fiktiv und stammen nicht aus Messungen realer Personen.
+
+Symmetrie, Modalität und Kurtosis beschreiben voneinander unabhängige Dimensionen, die gemeinsam auftreten können. **Modalität** beschreibt die Anzahl und das Muster klarer Gipfel oder Hauptkonzentrationen einer Verteilung. **Kurtosis** beschreibt, wie leicht Werte weit in den Randbereichen auftreten, verglichen mit einer symmetrischen glockenförmigen Referenzverteilung mit derselben Gesamtstreuung. Eine Verteilung kann symmetrisch und bimodal oder rechtsschief und unimodal sein. Beschreibe jede bedeutsame Dimension, statt der Verteilung eine einzige umfassende Formbezeichnung zuzuweisen.
+
+---
+
+**Symmetrische Verteilungen** sehen auf beiden Seiten der Mitte annähernd gleich aus. Werte oberhalb und unterhalb des Mittelwerts treten ungefähr gleich häufig auf. Bei perfekter Symmetrie stimmen Mittelwert und Median genau überein. Die bekannte Glockenform ist das klassische Beispiel.
+
+```{r}
+#| label: fig-shape-symmetric
+#| fig-width: 6
+#| fig-height: 3
+#| fig-alt: "Histogramm einer symmetrischen, ungefähr glockenförmigen Verteilung mit gleich langen Randbereichen links und rechts."
+#| fig-cap: "Beispiel einer annähernd symmetrischen Verteilung."
+p_shape_sym
+```
+
+**Worauf du achten solltest.** Die Säulen steigen zu einem mittleren Gipfel an und fallen danach auf beiden Seiten in einem ähnlichen Muster ab. Der linke und der rechte Randbereich sind ungefähr gleich lang. Keine Seite enthält also eine sichtbar längere Spur von Werten.
+
+---
+
+**Rechtsschiefe Verteilungen**, auch positiv schiefe Verteilungen genannt, haben einen langen Randbereich zu hohen Werten. Die meisten Beobachtungen liegen im niedrigen Bereich, wenige sehr hohe Werte ziehen den Rand nach rechts. Der Mittelwert liegt häufig über dem Median, weil er auf diese hohen Werte empfindlich reagiert. Diese Reihenfolge ist jedoch eine Tendenz und weder Definition noch Beleg für Rechtsschiefe. Reaktionszeiten, Einkommen und Anzahlen seltener Verhaltensweisen sind häufig rechtsschief. Die meisten Personen weisen niedrige bis mittlere Werte auf, wenige liegen weit darüber.
+
+```{r}
+#| label: fig-shape-right-skewed
+#| fig-width: 6
+#| fig-height: 3
+#| fig-alt: "Histogramm einer rechtsschiefen Verteilung mit vielen niedrigen Werten und einem langen Randbereich nach rechts."
+#| fig-cap: "Beispiel einer rechtsschiefen Verteilung."
+p_shape_right
+```
+
+**Worauf du achten solltest.** Die höchsten Säulen liegen bei den niedrigeren Werten und bilden links im Diagramm einen Hauptgipfel. Mit steigenden Werten werden die Säulen niedriger und reichen weiter zum oberen Ende. Diese verlängerte Spur von Säulen ist der rechte Verteilungsschwanz, nach dem die Form benannt ist.
+
+---
+
+**Linksschiefe Verteilungen**, auch negativ schiefe Verteilungen genannt, spiegeln dieses Muster. Die meisten Werte liegen am oberen Ende, wenige sehr niedrige Werte erzeugen einen langen Randbereich nach links. Der Mittelwert liegt häufig unter dem Median, doch die Grafik und die übrige Verteilung müssen die Form bestätigen. Ergebnisse eines sehr leichten Tests sind oft linksschief, weil die meisten Studierenden gut abschneiden und nur wenige grosse Schwierigkeiten haben.
+
+```{r}
+#| label: fig-shape-left-skewed
+#| fig-width: 6
+#| fig-height: 3
+#| fig-alt: "Histogramm einer linksschiefen Verteilung mit vielen hohen Werten und einem langen Randbereich nach links."
+#| fig-cap: "Beispiel einer linksschiefen Verteilung."
+p_shape_left
+```
+
+**Worauf du achten solltest.** Hier liegen die höchsten Säulen bei den höheren Werten und bilden rechts einen Hauptgipfel. Zum unteren Ende hin werden die Säulen kleiner und reichen weiter nach links. Diese längere Spur auf der Seite der niedrigen Werte ist der linke Verteilungsschwanz.
+
+---
+
+**Unimodale Verteilungen** besitzen einen einzigen Gipfel, also einen Wertebereich, der deutlich häufiger vorkommt als die übrigen. Eine klare einzelne Häufung erleichtert es, die Hauptkonzentration der Werte mit einem Lagemass und einem Streuungsmass zusammenzufassen. Ob ein statistisches Verfahren geeignet ist, hängt dennoch von seinen spezifischen Voraussetzungen ab. Diese können etwa Residuen oder eine Stichprobenverteilung betreffen und nicht die Modalität der Rohvariable.
+
+```{r}
+#| label: fig-shape-unimodal
+#| fig-width: 6
+#| fig-height: 3
+#| fig-alt: "Histogramm einer unimodalen Verteilung mit einem einzelnen deutlichen Gipfel."
+#| fig-cap: "Beispiel einer unimodalen Verteilung."
+p_shape_uni
+```
+
+**Worauf du achten solltest.** Die Säulen bilden nahe der Mitte einen klaren Gipfel und werden zu beiden Randbereichen hin niedriger. Entscheidend ist dieser einzelne Gipfel. Eine unimodale Verteilung muss nicht vollkommen symmetrisch sein.
+
+---
+
+**Bimodale Verteilungen** besitzen zwei getrennte Gipfel. Dieses Muster kann auf eine Mischung verschiedener Prozesse oder Teilpopulationen hindeuten, doch die Grafik allein identifiziert deren Ursache nicht. Ein Histogramm von Prüfungswerten könnte Gipfel bei 55 und 85 zeigen, wenn Studierende mit unterschiedlichen Vorbereitungsmustern gemeinsam ausgewertet werden. Ein einzelner Mittelwert von etwa 70 könnte dann beide Gipfel verdecken. Die Ursache des Musters sollte untersucht und die vollständige Verteilung gezeigt werden. Teilgruppen werden nur dann getrennt beschrieben, wenn eine inhaltlich begründbare Gruppierungsvariable diese Interpretation stützt.
+
+```{r}
+#| label: fig-shape-bimodal
+#| fig-width: 6
+#| fig-height: 3
+#| fig-alt: "Histogramm einer bimodalen Verteilung mit zwei deutlich getrennten Gipfeln."
+#| fig-cap: "Beispiel einer bimodalen Verteilung."
+p_shape_bi
+```
+
+**Worauf du achten solltest.** Zwei getrennte Gruppen hoher Säulen bilden zwei Gipfel, einen nahe 30 und einen nahe 70. Die niedrigeren Säulen dazwischen erzeugen ein sichtbares Tal, während die äusseren Säulen in die beiden Randbereiche auslaufen. Ein einzelner Mittelwert nahe dem Tal würde keine der beiden Hauptkonzentrationen gut beschreiben.
+
+---
+
+**Verteilungen mit hoher Kurtosis** gewichten extreme Abweichungen stärker als eine Normalverteilung mit vergleichbarer Varianz. Daher treten bei ihnen eher ungewöhnlich weit entfernte Beobachtungen auf. Ein hoher mittlerer Gipfel kann wie im konstruierten Beispiel unten vorkommen, doch die Gipfelhöhe definiert Kurtosis nicht.
+
+```{r}
+#| label: fig-shape-high-kurtosis
+#| fig-width: 6
+#| fig-height: 3
+#| fig-alt: "Histogramm mit einem markanten mittleren Gipfel und vergleichsweise schweren Randbereichen."
+#| fig-cap: "Beispiel mit hoher Kurtosis und einer angestrebten Standardabweichung von 10."
+p_shape_high_kurtosis
+```
+
+**Worauf du achten solltest.** Eine schmale Gruppe sehr hoher Säulen erzeugt einen ausgeprägten mittleren Gipfel. Gleichzeitig reichen einige Beobachtungen weit in beide Randbereiche. Diese weit entfernten Randwerte und nicht die Höhe der mittleren Säule allein sind das wichtige Zeichen höherer Kurtosis.
+
+---
+
+**Verteilungen mit niedriger Kurtosis** gewichten extreme Abweichungen schwächer als eine Normalverteilung mit vergleichbarer Varianz. Die unten gezeigte begrenzte Uniformverteilung ist ein Beispiel: Werte innerhalb ihrer Grenzen sind annähernd gleich wahrscheinlich, und ihre Randbereiche enden abrupt. Eine flache Mitte kann vorkommen, ist aber nicht die definierende Eigenschaft. Beide Kurtosisbeispiele verwenden dieselbe Stichprobengrösse, angestrebte Standardabweichung, Klassengrenzen und horizontale Skala, damit das Verhalten der Randbereiche nicht mit der Gesamtstreuung oder den Darstellungsentscheidungen verwechselt wird.
+
+```{r}
+#| label: fig-shape-low-kurtosis
+#| fig-width: 6
+#| fig-height: 3
+#| fig-alt: "Annähernd uniformes Histogramm mit flacher Mitte und leichten, begrenzten Randbereichen."
+#| fig-cap: "Beispiel mit niedriger Kurtosis und derselben angestrebten Standardabweichung wie im Beispiel mit hoher Kurtosis."
+p_shape_low_kurtosis
+```
+
+**Worauf du achten solltest.** Die Säulen verteilen sich gleichmässiger über ein begrenztes mittleres Intervall, sodass kein ausgeprägter mittlerer Gipfel entsteht. Sie enden zudem vor den weit entfernten Randwerten der Abbildung mit hoher Kurtosis. Beide Beispiele besitzen dieselbe angestrebte Standardabweichung. Das Beispiel mit hoher Kurtosis verbindet aber eine dichte Mitte mit wenigen weit entfernten Werten, während sich die Werte im Beispiel mit niedriger Kurtosis gleichmässiger verteilen und weniger extreme Randwerte vorkommen. Genau dieser Vergleich zeigt, weshalb die Gipfelhöhe Kurtosis nicht allein definieren kann.
+
+---
+
+Verteilungsform und Kennwerte sind eng miteinander verbunden. Bei symmetrischen, unimodalen Verteilungen liefern Mittelwert und Standardabweichung häufig eine nützliche Beschreibung. Bei stark schiefen Verteilungen sind Median und IQR meist informativer, weil Extremwerte sie kaum beeinflussen. Bei bimodalen Verteilungen kann ein einzelnes Lagemass wichtige Strukturen verdecken. Die Verteilung sollte gezeigt und mögliche Erklärungen sollten untersucht werden, bevor über eine Teilgruppenanalyse entschieden wird. Die Visualisierung der Daten vor der Wahl der Kennwerte ist ein wesentlicher Teil dieser Entscheidung.
+
+::: {.callout-tip title="Kernidee"}
+
+Die Verteilungsform hilft zu bestimmen, welche Kennwerte informativ sind. Symmetrische, unimodale Daten lassen sich häufig sinnvoll mit Mittelwert und Standardabweichung beschreiben. Bei schiefen Daten sind Median und IQR oft geeigneter. Bei bimodalen Daten müssen beide Gipfel gezeigt und untersucht werden. Getrennte Teilgruppenzusammenfassungen sind nur gerechtfertigt, wenn die Gruppierung inhaltlich gestützt ist. Daten sollten stets visualisiert werden, bevor eine Zusammenfassung gewählt wird, denn eine kleine Tabelle aggregierter Kennwerte kann die Verteilungsform verdecken.
+:::
+
+---
+
+### Irreführende Grafiken {.cs-heading}
+
+Visualisierungen lenken die Aufmerksamkeit, bevor die meisten Lesenden die genauen Zahlen prüfen. Eine irreführende Grafik muss keinen falschen Wert enthalten. Entscheidungen zu Achsen, Formen, Kategorien, Bezugsgrössen und ausgelassenem Kontext können ein Merkmal hervorheben und ein anderes verschwinden lassen. Diese Entscheidungen bewusst zu prüfen, gehört zur kritischen Datenkompetenz.
+
+Stelle drei Fragen, wenn eine Grafik einen starken Eindruck erzeugt. Welches visuelle Merkmal fiel mir zuerst auf? Welche numerische Grösse soll es darstellen? Würde eine vertretbare Änderung der Darstellung die sichtbare Geschichte verändern? Die folgenden Beispiele zeigen, weshalb diese Fragen wichtig sind.
+
+**Abschneiden der y-Achse.** Beginnt die vertikale Achse eines Säulendiagramms oberhalb von null, kann ein kleiner absoluter Unterschied fast die gesamte Zeichenfläche einnehmen. Säulenlängen werden normalerweise von einer Basislinie aus gelesen. Wird der grösste Teil dieser Basis entfernt, wirkt das Verhältnis der Säulen übertrieben. Der Wert 72 ist nur ungefähr 6 % grösser als 68. Auf einer Achse ab 64 kann der sichtbare Teil einer Säule dennoch mehrfach so lang wie jener der anderen erscheinen.
+
+**Stauchen oder Strecken der Skala.** Achsenabstand und Achsenbereich verändern die scheinbare Steigung einer Linie oder die scheinbare Grösse eines Unterschieds. Eine Linie, die auf einer y-Achse von 0 bis 100 von 20 auf 22 steigt, wirkt fast flach. Auf einer Achse von 19 bis 23 wirkt dieselbe Linie steil. Eine hohe und schmale Zeichenfläche kann die Steigung noch verstärken, während eine niedrige und breite Fläche sie abflacht. Die numerische Veränderung beträgt in jeder Version zwei Einheiten. Lies deshalb die Achsenwerte, bevor du auf den Winkel reagierst.
+
+Die nächsten beiden Diagramme enthalten dieselben fiktiven mittleren Wohlbefindenswerte von 68 und 72. Nur der dargestellte vertikale Bereich ändert sich.
+
+```{r}
+#| label: fig-axis-full
+#| fig-alt: "Säulendiagramm der mittleren Wohlbefindenswerte 68 und 72 auf einer vollständigen vertikalen Skala von 0 bis 100, das einen moderaten Unterschied von vier Punkten zeigt."
+#| fig-cap: "Die beiden fiktiven Workshop-Mittelwerte auf der vollständigen Messskala."
+p_axis_full
+```
+
+Auf der vollständigen Skala von 0 bis 100 wirkt der Unterschied von vier Punkten im Verhältnis zum gesamten Wertebereich des Instruments moderat. Beide genauen Werte lassen sich weiterhin an den Beschriftungen ablesen.
+
+```{r}
+#| label: fig-axis-truncated
+#| fig-alt: "Säulendiagramm derselben mittleren Wohlbefindenswerte 68 und 72 auf einer verkürzten vertikalen Skala von 64 bis 76, wodurch der Unterschied von vier Punkten viel grösser wirkt."
+#| fig-cap: "Dieselben beiden fiktiven Mittelwerte auf einer verkürzten vertikalen Skala."
+p_axis_truncated
+```
+
+Im verkürzten Diagramm beherrscht derselbe Unterschied von vier Punkten die Darstellung. Ein eingeschränkter Skalenbereich kann helfen, kleine Veränderungen zu untersuchen, wenn er deutlich beschriftet ist. Das Abschneiden der Achse ist bei Säulen jedoch riskant, weil ihre Länge von einer Basislinie aus interpretiert wird. Ein Punktdiagramm auf einer klar beschrifteten, engen Skala ist oft die transparentere Wahl, wenn ein enger Wertebereich inhaltlich wichtig ist.
+
+Das Problem liegt in der fehlenden Übereinstimmung zwischen dem visuellen Hinweis und dem beabsichtigten Vergleich. Säulen fordern zum Vergleich von Längen auf und geben null dadurch eine besondere Rolle. Punkte fordern zum Vergleich von Positionen auf und können auf einer klar beschrifteten eingeschränkten Achse gut funktionieren. Ist ein enger Bereich erforderlich, sollte er in der Bildunterschrift genannt werden. Zeige die genauen Werte und wähle eine Darstellungsform, die keine irreführenden Längenverhältnisse nahelegt.
+
+**Ungleiche Klassenbreiten in Histogrammen.** Bei unterschiedlich breiten Klassen muss die Fläche jeder Säule und nicht ihre Höhe die Häufigkeit darstellen. Eine doppelt so breite Klasse muss bei gleicher Beobachtungszahl halb so hoch gezeichnet werden. Werden breitere und schmalere Klassen mit derselben Höhe dargestellt, erscheinen in den breiteren Klassen fälschlich mehr Daten. Prüfe vor der Interpretation der Höhen als Häufigkeiten deshalb immer, ob alle Klassen gleich breit sind.
+
+Auch bei lauter gleich breiten Klassen kann eine andere Klassenbreite die sichtbaren Einzelheiten verändern. Die folgenden beiden Histogramme verwenden dieselben 160 Beobachtungen zur Prüfungsangst:
+
+```{r}
+#| label: fig-bins-narrow
+#| fig-alt: "Histogramm der fiktiven Prüfungsangstwerte mit schmalen Zwei-Punkte-Klassen, das detaillierte lokale Schwankungen zeigt."
+#| fig-cap: "Die fiktiven Angstwerte, gruppiert in Zwei-Punkte-Klassen."
+p_bins_narrow
+```
+
+Zwei-Punkte-Klassen zeigen kleine lokale Anstiege und Einbrüche. Einige dieser Unregelmässigkeiten beruhen auf der Variation einer endlichen Stichprobe und nicht auf stabilen Merkmalen der Verteilung.
+
+```{r}
+#| label: fig-bins-wide
+#| fig-alt: "Histogramm derselben fiktiven Prüfungsangstwerte mit breiteren Acht-Punkte-Klassen, das eine glattere, aber weniger detaillierte Verteilung zeigt."
+#| fig-cap: "Dieselben Angstwerte, gruppiert in Acht-Punkte-Klassen."
+p_bins_wide
+```
+
+Acht-Punkte-Klassen betonen die breite Konzentration nahe der Mitte und verbergen einige lokale Einzelheiten. Stichprobengrösse, Beobachtungen, Wertebereich, Mittelwert und Standardabweichung bleiben unverändert. Keine der beiden Darstellungen ist automatisch unredlich. Problematisch wird es, wenn eine Klassenbreite nur deshalb gewählt wird, weil sie einen dramatischen Gipfel erzeugt, eine unbequeme Lücke verschwinden lässt oder mehrere Gruppen andeutet, die bei anderen vertretbaren Einteilungen nicht sichtbar sind. Vergleiche mehr als eine vertretbare Klasseneinteilung und gib die gewählte Regel an, wenn eine visuelle Schlussfolgerung von ihr abhängt.
+
+**Häufigkeiten und Prozentwerte mit unterschiedlichen Bezugsgrössen.** Angenommen, in Workshop A verbessern sich 24 von 40 Lernenden und in Workshop B 30 von 100. Die absoluten Häufigkeiten lassen Workshop B grösser erscheinen, weil 30 grösser als 24 ist. Die Prozentwerte erzählen eine andere Geschichte: In A verbessern sich 60 % und in B 30 %. Wer nur Häufigkeiten oder nur Prozentwerte zeigt, kann den Vergleich lenken. Gib bei unterschiedlich grossen Gruppen Zähler und Nenner gemeinsam an.
+
+**Prozentwerte ohne Bezugsgrösse.** Die Aussage «38 % verbesserten sich» lässt wichtige Fragen offen. Waren es 19 von 50 oder 1,900 von 5,000 Personen? Wie wurde Verbesserung definiert? Wie viele Daten fehlten? Derselbe Prozentwert kann auf sehr unterschiedlichen Evidenzmengen beruhen. Die selektive Angabe eines günstigen Prozentwerts kann ausserdem verdecken, welche Ergebnisse unverändert blieben oder schlechter wurden.
+
+**Fläche, Volumen und dekorative Bilder.** Ein Symbol, das doppelt so hoch und doppelt so breit ist, besitzt die vierfache Fläche. Wenn sich der dargestellte Wert lediglich verdoppelt hat, erzeugt das Bild einen viel grösseren visuellen Unterschied. Dreidimensionale Säulen verursachen ein ähnliches Problem, weil Perspektive und Volumen mit der tatsächlichen Höhe konkurrieren. Verwende für gewöhnliche Vergleiche eine eindimensionale Position oder Länge und lasse dekorative Elemente keine statistische Bedeutung tragen.
+
+**Ausgewählte Zeitfenster und ausgelassene Kategorien.** Ein Verlauf kann stetig positiv erscheinen, wenn die Grafik unmittelbar nach einem ungewöhnlich niedrigen Jahr beginnt und an einem vorübergehenden Höchstwert endet. Eine Kategorie kann dominant wirken, wenn eine relevante Vergleichsgruppe fehlt. Frage, weshalb der gezeigte Zeitraum genau dort beginnt und endet, ob alle inhaltlich relevanten Kategorien enthalten sind und ob das Muster in einem etwas breiteren Ausschnitt bestehen bleibt.
+
+**Zwei vertikale Achsen.** Werden zwei Reihen mit getrennten y-Achsen in eine Grafik gelegt, kann jede Achse unabhängig skaliert werden. Durch passend gewählte Bereiche lassen sich fast beliebige Linien gemeinsam ansteigen. Die visuelle Ausrichtung kann einen Zusammenhang nahelegen, obwohl der numerische Zusammenhang schwach ist oder die Einheiten inhaltlich nichts miteinander zu tun haben. Getrennte Felder mit ausgerichteten Zeitachsen, direkte numerische Vergleiche oder ein Streudiagramm machen den Zusammenhang oft ehrlicher beurteilbar.
+
+Die folgende Tabelle übersetzt diese Beispiele in eine wiederverwendbare Leseroutine:
+
+| Darstellungsentscheidung | Prüffrage | Weshalb sie irreführen kann | Transparentere Lösung |
+|---|---|---|---|
+| Abgeschnittene Säulenachse | Wo beginnt die Basislinie? | Sichtbare Säulenlängen können einen kleinen Unterschied übertreiben. | Säulen bei null beginnen lassen oder klar beschriftete Punkte verwenden. |
+| Gestreckte oder gestauchte Achsen | Wie gross ist die numerische Veränderung? | Das Seitenverhältnis verändert die scheinbare Steigung. | Teilstrichwerte lesen und genaue Veränderungen zeigen. |
+| Histogrammklassen | Zeigt eine andere vertretbare Breite dieselbe Struktur? | Ausgewählte Klassen können Gipfel und Lücken erzeugen oder verdecken. | Vertretbare Breiten vergleichen und die Regel nennen. |
+| Häufigkeit oder Prozentwert allein | Wie lauten Zähler und Nenner? | Ungleiche Gruppengrössen können den sichtbaren Vergleich umkehren. | Häufigkeit, Gesamtzahl und Prozentwert gemeinsam berichten. |
+| Skalierte Bilder oder 3D-Formen | Wächst Fläche oder Volumen schneller als der Wert? | Mehrere visuelle Dimensionen vergrössern den scheinbaren Unterschied. | Den Wert durch Position oder eindimensionale Länge darstellen. |
+| Ausgewählter Zeitraum oder Kategorien | Welcher relevante Kontext liegt ausserhalb des Ausschnitts? | Auslassungen können einen passenden Verlauf oder Vergleich erzeugen. | Das Fenster begründen und relevante Alternativen zeigen. |
+| Zwei y-Achsen | Wurden beide Skalen unabhängig gewählt? | Achsenentscheidungen können visuelle Übereinstimmung erzeugen. | Getrennte ausgerichtete Felder verwenden oder den Zusammenhang direkt untersuchen. |
+
+: Fragen zur Diagnose verbreiteter Formen irreführender Darstellung. {#tbl-suggestive-graphics-checks}
+
+Prüfe vor der Interpretation einer Darstellung Achsenbeschriftungen, Skalenbereiche, Klassendefinitionen, Bezugsgrössen, Stichprobengrösse, Messmethode, fehlende Daten und begleitende numerische Kennwerte. Zahlen und Grafiken erhalten ihre Bedeutung durch die Mess- und Darstellungsentscheidungen, aus denen sie entstanden sind. Eine klare Bildunterschrift sollte diese Entscheidungen leichter prüfbar machen.
+
+::: {.callout-tip title="Kernidee"}
+
+Grafiken und Prozentwerte können irreführen, ohne falsche Zahlen zu verwenden. Prüfe Achsenursprung und Wertebereich, Klassendefinitionen im Histogramm, Bezugsgrösse, Stichprobengrösse und Messmethode. Diese Gewohnheit schützt dich davor, selbst getäuscht zu werden oder andere unbeabsichtigt irrezuführen.
+:::
+
+---
+
+::: {.callout-warning title="Mögliche Stolperfallen"}
+
+- **Mittelwerte für Nominalvariablen berechnen.** Es gibt keinen Durchschnitt aus «Einzelberatung», «Gruppenberatung» und «Online-Selbsthilfe». Kategorien lassen sich unabhängig von ihrer numerischen Codierung nicht mitteln.
+- **Ausreisser ignorieren, statt sie zu verstehen.** Ausreisser sind nicht per Definition Fehler. Vor einer Entscheidung über ihren Umgang muss geklärt werden, woher ein extremer Wert stammt.
+- **Mittelwerte ohne Streuungsmass berichten.** Ein Mittelwert allein ist unvollständig. Er wird immer durch die Standardabweichung ergänzt. Bei schiefen Variablen sollte zusätzlich oder stattdessen der IQR berücksichtigt werden.
+- **Eine bimodale Verteilung als unimodal behandeln.** Zeigt ein Histogramm zwei Gipfel, beschreibt ein einzelner Mittelwert möglicherweise keinen davon gut. Das Muster sollte untersucht werden. Gruppen werden nur dann getrennt beschrieben, wenn eine inhaltlich begründbare Gruppierungsvariable sie identifiziert.
+- **«Typisch» mit «alle» verwechseln.** Der Mittelwert beschreibt die Mitte einer Verteilung und nicht jede einzelne Person. Ausgeprägte Unterschiede zwischen Menschen und sozialen Kontexten sind verbreitet.
+- **Verhältnisaussagen für intervallskalierte Variablen verwenden.** Eine Person mit einem IQ von 120 ist nicht «doppelt so intelligent» wie eine Person mit einem IQ von 60. Ohne natürlichen Nullpunkt haben Verhältnisse keine Bedeutung.
+- **Die Verteilungsform aus zwei Kennwerten ableiten.** Ein nahe beieinanderliegender Mittelwert und Median belegen keine Symmetrie, und ihre Reihenfolge belegt keine bestimmte Richtung der Schiefe. Verwende die vollständige Verteilung, geeignete Diagnosen und den inhaltlichen Kontext.
+:::
+
+::: {.callout-tip title="Kernidee"}
+
+Diesen Fehlern liegt dasselbe Problem zugrunde: Ein statistischer Kennwert wird verwendet oder interpretiert, ohne zu prüfen, ob Variable, Skalenniveau und beobachtete Verteilung ihn rechtfertigen. Prüfe Skalenniveau und Datenqualität, untersuche die Verteilung und wähle und interpretiere erst danach den Kennwert.
+:::
+
+---
+
+<span id=der-übergang-von-beschreibung-zu-wahrscheinlichkeit></span>
+
+### Weshalb Beschreibung wichtig ist und wie sie zur Wahrscheinlichkeit führt {#the-bridge-from-description-to-probability .cs-heading}
+
+Deskriptive Statistik ist wichtig, weil Evidenz uns häufig in verdichteter Form erreicht. Nachrichtenberichte, politische Diskussionen, Forschungsartikel, institutionelle Berichte und alltägliche Behauptungen zeigen oft einen Mittelwert, einen Prozentwert oder eine auffällige Grafik. Du kannst diese Verdichtung nun verlangsamen. Du kannst fragen, was gemessen wurde, welche Fälle in den Datensatz gelangten, ob der gewählte Kennwert zum Skalenniveau passt, wie viel Variation das Zentrum umgibt und was eine Grafik sichtbar macht oder verdeckt.
+
+Diese Gewohnheit verbessert die Qualität einer Interpretation. Ein Mittelwert steht nicht mehr für jede Person. Ein Gruppenunterschied führt zur Prüfung beider Verteilungen. Ein ungewöhnlicher Wert wird im Kontext untersucht. Eine überzeugende Grafik wird zu einer Reihe von Entscheidungen über Achsen, Kategorien und Bezugsgrössen, die du prüfen kannst. Deskriptive Statistik gibt dir eine Sprache, mit der du die Struktur von Evidenz erkennst, bevor du über ihre Bedeutung entscheidest.
+
+Der Arbeitsablauf besitzt nun eine klare Logik. Das Skalenniveau zeigt, welche Operationen sinnvoll sind. Eine Häufigkeitstabelle hält fest, wie oft Werte vorkommen. Lagemasse verorten einen typischen Wert, Streuungsmasse zeigen die Grösse der Unterschiede und Grafiken machen Muster sichtbar, die eine einzelne Zahl verbergen kann. Durch die Standardisierung lässt sich die Lage eines Werts in Standardabweichungseinheiten ausdrücken. Zusammen machen diese Schritte aus Rohbeobachtungen eine begründete Beschreibung der Stichprobe.
+
+Das nächste Thema stellt eine neue Frage. Hier haben wir die tatsächlich beobachteten Werte beschrieben. Im Thema [Wahrscheinlichkeit](t02_probability.qmd) fragen wir, welche Ergebnisse unter einem festgelegten Vorgang *eintreten könnten* und wie wahrscheinlich sie sind. Die Verbindung ist eng. Die relativen Häufigkeiten dieses Themas werden zu Wahrscheinlichkeiten, wenn aus einer festen Menge ausgewählt wird. Verteilungen erhalten neben ihrer Form auch Wahrscheinlichkeiten, und Mittelwert sowie Varianz werden zu Eigenschaften von Wahrscheinlichkeitsmodellen. Später helfen diese Ideen zu erklären, weshalb der Mittelwert einer Stichprobe von jenem einer anderen Stichprobe abweicht.
+
+Nimm eine Arbeitsgewohnheit mit. Bestimme zuerst, was jede Variable bedeutet, untersuche danach ihre Verteilung und beginne erst dann mit einer Berechnung oder einem Modell. Die Wahrscheinlichkeit baut auf dieser klaren Beschreibung auf und ergänzt eine begründete Darstellung möglicher Ergebnisse und ihrer Wahrscheinlichkeiten.
+
+---
+
+## Simuliertes Beispiel
+
+### Simulierte Studie: Prüfungsangst im ersten Studienjahr {#simulated-study .cs-heading}
+
+Wir führen die bisherigen Ideen nun in einer **Simulation** zusammen. Eine Simulation ist ein computergeneriertes Beispiel, das Regeln folgt, die zu Lehrzwecken festgelegt wurden. Damit können wir einen vollständigen Analyseablauf an einem zusammenhängenden Datensatz üben. Die Werte stammen aber nicht aus Messungen realer Personen und erlauben deshalb keine Aussage über die Wirklichkeit.
+
+Der Computer erzeugt die Werte mit einem **Zufallszahlengenerator**. Das ist eine Reihe schrittweiser Computeranweisungen, auch **Algorithmus** genannt, deren Werte sich wie zufällige Ergebnisse verhalten. Das Programm benötigt dennoch einen Ausgangspunkt. Diese Startzahl heisst **Startwert** (englisch *seed*). Wenn eine andere Person denselben Startwert und dieselben Anweisungen verwendet, erzeugt der Generator dieselben Werte erneut. Das Ergebnis ist **reproduzierbar**. Das bedeutet, dass alle Lernenden genau dasselbe Beispiel wiederherstellen und prüfen können. Ein anderer Startwert würde einen anderen, aber ähnlich aufgebauten Lehrdatensatz erzeugen.
+
+Stell dir nun eine fiktive Studie vor, in der 160 Studierende im ersten Studienjahr eine Woche vor einer wichtigen Prüfung einen kurzen Fragebogen beantworten. Dieser Rahmen gibt uns einen Grund, den gesamten deskriptiven Ablauf anzuwenden: Eine lange Tabelle mit Punktzahlen zeigt noch nicht, was typisch ist, wie stark die Werte streuen oder ob zwei Gruppen unterschiedliche Bereiche der Skala einnehmen. Wir gehen deshalb langsam von den Zeilen des Datensatzes zu Häufigkeiten, numerischen Zusammenfassungen, Grafiken, Gruppenvergleichen und standardisierten Werten über.
+
+Behalte drei Fragen im Blick, während sich das Beispiel entwickelt:
+
+> Wie sieht die Verteilung der Prüfungsangstwerte in der beobachteten Stichprobe aus? Welche Lage- und Streuungsmasse beschreiben sie ehrlich? Erzählen die numerischen Zusammenfassungen und die Grafiken eine stimmige Geschichte, wenn Studierende mit selbstberichteter niedriger und hoher aktueller Belastung verglichen werden?
+
+Das sind deskriptive Fragen. Sie fragen danach, wie die künstliche Stichprobe aussieht, und nicht danach, ob Belastung Angst verursacht.
+
+**Vorgesehene Grundgesamtheit und beobachtete Stichprobe.** Die vorgesehene Grundgesamtheit besteht aus Studierenden im ersten Studienjahr, die sich auf vergleichbare Prüfungen vorbereiten. Der beobachtete Datensatz ist eine simulierte Stichprobe von 160 Studierenden. Weil diese Werte erzeugt und nicht in jener Grundgesamtheit erhoben wurden, eignen sie sich zum Erlernen des Analyseablaufs, erlauben aber keine Schätzung für eine reale Grundgesamtheit.
+
+Für jede Person werden folgende Variablen erfasst:
+
+- eine anonyme `id`,
+- eine selbstberichtete **Stressgruppe** (`Niedrige Belastung` oder `Hohe Belastung`),
+- **Geschlecht** in drei Kategorien (`Frau`, `Mann`, `Divers`),
+- der Wert **exam_anxiety** auf einer Skala von 0 bis 40, wobei höhere Werte mehr Prüfungsangst bedeuten,
+- **sleep_hours**, die mittlere Schlafdauer pro Nacht in der vergangenen Woche,
+- die **Zufriedenheit** mit der Studiensituation auf einer Skala von 1 bis 5.
+
+| Variable | Rolle und Skalenniveau | Geeignete deskriptive Behandlung |
+|---|---|---|
+| `id` | Anonymer nominaler Identifikator | Nur zur Unterscheidung der Zeilen verwenden, nicht mitteln |
+| `group` | Nominale Gruppierungsvariable | Häufigkeiten, Prozentanteile, Säulen- oder Kreisdiagramm und gruppenweise Vergleiche |
+| `gender` | Nominale Hintergrundvariable | Häufigkeiten, Prozentanteile und Säulendiagramm |
+| `exam_anxiety` | Summenwert aus mehreren Items, der näherungsweise als intervallskaliert behandelt wird | Mittelwert mit Standardabweichung (SD), Median mit Interquartilsabstand (IQR), Histogramm, Boxplot und z-Werte |
+| `sleep_hours` | Verhältnisskalierte Variable | Plausibilitätsbereich, je nach Form Mittelwert mit SD oder Median mit IQR |
+| `satisfaction` | Ordinale Bewertung von 1 bis 5 | Geordnete Häufigkeiten, Prozentanteile, Median und geordnetes Säulendiagramm |
+
+: Variablen, Skalenniveaus und begründbare Zusammenfassungen in der simulierten Studie. {#tbl-simulated-variable-plan}
+
+Lies die Tabelle Zeile für Zeile. Die ersten drei Variablen sind Bezeichnungen. Für Stressgruppe und Geschlecht passen Häufigkeiten und Prozentanteile, während die ID nur dazu dient, die Zeilen auseinanderzuhalten. Die nächsten beiden Variablen erfassen numerische Mengen oder Punktzahlen, sodass Lage und Streuung nützliche Informationen liefern können. Die Zufriedenheit ist geordnet, doch die Abstände zwischen ihren fünf Antwortkategorien sind nicht garantiert gleich. Deshalb bewahren wir die Reihenfolge der Kategorien und betonen Häufigkeiten und Median. Die ID wird bewusst aus den Berechnungen ausgeschlossen, weil ihre Ziffern lediglich eine Zeile benennen.
+
+**So erzeugt der Computer die Daten.** Wir verwenden auf der gesamten Seite denselben Startwert. Die Anweisungen erzeugen Stressgruppe und Geschlecht als Kategorien. Schlaf- und Prüfungsangstwerte unterscheiden sich von Person zu Person, wobei der Gruppe mit hoher Belastung eine höhere mittlere Angst und eine geringere mittlere Schlafdauer zugewiesen werden. Die Zufriedenheit fällt tendenziell niedriger aus, wenn die als z-Wert ausgedrückte Angst höher ist. Schritt 8 erklärt diese standardisierte Skala. Zum Schluss werden alle Werte innerhalb des möglichen Bereichs des jeweiligen Fragebogens oder Messinstruments gehalten. Diese Bestandteile wurden absichtlich in das Beispiel eingebaut. Sie sind keine Entdeckungen über reale Studierende.
+
+Die gewählten Methoden folgen den Skalenniveaus und den Ausgangsfragen. Häufigkeitstabellen beschreiben nominale und ordinale Kategorien, während das Histogramm und die numerischen Kennwerte den numerischen Angstwert beschreiben. Gruppenweise Kennwerte und Boxplots vergleichen Verteilungen, ohne die Gruppenbezeichnung als Grösse zu behandeln.
+
+---
+
+**Schritt 1: Rohdaten erkunden**
+
+Vor jeder Berechnung werden zunächst die Rohdaten betrachtet. Die folgende Tabelle zeigt den vollständigen Datensatz. Die Spalten lassen sich sortieren, bestimmte Werte können gesucht und alle 160 Zeilen durchgesehen werden.
+
+```{r}
+#| label: tbl-simulated-data
+datatable(
+  dat |>
+    transmute(
+      ID = id,
+      Stressgruppe = as.character(group),
+      Geschlecht = as.character(gender),
+      Schlafstunden = sleep_hours,
+      Prüfungsangst = exam_anxiety,
+      Zufriedenheit = satisfaction
+    ),
+  options = topic_dt_options(topic_locale),
+  class = "compact stripe hover",
+  rownames = FALSE,
+  caption = "Simulierter Datensatz: Prüfungsangst, Schlaf, Zufriedenheit und Hintergrundvariablen von 160 Studierenden."
+)
+```
+
+Diese erste Prüfung hilft zu beurteilen, ob die Daten plausibel wirken. Die beobachteten Schlafwerte reichen von `r data_profile$sleep_min` bis `r data_profile$sleep_max` Stunden, die Prüfungsangstwerte von `r data_profile$anxiety_min` bis `r data_profile$anxiety_max` und die Zufriedenheitswerte von `r data_profile$satisfaction_min` bis `r data_profile$satisfaction_max`. Der Datensatz enthält `r data_profile$missing_values` fehlende Werte. Diese Prüfungen belegen nicht, dass jeder Eintrag korrekt ist. Ein unmöglicher Wert, ein unerwarteter Code oder ein *Muster fehlender Werte*, also eine Tendenz, dass Werte in bestimmten Variablen oder Gruppen fehlen, müsste vor der Fortsetzung untersucht werden.
+
+Sobald Zeilen und Codes plausibel erscheinen, werden die kategorialen Variablen zusammengefasst, ohne ihre Bezeichnungen wie Mengen zu behandeln.
+
+---
+
+**Schritt 2: Nominalvariablen beschreiben (Stressgruppe und Geschlecht)**
+
+Stressgruppe und Geschlecht sind nominalskalierte Variablen. Sie teilen Studierende in Kategorien ein, ohne eine numerische Reihenfolge auszudrücken. Daher werden Häufigkeiten und Prozentanteile angegeben.
+
+```{r}
+#| label: tbl-simulated-stress-frequency
+tab_group |>
+  mutate(prop = sprintf("%.1f%%", prop)) |>
+  kable(
+    caption = "Verteilung der Studierenden auf die selbstberichteten Stressgruppen.",
+    col.names = c("Stressgruppe", "n", "%"),
+    align = c("l", "r", "r")
+  )
+```
+
+```{r}
+#| label: tbl-simulated-gender-frequency
+tab_gender |>
+  mutate(prop = sprintf("%.1f%%", prop)) |>
+  kable(
+    caption = "Verteilung der Studierenden auf die Geschlechtskategorien.",
+    col.names = c("Geschlecht", "n", "%"),
+    align = c("l", "r", "r")
+  )
+```
+
+Lies die Tabelle der Stressgruppen zeilenweise. Die Spalte `n` gibt die Anzahl Fälle an. Die Spalte `%` teilt diese Häufigkeit durch alle 160 Fälle und drückt das Ergebnis von 100 aus. Die Gruppe mit hoher Belastung umfasst 84 Studierende, die Gruppe mit niedriger Belastung 76. Die beiden Häufigkeiten ergeben zusammen 160, und die dargestellten Prozentanteile ergeben bis auf mögliche Rundung 100%.
+
+Die Tabelle zum Geschlecht hat dieselbe Struktur, beantwortet aber eine andere Frage. Sie zeigt 112 Fälle in der Kategorie Frau, 42 in der Kategorie Mann und 6 in der Kategorie Divers. Weil es sich um nominale Bezeichnungen handelt, besitzt die Tabelle keine kumulative Spalte, und die Reihenfolge der Zeilen hat keine quantitative Bedeutung. Zu diesem Zeitpunkt beschreiben beide Tabellen nur die künstliche Stichprobe. Keine von ihnen liefert Evidenz zur Zusammensetzung einer realen Studierendenpopulation.
+
+---
+
+**Schritt 3: Eine Ordinalvariable beschreiben (Studienzufriedenheit)**
+
+Die Zufriedenheit wird auf einer Skala von 1 bis 5 gemessen und ist ordinalskaliert. Grössere Zahlen bedeuten höhere Zufriedenheit, gleiche Abstände zwischen benachbarten Kategorien werden aber nicht vorausgesetzt. Daher werden Häufigkeiten und Prozentanteile angegeben.
+
+```{r}
+#| label: tbl-simulated-satisfaction-frequency
+tab_satisfaction |>
+  mutate(prop = sprintf("%.1f%%", prop)) |>
+  kable(
+    caption = "Zufriedenheitswerte (1 = sehr unzufrieden, 5 = sehr zufrieden).",
+    col.names = c("Zufriedenheit", "n", "%"),
+    align = c("c", "r", "r")
+  )
+```
+
+Die Tabelle enthält alle fünf Antwortkategorien, einschliesslich des Werts 1 mit einer Häufigkeit von null. Insgesamt wählten `r sum(tab_satisfaction$n[tab_satisfaction$satisfaction %in% c("4", "5")])` Studierende (`r sprintf("%.1f", sum(tab_satisfaction$prop[tab_satisfaction$satisfaction %in% c("4", "5")]))` %) den Wert 4 oder 5. Diese erzeugten Daten sind am zufriedenen Ende der Ordinalskala konzentriert, während die Häufigkeit von null beim Wert 1 sichtbar bleibt.
+
+Für kategoriale Variablen passen Häufigkeiten und Prozentanteile. Die Prüfungsangst ist dagegen quantitativ. Deshalb beschreiben wir nun sowohl ihren typischen Wert als auch ihre Streuung.
+
+---
+
+**Schritt 4: Deskriptive Kennwerte der Prüfungsangst insgesamt**
+
+`exam_anxiety` ist ein psychometrischer Summenwert aus mehreren Items. Wir behandeln ihn näherungsweise als intervallskaliert. Das ist eine verbreitete Arbeitsannahme für eine Summenskala, aber kein Beleg dafür, dass benachbarte Wertdifferenzen psychologisch identisch sind. Unter dieser Annahme sind Mittelwert und Standardabweichung nützliche Kennwerte; Median und IQR bleiben wertvolle Kontrollgrössen.
+
+```{r}
+#| label: tbl-simulated-anxiety-summary
+overall_exam |>
+  mutate(
+    mean = round(mean, 1),
+    median = round(median, 1),
+    sd = round(sd, 1),
+    IQR = round(IQR, 1)
+  ) |>
+  kable(
+    caption = "Deskriptive Kennwerte der Prüfungsangst insgesamt (Skala von 0 bis 40).",
+    col.names = c("n", "Mittelwert", "Median", "SD", "IQR", "Min", "Max"),
+    align = c("r", "r", "r", "r", "r", "r", "r")
+  )
+```
+
+Der Stichprobenmittelwert beträgt `r round(overall_exam$mean, 1)` und der Median `r round(overall_exam$median, 1)`, sodass die beiden Lagemasse in diesem Datensatz nahezu denselben Wert ergeben. Die SD beträgt `r round(overall_exam$sd, 1)`, der IQR `r round(overall_exam$IQR, 1)`, und die beobachteten Werte reichen von `r overall_exam$min` bis `r overall_exam$max`. Die Nähe von Mittelwert und Median ist mit dem annähernd symmetrischen Histogramm in Schritt 6 vereinbar, belegt Symmetrie aber nicht für sich allein.
+
+---
+
+**Schritt 5: Prüfungsangst zwischen Stressgruppen vergleichen**
+
+Die Studierenden stuften ihren Stress vor der Prüfung als gering oder hoch ein. Gruppenbezogene Kennwerte zeigen, ob die gemessene Prüfungsangst zu dieser Selbsteinstufung passt.
+
+```{r}
+#| label: tbl-simulated-anxiety-by-stress
+exam_by_group |>
+  mutate(
+    mean = round(mean, 1),
+    median = round(median, 1),
+    sd = round(sd, 1),
+    IQR = round(IQR, 1)
+  ) |>
+  kable(
+    caption = "Prüfungsangst nach selbstberichteter Stressgruppe.",
+    col.names = c("Stressgruppe", "n", "Mittelwert", "Median", "SD", "IQR"),
+    align = c("l", "r", "r", "r", "r", "r")
+  )
+```
+
+Mittelwert und Median sind in der Gruppe mit hoher Belastung höher, wie es aufgrund des Simulationsdesigns zu erwarten ist. Die Standardabweichungen der Gruppen sind nahezu gleich, während die Gruppe mit hoher Belastung einen etwas grösseren IQR aufweist. Der wichtigste deskriptive Unterschied ist daher eine höhere Prüfungsangst und nicht eine wesentlich grössere Variabilität.
+
+Dieser deskriptive Vergleich zeigt in diesem Datensatz einen klaren Unterschied der Lage. Thema 3 stellt später die davon getrennte Frage, ob ein Stichprobenunterschied mit einem behaupteten Unterschied in einer Grundgesamtheit vereinbar ist. In diesem Thema bleiben wir bewusst bei der Beschreibung der beobachteten Werte.
+
+Die Tabelle verdichtet jede Verteilung auf wenige Zahlen. Als Nächstes prüfen wir ein Histogramm, weil es die Gesamtform sichtbar macht, die diese Zahlen nicht vollständig zeigen können.
+
+---
+
+**Schritt 6: Verteilung der Prüfungsangst visualisieren**
+
+Ein Histogramm zeigt die Form der Gesamtverteilung unmittelbar.
+
+```{r}
+#| label: fig-example-anxiety-histogram
+#| fig-alt: "Interaktives Histogramm der Prüfungsangstwerte mit den meisten Beobachtungen im mittleren Wertebereich."
+#| fig-cap: "Interaktive Verteilung der Prüfungsangstwerte in der simulierten Stichprobe."
+topic_plotly(p_hist_exam, "exam")
+```
+
+Das Histogramm zeigt, wie viele Studierende in den jeweiligen Bereichen der Angstskala liegen. Die meisten Werte befinden sich im mittleren Bereich, und zu beiden Enden nimmt die Häufigkeit ab. Die Gesamtform wirkt annähernd symmetrisch. Der beobachtete Mittelwert von `r round(overall_exam$mean, 1)` und Median von `r round(overall_exam$median, 1)` stimmen mit dieser visuellen Einschätzung überein, ohne Symmetrie zu belegen.
+
+Das Gesamthistogramm verbindet beide Stressgruppen. Um zu erkennen, ob sich ihre Lage und Streuung unterscheiden, trennen wir dieselben Angstwerte nun nach Gruppe.
+
+---
+
+**Schritt 7: Gruppenunterschiede mit einem Boxplot visualisieren**
+
+Boxplots fassen Lage, Streuung und mögliche Ausreisser jeder Gruppe zusammen und eignen sich besonders für direkte Gruppenvergleiche. Ihre *Whisker* reichen von der Box zu den am weitesten entfernten Werten, die noch von der Boxplot-Regel erfasst werden. Ein Punkt jenseits eines Whiskers ist ein *möglicher Ausreisser*. Er verdient eine inhaltliche Prüfung, ist aber nicht automatisch ein Fehler.
+
+```{r}
+#| label: fig-example-anxiety-boxplot
+#| fig-alt: "Interaktive nebeneinanderliegende Boxplots mit einer höheren Lage und einer ähnlichen Gesamtstreuung in der Gruppe mit hoher Belastung."
+#| fig-cap: "Interaktiver Vergleich der Prüfungsangst zwischen den Belastungsgruppen; Box, Median, Whisker und Punkte liefern gemeinsam die vollständige Interpretation."
+topic_plotly(p_box_exam, "box")
+```
+
+Jede Box umfasst die mittleren 50 % der Angstwerte einer Gruppe, von Q1 bis Q3. Die horizontale Linie in der Box bezeichnet den Median. Die Box der Gruppe mit hoher Belastung liegt auf der vertikalen Achse deutlich höher. Eine typische Person dieser Gruppe berichtet somit mehr Prüfungsangst.
+
+Die Boxhöhe, also der IQR, und die Länge der Whisker zeigen die Variabilität. Die Box der hoch belasteten Gruppe ist etwas höher; der Unterschied ist aber kleiner als der deutliche Abstand der Mediane. Punkte ausserhalb der Whisker kennzeichnen ungewöhnlich niedrige oder hohe Werte im Verhältnis zur jeweiligen Gruppe und sollten vor weitergehenden Schlüssen geprüft werden.
+
+Zusammen mit der Tabelle aus Schritt 5 zeigt der Boxplot, dass der wichtigste Gruppenunterschied die Lage betrifft: Studierende mit hoher Belastung berichten tendenziell mehr Prüfungsangst. Ihre mittleren 50 % streuen etwas stärker, doch die nahezu gleichen Standardabweichungen stützen keinen klaren allgemeinen Unterschied der Variabilität.
+
+---
+
+**Schritt 8: Angstwerte mit der z-Transformation standardisieren**
+
+Die Skala für Prüfungsangst reicht von 0 bis 40 und gehört zu diesem Fragebogen. Um die Position jeder Person innerhalb dieser Stichprobe in Standardabweichungseinheiten auszudrücken, wenden wir die z-Transformation an. Von jeder Beobachtung wird der Gesamtmittelwert der Stichprobe abgezogen und das Ergebnis durch die Standardabweichung der Gesamtstichprobe geteilt.
+
+Für Person $i$ lautet der z-Wert:
+
+$$z_i = \frac{x_i - \bar{x}}{s}$$
+
+Das Ergebnis ist im Datensatz als `z_exam_anxiety` gespeichert.
+
+Die folgende Tabelle zeigt für die ersten zwölf Personen Rohwert und z-Wert.
+
+```{r}
+#| label: tbl-simulated-anxiety-zscores
+z_sample |>
+  kable(
+    caption = "Rohwerte der Prüfungsangst und zugehörige z-Werte für die ersten zwölf Studierenden.",
+    col.names = c("Personen-ID", "Stressgruppe", "Angstwert", "z-Wert"),
+    align = c("r", "l", "r", "r")
+  )
+```
+
+Lies jede Zeile vom Rohwert zum standardisierten Wert. Das Vorzeichen gibt die Richtung vom Stichprobenmittelwert an: Ein positiver z-Wert liegt darüber, ein negativer darunter. Der Betrag beschreibt die Entfernung in Standardabweichungseinheiten. Eine Person mit z = 0 liegt genau beim Stichprobenmittelwert. Bei z = +1.5 liegt der Wert 1.5 Standardabweichungen über dem Stichprobenmittelwert, bei z = -1.0 eine Standardabweichung darunter. Die Tabelle ordnet Studierende nicht als besser oder schlechter ein. Sie drückt nur aus, wo jeder Wert innerhalb dieser besonderen künstlichen Stichprobe liegt.
+
+Das folgende Histogramm verwendet Klassengrenzen, die durch die Transformation der ursprünglichen Grenzen des Angsthistogramms entstehen. Seine Säulen bewahren deshalb die Form des ursprünglichen Histogramms exakt, während sich die horizontale Skala ändert. Der Mittelwert beträgt nun 0 und die Standardabweichung 1.
+
+```{r}
+#| label: fig-example-standardized-histogram
+#| fig-alt: "Interaktives Histogramm der standardisierten Prüfungsangstwerte mit dem bei null markierten Mittelwert."
+#| fig-cap: "Interaktive Verteilung nach der z-Standardisierung. Die Form entspricht dem ursprünglichen Histogramm, während sich die horizontale Skala ändert."
+topic_plotly(p_hist_z, "z")
+```
+
+Die gestrichelte vertikale Linie markiert z = 0, also den Stichprobenmittelwert. Die beobachteten z-Werte reichen von `r round(min(dat$z_exam_anxiety), 2)` bis `r round(max(dat$z_exam_anxiety), 2)`. Weit von null entfernte Werte sollten im Kontext untersucht werden. Die Entfernung allein beweist aber nicht, dass ein Wert falsch ist oder gelöscht werden sollte.
+
+Zusammen erzählen die Tabellen und Abbildungen eine konsistente Geschichte über diese künstliche Stichprobe: Die Gruppe mit hoher Belastung besitzt eine höhere Lage der Prüfungsangst, die beiden Gruppen weisen insgesamt eine ähnliche Streuung auf, und die Standardisierung verändert die Einheiten, ohne die Form des Histogramms zu verändern. Im letzten Schritt trennen wir, was dieser Ablauf vermittelt, von den Aussagen, die er nicht stützen kann.
+
+---
+
+### Mögliche Stolperfallen {.cs-heading}
+
+Dieses Beispiel ist simuliert. Es wurde also keine Person gemessen, und es ist keine Aussage über eine Grundgesamtheit möglich. Der Datenerzeugungsprozess erzeugt bewusst mittlere Unterschiede zwischen den Stressgruppen. Werden diese Unterschiede später gefunden, wird damit das Simulationsdesign wiedergewonnen und keine neue Evidenz entdeckt. Eine reale Studie bräuchte einen begründbaren Auswahlrahmen, validierte Instrumente, eine Beurteilung der fehlenden Daten und ein Design, das zu den beabsichtigten Aussagen passt.
+
+- **Aus einem deskriptiven Unterschied eine kausale Aussage machen.** Der Gruppenvergleich zeigt nicht, dass Stress die Prüfungsangst verursacht hat.
+- **Das Skalenniveau der Punktzahl als garantiert behandeln.** Die Summe von 0 bis 40 als annähernd intervallskaliert zu verwenden, ist eine Annahme, die eine Begründung durch die Messung benötigt.
+- **Erwarten, dass reale Daten ebenso sauber sind.** Fehlende Werte, unplausible Codes, ungewöhnliche Beobachtungen und Messprobleme müssen untersucht werden, bevor demselben Ablauf vertraut werden kann.
+
+### Wie dieses Beispiel die Theorie zusammenführt {.cs-heading}
+
+Das Beispiel folgte derselben Lesereihenfolge, die im Theorieteil entwickelt wurde. Zuerst bestimmten wir die Fälle und Variablen, ordneten jede Variable ihrem Skalenniveau zu und prüften die Rohdaten, bevor wir etwas berechneten. Häufigkeitstabellen beschrieben anschliessend die kategorialen Variablen. Mittelwert, Median, Standardabweichung, Interquartilsabstand und Fünf-Punkte-Zusammenfassung beschrieben unterschiedliche Merkmale der Verteilung der Prüfungsangstwerte.
+
+Die Darstellungen machten diese Zusammenfassungen sichtbar. Häufigkeitstabellen zeigten Anzahlen und Prozentanteile der Kategorien, das Histogramm zeigte die Form der quantitativen Verteilung, und die nebeneinander dargestellten Boxplots machten Lage, mittlere Streuung und ungewöhnliche Werte der Gruppen vergleichbar. Die z-Transformation schloss den Ablauf ab, indem sie die Angstskala in Standardabweichungseinheiten umwandelte, ohne die Form der Verteilung zu verändern. Gemeinsam zeigen diese Schritte, weshalb deskriptive Statistik keine Liste getrennter Formeln ist: Jede Tabelle, jede Zahl und jede Abbildung beantwortet einen Teil der Ausgangsfragen, und ihre Interpretationen müssen zusammenpassen, bevor wir zu Wahrscheinlichkeit oder Inferenz übergehen.
+
+---
+
+## Übungen und Lösungen
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 1
+)
+```
+
+## Zusammenfassung
+
+{{< include ../../_shared/topic-summaries/de/t01.md >}}
+
+---
+
+### Zusammenfassung herunterladen {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "de",
+  course_id = "intro-statistics",
+  topic_number = 1
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Themenseitennavigation"}
+[Übersicht zur Einführung](overview-intro-stats-de.qmd){.text-link-arrow .previous}
+[Downloads zu Thema 1](../downloads/overview-downloads-de.qmd#dl-topic-1){.text-link-arrow .download}
+[Weiter: Wahrscheinlichkeit](t02_probability.qmd){.text-link-arrow .next}
+:::

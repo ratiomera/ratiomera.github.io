@@ -1,0 +1,153 @@
+/.quarto/
+/site_libs/
+**/*.quarto_ipynb
+**/*_cache/
+**/*.knit.md
+**/*.utf8.md
+**/*.nb.html
+
+# General tool and build caches. The publication tree under docs/ is
+# intentionally not ignored because GitHub Pages will serve that directory.
+/.cache/
+/.sass-cache/
+/.jekyll-cache/
+/.jekyll-metadata
+/.bundle/
+/.tox/
+/.nox/
+/.hypothesis/
+/.eslintcache
+/_targets/
+/build/
+/dist/
+
+# Operating-system metadata
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+*.icloud
+
+# Local coding-agent instructions used only in this checkout
+/AGENTS.md
+
+# R session state and incidental plot output
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+/Rplots.pdf
+.Renviron
+.Renviron.*
+!.Renviron.example
+!.Renviron.*.example
+.Rprofile
+.Rprofile.*
+!.Rprofile.example
+!.Rprofile.*.example
+*.Rout
+*.Rcheck/
+/renv/library/
+/renv/staging/
+/renv/python/
+
+# Python caches, test caches, and local virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.venv/
+venv/
+.eggs/
+*.egg-info/
+.ipynb_checkpoints/
+node_modules/
+/.npm/
+/.yarn/cache/
+/.pnpm-store/
+
+# Editor, temporary, and log files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+*.tmp-*
+*.log
+*.pid
+*.bak
+*.orig
+*.rej
+*.part
+*.crdownload
+*.autosave
+*.stackdump
+.~lock.*#
+~$*.docx
+~$*.pptx
+~$*.xlsx
+
+# Atomic summary-image staging files left only after an interrupted generator.
+/ratiomera-statistics/_shared/summary-sources/assets/**/.*.png
+
+# Local secrets. A documented, non-secret template may still be committed.
+.env
+.env.*
+!.env.example
+!.env.*.example
+.netrc
+.authinfo
+.npmrc
+.pypirc
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.mobileprovision
+id_rsa*
+id_ed25519*
+credentials*.json
+client_secret*.json
+service-account*.json
+/secrets/
+/secrets.*
+!/secrets.example.*
+!/secrets.*.example
+/private/
+/data-private/
+/config/local.*
+/config/*.local.*
+
+# Standalone local reports are not website content.
+/reports/
+/test-results/
+/playwright-report/
+
+# Targeted Quarto renders can leave source-adjacent figure caches. The
+# publishable copies belong under docs/, so these caches must not enter the
+# future initial commit.
+/ratiomera-statistics/*/intro-stats/*_files/
+
+# An interrupted Quarto render may temporarily leave output HTML beside its
+# QMD source before the files are moved into docs/. Keep the browser includes
+# under js/ trackable by limiting these rules to page-source locations.
+/*.html
+/en/**/*.html
+/de/**/*.html
+/sq/**/*.html
+/ratiomera-statistics/**/*.html
+/ratiomera-mathematics/**/*.html
+
+# Private project-management notes and protected teaching sources stay on the
+# maintainer's computer. The machine-readable registries required by public
+# validators live under config/ instead.
+/_dev/
+/_materials/

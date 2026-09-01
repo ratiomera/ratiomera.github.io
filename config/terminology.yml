@@ -1,0 +1,1651 @@
+schema_version: 1
+canonical_locale: en
+locale_order: [en, de, sq]
+locale_tags:
+  en: en
+  de: de-CH
+  sq: sq
+number_format_policy: >-
+  Preserve the English source convention for displayed decimal points and numerical
+  precision in all locales. Underlying values, rounding, symbols, and formula notation
+  must remain identical. A future locale-format migration must update all three locales,
+  downloads, figures, tables, tests, and this policy together.
+review_status_values:
+  - approved_for_platform
+  - needs_expert_review
+terms:
+  absolute_frequency:
+    en: Absolute frequency
+    de: Absolute Häufigkeit
+    sq: Frekuenca absolute
+    abbreviation: null
+    domain: descriptive_statistics
+    note: The Albanian term requires review by a native-speaking subject expert.
+    avoid: []
+    review_status: needs_expert_review
+  absolute_scale:
+    en: Absolute scale
+    de: Absolutskala
+    sq: Shkalla absolute
+    abbreviation: null
+    domain: measurement
+    note: The course treats this as a stricter subtype of ratio scale for natural counts with a fixed unit. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  admissible_transformation:
+    en: Admissible transformation
+    de: Zulässige Transformation
+    sq: Transformimi i lejueshëm
+    abbreviation: null
+    domain: measurement
+    note: Use for a recoding that preserves the defining information of a measurement level. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  adjusted_r_squared:
+    en: Adjusted R-squared
+    de: Korrigiertes R-Quadrat
+    sq: R-katrori i përshtatur
+    abbreviation: adjusted R²
+    domain: modeling
+    note: R-squared adjusted for sample size and the number of fitted predictor parameters; unlike ordinary R-squared, it can decrease when a predictor is added. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  responsible_person:
+    en: Responsible person
+    de: Verantwortliche Person
+    sq: Personi përgjegjës
+    abbreviation: null
+    domain: organization
+    note: Legal-notice heading for the named person responsible for Ratiomera. The Albanian term requires expert review.
+    avoid: [Invented title or legal entity]
+    review_status: needs_expert_review
+  swiss_association:
+    en: Swiss association
+    de: Schweizer Verein
+    sq: Shoqatë zvicerane
+    abbreviation: null
+    domain: organization
+    note: A possible future legal form only. Do not imply that Ratiomera is already an association. The Albanian term requires expert review.
+    avoid: [Current association status]
+    review_status: needs_expert_review
+  volunteering_contact:
+    en: Volunteering contact
+    de: Kontakt für freiwillige Mitarbeit
+    sq: Kontakti për punë vullnetare
+    abbreviation: null
+    domain: organization
+    note: The dedicated route for offers of volunteer help. The Albanian term requires expert review.
+    avoid: [General inquiries as the only volunteering route]
+    review_status: needs_expert_review
+  analysis_of_variance:
+    en: Analysis of variance
+    de: Varianzanalyse
+    sq: Analiza e variancës
+    abbreviation: ANOVA
+    domain: inferential_statistics
+    note: Keep the international abbreviation in every locale.
+    avoid: []
+    review_status: approved_for_platform
+  alternative_hypothesis:
+    en: Alternative hypothesis
+    de: Alternativhypothese
+    sq: Hipoteza alternative
+    abbreviation: H₁
+    domain: hypothesis_testing
+    note: Preserve the mathematical subscript.
+    avoid: []
+    review_status: approved_for_platform
+  base_rate:
+    en: Base rate
+    de: Basisrate
+    sq: Norma bazë
+    abbreviation: null
+    domain: probability
+    note: Use for the prior prevalence or frequency relevant to an update. The Albanian term requires review by a native-speaking subject expert.
+    avoid: []
+    review_status: needs_expert_review
+  bayes_theorem:
+    en: Bayes' theorem
+    de: Satz von Bayes
+    sq: Teorema e Bayes-it
+    abbreviation: null
+    domain: probability
+    note: Preserve the direction of conditioning and include the complete evidence denominator.
+    avoid: []
+    review_status: approved_for_platform
+  bonferroni_correction:
+    en: Bonferroni correction
+    de: Bonferroni-Korrektur
+    sq: Korrigjimi Bonferroni
+    abbreviation: null
+    domain: multiple_comparisons
+    note: A multiple-comparison correction that uses a per-test threshold of alpha divided by the number of tests to bound the familywise error rate without requiring independent tests. The Albanian label is provisional and requires expert review.
+    avoid: [Sidak correction as a synonym]
+    review_status: needs_expert_review
+  binomial_distribution:
+    en: Binomial distribution
+    de: Binomialverteilung
+    sq: Shpërndarja binomiale
+    abbreviation: null
+    domain: probability
+    note: Use for the count of successes across a fixed number of Bernoulli trials, not for one binary outcome alone.
+    avoid: []
+    review_status: approved_for_platform
+  box_plot:
+    en: Box plot
+    de: Boxplot
+    sq: Diagrami kuti-me-mustaqe
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use the two-word English form in prose; Quarto identifiers may use boxplot. The Albanian pedagogical label makes the whiskers explicit.
+    avoid: []
+    review_status: needs_expert_review
+  central_tendency:
+    en: Central tendency
+    de: Zentrale Tendenz
+    sq: Prirja qendrore
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use Lagemass only when referring specifically to a measure of location.
+    avoid: [Zentralmass as a general synonym]
+    review_status: approved_for_platform
+  central_limit_theorem:
+    en: Central limit theorem
+    de: Zentraler Grenzwertsatz
+    sq: Teorema e kufirit qendror
+    abbreviation: CLT
+    domain: probability
+    note: The theorem concerns the standardized sum or mean under stated conditions; it does not make raw observations normal. The Albanian term requires expert review.
+    avoid: [A universal sample-size cutoff]
+    review_status: needs_expert_review
+  coefficient_of_determination:
+    en: Coefficient of determination
+    de: Bestimmtheitsmass
+    sq: Koeficienti i përcaktimit
+    abbreviation: R²
+    domain: modeling
+    note: The proportion of observed outcome variation represented by a fitted model relative to its intercept-only reference. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  conditional_probability:
+    en: Conditional probability
+    de: Bedingte Wahrscheinlichkeit
+    sq: Probabiliteti i kushtëzuar
+    abbreviation: null
+    domain: probability
+    note: "Preserve the order in P(A | B): A is the event of interest and B is the condition."
+    avoid: []
+    review_status: approved_for_platform
+  categorical_variable:
+    en: Categorical variable
+    de: Kategoriale Variable
+    sq: Ndryshorja kategorike
+    abbreviation: null
+    domain: measurement
+    note: The Albanian term requires review by a native-speaking subject expert.
+    avoid: [Ndryshorja kategoriale]
+    review_status: needs_expert_review
+  confidence_interval:
+    en: Confidence interval
+    de: Konfidenzintervall
+    sq: Intervali i besimit
+    abbreviation: CI
+    domain: inferential_statistics
+    note: German may use KI only when the abbreviation is defined locally.
+    avoid: []
+    review_status: approved_for_platform
+  contrast:
+    en: Contrast
+    de: Kontrast
+    sq: Kontrasti
+    abbreviation: null
+    domain: analysis_of_variance
+    note: A weighted combination of group or cell means, ordinarily with weights summing to zero, that answers a specified comparison question. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  correlation:
+    en: Correlation
+    de: Korrelation
+    sq: Korrelacioni
+    abbreviation: null
+    domain: association
+    note: Do not imply causation.
+    avoid: []
+    review_status: approved_for_platform
+  covariance:
+    en: Covariance
+    de: Kovarianz
+    sq: Kovarianca
+    abbreviation: null
+    domain: association
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  coverage_error:
+    en: Coverage error
+    de: Abdeckungsfehler
+    sq: Gabimi i mbulimit
+    abbreviation: null
+    domain: sampling
+    note: Use when the operational sampling frame does not fully match the population named in the claim. The Albanian term requires review by a native-speaking subject expert.
+    avoid: [Sampling variability]
+    review_status: needs_expert_review
+  cumulative_distribution_function:
+    en: Cumulative distribution function
+    de: Verteilungsfunktion
+    sq: Funksioni kumulativ i shpërndarjes
+    abbreviation: CDF
+    domain: probability
+    note: "Define it as F(x) = P(X <= x). The Albanian term requires review by a native-speaking subject expert."
+    avoid: []
+    review_status: needs_expert_review
+  cumulative_relative_frequency:
+    en: Cumulative relative frequency
+    de: Kumulierte relative Häufigkeit
+    sq: Frekuenca relative kumulative
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use only for variables with a meaningful order. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  degrees_of_freedom:
+    en: Degrees of freedom
+    de: Freiheitsgrade
+    sq: Shkallët e lirisë
+    abbreviation: df
+    domain: inferential_statistics
+    note: A procedure-specific count of independent information remaining after fitted quantities or constraints are accounted for; it determines the relevant reference distribution. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  density_function:
+    en: Density function
+    de: Dichtefunktion
+    sq: Funksioni i dendësisë
+    abbreviation: null
+    domain: probability
+    note: Density height is not point probability; continuous probabilities are areas over intervals. The Albanian term requires expert review.
+    avoid: [Probability function when a continuous density is intended]
+    review_status: needs_expert_review
+  dependent_variable:
+    en: Dependent variable
+    de: Abhängige Variable
+    sq: Ndryshorja e varur
+    abbreviation: null
+    domain: research_design
+    note: Outcome variable may be preferable in prediction contexts.
+    avoid: []
+    review_status: approved_for_platform
+  descriptive_statistics:
+    en: Descriptive statistics
+    de: Deskriptive Statistik
+    sq: Statistika përshkruese
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use the plural English form for the field and methods collectively.
+    avoid: []
+    review_status: approved_for_platform
+  distribution:
+    en: Distribution
+    de: Verteilung
+    sq: Shpërndarja
+    abbreviation: null
+    domain: descriptive_statistics
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  diverse_gender_category:
+    en: Diverse
+    de: divers
+    sq: Divers
+    abbreviation: null
+    domain: demographic_data
+    note: >-
+      Category label used in the current simulated dataset. The Albanian label and
+      the cross-locale identity terminology require review by a native-speaking
+      subject expert before reuse beyond this example.
+    avoid: []
+    review_status: needs_expert_review
+  dummy_coding:
+    en: Dummy coding
+    de: Dummy-Codierung
+    sq: Kodimi me ndryshore treguese
+    abbreviation: null
+    domain: modeling
+    note: >-
+      Also called indicator coding. It represents categorical membership with
+      binary dummy or indicator variables relative to a stated reference
+      category. The Albanian term is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  effect_size:
+    en: Effect size
+    de: Effektgrösse
+    sq: Madhësia e efektit
+    abbreviation: null
+    domain: inferential_statistics
+    note: German follows de-CH spelling with ss.
+    avoid: [Effektgröße]
+    review_status: approved_for_platform
+  estimator:
+    en: Estimator
+    de: Schätzer
+    sq: Vlerësuesi
+    abbreviation: null
+    domain: inferential_statistics
+    note: Use for a rule or statistic intended to estimate a population parameter. The Albanian term requires expert review.
+    avoid: [Estimate when the rule rather than its realized value is intended]
+    review_status: needs_expert_review
+  event:
+    en: Event
+    de: Ereignis
+    sq: Ngjarja
+    abbreviation: null
+    domain: probability
+    note: An event is a subset of the sample space.
+    avoid: []
+    review_status: approved_for_platform
+  event_complement:
+    en: Complement
+    de: Komplementärereignis
+    sq: Ngjarja plotësuese
+    abbreviation: null
+    domain: probability
+    note: Use for all outcomes in the sample space that are not in the stated event. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  event_intersection:
+    en: Intersection
+    de: Schnittmenge
+    sq: Prerja e ngjarjeve
+    abbreviation: null
+    domain: probability
+    note: Use for outcomes shared by all stated events. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  event_union:
+    en: Union
+    de: Vereinigung
+    sq: Bashkimi i ngjarjeve
+    abbreviation: null
+    domain: probability
+    note: Use the inclusive or meaning unless the context explicitly states otherwise. The Albanian term requires expert review.
+    avoid: [Exclusive or as the default interpretation]
+    review_status: needs_expert_review
+  expected_value:
+    en: Expected value
+    de: Erwartungswert
+    sq: Vlera e pritur
+    abbreviation: null
+    domain: probability
+    note: The expected value is a probability-weighted long-run center and need not be an attainable outcome.
+    avoid: [Expected outcome when attainability would be implied]
+    review_status: approved_for_platform
+  f_statistic:
+    en: F statistic
+    de: F-Statistik
+    sq: Statistika F
+    abbreviation: F
+    domain: inferential_statistics
+    note: A ratio of a model or factor mean square to an error mean square, evaluated against an F distribution under the null hypothesis. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  factor:
+    en: Factor
+    de: Faktor
+    sq: Faktori
+    abbreviation: null
+    domain: analysis_of_variance
+    note: A categorical explanatory variable whose categories are called levels in an analysis of variance design. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  familywise_error_rate:
+    en: Familywise error rate
+    de: Familienweise Fehlerrate
+    sq: Norma e gabimit për familjen e testeve
+    abbreviation: FWER
+    domain: multiple_comparisons
+    note: The probability of making at least one Type I error within a defined family of tests. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  fitted_value:
+    en: Fitted value
+    de: Angepasster Wert
+    sq: Vlera e përshtatur
+    abbreviation: null
+    domain: modeling
+    note: The outcome value estimated by a fitted model for a stated set of predictor values. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  frequency:
+    en: Frequency
+    de: Häufigkeit
+    sq: Frekuenca
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use consistently in tables and figure labels.
+    avoid: []
+    review_status: needs_expert_review
+  frequency_distribution:
+    en: Frequency distribution
+    de: Häufigkeitsverteilung
+    sq: Shpërndarja e frekuencave
+    abbreviation: null
+    domain: descriptive_statistics
+    note: The Albanian term requires review by a native-speaking subject expert.
+    avoid: []
+    review_status: needs_expert_review
+  histogram:
+    en: Histogram
+    de: Histogramm
+    sq: Histogrami
+    abbreviation: null
+    domain: descriptive_statistics
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  histogram_bin:
+    en: Histogram bin
+    de: Histogrammklasse
+    sq: Klasa e histogramit
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use for the class defined by a pair of histogram boundaries. The Albanian term requires review by a native-speaking subject expert.
+    avoid: [Interval when the intended concept is a histogram class]
+    review_status: needs_expert_review
+  hypothesis_test:
+    en: Hypothesis test
+    de: Hypothesentest
+    sq: Testi i hipotezës
+    abbreviation: null
+    domain: hypothesis_testing
+    note: Use Hypothesenprüfung for the broader process only when that distinction is useful.
+    avoid: []
+    review_status: approved_for_platform
+  independent_variable:
+    en: Independent variable
+    de: Unabhängige Variable
+    sq: Ndryshorja e pavarur
+    abbreviation: null
+    domain: research_design
+    note: Predictor may be more accurate outside experimental designs.
+    avoid: []
+    review_status: approved_for_platform
+  statistical_independence:
+    en: Statistical independence
+    de: Statistische Unabhängigkeit
+    sq: Pavarësia statistikore
+    abbreviation: null
+    domain: probability
+    note: Independence means that learning one event does not change the probability of the other; it is not the same as mutual exclusivity.
+    avoid: []
+    review_status: approved_for_platform
+  interaction:
+    en: Interaction
+    de: Interaktion
+    sq: Ndërveprimi
+    abbreviation: null
+    domain: modeling
+    note: A pattern in which the association or effect of one predictor or factor changes across values or levels of another. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  interquartile_range:
+    en: Interquartile range
+    de: Interquartilsabstand
+    sq: Diapazoni ndërkuartilor
+    abbreviation: IQR
+    domain: descriptive_statistics
+    note: Keep IQR in every locale after defining it.
+    avoid: []
+    review_status: approved_for_platform
+  interval_scale:
+    en: Interval scale
+    de: Intervallskala
+    sq: Shkalla intervalore
+    abbreviation: null
+    domain: measurement
+    note: The Albanian term requires review by a native-speaking subject expert.
+    avoid: []
+    review_status: needs_expert_review
+  intraclass_correlation:
+    en: Intraclass correlation coefficient
+    de: Intraklassenkorrelationskoeffizient
+    sq: Koeficienti i korrelacionit brenda klasës
+    abbreviation: ICC
+    domain: random_effects
+    note: A coefficient that quantifies similarity among observations sharing a grouping level relative to total variation in the specified random-factor model. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  kurtosis:
+    en: Kurtosis
+    de: Kurtosis
+    sq: Kurtoza
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Explain the convention used before interpreting values.
+    avoid: []
+    review_status: needs_expert_review
+  linear_transformation:
+    en: Linear transformation
+    de: Lineare Transformation
+    sq: Transformimi linear
+    abbreviation: null
+    domain: measurement
+    note: Use for transformations of the form y = a + bx. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  main_effect:
+    en: Main effect
+    de: Haupteffekt
+    sq: Efekti kryesor
+    abbreviation: null
+    domain: analysis_of_variance
+    note: A factor's average pattern across the levels of the other factors in the stated model. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  mixed_design:
+    en: Mixed design
+    de: Gemischtes Design
+    sq: Dizajni i përzier
+    abbreviation: null
+    domain: research_design
+    note: A design combining at least one between-person factor with at least one within-person factor. It describes how observations are collected and must not be used as a synonym for a mixed-effects model. The Albanian label is provisional and requires expert review.
+    avoid: [Mixed-effects model as a synonym]
+    review_status: needs_expert_review
+  mean:
+    en: Mean
+    de: Mittelwert
+    sq: Mesatarja
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use arithmetic mean when the distinction matters.
+    avoid: [Average when the exact measure is ambiguous]
+    review_status: approved_for_platform
+  measurement_level:
+    en: Level of measurement
+    de: Messniveau
+    sq: Niveli i matjes
+    abbreviation: null
+    domain: measurement
+    note: The course uses a documented five-level refinement.
+    avoid: []
+    review_status: approved_for_platform
+  median:
+    en: Median
+    de: Median
+    sq: Mediana
+    abbreviation: null
+    domain: descriptive_statistics
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  metric_scale:
+    en: Metric scale
+    de: Metrische Skala
+    sq: Shkalla metrike
+    abbreviation: null
+    domain: measurement
+    note: In this course, the collective label covers interval, ratio, and absolute scales. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  missing_data:
+    en: Missing data
+    de: Fehlende Daten
+    sq: Të dhëna që mungojnë
+    abbreviation: null
+    domain: data_quality
+    note: Prefer a plain-language description of the missing values or records when that is more precise. The Albanian term requires review by a native-speaking subject expert.
+    avoid: [Missingness in German learner-facing prose]
+    review_status: needs_expert_review
+  mode:
+    en: Mode
+    de: Modalwert
+    sq: Moda
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use Modus only when a source or contrast requires it.
+    avoid: []
+    review_status: needs_expert_review
+  modality:
+    en: Modality
+    de: Modalität
+    sq: Modaliteti
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use for the number or pattern of peaks in a distribution, not as a synonym for the mode. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  mutually_exclusive_events:
+    en: Mutually exclusive events
+    de: Disjunkte Ereignisse
+    sq: Ngjarje që përjashtojnë njëra-tjetrën
+    abbreviation: null
+    domain: probability
+    note: Events are mutually exclusive when their intersection is empty. The Albanian term requires expert review.
+    avoid: [Independent events as a synonym]
+    review_status: needs_expert_review
+  nominal_scale:
+    en: Nominal scale
+    de: Nominalskala
+    sq: Shkalla nominale
+    abbreviation: null
+    domain: measurement
+    note: The Albanian term requires review by a native-speaking subject expert.
+    avoid: []
+    review_status: needs_expert_review
+  nonresponse_bias:
+    en: Nonresponse bias
+    de: Verzerrung durch Nichtantwort
+    sq: Anshmëria nga mospërgjigjja
+    abbreviation: null
+    domain: sampling
+    note: Use when response propensity is related to the study variable in a way that distorts the responding sample. The Albanian term requires expert review.
+    avoid: [Sampling variability]
+    review_status: needs_expert_review
+  normal_distribution:
+    en: Normal distribution
+    de: Normalverteilung
+    sq: Shpërndarja normale
+    abbreviation: null
+    domain: probability
+    note: Describe it as a model when applied to real data.
+    avoid: []
+    review_status: approved_for_platform
+  null_hypothesis:
+    en: Null hypothesis
+    de: Nullhypothese
+    sq: Hipoteza zero
+    abbreviation: H₀
+    domain: hypothesis_testing
+    note: Preserve the mathematical subscript.
+    avoid: []
+    review_status: approved_for_platform
+  observation:
+    en: Observation
+    de: Beobachtung
+    sq: Vrojtimi
+    abbreviation: null
+    domain: data
+    note: Use for a recorded case or measurement, according to context.
+    avoid: []
+    review_status: needs_expert_review
+  ordinal_scale:
+    en: Ordinal scale
+    de: Ordinalskala
+    sq: Shkalla rendore
+    abbreviation: null
+    domain: measurement
+    note: The Albanian term requires review by a native-speaking subject expert.
+    avoid: []
+    review_status: needs_expert_review
+  ordinary_least_squares:
+    en: Ordinary least squares
+    de: Gewöhnliche Methode der kleinsten Quadrate
+    sq: Metoda e zakonshme e katrorëve më të vegjël
+    abbreviation: OLS
+    domain: modeling
+    note: A method that selects regression coefficients by minimizing the sum of squared vertical residuals in the outcome direction. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  outcome:
+    en: Outcome
+    de: Ergebnisvariable
+    sq: Ndryshorja e rezultatit
+    abbreviation: null
+    domain: modeling
+    note: The variable whose observed values or conditional mean a model seeks to describe or predict; the label alone does not imply causation. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  outlier:
+    en: Outlier
+    de: Ausreisser
+    sq: Vlerë e veçuar
+    abbreviation: null
+    domain: descriptive_statistics
+    note: German follows de-CH spelling with ss. Do not imply that an outlier is automatically an error.
+    avoid: [Ausreißer]
+    review_status: needs_expert_review
+  parameter:
+    en: Parameter
+    de: Parameter
+    sq: Parametri
+    abbreviation: null
+    domain: inferential_statistics
+    note: Use for a fixed, usually unknown numerical characteristic of a population or probability model.
+    avoid: [Statistic when the quantity is computed from a sample]
+    review_status: approved_for_platform
+  partial_correlation:
+    en: Partial correlation
+    de: Partielle Korrelation
+    sq: Korrelacioni i pjesshëm
+    abbreviation: null
+    domain: association
+    note: The correlation between two residual series after each focal variable has been linearly adjusted for the stated control variable or variables. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  p_value:
+    en: p-value
+    de: p-Wert
+    sq: Vlera p
+    abbreviation: p
+    domain: hypothesis_testing
+    note: Keep p lowercase and explain its conditioning.
+    avoid: []
+    review_status: approved_for_platform
+  pearson_correlation:
+    en: Pearson correlation
+    de: Pearson-Korrelation
+    sq: Korrelacioni i Pearson-it
+    abbreviation: r
+    domain: association
+    note: Standardized covariance that summarizes the direction and strength of linear association between paired quantitative values. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  percentile:
+    en: Percentile
+    de: Perzentil
+    sq: Percentili
+    abbreviation: null
+    domain: descriptive_statistics
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  population:
+    en: Population
+    de: Grundgesamtheit
+    sq: Popullata
+    abbreviation: null
+    domain: data
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  prevalence:
+    en: Prevalence
+    de: Prävalenz
+    sq: Prevalenca
+    abbreviation: null
+    domain: probability
+    note: In diagnostic examples, prevalence supplies the prior probability or base rate in the target population.
+    avoid: [Sensitivity as a synonym]
+    review_status: approved_for_platform
+  predictor:
+    en: Predictor
+    de: Prädiktor
+    sq: Ndryshorja parashikuese
+    abbreviation: null
+    domain: modeling
+    note: A variable used to describe or predict differences in an outcome; the role name does not by itself imply experimental control or causation. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  probability:
+    en: Probability
+    de: Wahrscheinlichkeit
+    sq: Probabiliteti
+    abbreviation: null
+    domain: probability
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  probability_mass_function:
+    en: Probability mass function
+    de: Wahrscheinlichkeitsfunktion
+    sq: Funksioni i masës së probabilitetit
+    abbreviation: PMF
+    domain: probability
+    note: The function assigns probability to the values of a discrete random variable; the shorter probability function may be defined locally. The Albanian term requires expert review.
+    avoid: [Density function as a synonym]
+    review_status: needs_expert_review
+  quantile:
+    en: Quantile
+    de: Quantil
+    sq: Kuantili
+    abbreviation: null
+    domain: descriptive_statistics
+    note: State the sample-quantile convention when it materially affects a conclusion. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  quartile:
+    en: Quartile
+    de: Quartil
+    sq: Kuartili
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use Q1, Q2, and Q3 consistently after defining them. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  random_sample:
+    en: Random sample
+    de: Zufallsstichprobe
+    sq: Kampion i rastësishëm
+    abbreviation: null
+    domain: sampling
+    note: Define the sampling mechanism rather than relying on the label alone.
+    avoid: []
+    review_status: approved_for_platform
+  random_variable:
+    en: Random variable
+    de: Zufallsvariable
+    sq: Ndryshorja e rastësishme
+    abbreviation: null
+    domain: probability
+    note: A random variable maps outcomes of a random experiment to numerical values.
+    avoid: []
+    review_status: approved_for_platform
+  range:
+    en: Range
+    de: Spannweite
+    sq: Amplituda
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Use for xmax minus xmin, not for a generic interval or domain. The Albanian term requires expert review.
+    avoid: [Diapazoni as the Albanian label for this statistic]
+    review_status: needs_expert_review
+  ratio_scale:
+    en: Ratio scale
+    de: Verhältnisskala
+    sq: Shkalla e raportit
+    abbreviation: null
+    domain: measurement
+    note: The Albanian term requires review by a native-speaking subject expert.
+    avoid: []
+    review_status: needs_expert_review
+  reference_category:
+    en: Reference category
+    de: Referenzkategorie
+    sq: Kategoria referuese
+    abbreviation: null
+    domain: modeling
+    note: The baseline category represented by the reference coding, against which the displayed categorical coefficients are interpreted. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  regression:
+    en: Regression
+    de: Regression
+    sq: Regresioni
+    abbreviation: null
+    domain: modeling
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  relative_frequency:
+    en: Relative frequency
+    de: Relative Häufigkeit
+    sq: Frekuenca relative
+    abbreviation: null
+    domain: descriptive_statistics
+    note: null
+    avoid: []
+    review_status: needs_expert_review
+  repeated_measures_design:
+    en: Repeated-measures design
+    de: Messwiederholungsdesign
+    sq: Dizajni me matje të përsëritura
+    abbreviation: null
+    domain: research_design
+    note: A design in which the same observational unit contributes measurements at several occasions or conditions, so those measurements remain linked. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  residual:
+    en: Residual
+    de: Residuum
+    sq: Reziduali
+    abbreviation: null
+    domain: modeling
+    note: The observed outcome minus its fitted value for one case; a sample residual is not identical to an unobserved population error. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  sample:
+    en: Sample
+    de: Stichprobe
+    sq: Kampioni
+    abbreviation: null
+    domain: data
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  sample_space:
+    en: Sample space
+    de: Ergebnisraum
+    sq: Hapësira e rezultateve
+    abbreviation: null
+    domain: probability
+    note: The sample space contains every possible elementary outcome. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  sampling_bias:
+    en: Sampling bias
+    de: Stichprobenverzerrung
+    sq: Anshmëria e kampionimit
+    abbreviation: null
+    domain: sampling
+    note: Use for systematic distortion caused by the sampling or response process, not ordinary random sampling variability. The Albanian term requires expert review.
+    avoid: [Standard error as a synonym]
+    review_status: needs_expert_review
+  sampling_distribution:
+    en: Sampling distribution
+    de: Stichprobenverteilung
+    sq: Shpërndarja e kampionimit
+    abbreviation: null
+    domain: sampling
+    note: The distribution of a statistic across repeated samples under a specified sampling process. The Albanian term requires expert review.
+    avoid: [Sample distribution, Population distribution]
+    review_status: needs_expert_review
+  sampling_frame:
+    en: Sampling frame
+    de: Auswahlrahmen
+    sq: Korniza e kampionimit
+    abbreviation: null
+    domain: sampling
+    note: The operational list or mechanism from which units can actually be selected. The Albanian term requires expert review.
+    avoid: [Target population as a synonym]
+    review_status: needs_expert_review
+  selection_bias:
+    en: Selection bias
+    de: Auswahlverzerrung
+    sq: Anshmëria e përzgjedhjes
+    abbreviation: null
+    domain: sampling
+    note: Use when inclusion in the observed sample is systematically related to relevant characteristics. The Albanian term requires expert review.
+    avoid: [Random sampling error]
+    review_status: needs_expert_review
+  semipartial_correlation:
+    en: Semipartial correlation
+    de: Semipartielle Korrelation
+    sq: Korrelacioni gjysmëpartial
+    abbreviation: sr
+    domain: association
+    note: The correlation between an outcome and a predictor after that predictor, but not the outcome, has been linearly adjusted for other predictors; its square matches incremental R-squared in the corresponding ordinary linear model. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  sensitivity:
+    en: Sensitivity
+    de: Sensitivität
+    sq: Ndjeshmëria
+    abbreviation: null
+    domain: probability
+    note: "In a binary diagnostic example, sensitivity is P(test positive | condition present)."
+    avoid: [Positive predictive value]
+    review_status: approved_for_platform
+  significance_level:
+    en: Significance level
+    de: Signifikanzniveau
+    sq: Niveli i rëndësisë statistikore
+    abbreviation: α
+    domain: hypothesis_testing
+    note: Do not shorten to significance when the threshold is intended.
+    avoid: []
+    review_status: needs_expert_review
+  sidak_correction:
+    en: Sidak correction
+    de: Sidak-Korrektur
+    sq: Korrigjimi Sidak
+    abbreviation: null
+    domain: multiple_comparisons
+    note: A multiple-comparison correction that solves the exact familywise-error equation for the per-test threshold when the tests are mutually independent. Do not present the exact equality without that independence condition. The Albanian label is provisional and requires expert review.
+    avoid: [Bonferroni correction as a synonym]
+    review_status: needs_expert_review
+  simple_random_sample:
+    en: Simple random sample
+    de: Einfache Zufallsstichprobe
+    sq: Kampioni i thjeshtë i rastësishëm
+    abbreviation: SRS
+    domain: sampling
+    note: For fixed size, define it by equal probability for every possible sample of that size. The Albanian term requires expert review.
+    avoid: [Any convenient sample with randomly ordered observations]
+    review_status: needs_expert_review
+  skewness:
+    en: Skewness
+    de: Schiefe
+    sq: Asimetria
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Distinguish a shape description from proof about a population.
+    avoid: []
+    review_status: approved_for_platform
+  spearman_rank_correlation:
+    en: Spearman rank correlation
+    de: Spearman-Rangkorrelation
+    sq: Korrelacioni i rangjeve të Spearman-it
+    abbreviation: rₛ
+    domain: association
+    note: Pearson correlation applied to ranks, used to summarize the direction and strength of a monotonic association. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  specificity:
+    en: Specificity
+    de: Spezifität
+    sq: Specifiteti
+    abbreviation: null
+    domain: probability
+    note: "In a binary diagnostic example, specificity is P(test negative | condition absent)."
+    avoid: [Negative predictive value]
+    review_status: approved_for_platform
+  sphericity:
+    en: Sphericity
+    de: Sphärizität
+    sq: Sfericiteti
+    abbreviation: null
+    domain: repeated_measures
+    note: The repeated-measures condition that the variances of all pairwise difference scores are equal. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  standard_deviation:
+    en: Standard deviation
+    de: Standardabweichung
+    sq: Devijimi standard
+    abbreviation: SD
+    domain: descriptive_statistics
+    note: Preserve s and σ where the sample or population distinction matters.
+    avoid: []
+    review_status: approved_for_platform
+  standard_error:
+    en: Standard error
+    de: Standardfehler
+    sq: Gabimi standard
+    abbreviation: SE
+    domain: inferential_statistics
+    note: Do not substitute standard deviation.
+    avoid: []
+    review_status: approved_for_platform
+  standard_normal_distribution:
+    en: Standard normal distribution
+    de: Standardnormalverteilung
+    sq: Shpërndarja normale standarde
+    abbreviation: null
+    domain: probability
+    note: Preserve mean 0 and variance 1 across every locale.
+    avoid: []
+    review_status: approved_for_platform
+  statistic:
+    en: Statistic
+    de: Stichprobenkennwert
+    sq: Statistika e kampionit
+    abbreviation: null
+    domain: inferential_statistics
+    note: Use for a numerical quantity computed from sample data. The Albanian term requires expert review and must remain distinct from the name of the field.
+    avoid: [Parameter when the quantity is computed from a sample]
+    review_status: needs_expert_review
+  statistical_power:
+    en: Statistical power
+    de: Teststärke
+    sq: Fuqia statistikore
+    abbreviation: null
+    domain: hypothesis_testing
+    note: The probability that a test rejects the null hypothesis when a specified alternative effect is true; it equals one minus the corresponding Type II error probability. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  sum_of_squares:
+    en: Sum of squares
+    de: Quadratsumme
+    sq: Shuma e katrorëve
+    abbreviation: SS
+    domain: modeling
+    note: A sum of squared deviations used to quantify total, model-explained, factor, or residual variation according to the stated decomposition. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  survivorship_bias:
+    en: Survivorship bias
+    de: Survivorship-Bias
+    sq: Anshmëria e mbijetesës
+    abbreviation: null
+    domain: research_design
+    note: The Albanian term requires review by a native-speaking subject expert.
+    avoid: []
+    review_status: needs_expert_review
+  test_statistic:
+    en: Test statistic
+    de: Prüfgrösse
+    sq: Statistika e testit
+    abbreviation: null
+    domain: hypothesis_testing
+    note: A number that compares the sample result with the null value relative to the sampling variation expected under the null hypothesis. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  total_probability_rule:
+    en: Law of total probability
+    de: Satz der totalen Wahrscheinlichkeit
+    sq: Ligji i probabilitetit të plotë
+    abbreviation: null
+    domain: probability
+    note: Use for the exhaustive weighted sum that forms the evidence denominator in Bayes' theorem. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  type_i_error:
+    en: Type I error
+    de: Fehler 1. Art
+    sq: Gabimi i llojit I
+    abbreviation: null
+    domain: hypothesis_testing
+    note: Rejecting the null hypothesis when it is true. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  type_ii_error:
+    en: Type II error
+    de: Fehler 2. Art
+    sq: Gabimi i llojit II
+    abbreviation: null
+    domain: hypothesis_testing
+    note: Failing to reject the null hypothesis when the specified alternative is true. The Albanian label is provisional and requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  variable:
+    en: Variable
+    de: Variable
+    sq: Ndryshorja
+    abbreviation: null
+    domain: data
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  variance:
+    en: Variance
+    de: Varianz
+    sq: Varianca
+    abbreviation: null
+    domain: descriptive_statistics
+    note: Preserve s² and σ² where the sample or population distinction matters.
+    avoid: []
+    review_status: approved_for_platform
+  z_score:
+    en: z-score
+    de: z-Wert
+    sq: Pikëzimi z
+    abbreviation: z
+    domain: standardization
+    note: Keep z lowercase. A defined nonzero standard deviation is required.
+    avoid: []
+    review_status: approved_for_platform
+  z_transformation:
+    en: z-transformation
+    de: z-Transformation
+    sq: Transformimi z
+    abbreviation: null
+    domain: standardization
+    note: Keep z lowercase and preserve the defining formula across locales. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  simulation:
+    en: Simulation
+    de: Simulation
+    sq: Simulimi
+    abbreviation: null
+    domain: data_generation
+    note: A computer-created process used to study outcomes under stated rules. It is not evidence that the values were observed in real people. The Albanian term requires expert review.
+    avoid: [Experiment when no intervention was conducted]
+    review_status: needs_expert_review
+  random_number_generator:
+    en: Random-number generator
+    de: Zufallszahlengenerator
+    sq: Gjeneratori i numrave të rastësishëm
+    abbreviation: RNG
+    domain: data_generation
+    note: An algorithm that creates a reproducible sequence designed to behave like chance outcomes. The Albanian term requires expert review.
+    avoid: [True randomness as an automatic description]
+    review_status: needs_expert_review
+  seed:
+    en: Seed
+    de: Startwert
+    sq: Numri nisës
+    abbreviation: null
+    domain: data_generation
+    note: The starting number supplied to a random-number generator. Reusing the same seed with the same instructions reproduces the same simulated values. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  joint_probability:
+    en: Joint probability
+    de: Gemeinsame Wahrscheinlichkeit
+    sq: Probabiliteti i përbashkët
+    abbreviation: null
+    domain: probability
+    note: The probability that the stated events occur together. The Albanian term requires expert review.
+    avoid: [Conditional probability]
+    review_status: needs_expert_review
+  marginal_probability:
+    en: Marginal probability
+    de: Randwahrscheinlichkeit
+    sq: Probabiliteti anësor
+    abbreviation: null
+    domain: probability
+    note: The probability for one variable or event after summing over the other categories in a joint table. The Albanian term requires expert review.
+    avoid: [Conditional probability]
+    review_status: needs_expert_review
+  plug_in_estimate:
+    en: Plug-in estimate
+    de: Einsetzschätzung
+    sq: Vlerësimi zëvendësues
+    abbreviation: null
+    domain: estimation
+    note: An estimate obtained by replacing an unknown population quantity in a formula with its sample estimate. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  simple_linear_regression:
+    en: Simple linear regression
+    de: Einfache lineare Regression
+    sq: Regresioni i thjeshtë linear
+    abbreviation: null
+    domain: modeling
+    note: A linear conditional-mean model with one quantitative predictor and an intercept. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  multiple_regression:
+    en: Multiple regression
+    de: Multiple Regression
+    sq: Regresioni i shumëfishtë
+    abbreviation: null
+    domain: modeling
+    note: A regression model containing more than one predictor term. Each coefficient is interpreted conditionally on the other included terms. The Albanian term requires expert review.
+    avoid: [Several separate simple regressions as a synonym]
+    review_status: needs_expert_review
+  leverage:
+    en: Leverage
+    de: Hebelwert
+    sq: Vlera leverage
+    abbreviation: null
+    domain: regression_diagnostics
+    note: A case's geometric position in predictor space relative to the fitted sample. The Albanian label intentionally retains the international term pending expert review.
+    avoid: [Influence as a synonym]
+    review_status: needs_expert_review
+  cooks_distance:
+    en: Cook's distance
+    de: Cook-Distanz
+    sq: Distanca e Cook-ut
+    abbreviation: null
+    domain: regression_diagnostics
+    note: A case-level measure of how sensitive the fitted model is to removing that case. It is a prompt for investigation, not an automatic deletion rule. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  variance_inflation_factor:
+    en: Variance inflation factor
+    de: Varianzinflationsfaktor
+    sq: Faktori i fryrjes së variancës
+    abbreviation: VIF
+    domain: regression_diagnostics
+    note: A predictor-specific summary of variance inflation caused by linear overlap with the other predictors. The Albanian term requires expert review.
+    avoid: [A causal-confounding measure]
+    review_status: needs_expert_review
+  omnibus_test:
+    en: Omnibus test
+    de: Globaltest
+    sq: Testi i përgjithshëm
+    abbreviation: null
+    domain: analysis_of_variance
+    note: A joint test that asks whether any population mean differs, without by itself identifying which means differ. The Albanian term requires expert review.
+    avoid: [Pairwise comparison]
+    review_status: needs_expert_review
+  random_factor:
+    en: Random factor
+    de: Zufallsfaktor
+    sq: Faktori i rastësishëm
+    abbreviation: null
+    domain: analysis_of_variance
+    note: A factor whose observed levels are treated as sampled from a wider level population. The Albanian term requires expert review.
+    avoid: [Random assignment]
+    review_status: needs_expert_review
+  greenhouse_geisser_correction:
+    en: Greenhouse-Geisser correction
+    de: Greenhouse-Geisser-Korrektur
+    sq: Korrigjimi Greenhouse-Geisser
+    abbreviation: GG
+    domain: repeated_measures
+    note: A repeated-measures correction that adjusts degrees of freedom when sphericity is not supported. It does not change the observed F statistic. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  spurious_association:
+    en: Spurious association
+    de: Scheinkorrelation
+    sq: Lidhja e rreme
+    abbreviation: null
+    domain: association
+    note: An observed association whose interpretation changes when a relevant third variable is considered. Spurious does not mean that the calculated coefficient is numerically false. The Albanian term requires expert review.
+    avoid: [Treating the label as proof of a causal mechanism]
+    review_status: needs_expert_review
+  experimental_control:
+    en: Experimental control
+    de: Experimentelle Kontrolle
+    sq: Kontrolli eksperimental
+    abbreviation: null
+    domain: research_design
+    note: Control created through the design and production of observations, for example by random assignment. Do not use as a synonym for statistical adjustment. The Albanian term requires expert review.
+    avoid: [Statistical control as a synonym]
+    review_status: needs_expert_review
+  statistical_control:
+    en: Statistical control
+    de: Statistische Kontrolle
+    sq: Kontrolli statistikor
+    abbreviation: null
+    domain: modeling
+    note: Adjustment performed on measured values through a stated statistical model. It does not create experimental control or establish causation. The Albanian term requires expert review.
+    avoid: [Experimental control as a synonym]
+    review_status: needs_expert_review
+  residualization:
+    en: Residualization
+    de: Residualisierung
+    sq: Rezidualizimi
+    abbreviation: null
+    domain: modeling
+    note: Separating observed values into fitted values and observed-minus-fitted residuals under a stated model. The Albanian term requires expert review.
+    avoid: [Describing residuals as perfectly pure or error-free quantities]
+    review_status: needs_expert_review
+  confounding:
+    en: Confounding
+    de: Konfundierung
+    sq: Ngatërrimi
+    abbreviation: null
+    domain: research_design
+    note: A third-variable structure that changes how an observed predictor-outcome association should be interpreted. Coefficient movement alone does not prove confounding. The Albanian term requires expert review.
+    avoid: [Any coefficient reduction as automatic proof]
+    review_status: needs_expert_review
+  suppression:
+    en: Suppression
+    de: Suppression
+    sq: Shtypja
+    abbreviation: null
+    domain: modeling
+    note: A pattern in which adjustment can reveal or strengthen a coefficient by separating variation that previously masked the relationship. The Albanian term requires expert review.
+    avoid: [Any coefficient increase as automatic proof]
+    review_status: needs_expert_review
+  suppressor_variable:
+    en: Suppressor variable
+    de: Suppressorvariable
+    sq: Ndryshorja shtypëse
+    abbreviation: null
+    domain: modeling
+    note: A predictor whose inclusion can separate masking variation and strengthen another coefficient. Its inclusion still requires design and subject-matter justification. The Albanian term requires expert review.
+    avoid: [Adding a variable only to enlarge a preferred coefficient]
+    review_status: needs_expert_review
+  fixed_factor:
+    en: Fixed factor
+    de: Fester Faktor
+    sq: Faktori fiks
+    abbreviation: null
+    domain: analysis_of_variance
+    note: A factor whose deliberately selected levels are the specific conditions of interest. The Albanian term requires expert review.
+    avoid: [Random factor as a synonym]
+    review_status: needs_expert_review
+  variance_component:
+    en: Variance component
+    de: Varianzkomponente
+    sq: Komponenti i variancës
+    abbreviation: null
+    domain: analysis_of_variance
+    note: The part of model variance assigned to one random source. The Albanian term requires expert review.
+    avoid: [A fixed mean difference]
+    review_status: needs_expert_review
+  person_term:
+    en: Person term
+    de: Personenterm
+    sq: Termi i personit
+    abbreviation: null
+    domain: repeated_measures
+    note: A model term that represents stable person-to-person differences when the same people are observed repeatedly. It must reflect the actual repeated-measures design. The Albanian term requires expert review.
+    avoid: [Adding identifiers to unrelated observations]
+    review_status: needs_expert_review
+  practice_hours:
+    en: Practice hours
+    de: Übungsstunden
+    sq: Orët e ushtrimit
+    abbreviation: null
+    domain: educational_examples
+    note: Canonical learner-facing label for the constructed quantitative practice variable in Topics 6 and 7. The Albanian term requires expert review.
+    avoid: [Treating constructed values as observations from real students]
+    review_status: needs_expert_review
+  downloads:
+    en: Downloads
+    de: Downloads
+    sq: Shkarkime
+    abbreviation: null
+    domain: interface
+    note: German keeps the established platform label.
+    avoid: []
+    review_status: approved_for_platform
+  topic_package:
+    en: Topic package
+    de: Themenpaket
+    sq: Paketa e temës
+    abbreviation: null
+    domain: downloads
+    note: One localized ZIP containing the summary, exercise sheet, and complete solutions for one topic in PDF and editable Word formats. Its exact ZIP asset has one visible provider-backed field. The Albanian label requires expert review.
+    avoid: [Expanded exercises, Expanded solutions]
+    review_status: needs_expert_review
+  complete_learning_sequence:
+    en: Complete learning sequence
+    de: Vollständige Lernsequenz
+    sq: Renditja e plotë mësimore
+    abbreviation: null
+    domain: downloads
+    note: The primary localized ZIP containing all registered topic materials for one learning sequence. Its exact ZIP asset has one visible provider-backed field. The Albanian label requires expert review.
+    avoid: [Course as a replacement for learning sequence]
+    review_status: needs_expert_review
+  visits:
+    en: Visits
+    de: Besuche
+    sq: Vizita
+    abbreviation: null
+    domain: interface
+    note: User-confirmed labels for page-load counters. Do not describe this value as unique visitors.
+    avoid: [Visitors, Besucher, Vizitorë]
+    review_status: approved_for_platform
+  usage_counters:
+    en: Usage counters
+    de: Nutzungszähler
+    sq: Numëruesit e përdorimit
+    abbreviation: null
+    domain: interface
+    note: Shared platform-status label for page-visit and provider-supplied download counters. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  count_unavailable:
+    en: Count unavailable
+    de: Anzahl nicht verfügbar
+    sq: Numri nuk është i disponueshëm
+    abbreviation: null
+    domain: accessibility
+    note: Accessible fallback when a counter is disabled or its provider fails. Never replace an unknown value with zero. The Albanian term requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  summary:
+    en: Summary
+    de: Zusammenfassung
+    sq: Përmbledhje
+    abbreviation: null
+    domain: interface
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  theory:
+    en: Theory
+    de: Theorie
+    sq: Teoria
+    abbreviation: null
+    domain: interface
+    note: Canonical conceptual-tab label. Keep the definite Albanian form consistent across every topic.
+    avoid: [Teori as the conceptual-tab label]
+    review_status: approved_for_platform
+  simulated_example:
+    en: Simulated Example
+    de: Simuliertes Beispiel
+    sq: Shembull i simuluar
+    abbreviation: null
+    domain: interface
+    note: Canonical conceptual-tab label for the reproducible topic example.
+    avoid: []
+    review_status: approved_for_platform
+  key_idea:
+    en: Key idea
+    de: Kerngedanke
+    sq: Ideja kryesore
+    abbreviation: null
+    domain: pedagogical_callout
+    note: Canonical visible title for a `.callout-tip` that introduces central intuition. The Albanian term requires expert review.
+    avoid: [Using a different callout color for the same role]
+    review_status: needs_expert_review
+  important_distinction:
+    en: Important distinction
+    de: Wichtige Unterscheidung
+    sq: Dallim i rëndësishëm
+    abbreviation: null
+    domain: pedagogical_callout
+    note: Canonical visible title for a `.callout-note` that separates concepts learners may confuse. The Albanian term requires expert review.
+    avoid: [Using a warning color for a neutral distinction]
+    review_status: needs_expert_review
+  potential_pitfalls:
+    en: Potential Pitfalls
+    de: Mögliche Stolperfallen
+    sq: Gabime të mundshme
+    abbreviation: null
+    domain: pedagogical_callout
+    note: Canonical topic-section and `.callout-warning` title for common interpretation or calculation errors. Theory callouts and Simulated Example sections use the same bold-lead unordered-list pattern; Simulated Examples precede it with one paragraph about the teaching data's limits. The Albanian term requires expert review.
+    avoid: [Common Mistakes as a parallel section, Mistakes to Avoid as a parallel section]
+    review_status: needs_expert_review
+  exercises:
+    en: Exercises
+    de: Übungen
+    sq: Ushtrime
+    abbreviation: null
+    domain: interface
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  exercises_and_solutions:
+    en: Exercises and Solutions
+    de: Übungen und Lösungen
+    sq: Ushtrime dhe zgjidhje
+    abbreviation: null
+    domain: interface
+    note: Canonical combined lesson-tab label. The lesson tab offers localized PDF and editable Word actions for both the Exercise Sheet and Complete Solutions; the standalone Downloads page offers the same formats inside each topic package's individual-file disclosure. The Albanian label requires expert review.
+    avoid: [Exercises as a standalone lesson tab, Solutions as a separate lesson tab]
+    review_status: needs_expert_review
+  exercise_sheet:
+    en: Exercise Sheet
+    de: Übungsblatt
+    sq: Fleta e ushtrimeve
+    abbreviation: null
+    domain: downloads
+    note: One localized logical material containing the complete topic practice set and offered as PDF and editable Word. The Albanian label requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  solutions:
+    en: Solutions
+    de: Lösungen
+    sq: Zgjidhje
+    abbreviation: null
+    domain: interface
+    note: null
+    avoid: []
+    review_status: approved_for_platform
+  complete_solutions:
+    en: Complete Solutions
+    de: Vollständige Lösungen
+    sq: Zgjidhjet e plota
+    abbreviation: null
+    domain: downloads
+    note: One localized logical material containing a complete worked solution for every exercise-sheet task and offered as PDF and editable Word. The Albanian label requires expert review.
+    avoid: []
+    review_status: needs_expert_review
+  editable_word_document:
+    en: Editable Word document
+    de: Bearbeitbare Word-Datei
+    sq: Dokument Word i redaktueshëm
+    abbreviation: DOCX
+    domain: downloads
+    note: A format action for the same logical learner material as its PDF counterpart, never a separate material or counter identity. The Albanian term requires expert review.
+    avoid: [Expanded version, Separate material]
+    review_status: needs_expert_review
+  introduction_overview:
+    en: Introduction overview
+    de: Übersicht zur Einführung
+    sq: Pasqyra e hyrjes
+    abbreviation: null
+    domain: navigation
+    note: Navigation label for the Introduction to Statistics landing page. The Albanian label requires expert review.
+    avoid: [Course overview, Kursübersicht, Pasqyra e kursit]
+    review_status: needs_expert_review
+  learning_sequence:
+    en: Learning sequence
+    de: Lernsequenz
+    sq: Renditja mësimore
+    abbreviation: null
+    domain: navigation
+    note: Use for an ordered family of connected topics without presenting it as a formal course. The Albanian term requires expert review.
+    avoid: [Course, Kurs]
+    review_status: needs_expert_review
+  previous:
+    en: Previous
+    de: Zurück
+    sq: Tema e mëparshme
+    abbreviation: null
+    domain: navigation
+    note: Use a natural contextual label with the destination title.
+    avoid: []
+    review_status: needs_expert_review
+  next:
+    en: Next
+    de: Weiter
+    sq: Tema tjetër
+    abbreviation: null
+    domain: navigation
+    note: Use a natural contextual label with the destination title.
+    avoid: []
+    review_status: needs_expert_review
+  planned:
+    en: Planned
+    de: Geplant
+    sq: E planifikuar
+    abbreviation: null
+    domain: status
+    note: Status label.
+    avoid: []
+    review_status: approved_for_platform
+  not_started:
+    en: Not Started
+    de: Nicht begonnen
+    sq: Nuk ka filluar
+    abbreviation: null
+    domain: status
+    note: Status label. Do not use when a draft already exists.
+    avoid: []
+    review_status: approved_for_platform
+  draft:
+    en: Draft
+    de: Entwurf
+    sq: Version paraprak
+    abbreviation: null
+    domain: status
+    note: Status label for an early coherent source that is not yet in review.
+    avoid: [Draft in Albanian]
+    review_status: approved_for_platform
+  in_progress:
+    en: In Progress
+    de: In Bearbeitung
+    sq: Në zhvillim
+    abbreviation: null
+    domain: status
+    note: Status label for active development.
+    avoid: []
+    review_status: approved_for_platform
+  in_review:
+    en: In Review
+    de: In Prüfung
+    sq: Në rishikim
+    abbreviation: null
+    domain: status
+    note: Status label for content undergoing review.
+    avoid: []
+    review_status: approved_for_platform
+  published:
+    en: Published
+    de: Veröffentlicht
+    sq: E publikuar
+    abbreviation: null
+    domain: status
+    note: Use only when the complete locale-specific item is available.
+    avoid: []
+    review_status: approved_for_platform
+  updating:
+    en: Updating
+    de: Wird aktualisiert
+    sq: Duke u përditësuar
+    abbreviation: null
+    domain: status
+    note: Status label for published content undergoing revision.
+    avoid: []
+    review_status: approved_for_platform

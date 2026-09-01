@@ -1,0 +1,40 @@
+---
+pagetitle: "Ratiomera Mathematics | Planned Learning from Primary School to Gymnasium"
+title-prefix: ""
+description: "Ratiomera Mathematics is the planned mathematics branch of Ratiomera, with a future learning path from primary school through Swiss Gymnasium level."
+toc: false
+---
+
+::: {.section-intro .branch-hero .branch-hero-mathematics .fade-in}
+<span class="branch-status branch-status-mathematics">{{< var status.planned >}}</span>
+
+# Ratiomera Mathematics
+
+Planned mathematics education from primary school through Gymnasium level.
+:::
+
+::: {.landing-prose}
+## Overview {#overview}
+
+Ratiomera Mathematics is the planned mathematics branch of Ratiomera. Its long-term goal is to provide a coherent learning path from primary-school mathematics through the Swiss Gymnasium level.
+
+The planned structure is informed by discussions with teachers from different regions of Switzerland and by comparing relevant school curricula. The intention is to develop explanations, guided examples, practice tasks, and solutions that support both conceptual understanding and procedural confidence.
+
+Development has not yet begun. Ratiomera Mathematics will enter active development once the English-language Ratiomera Statistics curriculum has reached a stable and high-quality state.
+:::
+
+---
+
+::: {.development-panel .development-panel-mathematics}
+## Development Status {#development-status}
+
+<span class="status-badge planned">{{< var status.planned >}}</span>
+
+No Mathematics lessons or course pages are currently available. The branch will remain in the planning stage while the active English-language Statistics curriculum is completed and reviewed.
+:::
+
+::: {.btn-row}
+[View Development Status](#development-status){.dl-btn .mathematics}
+[Support Future Development](../../en/pages/support-ratiomera-en.qmd){.dl-btn .secondary .mathematics}
+[Return to Ratiomera](../../en/home-ratiomera-en.qmd){.text-link-arrow}
+:::

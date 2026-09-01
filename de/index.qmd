@@ -1,0 +1,14 @@
+---
+title: "Ratiomera"
+pagetitle: "Ratiomera"
+title-prefix: ""
+description: "Ratiomera bietet offenes Lernen in Statistik und Mathematik."
+lang: de-CH
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=home-ratiomera-de.html">
+---
+
+Diese Route wurde verschoben. Weiter zu [Ratiomera](home-ratiomera-de.qmd).

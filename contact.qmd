@@ -1,0 +1,12 @@
+---
+title: "Contact"
+pagetitle: "Contact | Ratiomera"
+title-prefix: ""
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=en/pages/contact-ratiomera-en.html">
+---
+
+Continue to [Contact Ratiomera](en/pages/contact-ratiomera-en.qmd).

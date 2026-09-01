@@ -1,0 +1,12 @@
+---
+title: "Ratiomera"
+pagetitle: "Ratiomera"
+title-prefix: ""
+description: "Ratiomera is a centralized, volunteer-built platform for open learning in statistics and mathematics."
+toc: false
+include-in-header:
+  text: |
+    <meta http-equiv="refresh" content="0; url=en/home-ratiomera-en.html">
+---
+
+Redirecting to [Ratiomera](en/home-ratiomera-en.qmd)&hellip;

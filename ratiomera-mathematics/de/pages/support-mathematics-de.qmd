@@ -1,0 +1,14 @@
+---
+title: "Unterstützen"
+pagetitle: "Unterstützen | Ratiomera"
+title-prefix: ""
+description: "Gemeinsame Informationen zur Unterstützung von Ratiomera und seinen Fachbereichen."
+lang: de-CH
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../../../de/pages/support-ratiomera-de.html">
+---
+
+Informationen zur Unterstützung werden jetzt gemeinsam für ganz Ratiomera bereitgestellt. Weiter zur Seite [Ratiomera unterstützen](../../../de/pages/support-ratiomera-de.qmd).

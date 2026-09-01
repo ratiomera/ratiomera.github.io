@@ -1,0 +1,785 @@
+schema_version: 1
+canonical_locale: en
+locale_order: [en, de, sq]
+locale_tags:
+  en: en
+  de: de-CH
+  sq: sq
+inventory_updated: 2026-09-01
+number_format_policy: preserve_english_source_decimal_points_precision_and_symbols
+footer_language_selector:
+  placement: global_footer
+  labels: [EN, DE, SQ]
+  page_level_selectors_allowed: false
+  quarto_config: _quarto.yml
+  mapping_script: scripts/rewrite-navbar.R
+  selector_class: footer-language-selector
+  mapping_function: localized_output_path
+usage_counters:
+  configuration: config/counters.yml
+  client: js/counters.html
+  footer_injector: scripts/rewrite-navbar.R
+  page_id_source: manifest_page_id_plus_locale
+  material_id_source: downloads_material_id_plus_locale
+  canonical_route_count: 51
+  canonical_about_mapping: separate_canonical_page
+  redirect_outputs_counted: false
+  local_provider_state: disabled
+  placeholder_is_numeric: false
+  page_provider: disabled
+  download_provider: disabled
+review_workflow:
+  internal_ai_assisted:
+    sq:
+      editorial_consistency:
+        status: completed_pending_human_decisions
+      subject_parity:
+        status: completed_pending_human_decisions
+      automated_checks:
+        status: passed
+        validators: [scripts/validate-multilingual.R]
+      reviewed_on: 2026-08-17
+      method: ai_assisted_internal
+  independent_human:
+    sq:
+      native_language:
+        status: pending
+        required_reviewer: native-speaking Albanian editor
+        reviewer: null
+        reviewed_on: null
+      statistics_subject:
+        status: pending
+        required_reviewer: Albanian-speaking statistics expert
+        reviewer: null
+        reviewed_on: null
+      team_final_signoff:
+        status: pending
+        required_reviewer: project team
+        reviewer: null
+        reviewed_on: null
+entry_defaults:
+  course: null
+  module: null
+  topic: null
+  last_synchronized: null
+  translation_review:
+    en: canonical
+    de: pending_human_review
+    sq: pending_human_review
+  terminology_review:
+    en: complete
+    de: complete
+    sq: needs_expert_review
+  figures: []
+  tables: []
+  exercises: []
+  solutions: []
+  downloads: []
+  assets: []
+  notes: null
+language_independent_or_compatibility_sources:
+  - path: index.qmd
+    reason: Bare-root redirect to the canonical English home page.
+  - path: en/index.qmd
+    reason: Compatibility redirect retained for an earlier English entry route.
+  - path: de/index.qmd
+    reason: Bare German locale redirect to the canonical German home page.
+  - path: sq/index.qmd
+    reason: Bare Albanian locale redirect to the canonical Albanian home page.
+  - path: about.qmd
+    reason: Root compatibility redirect; localized canonical pages are represented below.
+  - path: contact.qmd
+    reason: Root compatibility redirect; localized canonical pages are represented below.
+  - path: support.qmd
+    reason: Root compatibility redirect; localized canonical pages are represented below.
+  - path: legal.qmd
+    reason: Root compatibility redirect; localized canonical pages are represented below.
+  - path: ratiomera-statistics/index.qmd
+    reason: Bare branch redirect to the canonical English Statistics home page.
+  - path: ratiomera-mathematics/index.qmd
+    reason: Bare branch redirect to the canonical English Mathematics home page.
+pages:
+  - id: ratiomera-home
+    page_type: landing
+    branch: ratiomera
+    paths:
+      en: en/home-ratiomera-en.qmd
+      de: de/home-ratiomera-de.qmd
+      sq: sq/home-ratiomera-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-20
+    notes: The three landing pages share the same wider-access rationale, connect clear explanation with curiosity and intrinsic motivation, and use a two-column Two Branches layout that collapses to one column on phones. Their multilingual philosophy treats language as a route into the same aligned learning path while adapting each version to its linguistic and educational context. Additional languages require volunteers who can translate, review, and maintain them; automated translation alone is not treated as sufficient review.
+  - id: ratiomera-about
+    page_type: page
+    branch: ratiomera
+    paths:
+      en: en/pages/about-ratiomera-en.qmd
+      de: de/pages/about-ratiomera-de.qmd
+      sq: sq/pages/about-ratiomera-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-20
+    notes: Canonical project-wide About pages explain Ratiomera's purpose, development method, two-branch structure, open-access commitment, multilingual review boundary, community role, and browser-first use. They state that mobile remains supported while larger screens are clearest for wide formulas, tables, and interactive figures. Root and branch compatibility redirects remain uncounted.
+  - id: ratiomera-contact
+    page_type: page
+    branch: ratiomera
+    paths:
+      en: en/pages/contact-ratiomera-en.qmd
+      de: de/pages/contact-ratiomera-de.qmd
+      sq: sq/pages/contact-ratiomera-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-09-01
+    notes: The project-wide Contact page distinguishes general, branch-specific, and volunteering inquiries; identifies Krenar Sherifi as a psychologist and Donat Ismaili as a teacher; marks both as current Ratiomera Statistics contributors; publishes the active info, statistics, mathematics, and volunteering role addresses as mail links; and explains response limits, useful message details, and the absence of tutoring or urgent support in every locale.
+  - id: ratiomera-support
+    page_type: page
+    branch: ratiomera
+    paths:
+      en: en/pages/support-ratiomera-en.qmd
+      de: de/pages/support-ratiomera-de.qmd
+      sq: sq/pages/support-ratiomera-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-17
+    notes: The shared project-wide Support page explains volunteer work, prominently labelled non-financial contribution actions and thank-you addresses, and Ratiomera's broader open-access opposition to subscriptions, paywalls, expiring trials, and required in-app purchases. It states that donations are not currently accepted and presents a possible future Swiss association and donation framework only as a later stewardship step if meaningful use justifies sustained long-term investment. Statistics and Mathematics Support routes remain uncounted compatibility redirects to this canonical page.
+  - id: ratiomera-legal
+    page_type: page
+    branch: ratiomera
+    paths:
+      en: en/pages/legal-ratiomera-en.qmd
+      de: de/pages/legal-ratiomera-de.qmd
+      sq: sq/pages/legal-ratiomera-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-09-01
+    notes: The localized Legal Notice identifies Krenar Sherifi as the responsible person, accurately describes Ratiomera as a volunteer-led project without paid offers or online contracting, states that no postal address is currently published, and provides the active informatics address and website. It also documents GitHub Pages hosting and security logging, disabled Ratiomera analytics and counters, Cyon-hosted email processing, retention criteria, data-minimization guidance, and the privacy contact.
+  - id: mathematics-home
+    page_type: landing
+    branch: mathematics
+    paths:
+      en: ratiomera-mathematics/en/home-mathematics-en.qmd
+      de: ratiomera-mathematics/de/home-mathematics-de.qmd
+      sq: ratiomera-mathematics/sq/home-mathematics-sq.qmd
+    content_status: {en: planned, de: planned, sq: planned}
+    parity_mode: full
+  - id: mathematics-about
+    page_type: compatibility_redirect
+    branch: mathematics
+    paths:
+      en: ratiomera-mathematics/en/pages/about-mathematics-en.qmd
+      de: ratiomera-mathematics/de/pages/about-mathematics-de.qmd
+      sq: ratiomera-mathematics/sq/pages/about-mathematics-sq.qmd
+    content_status: {en: planned, de: planned, sq: planned}
+    parity_mode: metadata_and_destination
+  - id: mathematics-contact
+    page_type: compatibility_redirect
+    branch: mathematics
+    paths:
+      en: ratiomera-mathematics/en/pages/contact-mathematics-en.qmd
+      de: ratiomera-mathematics/de/pages/contact-mathematics-de.qmd
+      sq: ratiomera-mathematics/sq/pages/contact-mathematics-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: metadata_and_destination
+  - id: mathematics-support
+    page_type: compatibility_redirect
+    branch: mathematics
+    paths:
+      en: ratiomera-mathematics/en/pages/support-mathematics-en.qmd
+      de: ratiomera-mathematics/de/pages/support-mathematics-de.qmd
+      sq: ratiomera-mathematics/sq/pages/support-mathematics-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: metadata_and_destination
+  - id: statistics-home
+    page_type: landing_and_platform_status
+    branch: statistics
+    paths:
+      en: ratiomera-statistics/en/home-statistics-en.qmd
+      de: ratiomera-statistics/de/home-statistics-de.qmd
+      sq: ratiomera-statistics/sq/home-statistics-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-07
+  - id: statistics-about
+    page_type: compatibility_redirect
+    branch: statistics
+    paths:
+      en: ratiomera-statistics/en/pages/about-statistics-en.qmd
+      de: ratiomera-statistics/de/pages/about-statistics-de.qmd
+      sq: ratiomera-statistics/sq/pages/about-statistics-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: metadata_and_destination
+  - id: statistics-contact
+    page_type: compatibility_redirect
+    branch: statistics
+    paths:
+      en: ratiomera-statistics/en/pages/contact-statistics-en.qmd
+      de: ratiomera-statistics/de/pages/contact-statistics-de.qmd
+      sq: ratiomera-statistics/sq/pages/contact-statistics-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: metadata_and_destination
+  - id: statistics-support
+    page_type: compatibility_redirect
+    branch: statistics
+    paths:
+      en: ratiomera-statistics/en/pages/support-statistics-en.qmd
+      de: ratiomera-statistics/de/pages/support-statistics-de.qmd
+      sq: ratiomera-statistics/sq/pages/support-statistics-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: metadata_and_destination
+  - id: intro-statistics-overview
+    page_type: course_overview
+    branch: statistics
+    course: introduction-to-statistics
+    paths:
+      en: ratiomera-statistics/en/intro-stats/overview-intro-stats-en.qmd
+      de: ratiomera-statistics/de/intro-stats/overview-intro-stats-de.qmd
+      sq: ratiomera-statistics/sq/intro-stats/overview-intro-stats-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-20
+    notes: The overview motivates statistical learning through the current data environment, questions that arise from curiosity, and examples spanning human behaviour, social conditions, education, public decisions, and everyday evidence. It defines Ratiomera as a browser-first companion to lectures and official course materials, states that official teaching takes priority if guidance differs, acknowledges that errors can remain, and explains how discrepancies can be reported. Eight equal topic cards form a restrained two-column sequence that alone extends beyond the normal reading measure and falls back to one column on phones. The user-supplied quotation is cautiously described as commonly associated with H. G. Wells without an unsupported historical publication claim and is placed in a dedicated responsive quote component. Exercises and Solutions describes direct PDF and editable Word access within every topic tab.
+  - id: intro-statistics-topic-01
+    page_type: lesson
+    branch: statistics
+    course: introduction-to-statistics
+    module: intro-statistics
+    topic: 1
+    paths:
+      en: ratiomera-statistics/en/intro-stats/t01_descriptive.qmd
+      de: ratiomera-statistics/de/intro-stats/t01_descriptive.qmd
+      sq: ratiomera-statistics/sq/intro-stats/t01_descriptive.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-20
+    figures:
+      - fig-gender-bar
+      - fig-stress-bar
+      - fig-stress-pie
+      - fig-satisfaction-bar
+      - fig-anxiety-histogram
+      - fig-anxiety-boxplot
+      - fig-boxplot-anatomy
+      - fig-scale-nominal-bar
+      - fig-scale-nominal-pie
+      - fig-scale-ordinal-bar
+      - fig-scale-interval-histogram
+      - fig-scale-interval-boxplot
+      - fig-scale-ratio-histogram
+      - fig-scale-ratio-boxplot
+      - fig-scale-absolute-bar
+      - fig-scale-absolute-boxplot
+      - fig-shape-symmetric
+      - fig-shape-right-skewed
+      - fig-shape-left-skewed
+      - fig-shape-unimodal
+      - fig-shape-bimodal
+      - fig-shape-high-kurtosis
+      - fig-shape-low-kurtosis
+      - fig-axis-full
+      - fig-axis-truncated
+      - fig-bins-narrow
+      - fig-bins-wide
+      - fig-example-anxiety-histogram
+      - fig-example-anxiety-boxplot
+      - fig-example-standardized-histogram
+    tables:
+      - tbl-center-by-scale-level
+      - tbl-data-structure
+      - tbl-frequency-types
+      - tbl-scale-level-properties
+      - tbl-scale-level-transformations
+      - tbl-scale-workshop-data
+      - tbl-scale-nominal-example
+      - tbl-scale-ordinal-example
+      - tbl-scale-interval-example
+      - tbl-scale-ratio-example
+      - tbl-scale-absolute-example
+      - tbl-suggestive-graphics-checks
+      - tbl-simulated-anxiety-by-stress
+      - tbl-simulated-anxiety-summary
+      - tbl-simulated-anxiety-zscores
+      - tbl-simulated-data
+      - tbl-simulated-gender-frequency
+      - tbl-simulated-satisfaction-frequency
+      - tbl-simulated-stress-frequency
+      - tbl-simulated-variable-plan
+      - tbl-summary-central-tendency
+      - tbl-summary-diagrams
+      - tbl-summary-distribution-shapes
+      - tbl-summary-frequencies
+      - tbl-summary-linear-transformations
+      - tbl-summary-measurement-levels
+      - tbl-summary-notation
+      - tbl-summary-variability
+      - tbl-worked-frequencies
+      - tbl-worked-sample-variance
+    exercises: [T01-A01, T01-A02, T01-A03, T01-A04, T01-A05, T01-A06, T01-A07, T01-A08, T01-A09, T01-A10, T01-A11, T01-A12, T01-A13, T01-A14, T01-A15]
+    solutions: [T01-A01, T01-A02, T01-A03, T01-A04, T01-A05, T01-A06, T01-A07, T01-A08, T01-A09, T01-A10, T01-A11, T01-A12, T01-A13, T01-A14, T01-A15]
+    downloads: [t01-summary, t01-exercises, t01-solutions]
+    assets:
+      - ratiomera-statistics/_shared/t01-descriptive-assets.R
+      - ratiomera-statistics/_shared/topic-table-options.R
+      - ratiomera-statistics/_shared/plotly-helpers.R
+      - ratiomera-statistics/_shared/download-sources/en/topic-01-descriptive-statistics-exercises-en.md
+      - ratiomera-statistics/_shared/download-sources/en/topic-01-descriptive-statistics-solutions-en.md
+      - ratiomera-statistics/_shared/download-sources/de/topic-01-descriptive-statistics-exercises-de.md
+      - ratiomera-statistics/_shared/download-sources/de/topic-01-descriptive-statistics-solutions-de.md
+      - ratiomera-statistics/_shared/download-sources/sq/topic-01-descriptive-statistics-exercises-sq.md
+      - ratiomera-statistics/_shared/download-sources/sq/topic-01-descriptive-statistics-solutions-sq.md
+      - ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-exercises-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-exercises-en.docx
+      - ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-solutions-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-solutions-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-exercises-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-exercises-de.docx
+      - ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-solutions-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-solutions-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-exercises-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-exercises-sq.docx
+      - ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-solutions-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-solutions-sq.docx
+      - ratiomera-statistics/_shared/summary-sources/en/topic-01-descriptive-statistics-summary-en.md
+      - ratiomera-statistics/_shared/summary-sources/de/topic-01-descriptive-statistics-summary-de.md
+      - ratiomera-statistics/_shared/summary-sources/sq/topic-01-descriptive-statistics-summary-sq.md
+      - ratiomera-statistics/_shared/summary-sources/assets/en/topic-01-descriptive-statistics-summary-figure-en.png
+      - ratiomera-statistics/_shared/summary-sources/assets/de/topic-01-descriptive-statistics-summary-figure-de.png
+      - ratiomera-statistics/_shared/summary-sources/assets/sq/topic-01-descriptive-statistics-summary-figure-sq.png
+      - ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-summary-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-01-descriptive-statistics-summary-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-summary-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-01-descriptive-statistics-summary-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-summary-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-01-descriptive-statistics-summary-sq.docx
+    notes: The source-grounded Theory, Simulated Example, web Summary, 15-group exercise sheet with 150 tasks, and 150 matching step-by-step solutions exist across all three locales. Theory now begins its measurement-level sequence with one shared twelve-learner workshop dataset, a focused table for each scale, guided reading, compatible summaries, and nine early scale-specific graphics. It explains why each measure of centre and variability is useful, includes bimodal and multimodal cases, expands the diagnosis of suggestive graphics, and closes by establishing the value of description before bridging to probability. Practice is ordered as Theory then Calculator Practice. The expanded summary covers the topic's central definitions, formulas, tables, figure guidance, and interpretation checks and ends with three lined note pages. The topic tab exposes every document as localized PDF and editable Word; the Downloads page groups the six files into one topic ZIP and retains individual access in a disclosure. Publication status is In Review. The August 2026 source, correctness, interaction, and responsive visual audit passed for all three locales; it does not constitute final publication review.
+  - id: intro-statistics-topic-02
+    page_type: lesson
+    branch: statistics
+    course: introduction-to-statistics
+    module: intro-statistics
+    topic: 2
+    paths:
+      en: ratiomera-statistics/en/intro-stats/t02_probability.qmd
+      de: ratiomera-statistics/de/intro-stats/t02_probability.qmd
+      sq: ratiomera-statistics/sq/intro-stats/t02_probability.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-17
+    figures: [fig-event-sets, fig-event-operations, fig-probability-chain, fig-bayes-tree, fig-bayes-base-rates, fig-pmf-cdf, fig-binomial-shape-grid, fig-density-interval, fig-normal-question-types, fig-sampling-process, fig-sampling-bias-comparison, fig-sampling-distribution-grid, fig-conditional-probability, fig-binomial-anxiety, fig-anxiety-normal-fit, fig-sampling-example-process, fig-sampling-distribution, fig-simulated-sampling-bias]
+    tables: [tbl-event-notation, tbl-event-question-language, tbl-contingency-probabilities, tbl-bayes-natural-frequencies, tbl-distribution-objects, tbl-discrete-worked-example, tbl-binomial-question-language, tbl-three-distributions, tbl-parameter-statistic-notation, tbl-simulated-anxiety-data, tbl-empirical-event-probabilities, tbl-stress-anxiety-contingency, tbl-conditional-anxiety-probabilities, tbl-binomial-pmf-cdf, tbl-sampling-precision-plan, tbl-summary-probability-concepts, tbl-summary-probability-rules, tbl-summary-probability-assumptions, tbl-summary-distribution-objects, tbl-summary-binomial, tbl-summary-normal-sampling]
+    exercises: [T02-A01, T02-A02, T02-A03, T02-A04, T02-A05, T02-A06, T02-A07, T02-A08, T02-A09, T02-A10, T02-A11, T02-A12, T02-A13, T02-A14, T02-A15, T02-A16]
+    solutions: [T02-A01, T02-A02, T02-A03, T02-A04, T02-A05, T02-A06, T02-A07, T02-A08, T02-A09, T02-A10, T02-A11, T02-A12, T02-A13, T02-A14, T02-A15, T02-A16]
+    downloads: [t02-summary, t02-exercises, t02-solutions]
+    assets:
+      - ratiomera-statistics/_shared/t02-probability-assets.R
+      - ratiomera-statistics/_shared/topic-table-options.R
+      - ratiomera-statistics/_shared/plotly-helpers.R
+      - scripts/generate_topic02_materials.py
+      - scripts/topic02_practice_i18n.py
+      - ratiomera-statistics/_shared/summary-sources/en/topic-02-probability-summary-en.md
+      - ratiomera-statistics/_shared/summary-sources/de/topic-02-probability-summary-de.md
+      - ratiomera-statistics/_shared/summary-sources/sq/topic-02-probability-summary-sq.md
+      - ratiomera-statistics/_shared/summary-sources/assets/en/topic-02-probability-summary-figure-en.png
+      - ratiomera-statistics/_shared/summary-sources/assets/de/topic-02-probability-summary-figure-de.png
+      - ratiomera-statistics/_shared/summary-sources/assets/sq/topic-02-probability-summary-figure-sq.png
+      - ratiomera-statistics/en/downloads/files/topic-02-probability-summary-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-02-probability-summary-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-02-probability-summary-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-02-probability-summary-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-02-probability-summary-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-02-probability-summary-sq.docx
+      - ratiomera-statistics/en/downloads/files/topic-02-probability-exercises-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-02-probability-exercises-en.docx
+      - ratiomera-statistics/en/downloads/files/topic-02-probability-solutions-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-02-probability-solutions-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-02-probability-exercises-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-02-probability-exercises-de.docx
+      - ratiomera-statistics/de/downloads/files/topic-02-probability-solutions-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-02-probability-solutions-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-02-probability-exercises-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-02-probability-exercises-sq.docx
+      - ratiomera-statistics/sq/downloads/files/topic-02-probability-solutions-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-02-probability-solutions-sq.docx
+    notes: The source-grounded Theory, Simulated Example, web Summary, 16-group exercise sheet with 160 tasks, and 160 matching step-by-step solutions exist across all three locales. Practice is ordered as Theory then Calculator Practice. The expanded summary covers the topic's central definitions, formulas, tables, figure guidance, and interpretation checks and ends with three lined note pages. The topic tab exposes every document as localized PDF and editable Word; the Downloads page groups the six files into one topic ZIP and retains individual access in a disclosure. Publication status is In Review. The August 2026 source, correctness, interaction, and responsive visual audit passed for all three locales; it does not constitute final publication review.
+  - id: intro-statistics-topic-03
+    page_type: lesson
+    branch: statistics
+    course: introduction-to-statistics
+    module: intro-statistics
+    topic: 3
+    paths:
+      en: ratiomera-statistics/en/intro-stats/t03_hypothesis-testing.qmd
+      de: ratiomera-statistics/de/intro-stats/t03_hypothesis-testing.qmd
+      sq: ratiomera-statistics/sq/intro-stats/t03_hypothesis-testing.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-17
+    figures: [fig-inference-chain, fig-confidence-coverage, fig-hypothesis-tail-regions, fig-test-statistic-process, fig-two-sided-p-value, fig-error-power-regions, fig-t-distribution-shapes, fig-mean-procedure-designs, fig-baseline-confidence-interval, fig-baseline-null-distribution, fig-independent-change-groups, fig-guided-paired-change, fig-prospective-power-curve, fig-chi-square-observed-expected]
+    tables: [tbl-inference-objects, tbl-hypothesis-directions, tbl-testing-errors, tbl-power-determinants, tbl-mean-procedure-selection, tbl-tied-ranks, tbl-simulated-planning-data, tbl-baseline-one-sample-results, tbl-independent-change-groups, tbl-prospective-power-plan, tbl-ranked-change-subset, tbl-chi-square-cells, tbl-simulated-inference-results]
+    exercises: [T03-A01, T03-A02, T03-A03, T03-A04, T03-A05, T03-A06, T03-A07, T03-A08, T03-A09, T03-A10, T03-A11, T03-A12]
+    solutions: [T03-A01, T03-A02, T03-A03, T03-A04, T03-A05, T03-A06, T03-A07, T03-A08, T03-A09, T03-A10, T03-A11, T03-A12]
+    downloads: [t03-summary, t03-exercises, t03-solutions]
+    assets:
+      - ratiomera-statistics/_shared/t03-inference-assets.R
+      - ratiomera-statistics/_shared/topic-table-options.R
+      - ratiomera-statistics/_shared/plotly-helpers.R
+      - scripts/generate_topic03_materials.py
+      - ratiomera-statistics/_shared/summary-sources/en/topic-03-hypothesis-testing-summary-en.md
+      - ratiomera-statistics/_shared/summary-sources/de/topic-03-hypothesis-testing-summary-de.md
+      - ratiomera-statistics/_shared/summary-sources/sq/topic-03-hypothesis-testing-summary-sq.md
+      - ratiomera-statistics/_shared/summary-sources/assets/en/topic-03-hypothesis-testing-summary-figure-en.png
+      - ratiomera-statistics/_shared/summary-sources/assets/de/topic-03-hypothesis-testing-summary-figure-de.png
+      - ratiomera-statistics/_shared/summary-sources/assets/sq/topic-03-hypothesis-testing-summary-figure-sq.png
+      - ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-summary-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-summary-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-summary-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-summary-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-summary-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-summary-sq.docx
+      - ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-exercises-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-exercises-en.docx
+      - ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-solutions-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-03-hypothesis-testing-solutions-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-exercises-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-exercises-de.docx
+      - ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-solutions-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-03-hypothesis-testing-solutions-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-exercises-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-exercises-sq.docx
+      - ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-solutions-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-03-hypothesis-testing-solutions-sq.docx
+    notes: The source-grounded Theory, Simulated Example, web Summary, 12-group exercise sheet with 120 tasks, and 120 matching step-by-step solutions exist across all three locales. Practice is ordered as Theory then Calculator Practice. The expanded summary covers the topic's central definitions, formulas, tables, figure guidance, and interpretation checks and ends with three lined note pages. The topic tab exposes every document as localized PDF and editable Word; the Downloads page groups the six files into one topic ZIP and retains individual access in a disclosure. Publication status is In Review. The August 2026 source, correctness, interaction, and responsive visual audit passed for all three locales; it does not constitute final publication review.
+  - id: intro-statistics-topic-04
+    page_type: lesson
+    branch: statistics
+    course: introduction-to-statistics
+    module: intro-statistics
+    topic: 4
+    paths:
+      en: ratiomera-statistics/en/intro-stats/t04_cov-corr.qmd
+      de: ratiomera-statistics/de/intro-stats/t04_cov-corr.qmd
+      sq: ratiomera-statistics/sq/intro-stats/t04_cov-corr.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-17
+    figures: [fig-covariance-geometry, fig-covariance-directions, fig-correlation-standardization, fig-pearson-spearman-shapes, fig-causal-alternatives, fig-simulated-study-score, fig-simulated-outlier-effect, fig-simulated-range-restriction, fig-simulated-third-variable]
+    tables: [tbl-worked-covariance, tbl-pearson-spearman, tbl-simulation-variables, tbl-simulated-paired-data, tbl-simulated-correlation-summary, tbl-simulated-cross-products, tbl-covariance-unit-comparison]
+    exercises: [T04-A01, T04-A02, T04-A03, T04-A04, T04-A05, T04-A06, T04-A07]
+    solutions: [T04-A01, T04-A02, T04-A03, T04-A04, T04-A05, T04-A06, T04-A07]
+    downloads: [t04-summary, t04-exercises, t04-solutions]
+    assets:
+      - ratiomera-statistics/_shared/t04-cov-corr-assets.R
+      - ratiomera-statistics/_shared/topic-table-options.R
+      - ratiomera-statistics/_shared/plotly-helpers.R
+      - scripts/generate_topic04_materials.py
+      - ratiomera-statistics/_shared/summary-sources/en/topic-04-covariance-correlation-summary-en.md
+      - ratiomera-statistics/_shared/summary-sources/de/topic-04-covariance-correlation-summary-de.md
+      - ratiomera-statistics/_shared/summary-sources/sq/topic-04-covariance-correlation-summary-sq.md
+      - ratiomera-statistics/_shared/summary-sources/assets/en/topic-04-covariance-correlation-summary-figure-en.png
+      - ratiomera-statistics/_shared/summary-sources/assets/de/topic-04-covariance-correlation-summary-figure-de.png
+      - ratiomera-statistics/_shared/summary-sources/assets/sq/topic-04-covariance-correlation-summary-figure-sq.png
+      - ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-summary-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-summary-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-summary-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-summary-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-summary-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-summary-sq.docx
+      - ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-exercises-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-exercises-en.docx
+      - ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-solutions-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-04-covariance-correlation-solutions-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-exercises-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-exercises-de.docx
+      - ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-solutions-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-04-covariance-correlation-solutions-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-exercises-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-exercises-sq.docx
+      - ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-solutions-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-04-covariance-correlation-solutions-sq.docx
+    notes: The source-grounded Theory, Simulated Example, web Summary, 7-group exercise sheet with 70 tasks, and 70 matching step-by-step solutions exist across all three locales. Practice is ordered as Theory then Calculator Practice. The expanded summary covers the topic's central definitions, formulas, tables, figure guidance, and interpretation checks and ends with three lined note pages. The topic tab exposes every document as localized PDF and editable Word; the Downloads page groups the six files into one topic ZIP and retains individual access in a disclosure. Publication status is In Review. The August 2026 source, correctness, interaction, and responsive visual audit passed for all three locales; it does not constitute final publication review.
+  - id: intro-statistics-topic-05
+    page_type: lesson
+    branch: statistics
+    course: introduction-to-statistics
+    module: intro-statistics
+    topic: 5
+    paths:
+      en: ratiomera-statistics/en/intro-stats/t05_simple-regression.qmd
+      de: ratiomera-statistics/de/intro-stats/t05_simple-regression.qmd
+      sq: ratiomera-statistics/sq/intro-stats/t05_simple-regression.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-17
+    figures: [fig-regression-anatomy, fig-regression-ss-geometry, fig-regression-residual-patterns, fig-regression-fit, fig-regression-least-squares, fig-regression-extrapolation, fig-regression-residuals, fig-regression-qq, fig-regression-influence]
+    tables: [tbl-regression-assumptions, tbl-regression-sim-variables, tbl-regression-raw-data, tbl-regression-slope-identities, tbl-regression-candidate-sse, tbl-regression-residual-preview, tbl-regression-case-decomposition, tbl-regression-anova, tbl-regression-coefficients, tbl-regression-predictions, tbl-regression-influence]
+    exercises: [T05-A01, T05-A02, T05-A03, T05-A04, T05-A05, T05-A06, T05-A07, T05-A08, T05-A09, T05-A10]
+    solutions: [T05-A01, T05-A02, T05-A03, T05-A04, T05-A05, T05-A06, T05-A07, T05-A08, T05-A09, T05-A10]
+    downloads: [t05-summary, t05-exercises, t05-solutions]
+    assets:
+      - ratiomera-statistics/_shared/t05-simple-regression-assets.R
+      - ratiomera-statistics/_shared/topic-table-options.R
+      - ratiomera-statistics/_shared/plotly-helpers.R
+      - scripts/generate_topic05_materials.py
+      - ratiomera-statistics/_shared/summary-sources/en/topic-05-simple-linear-regression-summary-en.md
+      - ratiomera-statistics/_shared/summary-sources/de/topic-05-simple-linear-regression-summary-de.md
+      - ratiomera-statistics/_shared/summary-sources/sq/topic-05-simple-linear-regression-summary-sq.md
+      - ratiomera-statistics/_shared/summary-sources/assets/en/topic-05-simple-linear-regression-summary-figure-en.png
+      - ratiomera-statistics/_shared/summary-sources/assets/de/topic-05-simple-linear-regression-summary-figure-de.png
+      - ratiomera-statistics/_shared/summary-sources/assets/sq/topic-05-simple-linear-regression-summary-figure-sq.png
+      - ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-summary-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-summary-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-summary-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-summary-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-summary-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-summary-sq.docx
+      - ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-exercises-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-exercises-en.docx
+      - ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-solutions-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-05-simple-linear-regression-solutions-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-exercises-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-exercises-de.docx
+      - ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-solutions-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-05-simple-linear-regression-solutions-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-exercises-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-exercises-sq.docx
+      - ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-solutions-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-05-simple-linear-regression-solutions-sq.docx
+    notes: The source-grounded Theory, Simulated Example, web Summary, 10-group exercise sheet with 100 tasks, and 100 matching step-by-step solutions exist across all three locales. Practice is ordered as Theory then Calculator Practice. The expanded summary covers the topic's central definitions, formulas, tables, figure guidance, and interpretation checks and ends with three lined note pages. The topic tab exposes every document as localized PDF and editable Word; the Downloads page groups the six files into one topic ZIP and retains individual access in a disclosure. Publication status is In Review. The August 2026 source, correctness, interaction, and responsive visual audit passed for all three locales; it does not constitute final publication review.
+  - id: intro-statistics-topic-06
+    page_type: lesson
+    branch: statistics
+    course: introduction-to-statistics
+    module: intro-statistics
+    topic: 6
+    paths:
+      en: ratiomera-statistics/en/intro-stats/t06_partial-corr.qmd
+      de: ratiomera-statistics/de/intro-stats/t06_partial-corr.qmd
+      sq: ratiomera-statistics/sq/intro-stats/t06_partial-corr.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-17
+    figures: [fig-third-variable-structure, fig-police-crime-population, fig-icecream-third-variable, fig-residualization-flow, fig-adjustment-directions, fig-t06-residualization, fig-t06-raw-adjusted]
+    tables: [tbl-control-comparison, tbl-partial-correlation-bridge, tbl-t06-simulation-variables, tbl-t06-simulated-data, tbl-t06-simulation-summary, tbl-t06-pairwise-correlations, tbl-t06-residual-preview, tbl-t06-raw-adjusted-meaning, tbl-t06-method-agreement]
+    exercises: [T06-A01, T06-A02]
+    solutions: [T06-A01, T06-A02]
+    downloads: [t06-summary, t06-exercises, t06-solutions]
+    assets:
+      - ratiomera-statistics/_shared/t06-partial-corr-assets.R
+      - ratiomera-statistics/_shared/topic-table-options.R
+      - ratiomera-statistics/_shared/plotly-helpers.R
+      - scripts/generate_topic06_materials.py
+      - ratiomera-statistics/_shared/summary-sources/en/topic-06-partial-correlation-summary-en.md
+      - ratiomera-statistics/_shared/summary-sources/de/topic-06-partial-correlation-summary-de.md
+      - ratiomera-statistics/_shared/summary-sources/sq/topic-06-partial-correlation-summary-sq.md
+      - ratiomera-statistics/_shared/summary-sources/assets/en/topic-06-partial-correlation-summary-figure-en.png
+      - ratiomera-statistics/_shared/summary-sources/assets/de/topic-06-partial-correlation-summary-figure-de.png
+      - ratiomera-statistics/_shared/summary-sources/assets/sq/topic-06-partial-correlation-summary-figure-sq.png
+      - ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-summary-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-summary-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-summary-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-summary-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-summary-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-summary-sq.docx
+      - ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-exercises-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-exercises-en.docx
+      - ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-solutions-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-06-partial-correlation-solutions-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-exercises-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-exercises-de.docx
+      - ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-solutions-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-06-partial-correlation-solutions-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-exercises-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-exercises-sq.docx
+      - ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-solutions-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-06-partial-correlation-solutions-sq.docx
+    notes: The source-grounded Theory, Simulated Example, web Summary, 2-group exercise sheet with 20 tasks, and 20 matching step-by-step solutions exist across all three locales. Practice is ordered as Theory then Calculator Practice. The conceptual tasks now also require a subject-matter and design justification for a proposed control variable and an explicit limitation of linear adjustment. The expanded summary covers the topic's central definitions, formulas, tables, figure guidance, and interpretation checks and ends with three lined note pages. The topic tab exposes every document as localized PDF and editable Word; the Downloads page groups the six files into one topic ZIP and retains individual access in a disclosure. Publication status is In Review. The August 2026 source, correctness, interaction, and responsive visual audit passed for all three locales; it does not constitute final publication review.
+  - id: intro-statistics-topic-07
+    page_type: lesson
+    branch: statistics
+    course: introduction-to-statistics
+    module: intro-statistics
+    topic: 7
+    paths:
+      en: ratiomera-statistics/en/intro-stats/t07_multiple-regression.qmd
+      de: ratiomera-statistics/de/intro-stats/t07_multiple-regression.qmd
+      sq: ratiomera-statistics/sq/intro-stats/t07_multiple-regression.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-17
+    figures: [fig-multiple-fitted-composition, fig-multiple-profile-contributions, fig-multiple-conditional-coefficient, fig-multiple-coefficient-change, fig-multiple-dummy-additive, fig-multiple-interaction-concept, fig-multiple-fitted-residual, fig-multiple-fit-path, fig-multiple-semipartial, fig-multiple-interaction, fig-multiple-reference-invariance, fig-multiple-residual-diagnostic, fig-multiple-qq-diagnostic]
+    tables: [tbl-multiple-coefficient-types, tbl-multiple-coefficients, tbl-multiple-course-synthesis, tbl-multiple-dummy-coding, tbl-multiple-dummy-worked-example, tbl-multiple-dummy-reference-invariance, tbl-multiple-equation-pieces, tbl-multiple-fitted-residuals, tbl-multiple-group-equations, tbl-multiple-influence-review, tbl-multiple-interaction-numeric-example, tbl-multiple-model-comparison, tbl-multiple-model-sequence, tbl-multiple-nested-test, tbl-multiple-preview, tbl-multiple-profile-predictions, tbl-multiple-reference-coefficients, tbl-multiple-reference-invariance, tbl-multiple-semipartial, tbl-multiple-slope-formula-pieces, tbl-multiple-standardized, tbl-multiple-topic-bridge, tbl-multiple-variables, tbl-multiple-adjustment-patterns]
+    exercises: [T07-A01, T07-A02, T07-A03, T07-A04, T07-A05, T07-A06, T07-A07, T07-A08, T07-A09]
+    solutions: [T07-A01, T07-A02, T07-A03, T07-A04, T07-A05, T07-A06, T07-A07, T07-A08, T07-A09]
+    downloads: [t07-summary, t07-exercises, t07-solutions]
+    assets:
+      - ratiomera-statistics/_shared/t07-multiple-regression-assets.R
+      - ratiomera-statistics/_shared/topic-table-options.R
+      - ratiomera-statistics/_shared/plotly-helpers.R
+      - scripts/generate_topic07_materials.py
+      - scripts/topic07_practice_i18n.py
+      - ratiomera-statistics/_shared/summary-sources/en/topic-07-multiple-regression-summary-en.md
+      - ratiomera-statistics/_shared/summary-sources/de/topic-07-multiple-regression-summary-de.md
+      - ratiomera-statistics/_shared/summary-sources/sq/topic-07-multiple-regression-summary-sq.md
+      - ratiomera-statistics/_shared/summary-sources/assets/en/topic-07-multiple-regression-summary-figure-en.png
+      - ratiomera-statistics/_shared/summary-sources/assets/de/topic-07-multiple-regression-summary-figure-de.png
+      - ratiomera-statistics/_shared/summary-sources/assets/sq/topic-07-multiple-regression-summary-figure-sq.png
+      - ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-summary-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-summary-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-summary-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-summary-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-summary-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-summary-sq.docx
+      - ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-exercises-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-exercises-en.docx
+      - ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-solutions-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-07-multiple-regression-solutions-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-exercises-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-exercises-de.docx
+      - ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-solutions-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-07-multiple-regression-solutions-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-exercises-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-exercises-sq.docx
+      - ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-solutions-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-07-multiple-regression-solutions-sq.docx
+    notes: The source-grounded Theory, Simulated Example, web Summary, 9-group exercise sheet with 90 tasks, and 90 matching step-by-step solutions exist across all three locales. Practice is ordered as Theory then Calculator Practice. The expanded summary covers the topic's central definitions, formulas, tables, figure guidance, and interpretation checks and ends with three lined note pages. The topic tab exposes every document as localized PDF and editable Word; the Downloads page groups the six files into one topic ZIP and retains individual access in a disclosure. Publication status is In Review. The August 2026 source, correctness, interaction, and responsive visual audit passed for all three locales; it does not constitute final publication review.
+  - id: intro-statistics-topic-08
+    page_type: lesson
+    branch: statistics
+    course: introduction-to-statistics
+    module: intro-statistics
+    topic: 8
+    paths:
+      en: ratiomera-statistics/en/intro-stats/t08_anova.qmd
+      de: ratiomera-statistics/de/intro-stats/t08_anova.qmd
+      sq: ratiomera-statistics/sq/intro-stats/t08_anova.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-17
+    figures: [fig-anova-cells, fig-fwer-independent, fig-anova-deviation, fig-anova-f-intuition, fig-comparison-types, fig-factorial-patterns, fig-icc-patterns, fig-repeated-design, fig-repeated-person-term, fig-t08-simulated-groups, fig-t08-ss-partition, fig-t08-simulated-f-tail, fig-t08-diagnostics]
+    tables: [tbl-anova-between-repeated, tbl-anova-course-synthesis, tbl-anova-design-terms, tbl-anova-fixed-random-models, tbl-anova-regression-bridge, tbl-factorial-marginals, tbl-fixed-random, tbl-general-one-way-anova, tbl-multiplicity-thresholds, tbl-icc-numeric-walkthrough, tbl-repeated-person-term, tbl-t08-anova-table, tbl-t08-group-summaries, tbl-t08-planned-result, tbl-t08-planned-weights, tbl-t08-simulated-data, tbl-t08-simulation-design, tbl-t08-ss-check, tbl-t08-tukey]
+    exercises: [T08-A01, T08-A02, T08-A03, T08-A04, T08-A05, T08-A06, T08-A07, T08-A08, T08-A09, T08-A10]
+    solutions: [T08-A01, T08-A02, T08-A03, T08-A04, T08-A05, T08-A06, T08-A07, T08-A08, T08-A09, T08-A10]
+    downloads: [t08-summary, t08-exercises, t08-solutions]
+    assets:
+      - ratiomera-statistics/_shared/t08-anova-assets.R
+      - ratiomera-statistics/_shared/topic-table-options.R
+      - ratiomera-statistics/_shared/plotly-helpers.R
+      - scripts/generate_topic08_materials.py
+      - ratiomera-statistics/_shared/summary-sources/en/topic-08-analysis-of-variance-summary-en.md
+      - ratiomera-statistics/_shared/summary-sources/de/topic-08-analysis-of-variance-summary-de.md
+      - ratiomera-statistics/_shared/summary-sources/sq/topic-08-analysis-of-variance-summary-sq.md
+      - ratiomera-statistics/_shared/summary-sources/assets/en/topic-08-analysis-of-variance-summary-figure-en.png
+      - ratiomera-statistics/_shared/summary-sources/assets/de/topic-08-analysis-of-variance-summary-figure-de.png
+      - ratiomera-statistics/_shared/summary-sources/assets/sq/topic-08-analysis-of-variance-summary-figure-sq.png
+      - ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-summary-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-summary-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-summary-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-summary-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-summary-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-summary-sq.docx
+      - ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-exercises-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-exercises-en.docx
+      - ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-solutions-en.pdf
+      - ratiomera-statistics/en/downloads/files/topic-08-analysis-of-variance-solutions-en.docx
+      - ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-exercises-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-exercises-de.docx
+      - ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-solutions-de.pdf
+      - ratiomera-statistics/de/downloads/files/topic-08-analysis-of-variance-solutions-de.docx
+      - ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-exercises-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-exercises-sq.docx
+      - ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-solutions-sq.pdf
+      - ratiomera-statistics/sq/downloads/files/topic-08-analysis-of-variance-solutions-sq.docx
+    notes: The source-grounded Theory, Simulated Example, web Summary, 10-group exercise sheet with 100 tasks, and 100 matching step-by-step solutions exist across all three locales. Practice is ordered as Theory then Calculator Practice. The expanded summary covers the topic's central definitions, formulas, tables, figure guidance, and interpretation checks and ends with three lined note pages. The topic tab exposes every document as localized PDF and editable Word; the Downloads page groups the six files into one topic ZIP and retains individual access in a disclosure. Publication status is In Review. The August 2026 source, correctness, interaction, and responsive visual audit passed for all three locales; it does not constitute final publication review.
+  - id: statistics-downloads
+    page_type: downloads
+    branch: statistics
+    course: introduction-to-statistics
+    paths:
+      en: ratiomera-statistics/en/downloads/overview-downloads-en.qmd
+      de: ratiomera-statistics/de/downloads/overview-downloads-de.qmd
+      sq: ratiomera-statistics/sq/downloads/overview-downloads-sq.qmd
+    content_status: {en: review, de: review, sq: review}
+    parity_mode: full
+    last_synchronized: 2026-08-17
+    downloads: [t01-summary, t01-exercises, t01-solutions, intro-statistics-topic-01-package, t02-summary, t02-exercises, t02-solutions, intro-statistics-topic-02-package, t03-summary, t03-exercises, t03-solutions, intro-statistics-topic-03-package, t04-summary, t04-exercises, t04-solutions, intro-statistics-topic-04-package, t05-summary, t05-exercises, t05-solutions, intro-statistics-topic-05-package, t06-summary, t06-exercises, t06-solutions, intro-statistics-topic-06-package, t07-summary, t07-exercises, t07-solutions, intro-statistics-topic-07-package, t08-summary, t08-exercises, t08-solutions, intro-statistics-topic-08-package, intro-statistics-all-summaries, intro-statistics-all-exercises, intro-statistics-all-solutions, intro-statistics-all-materials]
+    assets:
+      - ratiomera-statistics/_shared/downloads.yml
+      - ratiomera-statistics/_shared/render-downloads.R
+      - config/counters.yml
+      - js/counters.html
+      - scripts/intro_stats_practice_support.py
+      - scripts/generate_topic02_materials.py
+      - scripts/generate_topic03_materials.py
+      - scripts/generate_topic04_materials.py
+      - scripts/generate_topic05_materials.py
+      - scripts/generate_topic06_materials.py
+      - scripts/generate_topic07_materials.py
+      - scripts/generate_topic08_materials.py
+      - scripts/download_documents.py
+      - scripts/render-download-documents.py
+      - scripts/validate-download-documents.py
+      - scripts/test-download-documents.py
+      - ratiomera-statistics/_shared/download-sources/README.md
+      - ratiomera-statistics/_shared/download-sources/_document-template.md
+      - scripts/summary_documents.py
+      - scripts/generate-summary-assets.R
+      - scripts/render-summary-documents.py
+      - scripts/validate-summary-documents.py
+      - scripts/test-summary-documents.py
+      - scripts/build-download-bundles.py
+      - ratiomera-statistics/_shared/DOWNLOADS.md
+      - ratiomera-statistics/_shared/summary-sources/README.md
+      - ratiomera-statistics/_shared/summary-sources/assets/en/ratiomera-summary-logo.png
+      - ratiomera-statistics/_shared/summary-sources/assets/de/ratiomera-summary-logo.png
+      - ratiomera-statistics/_shared/summary-sources/assets/sq/ratiomera-summary-logo.png
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-01-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-02-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-03-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-04-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-05-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-06-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-07-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-topic-08-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-all-summaries-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-all-exercises-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-all-solutions-en.zip
+      - ratiomera-statistics/en/downloads/files/introduction-to-statistics-everything-en.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-01-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-02-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-03-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-04-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-05-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-06-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-07-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-thema-08-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-alle-zusammenfassungen-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-alle-uebungsblaetter-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-alle-loesungen-de.zip
+      - ratiomera-statistics/de/downloads/files/einfuehrung-in-die-statistik-alle-materialien-de.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-01-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-02-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-03-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-04-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-05-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-06-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-07-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-tema-08-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-te-gjitha-permbledhjet-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-te-gjitha-ushtrimet-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-te-gjitha-zgjidhjet-sq.zip
+      - ratiomera-statistics/sq/downloads/files/hyrje-ne-statistike-te-gjitha-materialet-sq.zip
+    notes: >-
+      The In Review Downloads page is package-first and uses the localized
+      collection sidebar, one primary complete-sequence ZIP, eight responsive
+      topic-package cards, individual PDF and editable Word actions inside each
+      topic disclosure, three secondary course bundles in a restrained
+      disclosure, and a centered return to the guided overview. The registry
+      contains 36 stable download IDs: 24 individual materials, eight topic
+      ZIPs, and four course ZIPs. Exactly nine visible count fields belong to
+      the eight topic packages and the primary complete package. Topic tabs
+      retain the individual PDF and Word links without count fields. Providers
+      are disabled locally, so the nine fields display a nonnumeric placeholder
+      and send no request. A release_key maps each learning sequence to a future
+      exact GitHub Release tag. Direct-link resolution is independent from
+      count rendering, matches exact public assets, and leaves local fallbacks
+      usable for every missing or failed match.

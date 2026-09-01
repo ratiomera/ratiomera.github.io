@@ -1,0 +1,1164 @@
+---
+title: "Testimi i hipotezave dhe intervalet e besimit"
+subtitle: "Hyrje në Statistikë · Tema 3"
+pagetitle: "Testimi i hipotezave dhe intervalet e besimit | Ratiomera Statistics"
+title-prefix: ""
+description: "Inferenca statistikore për mesataret dhe lidhjet mes ndryshoreve kategorike: intervalet e besimit, hipotezat, gabimet, vlerat p, fuqia statistikore, procedurat t, alternativat me rangje dhe testet hi-katror."
+lang: sq
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "sq"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t03-inference-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Pjesët e temës</h2>
+
+::: {.panel-tabset}
+
+## Teoria
+
+### Hyrje: Nga rezultatet e kampionit te pyetjet për popullatën {.cs-heading}
+
+Temat 1 dhe 2 përgatitën dy anë të të njëjtit problem. Tema 1 tregoi si ta përshkruajmë kampionin që kemi përpara. Tema 2 tregoi se një statistikë, si mesatarja e kampionit, ndryshon kur merret një kampion i ri i rastësishëm. Tani mund t'i bashkojmë këto ide dhe të pyesim çfarë mund të na tregojë një kampion i vrojtuar për një popullatë më të madhe.
+
+Imagjino se mesatarja e pikëve të planifikimit në një kampion është 54, ndërsa një vlerë referimi është 50. Diferenca prej katër pikësh llogaritet lehtë, por ajo ngre një pyetje më interesante: a po zbulon kampioni një dallim në popullatë, apo ndryshimi i zakonshëm nga një kampion te tjetri mund të kishte prodhuar një diferencë kaq të madhe? Ky ndryshim nuk është një bezdi që duhet fshehur. Ai është informacioni që na lejon të gjykojmë sa pasiguri e rrethon rezultatin.
+
+*Inferenca statistikore* është procesi i përdorimit të një kampioni për të arsyetuar me kujdes rreth një popullate. Inferenca nuk e shndërron rezultatin e kampionit në siguri. Ajo e bashkon rezultatin me një model probabiliteti, me dizajnin e studimit dhe me supozime të shprehura qartë.
+
+Kjo temë zhvillon dy mjete të lidhura ngushtë që e mbajnë të dukshme këtë pasiguri. Një *interval besimi* jep një varg vlerash të parametrit që përputhen me vlerësimin dhe pasigurinë e tij. Një *test hipoteze* pyet nëse rezultati i kampionit do të ishte jashtëzakonisht larg nga një vlerë e caktuar e popullatës nën një model të përcaktuar. Të dyja mjetet varen nga shpërndarjet e kampionimit të paraqitura në Temën 2 dhe të dyja na ndihmojnë të kalojmë nga përshkrimi i një kampioni drejt një përfundimi të kujdesshëm e të kufizuar për popullatën.
+
+> **Pyetja udhëzuese:** Si mund të na mësojë një kampion diçka për një popullatë duke e mbajtur të dukshme pasigurinë?
+
+::: {.callout-tip title="Ideja kryesore"}
+
+Inferenca nuk është një kërcim nga një kampion drejt një të vërtete të garantuar. Ajo është një argument i strukturuar, ku pasiguria mbetet e dukshme.
+:::
+
+### Objektivat e të nxënit {.cs-heading}
+
+Në fund të kësaj teme, do të mundesh:
+
+- ta dallosh një parametër të popullatës nga një statistikë e kampionit dhe nga gabimi i saj standard;
+- ta interpretosh një interval besimi përmes mbulimit afatgjatë;
+- t'i formulosh hipotezën zero dhe hipotezën alternative para se ta shohësh rezultatin;
+- t'i shpjegosh gabimin e llojit I, gabimin e llojit II, nivelin e rëndësisë statistikore, vlerën p, madhësinë e efektit dhe fuqinë statistikore;
+- të zgjedhësh mes një procedure për një kampion, për kampione të pavarura dhe për kampione të çiftuara kur pyetja lidhet me mesataret;
+- të shpjegosh pse disa procedura i zëvendësojnë vlerat e matura me pozicionet e tyre të renditura; dhe
+- t'i ndërtosh numërimet e pritshme dhe ta interpretosh një test hi-katror të pavarësisë.
+
+---
+
+### Zinxhiri i inferencës {.cs-heading}
+
+Një *popullatë* është grupi i plotë për të cilin shtrohet një pyetje. Një *parametër* është një veti numerike e asaj popullate, si mesatarja e saj $\mu$. Parametrat zakonisht janë të panjohur.
+
+Një *kampion* është nëngrupi i vrojtuar. Një *statistikë e kampionit* është një numër i llogaritur nga kampioni, si mesatarja e kampionit $\bar{x}$. Një *vlerësues* është rregulli që përdoret për të llogaritur një statistikë me qëllim vlerësimin e një parametri. Për shembull, mesatarja e kampionit është një vlerësues i mesatares së popullatës.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Diagram i lëvizshëm i zinxhirit të inferencës"}
+
+```{r}
+#| label: fig-inference-chain
+#| fig-alt: "Një diagram nga e majta në të djathtë kalon nga popullata te kampioni, pastaj te një statistikë e kampionit dhe te një përfundim i kujdesshëm për popullatën. Poshtë mesit të zinxhirit shfaqet një shpërndarje kampionimi."
+#| fig-cap: "Shpërndarja e kampionimit e lidh statistikën nga një kampion me arsyetimin e kujdesshëm për një popullatë."
+#| fig-width: 10
+#| fig-height: 3.2
+p_inference_bridge
+```
+
+:::
+
+Ndiqe rreshtin e sipërm nga e majta në të djathtë. Popullata është grupi që duam të kuptojmë në fund, por ne vrojtojmë vetëm një kampion. Ky kampion prodhon një statistikë dhe statistika mbështet një përfundim të kujdesshëm për popullatën. Shpërndarja e kampionimit shfaqet poshtë, sepse ajo siguron lidhjen që mungon: na tregon si do të ndryshonte statistika po të përsëritej procesi i kampionimit. Pa këtë ndryshueshmëri, kalimi nga një numër i vetëm i kampionit te një pohim për popullatën nuk do të kishte masë pasigurie.
+
+| Objekti | Shembull për një mesatare | Çfarë përshkruan |
+|---|---|---|
+| Parametri i popullatës | $\mu$ | Mesataren e panjohur të popullatës |
+| Statistika e kampionit | $\bar{x}$ | Mesataren e llogaritur nga kampioni i vrojtuar |
+| Devijimi standard | $s$ | Ndryshueshmërinë mes vlerave individuale të vrojtuara |
+| Gabimi standard i vlerësuar | $s/\sqrt{n}$ | Ndryshueshmërinë e vlerësuar mes mesatareve të kampioneve në kampionime të përsëritura |
+
+: Katër objekte që duhet të mbeten të dallueshme në inferencën statistikore. {#tbl-inference-objects}
+
+Gabimi standard është ura në figurë. Ai na tregon sa do të ndryshonte zakonisht një vlerësues në kampione të rastësishme të përsëritura nën model. Këtë informacion e përdorim fillimisht për të ndërtuar një interval rreth një vlerësimi.
+
+---
+
+### Vlerësimet pikësore dhe intervalet e besimit {.cs-heading}
+
+Një *vlerësim pikësor* është një vlerësim i vetëm numerik i një parametri. Për shembull, $\bar{x}=52$ është një vlerësim pikësor i $\mu$. Një numër i vetëm nuk tregon sa i saktë është vlerësimi.
+
+Një *interval besimi* shton një kufi të poshtëm dhe një kufi të sipërm rreth vlerësimit pikësor. *Niveli i besimit* të tij përshkruan shkallën afatgjatë të suksesit të metodës që prodhon intervalin. Një procedurë besimi 95% është ndërtuar që, në shumë përsëritje të të njëjtit proces kampionimi, rreth 95% e intervaleve të llogaritura ta mbulojnë parametrin e pandryshueshëm të popullatës dhe rreth 5% të mos e mbulojnë.
+
+Shumica e intervaleve të besimit që paraqiten këtu ndjekin një strukturë të thjeshtë:
+
+$$
+\text{vlerësimi pikësor}
+\ \pm\
+\text{vlera kritike}\times\text{gabimi standard}.
+$$
+
+Vlerësimi pikësor vendos qendrën e intervalit. *Vlera kritike* përcakton sa gabime standarde shtrihet metoda në secilën anë, ndërsa gabimi standard sjell informacionin për pasigurinë e kampionimit. Prodhimi i vlerës kritike me gabimin standard quhet *marzhi i gabimit*. Nuk ke nevojë t'i mësosh përmendësh të gjitha formulat e intervaleve menjëherë. Fillimisht mëso t'i dallosh këto tri pjesë dhe kontributin e secilës.
+
+```{r}
+#| label: fig-confidence-coverage
+#| fig-alt: "Shfaqen tridhjetë intervale horizontale besimi rreth vlerësimeve të tyre. Një vijë vertikale shënon mesataren e pandryshueshme të popullatës. Njëzet e tetë intervale të kaltra e presin vijën, ndërsa dy intervale portokalli nuk e presin."
+#| fig-cap: "Interpretimi me kampionime të përsëritura i intervaleve të besimit 95%. Parametri mbetet i pandryshueshëm, ndërsa intervalet ndryshojnë nga një kampion te tjetri."
+#| fig-height: 6.2
+p_ci_coverage
+```
+
+Lexoje figurën rresht pas rreshti. Çdo pikë është mesatarja nga një kampion tjetër dhe çdo segment horizontal është intervali i besimit i ndërtuar rreth asaj mesatareje. Vija vertikale shënon të vetmen mesatare të popullatës që të gjitha kampionet përpiqen ta vlerësojnë. Intervalet e kaltra e presin vijën e pandryshueshme dhe prandaj e mbulojnë parametrin, ndërsa intervalet portokalli nuk e mbulojnë. Figura tregon 30 përsëritje, ndaj është vetëm një ilustrim i idesë afatgjatë. Një procedurë 95% nuk duhet patjetër të mbulojë saktësisht 95% në çdo grup të vogël kampionesh.
+
+Pasi llogaritet një interval, kufijtë e tij janë të pandryshueshëm dhe parametri është i pandryshueshëm. Prandaj nuk themi se parametri tani ka probabilitet 95% të gjendet brenda atij intervali të përfunduar. Shifra 95% përshkruan procedurën nëpër përsëritje.
+
+Tri përmasa kontrollojnë gjerësinë e intervalit:
+
+- një nivel më i lartë besimi kërkon interval më të gjerë;
+- ndryshueshmëria më e madhe mes vrojtimeve e rrit gabimin standard dhe e zgjeron intervalin; dhe
+- një kampion më i madh e zvogëlon gabimin standard dhe e ngushton intervalin, kur gjithçka tjetër mbetet e njëjtë.
+
+::: {.callout-note title="Dallim i rëndësishëm"}
+Një interval i ngushtë përshkruan saktësi më të madhe nën modelin e kampionimit. Ai nuk e korrigjon një matje të anshme, një kampionim përzgjedhës apo një dizajn të dobët studimi.
+:::
+
+I njëjti model kampionimi mund të përdoret edhe për të shqyrtuar një vlerë konkrete të propozuar. Ky është roli i testit të hipotezës.
+
+---
+
+### Shndërrimi i një pyetjeje kërkimore në hipoteza {.cs-heading}
+
+Një *hipotezë statistikore* është një pohim për një parametër të popullatës. Dy pohime shqyrtohen së bashku:
+
+Hipoteza zero ($H_0$)
+:   Pohimi i referencës që testohet nga procedura. Në një krahasim mesataresh, zakonisht pohon se nuk ka dallim nga një vlerë e caktuar.
+
+Hipoteza alternative ($H_1$)
+:   Pohimi konkurrues që përshkruan dallimin me interes.
+
+Le të jetë $\mu_0$ një mesatare reference e popullatës dhe $\mu$ mesatarja e popullatës që studiohet. Forma e $H_1$ përcakton cilat rezultate të kampionit numërohen si evidencë kundër $H_0$.
+
+| Pyetja kërkimore | Hipoteza zero | Hipoteza alternative | Drejtimi i testit |
+|---|---|---|---|
+| A është mesatarja më e madhe? | $H_0:\mu=\mu_0$ | $H_1:\mu>\mu_0$ | Me bisht të sipërm |
+| A është mesatarja më e vogël? | $H_0:\mu=\mu_0$ | $H_1:\mu<\mu_0$ | Me bisht të poshtëm |
+| A është mesatarja e ndryshme? | $H_0:\mu=\mu_0$ | $H_1:\mu\ne\mu_0$ | Dyanësh |
+
+: Çiftet e hipotezave për tri llojet e pyetjeve. {#tbl-hypothesis-directions}
+
+Një *bisht* është njëri skaj i një shpërndarjeje probabiliteti. *Niveli i rëndësisë statistikore*, i shënuar me $\alpha$ (alfa), është probabiliteti i përgjithshëm që u caktohet rezultateve të cilat rregulli i vendimit do t'i trajtojë si mjaftueshëm të papajtueshme me $H_0$ kur $H_0$ është e vërtetë. Bashkësia e këtyre rezultateve quhet *rajoni i refuzimit*. Këtu përdoret shpesh $\alpha=0.05$. Një test me bisht të sipërm e vendos rajonin e refuzimit në skajin e lartë, një test me bisht të poshtëm e vendos në skajin e ulët, kurse një test dyanësh e ndan nivelin e zgjedhur të rëndësisë statistikore mes të dy skajeve. Pjesa vijuese shpjegon pse $\alpha$ është edhe probabiliteti afatgjatë i një gabimi të llojit I.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Figurë e lëvizshme me tri panele për rajonet e refuzimit"}
+
+```{r}
+#| label: fig-hypothesis-tail-regions
+#| fig-alt: "Tri lakore normale standarde tregojnë rajone refuzimi me bisht të poshtëm, me bisht të sipërm dhe dyanësh. Në secilin panel, sipërfaqja e ngjyrosur është gjithsej 0.05."
+#| fig-cap: "Hipoteza alternative përcakton ku vendoset rajoni i refuzimit. Një test dyanësh e ndan alfa-n mes të dy bishtave."
+#| fig-width: 11
+#| fig-height: 4.2
+p_tail_regions
+```
+
+:::
+
+Tri panelet përdorin të njëjtin nivel të përgjithshëm të rëndësisë statistikore, por e vendosin ndryshe. Në panelin me bisht të poshtëm, vetëm statistikat jashtëzakonisht të vogla numërohen kundër $H_0$. Në panelin me bisht të sipërm, numërohen vetëm statistikat jashtëzakonisht të mëdha. Në panelin dyanësh, numërohen rezultatet e pazakonta në cilindo drejtim, prandaj gjysma e $\alpha$ shfaqet në secilin bisht. Qendra e pangjyrosur përmban rezultatet për të cilat rregulli nuk e refuzon $H_0$. Ajo nuk përfaqëson provë se $H_0$ është e saktë.
+
+Drejtimi duhet të arsyetohet nga pyetja kërkimore dhe të caktohet para se të shqyrtohen të dhënat. Zgjedhja e një testi njëanësh pasi të shihet drejtimi i rezultatit të kampionit do ta bënte të pavlefshëm nivelin e zgjedhur të rëndësisë statistikore.
+
+---
+
+### Vendimet dhe dy gabimet e mundshme {.cs-heading}
+
+Një test hipoteze përdor një kampion për të zgjedhur mes dy veprimeve: ta refuzojë $H_0$ ose *të mos e refuzojë* $H_0$. Mosrefuzimi do të thotë se kampioni nuk dha evidencë mjaftueshëm të pazakontë sipas rregullit të zgjedhur. Nuk provon se $H_0$ është e vërtetë.
+
+Meqë vendimi bazohet në një kampion, ai mund të jetë i gabuar:
+
+| Çfarë është e vërtetë në popullatë | Mosrefuzimi i $H_0$ | Refuzimi i $H_0$ |
+|---|---|---|
+| $H_0$ është e vërtetë | Mosrefuzim i saktë | Gabim i llojit I |
+| $H_1$ e përcaktuar është e vërtetë | Gabim i llojit II | Refuzim i saktë |
+
+: Katër kombinimet e mundshme të gjendjes së popullatës dhe vendimit të testit. {#tbl-testing-errors}
+
+Lexoji rreshtat si realiteti i panjohur i popullatës dhe kolonat si veprimi i ndërmarrë nga kampioni. Nëse $H_0$ është e vërtetë, refuzimi krijon një gabim të llojit I. Nëse alternativa e përcaktuar është e vërtetë, mosrefuzimi krijon një gabim të llojit II. Dy qelizat diagonale janë vendime të sakta. Nën një alternativë të përcaktuar, probabiliteti afatgjatë i refuzimit të saktë në qelizën poshtë djathtas quhet *fuqi statistikore*.
+
+Një *gabim i llojit I* ndodh kur procedura e refuzon $H_0$, edhe pse $H_0$ është e vërtetë. Probabiliteti i tij afatgjatë është niveli i rëndësisë statistikore $\alpha$ i paraqitur më sipër.
+
+Një *gabim i llojit II* ndodh kur procedura nuk e refuzon $H_0$, edhe pse alternativa e përcaktuar është e vërtetë. Probabiliteti i tij shënohet me $\beta$ (beta). Pasojat e dy gabimeve varen nga konteksti i kërkimit. Asnjëri gabim nuk është automatikisht më i pranueshëm.
+
+Mendo për një studim të një programi mësimor që vërtet ndihmon. Një gabim i llojit I do ta rekomandonte programin edhe pse ai nuk e përmirëson mesataren e popullatës, duke shpenzuar ndoshta kohë dhe burime pa përfitim. Një gabim i llojit II do ta humbiste një përmirësim real dhe do ta linte programin ekzistues të pandryshuar. Këto pasoja tregojnë pse probabilitetet e gabimeve ndihmojnë të përcaktohet sa i kujdesshëm duhet të jetë rregulli i testimit dhe sa të dhëna i duhen studimit.
+
+Niveli i rëndësisë statistikore zgjidhet para se të shihet rezultati. Ai është veti e procedurës nën supozimet e saj, jo probabiliteti që ky vendim i veçantë është i gabuar.
+
+---
+
+### Statistikat e testit, shpërndarjet nën hipotezën zero dhe vlerat kritike {.cs-heading}
+
+Një *statistikë testi* është një numër i standardizuar i llogaritur nga kampioni. Ajo e krahason dallimin e vrojtuar me sasinë e ndryshueshmërisë së kampionimit që pritet nën $H_0$. Struktura e përgjithshme është
+
+$$
+\text{statistika e testit}
+=
+\frac{\text{vlerësimi i vrojtuar}-\text{vlera e pohuar nga }H_0}
+{\text{gabimi standard i vlerësimit}}.
+$$
+
+Numëruesi është largësia e vrojtuar nga vlera e pohuar nga $H_0$, e shprehur në njësitë fillestare të ndryshores. Emëruesi është sasia me të cilën vlerësimi ndryshon zakonisht nëpër kampione të përsëritura sipas modelit. Pjesëtimi i njërës me tjetrën i përgjigjet një pyetjeje të thjeshtë: sa gabime standarde larg vlerës së pohuar nga $H_0$ ndodhet ky vlerësim?
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Diagram i lëvizshëm me katër hapa që tregon si një vlerësim bëhet statistikë testi"}
+
+```{r}
+#| label: fig-test-statistic-process
+#| fig-alt: "Një diagram me katër hapa fillon me mesataren 54 të kampionit, zbret vlerën 50 të pohuar nga hipoteza zero për të marrë katër pikë, pjesëton me gabimin standard 2 për të marrë statistikën e testit 2 dhe pastaj e vendos këtë vlerë në një shpërndarje nën hipotezën zero."
+#| fig-cap: "Statistika e testit e shpreh largësinë e vrojtuar nga vlera e pohuar nga hipoteza zero në njësi të gabimit standard, para se ajo largësi të vendoset në shpërndarjen nën hipotezën zero."
+#| fig-width: 10
+#| fig-height: 4.4
+p_test_statistic_process
+```
+
+:::
+
+Lexoji kutitë nga e majta në të djathtë. Kutia e parë përmban vlerësimin e vrojtuar. E dyta zbret vlerën e propozuar nga $H_0$, kështu që largësia fillestare është 4 pikë. E treta e pjesëton atë largësi me gabimin standard 2 dhe jep statistikën e testit 2. Kutia e fundit na kujton se numri bëhet evidencë vetëm pasi vendoset në shpërndarjen e duhur nën hipotezën zero.
+
+Diagrami e lidh formulën me kuptimin e saj: statistika 2 thotë se vlerësimi ndodhet dy gabime standarde larg vlerës së pohuar nga $H_0$. Nuk thotë se efekti është 2 pikë, sepse largësia fillestare prej katër pikësh dhe vlera e standardizuar u përgjigjen pyetjeve të ndryshme. Gjithashtu, vetë ajo nuk jep një vlerë p. Shpërndarja nën hipotezën zero, drejtimi i $H_1$ dhe niveli i rëndësisë statistikore i përcaktuar paraprakisht ende përcaktojnë cilat vlera janë mjaftueshëm të pazakonta.
+
+*Shpërndarja nën hipotezën zero* është shpërndarja e probabilitetit e statistikës së testit kur $H_0$ dhe supozimet e modelit vlejnë. Ajo na tregon cilat vlera janë të zakonshme dhe cilat janë të pazakonta nën pohimin e referencës.
+
+Pasi zgjidhet $\alpha$, *rajoni i refuzimit* përmban vlerat e statistikës së testit që çojnë në refuzimin e $H_0$. Një *vlerë kritike* është kufiri i atij rajoni. Logjika ndjek gjithmonë të njëjtën renditje:
+
+1. Shprehi $H_0$, $H_1$, drejtimin dhe $\alpha$ para se ta shqyrtosh rezultatin.
+2. Llogarite statistikën e testit nga kampioni.
+3. Vendose atë në shpërndarjen e saj nën hipotezën zero.
+4. Refuzoje $H_0$ nëse bie në rajonin e refuzimit; përndryshe, mos e refuzo $H_0$.
+
+Një rezultat quhet *statistikisht i rëndësishëm* në nivelin $\alpha$ kur procedura e refuzon $H_0$. Kjo shprehje i referohet rregullit të testimit. Nuk pohon se efekti është i madh apo i rëndësishëm në praktikë.
+
+---
+
+### Si ta lexosh saktë një vlerë p {.cs-heading}
+
+Një *vlerë p* është probabiliteti, i llogaritur nën $H_0$, për të marrë statistikën e vrojtuar të testit ose një statistikë edhe më ekstreme në drejtimin e përcaktuar nga $H_1$. Për një test dyanësh, numërohen vlerat njësoj ekstreme në të dy drejtimet.
+
+```{r}
+#| label: fig-two-sided-p-value
+#| fig-alt: "Një lakore normale standarde i ka të dy bishtat të ngjyrosur përtej minus 2.10 dhe plus 2.10. Dy sipërfaqet e ngjyrosura formojnë së bashku vlerën p dyanëshe."
+#| fig-cap: "Një vlerë p dyanëshe përfshin rezultate të paktën po aq larg nga zero sa statistika e vrojtuar në cilindo drejtim."
+#| fig-height: 4.3
+p_pvalue
+```
+
+Lakorja tregon vlerat e statistikës së testit që priten nën $H_0$. Zeroja gjendet në qendër, sepse ky model i standardizuar nën hipotezën zero nuk pret largim nga vlera zero. Statistika e vrojtuar është $2.10$ dhe një pyetje dyanëshe e trajton $-2.10$ si njësoj larg nga zeroja. Prandaj dy bishtat e ngjyrosur përfshijnë çdo rezultat të paktën po aq ekstrem sa rezultati i vrojtuar në cilindo drejtim. Sipërfaqja e tyre e përbashkët është vlera p.
+
+Për statistikën normale standarde të ilustruar $z=2.10$, vlera p dyanëshe është
+
+$$P(Z\leq-2.10)+P(Z\geq2.10)\approx0.036.$$
+
+Qasja me vlerën p dhe qasja me vlerën kritike japin të njëjtin vendim kur përdorin të njëjtin model, drejtim dhe $\alpha$:
+
+- nëse $p<\alpha$, refuzoje $H_0$;
+- nëse $p\geq\alpha$, mos e refuzo $H_0$.
+
+::: {.callout-note title="Dallim i rëndësishëm"}
+
+Vlera p nuk është probabiliteti që $H_0$ është e vërtetë. Nuk është probabiliteti që rastësia e shkaktoi rezultatin. Gjithashtu, ajo nuk mat madhësinë e efektit apo rëndësinë praktike.
+:::
+
+Vlera p i përgjigjet një pyetjeje rreth evidencës nën $H_0$. Pjesa vijuese shtron një pyetje tjetër: sa i madh dhe sa kuptimplotë është efekti për fushën në fjalë?
+
+---
+
+### Madhësia e efektit, fuqia statistikore dhe planifikimi i madhësisë së kampionit {.cs-heading}
+
+Një *madhësi efekti* përshkruan madhësinë e një dallimi ose lidhjeje, veçmas nga rëndësia e saj statistikore. Për një pyetje njëkampionëshe rreth mesatares së popullatës, ku devijimi standard i popullatës $\sigma$ njihet, përdorim efektin e standardizuar
+
+$$
+\delta=\frac{\mu-\mu_0}{\sigma}.
+$$
+
+Numëruesi është dallimi me interes në popullatë. Pjesëtimi me $\sigma$ e shpreh atë dallim në njësi të devijimit standard të popullatës. Shenja jep drejtimin, ndërsa $|\delta|$ jep madhësinë.
+
+*Fuqia statistikore* është probabiliteti që një test ta refuzojë $H_0$ kur një vlerë alternative e caktuar është e vërtetë:
+
+$$\text{Fuqia statistikore}=1-\beta.$$
+
+Fuqia statistikore nuk është një veti e vetme dhe e pandryshueshme e studimit. Ajo ndryshon sipas efektit alternativ që shqyrtohet. Kur përmasat e tjera mbeten të pandryshuara:
+
+| Ndryshimi | Ndikimi në fuqi | Arsyeja |
+|---|---|---|
+| Rritja e madhësisë së kampionit $n$ | E rrit | Gabimi standard zvogëlohet |
+| Rritja e madhësisë së efektit $|\delta|$ | E rrit | Alternativa gjendet më larg nga $H_0$ |
+| Ulja e $\alpha$ | E ul | Kufiri i refuzimit bëhet më i vështirë për t'u kaluar |
+| Përdorimi i arsyetuar i një testi njëanësh në vend të një testi dyanësh | E rrit në drejtimin e zgjedhur | I gjithë $\alpha$ vendoset në një bisht |
+
+: Përmasat që përcaktojnë fuqinë në modelin e testimit të përdorur këtu. {#tbl-power-determinants}
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Figurë e lëvizshme me dy panele për gabimin e llojit I, gabimin e llojit II dhe fuqinë statistikore"}
+
+```{r}
+#| label: fig-error-power-regions
+#| fig-alt: "Dy panele përdorin të njëjtin kufi kritik. Kur hipoteza zero është e vërtetë, sipërfaqja e vogël përtej kufirit është gabimi i llojit I. Për një alternativë të caktuar, sipërfaqja para kufirit është gabimi i llojit II dhe sipërfaqja përtej tij është fuqia statistikore."
+#| fig-cap: "Alfa, beta dhe fuqia statistikore u referohen rezultateve të përsëritura nën gjendje të ndryshme të popullatës."
+#| fig-width: 10
+#| fig-height: 4.5
+p_power_decisions
+```
+
+:::
+
+Figura e mban kufirin kritik të pandryshuar. Nën $H_0$, kalimi i tij është gabim i llojit I. Nën $H_1$ e përcaktuar, kalimi i tij është zbulim i saktë. Zhvendosja e shpërndarjes alternative më larg ose ngushtimi i të dy shpërndarjeve përmes një kampioni më të madh e rrit sipërfaqen e fuqisë.
+
+Për modelin njëanësh të planifikimit z që përdoret këtu, madhësia e nevojshme e kampionit mund të shkruhet si
+
+$$
+n
+=
+\left(
+\frac{z_{1-\alpha}+z_{1-\beta}}{\delta}
+\right)^2.
+$$
+
+Këtu $z_{1-\alpha}$ vendos kufirin e refuzimit, $z_{1-\beta}$ përfaqëson fuqinë e dëshiruar sepse fuqia është $1-\beta$, ndërsa $\delta$ është efekti i standardizuar që studimi synon të zbulojë. Rezultati rrumbullakohet gjithmonë **lart** te vrojtimi i plotë pasues. Kjo formulë është mjet planifikimi për modelin e dhënë, jo një rregull universal për madhësinë e kampionit në çdo procedurë statistikore.
+
+Planifikimi i fuqisë duhet të ndodhë para mbledhjes së të dhënave. Studiuesit fillimisht shprehin dallimin më të vogël që do të kishte rëndësi praktike dhe pastaj përcaktojnë madhësinë e kampionit që nevojitet për ta zbuluar atë dallim me fuqinë e zgjedhur. Llogaritja e fuqisë vetëm për efektin që tashmë është vrojtuar në të njëjtat të dhëna nuk i përgjigjet kësaj pyetjeje planifikimi.
+
+---
+
+### Rëndësia statistikore dhe rëndësia praktike {.cs-heading}
+
+Një rezultat statistikisht i rëndësishëm thotë se statistika e vrojtuar e kaloi pragun e evidencës të shpallur paraprakisht nën $H_0$. Nuk thotë se dallimi është aq i madh sa të ketë rëndësi praktike.
+
+Me një kampion shumë të madh, një efekt i vogël mund të vlerësohet me saktësi dhe të bëhet statistikisht i rëndësishëm. Me një kampion të vogël, një efekt i rëndësishëm mund të mbetet i pazbuluar, sepse gabimi standard është i madh dhe fuqia është e ulët. Prandaj, një raportim i përgjegjshëm jep vlerësimin e efektit, një interval besimi dhe kontekstin e studimit krahas vlerës p.
+
+::: {.callout-tip title="Ideja kryesore"}
+Shtro dy pyetje të ndara: "A është rezultati i vështirë për t'u pajtuar me $H_0$ nën këtë model?" dhe "A është dallimi i vlerësuar aq i madh sa të ketë rëndësi në këtë kontekst?"
+:::
+
+Tani kalojmë nga logjika e përgjithshme te shpërndarjet e përdorura për testet dhe intervalet rreth mesatareve.
+
+---
+
+### Procedurat z dhe t për një kampion {.cs-heading}
+
+Një *procedurë për një kampion* krahason mesataren e një kampioni me një vlerë reference $\mu_0$.
+
+Nëse devijimi standard i popullatës $\sigma$ njihet dhe modeli normal i shprehur vlen, statistika z është
+
+$$
+z=\frac{\bar{x}-\mu_0}{\sigma/\sqrt{n}}.
+$$
+
+Në shumicën e zbatimeve, $\sigma$ është i panjohur. Zëvendësimi i tij me devijimin standard të kampionit $s$ jep
+
+$$
+t=\frac{\bar{x}-\mu_0}{s/\sqrt{n}}.
+$$
+
+Nën $H_0$ dhe supozimet e modelit, kjo statistikë ndjek një *shpërndarje t*. Shpërndarja t është një shpërndarje reference simetrike, me formë të ngjashme me shpërndarjen normale standarde, por me bishta më të rëndë. Bishtat më të rëndë nënkuptojnë se vlerave larg zeros u caktohet më shumë probabilitet, sepse vlerësimi i $\sigma$ shton pasiguri.
+
+Shpërndarja e saktë t përcaktohet nga *shkallët e lirisë*, të shkurtuara $df$. Shkallët e lirisë përshkruajnë sa informacion i pavarur mbetet pas vlerësimit të madhësive të nevojshme. Për procedurën t me një kampion,
+
+$$df=n-1.$$
+
+```{r}
+#| label: fig-t-distribution-shapes
+#| fig-alt: "Katër lakore simetrike krahasojnë shpërndarjen normale standarde me shpërndarjet t që kanë 2, 5 dhe 30 shkallë lirie. Lakoret t me më pak shkallë lirie kanë qendër më të ulët dhe bishta më të rëndë."
+#| fig-cap: "Me rritjen e shkallëve të lirisë, shpërndarja t i afrohet shpërndarjes normale standarde."
+#| fig-height: 4.5
+p_t_shapes
+```
+
+Të katër lakoret janë të qendëruara te zeroja. Lakoret me 2 dhe 5 shkallë lirie vendosin dukshëm më shumë sipërfaqe në bishta. Kjo pasqyron pasigurinë shtesë nga vlerësimi i devijimit standard të popullatës me pak të dhëna. Me 30 shkallë lirie, lakorja t është afër lakores normale, megjithëse referenca e saktë t vazhdon t'i përdorë shkallët e saj reale të lirisë.
+
+Format t dhe normale standarde bëhen më të ngjashme me rritjen e kampionit. Ky është ndryshim gradual, jo një rregull universal sipas të cilit çdo studim bëhet i vlefshëm në një prag të vetëm të madhësisë së kampionit.
+
+Për një interval dyanësh me $\sigma$ të panjohur, intervali përkatës i besimit i bazuar në t është
+
+$$
+\bar{x}\ \pm\ t_{1-\alpha/2,\;n-1}\frac{s}{\sqrt{n}}.
+$$
+
+Këtu $t_{1-\alpha/2,\;n-1}$ është vlera kritike t me probabilitet kumulativ $1-\alpha/2$ dhe me $n-1$ shkallë lirie. Madhësia që shumëzohet me vlerën kritike është gabimi standard i vlerësuar.
+
+Për një test dyanësh të $H_0:\mu=\mu_0$ në nivelin $\alpha$, testi dhe intervali përkatës i besimit $(1-\alpha)$ pajtohen:
+
+- nëse intervali e përmban $\mu_0$, mos e refuzo $H_0$;
+- nëse intervali nuk e përfshin $\mu_0$, refuzoje $H_0$.
+
+Kjo përputhje kërkon të njëjtin model, të njëjtat supozime, të njëjtin nivel besimi dhe të njëjtën alternativë dyanëshe.
+
+---
+
+### Zgjedhja e procedurës për mesataren nga dizajni {.cs-heading}
+
+Formula varet nga mënyra si lidhen vrojtimet. Numri i kolonave në një grup të dhënash nuk mjafton për të vendosur. Duhet të dallojmë kush ose çfarë e prodhoi secilën vlerë.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Diagram i lëvizshëm që krahason tri dizajne studimi për mesataret"}
+
+```{r}
+#| label: fig-mean-procedure-designs
+#| fig-alt: "Tri rreshta lidhin dizajnet e studimit me procedurat. Një kampion krahasohet me një vlerë reference, dy grupe të pavarura kanë pjesëmarrës të ndryshëm dhe vrojtimet e çiftuara prodhojnë një diferencë për secilin çift."
+#| fig-cap: "Marrëdhënia mes vrojtimeve përcakton procedurën për mesataren."
+#| fig-width: 10
+#| fig-height: 4.3
+p_design_map
+```
+
+:::
+
+Rreshti i sipërm i figurës ka një kampion dhe një vlerë reference të pandryshueshme. Rreshti i mesëm ka dy grupe të ndara, prandaj asnjë vlerë në njërin grup nuk lidhet me një vlerë të caktuar në grupin tjetër. Rreshti i poshtëm nis me matje të lidhura dhe e shndërron secilën lidhje në një pikëzim diference. Ky vendim duhet marrë para se të zgjidhet formula.
+
+| Dizajni | Struktura e të dhënave | Madhësia që testohet |
+|---|---|---|
+| Një kampion | Një vlerë për secilën njësi të kampionuar | $\mu-\mu_0$ |
+| Dy kampione të pavarura | Secila njësi i përket vetëm njërit grup | $\mu_1-\mu_2$ |
+| Kampione të çiftuara | Dy vlera të lidhura i përkasin të njëjtit person ose çift të përputhur | Diferenca mesatare $\mu_d$ |
+
+: Zgjedhja e një procedure për mesataren nga struktura e vrojtimeve. {#tbl-mean-procedure-selection}
+
+Kolona e fundit dallon madhësinë e popullatës pas secilit test. Procedura për një kampion lidhet me një mesatare minus një vlerë reference. Procedura për kampione të pavarura lidhet me diferencën mes dy mesatareve të popullatave. Procedura e çiftuar lidhet me mesataren e popullatës të diferencave brenda çifteve. Prandaj, të dhëna që duken të ngjashme mund të çojnë në pyetje dhe gabime standarde të ndryshme.
+
+Një vrojtim është *i pavarur* kur vlera e tij nuk është e çiftuar me, apo e përcaktuar nga, një vrojtim tjetër në analizë. *Vrojtimet e çiftuara* janë të lidhura qëllimisht, si një pikëzim para dhe pas nga i njëjti person. Trajtimi i vlerave të çiftuara si të pavarura e hedh poshtë lidhjen që krijoi dizajni.
+
+---
+
+### Dy kampione të pavarura: Procedura t me variancë të përbashkët {.cs-heading}
+
+Për dy grupe të pavarura, le të jenë $\bar{x}_1$ dhe $\bar{x}_2$ mesataret e kampioneve, $s_1^2$ dhe $s_2^2$ variancat e kampioneve, kurse $n_1$ dhe $n_2$ madhësitë e kampioneve. Procedura me variancë të përbashkët që mësohet këtu supozon varianca të barabarta të popullatave dhe i bashkon dy variancat e kampioneve në një *variancë të përbashkët*:
+
+$$
+s_p^2=
+\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}
+{n_1+n_2-2}.
+$$
+
+Bashkimi i variancave i ndërthur dy vlerësimet e variancës së kampionit nën modelin e variancave të barabarta. Gabimi standard i diferencës së mesatareve është
+
+$$
+SE(\bar{x}_1-\bar{x}_2)
+=
+s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}},
+$$
+
+dhe statistika e testit është
+
+$$
+t=
+\frac{\bar{x}_1-\bar{x}_2}
+{s_p\sqrt{1/n_1+1/n_2}},
+\qquad
+df=n_1+n_2-2.
+$$
+
+Intervali përkatës dyanësh i besimit për diferencën e mesatareve të popullatave është
+
+$$
+(\bar{x}_1-\bar{x}_2)
+\ \pm\
+t_{1-\alpha/2,\;n_1+n_2-2}
+s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}.
+$$
+
+Intervali përdor të njëjtin gabim standard të përbashkët dhe të njëjtin model të variancave të barabarta si testi. Nëse intervali nuk e përfshin zeron, testi përkatës dyanësh e refuzon një diferencë zero mes mesatareve të popullatave.
+
+Llogaritja kuptohet më lehtë si një recetë me katër pjesë. Së pari, përmbledh secilin grup veçmas. Së dyti, bashkoji dy vlerësimet e variancës në $s_p^2$ nën supozimin e variancave të barabarta. Së treti, përdor $s_p$ dhe të dy madhësitë e kampioneve për të vlerësuar gabimin standard të diferencës së mesatareve. Së katërti, pjesëtoje diferencën e vrojtuar me atë gabim standard. Numëruesi tregon sa larg janë grupet. Emëruesi tregon sa do të ndryshonte zakonisht ajo diferencë nga një kampion te tjetri nën model.
+
+Ky model kërkon vrojtime të pavarura, varianca të barabarta të popullatave dhe vlera të shpërndara normalisht brenda secilës popullatë për inferencë të saktë në kampione të vogla. Me kampione mjaftueshëm të mëdha, procedura mund të jetë më pak e ndjeshme ndaj jonormalitetit, por madhësia e kampionit nuk e korrigjon varësinë, kampionimin e anshëm apo një ndryshore rezultati të zgjedhur dobët.
+
+::: {.callout-note title="Dallim i rëndësishëm"}
+Shumë paketa softuerike përdorin si parazgjedhje një procedurë tjetër për kampione të pavarura. Kjo temë ndjek procedurën me varianca të barabarta që paraqitet këtu. Emri i raportuar dhe llogaritja duhet të përputhen.
+:::
+
+*Caktimi i rastësishëm* do të thotë të përdorësh një proces rastësie për të përcaktuar cilin kusht eksperimental merr secili pjesëmarrës. Në një eksperiment të zhvilluar mirë, ai mund të mbështesë një krahasim shkakor, sepse procesi i caktimit synon të pengojë që grupet të dallojnë sistematikisht para ndërhyrjes. Një dallim statistikisht i rëndësishëm mes grupeve që ekzistonin paraprakisht në një studim vrojtues nuk tregon vetvetiu se anëtarësia në grup e shkaktoi dallimin.
+
+---
+
+### Kampionet e çiftuara: Analizo diferencat {.cs-heading}
+
+Për të dhëna të çiftuara, përcakto fillimisht një *pikëzim diference* për secilin çift:
+
+$$d_i=x_{i,\text{pas}}-x_{i,\text{para}}.$$
+
+Rendi duhet të shprehet, sepse përmbysja e tij e përmbys shenjën e çdo diference. Pasi llogariten diferencat, problemi bëhet një procedurë t për një kampion për $H_0:\mu_d=0$:
+
+$$
+t=\frac{\bar{d}}{s_d/\sqrt{n}},
+\qquad
+df=n-1.
+$$
+
+Këtu $n$ është numri i çifteve të plota, $\bar{d}$ është diferenca e tyre mesatare dhe $s_d$ është devijimi standard i pikëzimeve të diferencës. Kushti përkatës i normalitetit lidhet me shpërndarjen e diferencave, jo me secilën matje të marrë veçmas.
+
+Intervali përkatës dyanësh i besimit është
+
+$$
+\bar d
+\ \pm\
+t_{1-\alpha/2,\;n-1}\frac{s_d}{\sqrt n}.
+$$
+
+Ky interval vlerëson mesataren e popullatës të diferencës së përcaktuar, prandaj shenja e tij ndryshon nëse përmbyset rendi i zbritjes.
+
+Procedura e çiftuar është e përshtatshme edhe për njësi të përputhura qëllimisht, si raste dhe kontrolle të përputhura, kur secila përputhje përcakton një çift kuptimplotë.
+
+---
+
+### Alternativat e bazuara në rangje {.cs-heading}
+
+Procedurat z dhe t janë *procedura parametrike*. Kjo do të thotë se shpërndarjet e tyre nën hipotezën zero nxirren duke përdorur parametra të përcaktuar të popullatës dhe kushte të shpërndarjes. Kjo temë paraqet edhe *procedura të bazuara në rangje* si alternativa kur shpërndarja e vlerave fillestare nuk i përshtatet modelit përkatës parametrik.
+
+Një *rang* është pozicioni i një vlere pasi të gjitha vlerat përkatëse renditen nga më e vogla te më e madhja. Zëvendësimi i matjeve me rangje e ruan rendin e tyre, por i humb largësitë e sakta mes tyre.
+
+| Vlera fillestare | 8 | 11 | 11 | 20 |
+|---|---:|---:|---:|---:|
+| Rangu | 1 | 2.5 | 2.5 | 4 |
+
+: Vlerat e barabarta formojnë një barazim dhe marrin mesataren e rangjeve që zënë. {#tbl-tied-ranks}
+
+Në tabelë, dy vlerat 11 do të zinin pozicionet 2 dhe 3. Prandaj rangu i tyre i përbashkët është $(2+3)/2=2.5$. Vëre çfarë ruan rangimi dhe çfarë humb: 8 mbetet nën 11 dhe 20 mbetet vlera më e lartë, por largësitë numerike 3, 0 dhe 9 nuk janë më pjesë e analizës.
+
+Për dy kampione të pavarura, kjo temë paraqet testin e shumës së rangjeve të Wilcoxon-it, që quhet edhe testi U i Mann-Whitney-t. Për kampione të çiftuara, paraqet procedurën e rangjeve me shenjë të Wilcoxon-it. Të dyja përdorin rangjet në vend të matjeve fillestare.
+
+Shprehja *pa shpërndarje të përcaktuar* nuk do të thotë pa supozime. Dizajni i studimit duhet ende të përputhet me procedurën, vrojtimet duhet ende ta kenë pavarësinë ose çiftimin e kërkuar dhe pohimi që testohet duhet të përshkruhet saktë. Këto procedura nuk duhen paraqitur si teste universale të mesatareve.
+
+Metoda e fundit në këtë temë e ndryshon llojin e rezultatit. Në vend që të krahasojë mesatare sasiore, ajo teston nëse dy ndryshore kategorike janë të pavarura.
+
+---
+
+### Testi hi-katror i pavarësisë {.cs-heading}
+
+Një *test hi-katror i pavarësisë* shqyrton dy ndryshore kategorike të regjistruara te të njëjtat njësi të kampionuara. Hipotezat e tij janë
+
+$$
+\begin{aligned}
+H_0 &: \text{dy ndryshoret janë të pavarura},\\
+H_1 &: \text{dy ndryshoret janë të lidhura}.
+\end{aligned}
+$$
+
+*Numërimi i vrojtuar* $n_{ij}$ është numri që gjendet realisht në rreshtin $i$ dhe kolonën $j$ të një tabele dykahëshe. *Numërimi i pritshëm* $m_{ij}$ është numri i parashikuar për atë qelizë nëse $H_0$ do të ishte e vërtetë, duke ruajtur totalet e rreshtave dhe kolonave të tabelës:
+
+$$
+m_{ij}
+=
+\frac{n_{i\cdot}\,n_{\cdot j}}{n}.
+$$
+
+Pika do të thotë "mblidh mbi këtë pozicion". Prandaj $n_{i\cdot}$ është totali i rreshtit $i$, $n_{\cdot j}$ është totali i kolonës $j$ dhe $n$ është madhësia e plotë e kampionit.
+
+Çdo qelizë kontribuon
+
+$$
+\frac{(n_{ij}-m_{ij})^2}{m_{ij}},
+$$
+
+dhe statistika hi-katror i mbledh këto kontribute jonegative:
+
+$$
+\chi^2
+=
+\sum_i\sum_j
+\frac{(n_{ij}-m_{ij})^2}{m_{ij}}.
+$$
+
+Një $\chi^2$ i madh do të thotë se tabela e vrojtuar dallon dukshëm nga tabela që pritet nën pavarësi. Kjo është evidencë kundër $H_0$, jo evidencë për pavarësi. Për një tabelë me $k$ rreshta dhe $l$ kolona,
+
+$$df=(k-1)(l-1).$$
+
+Për një tabelë dy-me-dy, përdorim edhe *koeficientin phi* për të përshkruar madhësinë e lidhjes. Vlera e tij absolute është
+
+$$
+|\phi|=\sqrt{\frac{\chi^2}{n}}.
+$$
+
+Phi është i barasvlershëm me korrelacionin e Pearson-it pasi të dyja ndryshoret binare janë koduar me numra. Prandaj shenja e tij varet nga kategoria që merr secilin kod, ndërsa $|\phi|$ dhe $\chi^2$ nuk varen prej kësaj. Shprehe rendin e kategorive para se të japësh një interpretim me shenjë.
+
+Formulat bëhen më të kuptueshme kur ua shtrojmë të njëjtat pyetje tabelave me përmasa të ndryshme. Në secilin shembull, fillo me tabelën e vrojtuar dhe pastaj pyet:
+
+> Sa raste do të prisnim në secilën qelizë nëse dy ndryshoret do të ishin të pavarura? Ku janë numërimet e vrojtuara mbi ose nën këto pritshmëri? A janë mospërputhjet e marra së bashku aq të mëdha sa të jetë e vështirë të pajtohen me pavarësinë?
+
+**Shembull i zgjidhur 1: dy ndryshore me nga dy kategori**
+
+Përfytyro një kampion të thjeshtë të rastësishëm me 80 studentë, tek të cilët regjistrohen dy ndryshore kategorike. **Formati i studimit** ka kategoritë *i udhëzuar* dhe *i vetëdrejtuar*. **Përfundimi i planit** ka kategoritë *e përfundoi* dhe *nuk e përfundoi*. Meqë secila ndryshore ka dy kategori, kjo është një **tabelë dy-me-dy**.
+
+| Formati i studimit | E përfundoi | Nuk e përfundoi | Totali i rreshtit |
+|---|---:|---:|---:|
+| I udhëzuar | 30 | 10 | 40 |
+| I vetëdrejtuar | 20 | 20 | 40 |
+| Totali i kolonës | 50 | 30 | 80 |
+
+: Numërimet e vrojtuara për dy ndryshore kategorike me nga dy kategori.
+
+Lexoji fillimisht përpjesëtimet, para se të bësh ndonjë llogaritje të testit. Në grupin e udhëzuar, $30/40=75\%$ e përfunduan planin. Në grupin e vetëdrejtuar, e përfunduan $20/40=50\%$. Pra, kampioni përmban një dallim, por testi duhet ende të pyesë sa larg pavarësisë gjendet tabela e plotë.
+
+Nën pavarësi, të dy rreshtat me nga 40 persona do ta riprodhonin shpërndarjen e përgjithshme prej 50 përfundimesh dhe 30 mospërfundimesh ndër 80 studentët. Për qelizën *i udhëzuar dhe e përfundoi*,
+
+$$
+m_{11}=\frac{40\times50}{80}=25.
+$$
+
+Prandaj, katër numërimet e pritshme janë:
+
+| Formati i studimit | E përfundoi | Nuk e përfundoi | Totali i rreshtit |
+|---|---:|---:|---:|
+| I udhëzuar | 25 | 15 | 40 |
+| I vetëdrejtuar | 25 | 15 | 40 |
+| Totali i kolonës | 50 | 30 | 80 |
+
+: Numërimet që priten nëse formati i studimit dhe përfundimi i planit janë të pavarur.
+
+Krahasoji qelizat përkatëse në të dy tabelat. Grupi i udhëzuar ka pesë përfundime më shumë dhe pesë mospërfundime më pak nga sa pritet. Grupi i vetëdrejtuar tregon modelin plotësues. Ngritja në katror e bën jonegativ kontributin e secilës qelizë. Pjesëtimi me numërimin e pritshëm e vendos mospërputhjen në raport me madhësinë e asaj qelize:
+
+$$
+\chi^2
+=
+\frac{(30-25)^2}{25}
++\frac{(10-15)^2}{15}
++\frac{(20-25)^2}{25}
++\frac{(20-15)^2}{15}
+=5.33.
+$$
+
+Këtu $df=(2-1)(2-1)=1$ dhe $p=.021$. Në $\alpha=.05$, e refuzojmë pavarësinë. Në këtë kampion, formati i studimit dhe përfundimi i planit janë të lidhur. Testi nuk tregon se njëra ndryshore e ka shkaktuar tjetrën, prandaj përfundimi nuk duhet të shkojë përtej dizajnit të studiuar. Për këtë tabelë dy-me-dy, $|\phi|=\sqrt{5.33/80}=.258$. Për ta paraqitur phi-n me shenjë, do të duhej ende ta shprehnim kodimin e kategorive.
+
+**Shembull i zgjidhur 2: dy ndryshore me më shumë se dy kategori**
+
+Testi nuk kufizohet te dizajni dy-me-dy. Tani përfytyro një kampion tjetër të thjeshtë të rastësishëm me 90 studentë, ku secili shënon një **format studimi** me tri kategori dhe një **mënyrë kryesore të përsëritjes** me tri kategori. Kështu formohet një **tabelë tre-me-tre** me nëntë qeliza.
+
+| Formati i studimit | Ushtrime | Rilexim | Shpjegim mes studentësh | Totali i rreshtit |
+|---|---:|---:|---:|---:|
+| I udhëzuar | 18 | 8 | 4 | 30 |
+| Me bashkëstudentë | 6 | 5 | 19 | 30 |
+| I pavarur | 6 | 17 | 7 | 30 |
+| Totali i kolonës | 30 | 30 | 30 | 90 |
+
+: Numërimet e vrojtuara për dy ndryshore kategorike me nga tri kategori.
+
+Këtu rastis që secili total rreshti dhe secili total kolone të jetë 30. Prandaj, pavarësia parashikon të njëjtin numërim të pritshëm në secilën qelizë:
+
+$$
+m_{ij}=\frac{30\times30}{90}=10.
+$$
+
+| Formati i studimit | Ushtrime | Rilexim | Shpjegim mes studentësh |
+|---|---:|---:|---:|
+| I udhëzuar | 10 | 10 | 10 |
+| Me bashkëstudentë | 10 | 10 | 10 |
+| I pavarur | 10 | 10 | 10 |
+
+: Numërimet që priten nëse formati i studimit dhe mënyra kryesore e përsëritjes janë të pavarura.
+
+Kjo simetri e bën modelin veçanërisht të dukshëm. Studentët e udhëzuar i raportojnë ushtrimet 18 herë, jo 10 herë sa priten nën pavarësi. Studentët që studiojnë me bashkëstudentë e raportojnë shpjegimin mes studentësh 19 herë, jo 10, ndërsa studentët e pavarur e raportojnë rileximin 17 herë, jo 10. Për shembull, qeliza *i udhëzuar dhe ushtrime* kontribuon
+
+$$
+\frac{(18-10)^2}{10}=6.40
+$$
+
+në statistikën e testit. Mbledhja e kontributeve nga të nënta qelizat jep $\chi^2=30.00$. Tabela tani ka
+
+$$
+df=(3-1)(3-1)=4,
+$$
+
+jo 1, sepse më shumë modele rreshtash dhe kolonash mund të ndryshojnë lirisht. Pasi caktohen totalet e rreshtave dhe kolonave të një tabele tre-me-tre, katër numërime qelizash mund të zgjidhen lirisht. Më pas, totalet i përcaktojnë qelizat e mbetura. Rezultati ka $p<.001$, ndaj pavarësia refuzohet në $\alpha=.05$. Përfundimi është një lidhje e përgjithshme mes formatit të studimit dhe mënyrës kryesore të përsëritjes. Kjo nuk përbën nëntë teste të ndara hipotezash. Vlera pa shenjë $\chi^2$ nuk tregon vetvetiu as cilat kategori e krijojnë modelin. Këtë e mësojmë duke u kthyer te krahasimet mes numërimeve të vrojtuara dhe të pritshme. Phi, siç u paraqit më sipër, është masa për tabelat dy-me-dy në këtë temë dhe prandaj nuk raportohet për këtë tabelë tre-me-tre.
+
+Përafrimi hi-katror që mësohet këtu kërkon një kampion të thjeshtë të rastësishëm dhe numërime të pritshme më të mëdha se 5 në çdo qelizë. Nëse ky kusht për numërimet e pritshme nuk plotësohet, alternativa e shprehur është testi i saktë i Fisher-it.
+
+Të dy shembujt e zgjidhur e plotësojnë kushtin për numërimet e pritshme: numërimi më i vogël i pritshëm është 10 në tabelën tre-me-tre dhe 15 në tabelën dy-me-dy. Kushti lidhet me numërimet e pritshme, jo me numërimet e vrojtuara.
+
+---
+
+::: {.callout-warning title="Gabime të mundshme"}
+
+- **Ta trajtosh vlerën p si probabilitetin që hipoteza zero është e vërtetë.** Vlera p llogaritet nën $H_0$ dhe përshkruan rezultatet e kampionit, jo probabilitetin e një hipoteze.
+
+- **Të thuash se një rezultat jo i rëndësishëm statistikisht provon se nuk ka efekt.** Mosrefuzimi i $H_0$ do të thotë se procedura e zgjedhur nuk e kaloi pragun e saj të evidencës.
+
+- **Ta interpretosh rëndësinë statistikore si rëndësi praktike.** Raporto vlerësimin e efektit dhe intervalin e besimit, pastaj diskuto kontekstin praktik.
+
+- **Ta zgjedhësh një alternativë njëanëshe pasi ta shohësh rezultatin.** Drejtimi dhe $\alpha$ duhet të caktohen para se të shqyrtohen të dhënat.
+
+- **Ta ngatërrosh devijimin standard me gabimin standard.** Devijimi standard përshkruan vlerat individuale; gabimi standard përshkruan një vlerësues nëpër kampione të përsëritura.
+
+- **Ta shpërfillësh dizajnin e studimit.** Grupet e pavarura dhe vrojtimet e çiftuara kërkojnë llogaritje të ndryshme.
+
+- **Të raportosh një test t me variancë të përbashkët pa kushtin e variancave të barabarta.** Emri i procedurës, supozimet dhe llogaritja duhet të përputhen.
+
+- **Të thuash se një interval i përfunduar 95% e përmban parametrin me probabilitet 95%.** Shifra 95% i referohet mbulimit afatgjatë të procedurës.
+
+- **Ta lexosh një vlerë të madhe hi-katror si evidencë për pavarësi.** Mospërputhjet e mëdha mes numërimeve të vrojtuara dhe të pritshme numërohen kundër pavarësisë.
+:::
+
+---
+
+### Pse e gjithë kjo ka rëndësi për të ardhmen tënde në statistikë {.cs-heading}
+
+> **Cila është ideja qendrore që duhet ta marrësh me vete?** Një kampion mund të na informojë për një popullatë vetëm kur e marrim parasysh pasigurinë që lind sepse vrojtojmë disa raste dhe jo çdo rast të mundshëm.
+
+Ky është qëllimi i inferencës statistikore. Një mesatare kampioni, një dallim mes grupeve ose një model i numërimeve të kategorive na jep evidencë, por një kampion tjetër i marrë në të njëjtën mënyrë nuk do të jepte saktësisht të njëjtin rezultat. Një interval besimi e mban të dukshme këtë ndryshueshmëri duke e shoqëruar vlerësimin me një varg vlerash të popullatës që, nën supozimet e procedurës, përputhen në mënyrë të arsyeshme me kampionin. Një test hipoteze shtron një pyetje më të përqendruar: sa e vështirë do të ishte që rezultati i vrojtuar, ose një rezultat edhe më ekstrem, të pajtohej me një hipotezë zero të shprehur? Këto janë dy këndvështrime mbi të njëjtën pasiguri: ato u përgjigjen pyetjeve të lidhura me njëra-tjetrën, në vend që ta zëvendësojnë njëra-tjetrën.
+
+Prandaj, vlera p është vetëm një pjesë e përfundimit. Ajo nuk na tregon probabilitetin që hipoteza zero është e vërtetë, madhësinë e një efekti apo nëse një rezultat ka rëndësi praktike. Një përfundim i dobishëm i bashkon efektin ose lidhjen e vlerësuar, pasigurinë përkatëse, evidencën nga testi dhe kontekstin e fushës. Për këtë arsye, një rezultat mund të zbulohet statistikisht, por të mos ketë rëndësi praktike. Anasjelltas, një efekt me rëndësi praktike mund të jetë vlerësuar me shumë pasiguri për të lejuar një përfundim të sigurt.
+
+Procedura duhet të përputhet edhe me mënyrën si janë krijuar të dhënat. Një kampion, dy grupe të pavarura dhe matjet e çiftuara përcaktojnë njësi të ndryshme informacioni dhe, rrjedhimisht, gabime standarde dhe statistika testi të ndryshme. Kur rezultatet janë kategorike, një procedurë e bazuar në mesatare nuk i përgjigjet më pyetjes. Testi hi-katror ndjek të njëjtën logjikë inferenciale duke krahasuar numërimet e vrojtuara në qeliza me numërimet që priten nën pavarësi. Struktura e të dhënave e përcakton llogaritjen, ndërsa çdo procedurë vazhdon të kërkojë një kalim të kujdesshëm nga pyetja dhe dizajni, përmes pasigurisë dhe evidencës, te një përfundim i matur.
+
+Intervalet e besimit dhe testet i shndërrojnë shpërndarjet e kampionimit nga Tema 2 në mjete për të arsyetuar rreth popullatës. E njëjta logjikë rikthehet te korrelacioni, regresioni dhe analiza e variancës: shprehe pyetjen për parametrin, identifiko modelin e kampionimit, mat pasigurinë dhe ndaje evidencën statistikore nga kuptimi praktik.
+
+Tema vijuese e ndryshon pyetjen nga dallimet mes mesatareve te mënyra si ndryshojnë së bashku dy ndryshore sasiore.
+
+## Shembull i simuluar
+
+### Studim i simuluar: Planifikimi i udhëzuar i studimit {.cs-heading}
+
+Një ekip universitar dëshiron të vlerësojë një program të shkurtër të planifikimit të udhëzuar. Studimi regjistron një pikëzim planifikimi para dhe pas periudhës së programit, si dhe nëse secili pjesëmarrës e përfundon planin e studimit. Ky kontekst ka rëndësi, sepse një tabelë mund të përmbajë disa pyetje statistikore që kërkojnë procedura të ndryshme. Një mesatare në një moment, një krahasim mes grupeve të ndara, një ndryshim brenda të njëjtëve persona dhe një lidhje mes dy kategorive nuk mund të analizohen sikur të kishin të njëjtën strukturë.
+
+Të 160 pjesëmarrësit janë të simuluar. Nuk është matur asnjë person real dhe asnjë rezultat nuk është *pohim empirik*, pra pohim i mbështetur nga vrojtime të mbledhura në botën reale.
+
+Siç shpjegoi [Tema 1](t01_descriptive.qmd), ky simulim përdor një numër nisës të pandryshuar, që çdo rindërtim të krijojë të njëjtët rreshta artificialë dhe të njëjtat rezultate numerike.
+
+Receta e të dhënave është:
+
+1. Krijo 160 pjesëmarrës artificialë.
+2. Cakto në mënyrë të rastësishme saktësisht 80 prej tyre në planifikimin e udhëzuar dhe 80 në rutinën e zakonshme të studimit. *Caktimi i rastësishëm* do të thotë se kushtin e përcakton një proces rastësie dhe jo një karakteristikë e pjesëmarrësit ose zgjedhja e analistit.
+3. Gjenero një pikëzim *fillestar* të planifikimit, pra pikëzimin e regjistruar para periudhës së programit, me mesatare të popullatës 50 dhe devijim standard 10.
+4. Gjenero pikëzimin *pasues* të regjistruar pas periudhës duke shtuar 4 pikë në kushtin e udhëzuar ose 1 pikë në kushtin e zakonshëm, bashkë me ndryshueshmëri individuale të shpërndarë normalisht me devijim standard 6.
+5. Gjenero përfundimin e planit me probabilitet 0.72 në kushtin e udhëzuar dhe 0.43 në kushtin e zakonshëm.
+
+Dallimet e pikëzimeve dhe probabilitetet e përfundimit janë përbërës të simulimit. Gjetja e tyre më vonë konfirmon se llogaritjet e rikthejnë recetën, pa bërë ndonjë pohim për studentë realë.
+
+Ky studim i vetëm mbështet disa pyetje. Fillimisht krahasojmë mesataren fillestare të kampionit të plotë me një vlerë reference. Pastaj krahasojmë grupe të pavarura, analizojmë pikëzime të çiftuara, shqyrtojmë *fuqinë statistikore të planifikuar para mbledhjes së të dhënave*, pra probabilitetin për ta refuzuar një hipotezë zero të rreme para se të mblidhen të dhëna të reja, ilustrojmë rangjet dhe testojmë dy ndryshore kategorike për pavarësi.
+
+Ndërsa kalon nëpër shembull, shtroji vetes tri pyetje:
+
+> Me çfarë saktësie e vlerëson kampioni parametrin e popullatës që emërtohet në secilin hap? A përfshin dizajni një kampion, dy grupe të ndara apo dy matje nga të njëjtat raste? Kur rezultati ndryshon nga një pikëzim numerik në një kategori, cila procedurë inferenciale përputhet tani me pyetjen?
+
+Këto vendime merren para se të lexohet vlera p.
+
+---
+
+**Hapi 1: Shqyrto rreshtat dhe dizajnin**
+
+Çdo rresht përfaqëson një pjesëmarrës të simuluar. Programi është kategorik. Pikëzimet para dhe pas janë sasiore. Ndryshimi llogaritet si pas minus para. Përfundimi i planit është ndryshore kategorike binare, sepse ka dy kategori të mundshme.
+
+```{r}
+#| label: tbl-simulated-planning-data
+datatable(
+  display_dat,
+  options = topic_dt_options(topic_locale),
+  class = "compact stripe hover",
+  rownames = FALSE,
+  caption = "Studim i simuluar i planifikimit me 160 pjesëmarrës, caktim të rastësishëm të programit, pikëzime të çiftuara, pikëzime ndryshimi dhe përfundim të planit të studimit."
+)
+```
+
+Përdore tabelën për ta lexuar një rresht nga e majta në të djathtë para se t'i krahasosh kolonat. Identifikuesi i pjesëmarrësit i mban matjet e përsëritura të lidhura me personin e duhur artificial. Programi regjistron kushtin e caktuar në mënyrë të pavarur, dy kolonat e pikëzimeve formojnë një çift para-dhe-pas, ndryshimi regjistron zbritjen e shprehur dhe përfundimi i planit regjistron një kategori, jo një pikëzim numerik. Një tabelë mund të mbështesë disa analiza, sepse pyetja kërkimore përcakton cilat kolona dhe cilat lidhje mes rreshtave kanë rëndësi.
+
+Dy grupet e programit analizohen si kampione të pavarura, sepse secili pjesëmarrës i përket vetëm njërit program dhe simulimi i gjeneron rezultatet e pjesëmarrësve në mënyrë të pavarur nga njëri-tjetri. Caktimi i rastësishëm përcakton anëtarësinë në program. Vlerat para dhe pas janë të çiftuara, sepse të dyja i përkasin të njëjtit pjesëmarrës. Këto dy struktura shfaqen në të njëjtën tabelë të dhënash, por u përgjigjen pyetjeve të ndryshme.
+
+Nisim para periudhës së simuluar të programit, ku të 160 vlerat fillestare formojnë një kampion.
+
+---
+
+**Hapi 2: Vlerëso mesataren fillestare dhe testo një vlerë reference**
+
+Pyetja e parë është nëse mesatarja fillestare e popullatës dallon nga vlera e referencës 50. Hipotezat caktohen para se të lexohet rezultati:
+
+$$H_0:\mu=50
+\qquad\text{kundrejt}\qquad
+H_1:\mu\ne50.$$
+
+Devijimi standard i popullatës trajtohet si i panjohur për analizën, prandaj përdorim një procedurë t për një kampion. Tabela e mban devijimin standard të kampionit të ndarë nga gabimi standard i vlerësuar.
+
+```{r}
+#| label: tbl-baseline-one-sample-results
+kable(
+  baseline_summary_tbl,
+  caption = "Vlerësimi fillestar për një kampion dhe testi t dyanësh kundrejt vlerës së referencës 50.",
+  align = c("l", "c")
+)
+```
+
+Lexoje tabelën e rezultateve nga përshkrimi drejt pasigurisë. Madhësia e kampionit tregon sa vrojtime fillestare kontribuojnë. Mesatarja e kampionit është vlerësimi pikësor, ndërsa devijimi standard i kampionit përshkruan ndryshueshmërinë mes pikëzimeve individuale fillestare. Pjesëtimi i atij devijimi standard me $\sqrt{n}$ prodhon gabimin standard të vlerësuar, i cili përshkruan pasigurinë në mesataren e kampionit. Rreshtat e mbetur e shndërrojnë atë vlerësim dhe pasiguri në statistikën $t$, shkallët e saj të lirisë, vlerën p dhe intervalin përkatës të besimit.
+
+Mesatarja e kampionit është `r round(baseline_mean, 2)`, devijimi standard i kampionit është `r round(baseline_sd, 2)` dhe gabimi standard i vlerësuar është
+
+$$
+\frac{s}{\sqrt{n}}
+=
+\frac{`r round(baseline_sd, 2)`}{\sqrt{`r baseline_n`}}
+\approx `r round(baseline_se, 2)`.
+$$
+
+Statistika t është
+
+$$
+t
+=
+\frac{`r round(baseline_mean, 2)`-50}{`r round(baseline_se, 2)`}
+\approx `r round(baseline_t, 2)`,
+\qquad
+df=`r baseline_df`.
+$$
+
+```{r}
+#| label: fig-baseline-confidence-interval
+#| fig-alt: "Një interval horizontal besimi 95% shtrihet nga rreth 48.35 deri në 51.43 rreth një mesatareje afër 49.89. Një vijë vertikale e ndërprerë te vlera e referencës 50 e pret intervalin."
+#| fig-cap: "Mesatarja fillestare dhe intervali i besimit 95%. Vlera e referencës 50 gjendet brenda intervalit."
+#| fig-height: 3.2
+topic3_plotly(
+  p_baseline_interval,
+  "Interval besimi ndërveprues 95% rreth mesatares fillestare të kampionit, me vlerën e referencës 50 të shënuar.",
+  tooltip = "text"
+)
+```
+
+Intervali i besimit 95% është [`r round(baseline_ci[1], 2)`, `r round(baseline_ci[2], 2)`]. Ai e përfshin 50. Vlera p dyanëshe përkatëse është `r round(baseline_p, 3)`, e cila është më e madhe se $\alpha=0.05$.
+
+```{r}
+#| label: fig-baseline-null-distribution
+#| fig-alt: "Një shpërndarje t e qendëruar te zeroja tregon vija reference të ndërprera te statistika e vrojtuar dhe te vlera po aq e largët me shenjë të kundërt, afër plus dhe minus 0.14. Pothuajse e gjithë shpërndarja është e ngjyrosur, sepse rezultatet të paktën kaq larg nga zeroja janë të zakonshme nën hipotezën zero."
+#| fig-cap: "Statistika t e vrojtuar për pikëzimin fillestar gjendet afër qendrës së shpërndarjes së saj nën hipotezën zero, prandaj prodhon një vlerë të madhe p dyanëshe."
+#| fig-height: 4.2
+topic3_plotly(
+  p_baseline_null,
+  "Shpërndarje t ndërvepruese nën hipotezën zero me vija reference te statistika e vrojtuar dhe te vlera e saj me shenjë të kundërt; zona e vlerës p dyanëshe është e ngjyrosur.",
+  tooltip = "text"
+)
+```
+
+Figura e intervalit dhe figura e shpërndarjes nën hipotezën zero tregojnë të njëjtën histori inferenciale në dy forma. Në figurën e parë, vija e referencës te 50 kalon nëpër intervalin e besimit. Në të dytën, statistika e vrojtuar $t$ gjendet shumë afër qendrës, ndaj rezultatet të paktën kaq larg nga zeroja zënë pjesën më të madhe të shpërndarjes nën hipotezën zero. Përfshirja e 50 dhe një vlerë e madhe p dyanëshe çojnë prandaj në të njëjtin vendim.
+
+Nuk e refuzojmë $H_0$. Kjo nuk provon se mesatarja e popullatës është saktësisht 50. Do të thotë se ky kampion nuk jep evidencë për një dallim nën procedurën e zgjedhur. Intervali tregon cilat mesatare të afërta të popullatës mbeten të pajtueshme me vlerësimin dhe pasigurinë e tij.
+
+Pyetja fillestare përdori një kampion. Pyetja për programin krahason dy grupe të ndara.
+
+---
+
+**Hapi 3: Krahaso ndryshimin mesatar në dy grupe të pavarura**
+
+Ndryshimi përcaktohet si pikëzimi pasues minus pikëzimi fillestar, prandaj një vlerë pozitive përfaqëson rritje. Përmbledhjet e grupeve janë:
+
+```{r}
+#| label: tbl-independent-change-groups
+kable(
+  change_group_tbl,
+  caption = "Përmbledhjet e pikëzimeve të ndryshimit për dy grupet e programit të caktuara në mënyrë të pavarur.",
+  align = c("l", "c", "c", "c")
+)
+```
+
+Çdo rresht tani përmbledh një grup të plotë programi. Madhësia e kampionit konfirmon caktimin e baraspeshuar prej 80 pjesëmarrësish për grup. Ndryshimi mesatar vendos qendrën e pikëzimeve të ndryshimit të secilit grup, ndërsa devijimi standard tregon se individët ndryshojnë rreth asaj mesatareje. Diferenca mes dy mesatareve jep numëruesin e testit për kampione të pavarura. Dy devijimet standarde dhe madhësitë e kampioneve përcaktojnë gabimin standard *të përbashkët*. I përbashkët do të thotë se dy vlerësimet e variancës së grupeve bashkohen nën supozimin e shprehur për varianca të barabarta në popullatë.
+
+```{r}
+#| label: fig-independent-change-groups
+#| fig-alt: "Diagramet kuti-me-mustaqe dhe pikat individuale krahasojnë pikëzimet e ndryshimit për rutinën e zakonshme të studimit dhe planifikimin e udhëzuar. Grupi i udhëzuar është i zhvendosur lart, megjithëse pikëzimet ndryshojnë brenda të dy grupeve."
+#| fig-cap: "Pikëzimet e ndryshimit në dy grupet e programit të caktuara në mënyrë të rastësishme. Vija horizontale e ndërprerë shënon mungesën e ndryshimit."
+#| fig-height: 4.8
+topic3_plotly(
+  p_group_change,
+  "Diagrame kuti-me-mustaqe ndërvepruese dhe pikëzime individuale të ndryshimit për dy grupet e programit të caktuara në mënyrë të pavarur.",
+  tooltip = "text"
+)
+```
+
+Çdo pikë është një pikëzim ndryshimi. Kutia në secilin grup shënon gjysmën e mesme të vlerave, kurse vija brenda kutisë shënon medianën. Vija horizontale e ndërprerë përfaqëson mungesën e ndryshimit. Grupi i udhëzuar gjendet në përgjithësi më lart, por mbivendosja dhe shpërndarja brenda grupeve na kujtojnë pse diferenca e mesatareve duhet të shqyrtohet bashkë me pasigurinë e saj, jo të gjykohet vetëm nga dy mesataret.
+
+Hipotezat për krahasimin dyanësh janë
+
+$$
+H_0:\mu_{\text{udhëzuar}}-\mu_{\text{zakonshëm}}=0
+\qquad\text{kundrejt}\qquad
+H_1:\mu_{\text{udhëzuar}}-\mu_{\text{zakonshëm}}\ne0.
+$$
+
+Procedura me variancë të përbashkët i bashkon dy variancat e kampioneve. Ajo jep devijimin standard të përbashkët $s_p\approx`r round(pooled_sd, 2)`$ dhe gabimin standard të vlerësuar
+
+$$
+SE(\bar{x}_{\text{udhëzuar}}-\bar{x}_{\text{zakonshëm}})
+=
+`r round(pooled_sd, 3)`
+\sqrt{\frac{1}{`r guided_n`}+\frac{1}{`r usual_n`}}
+\approx `r round(change_se, 3)`.
+$$
+
+Diferenca e vrojtuar e mesatareve është `r round(change_difference, 3)` pikë. Prandaj
+
+$$
+t
+=
+\frac{`r round(change_difference, 3)`}{`r round(change_se, 3)`}
+\approx `r round(change_t, 2)`,
+\qquad
+df=`r pooled_df`.
+$$
+
+Vlera p dyanëshe është `r format_p(change_p)`, ndërsa intervali i besimit 95% për ndryshimin në grupin e udhëzuar minus ndryshimin në grupin e zakonshëm është [`r round(change_ci[1], 2)`, `r round(change_ci[2], 2)`]. E refuzojmë $H_0$ në $\alpha=0.05$ brenda këtij modeli artificial.
+
+Përfundimi lidhet me recetën e simuluar të caktimit dhe rezultatit. Nuk është evidencë se një program real planifikimi i ndryshon pikëzimet reale. Modeli me variancë të përbashkët shprehet qartë dhe devijimet standarde të grupeve tregohen, që supozimi të mos mbetet i fshehur.
+
+Analiza vijuese i përdor dy herë të njëjtët pjesëmarrës të grupit të udhëzuar. Ky çiftim e ndryshon emëruesin dhe shkallët e lirisë.
+
+---
+
+**Hapi 4: Analizo pikëzimet e çiftuara para dhe pas**
+
+Brenda grupit të udhëzuar, secili pjesëmarrës ka një pikëzim para dhe një pikëzim pas. Llogarisim një diferencë për secilin person:
+
+$$d_i=x_{i,\text{pas}}-x_{i,\text{para}}.$$
+
+```{r}
+#| label: fig-guided-paired-change
+#| fig-alt: "Vija të holla lidhin pikëzimin para dhe pas për secilin pjesëmarrës të grupit të udhëzuar. Pjesëmarrësit ndryshojnë në drejtimin dhe madhësinë e ndryshimit. Një vijë më e trashë dhe e errët i lidh dy mesataret e grupit dhe ngrihet nga para te pas."
+#| fig-cap: "Vrojtimet e çiftuara në grupin e udhëzuar. Analiza përdor një diferencë pas-minus-para për secilin pjesëmarrës."
+#| fig-height: 5.2
+topic3_plotly(
+  p_paired_change,
+  "Pikëzime ndërvepruese para dhe pas për pjesëmarrësit e grupit me planifikim të udhëzuar, me mesataret e grupit të theksuara.",
+  tooltip = "text"
+)
+```
+
+Çdo vijë e hollë ndjek një pjesëmarrës të grupit të udhëzuar, prandaj pjerrësia e saj e paraqet diferencën pas-minus-para të atij personi. Vijat në ngritje janë diferenca pozitive, vijat në zbritje janë diferenca negative dhe vijat pothuajse horizontale janë diferenca të vogla. Vija e trashë i lidh dy mesataret e grupit, por procedura t e çiftuar ndërtohet nga të 80 diferencat individuale, jo vetëm nga dy mesataret e paraqitura.
+
+Diferenca mesatare është `r round(paired_mean, 3)` pikë dhe devijimi standard i diferencave është `r round(paired_sd, 3)`. Testimi i $H_0:\mu_d=0$ jep
+
+$$
+t
+=
+\frac{\bar d}{s_d/\sqrt{n}}
+=
+\frac{`r round(paired_mean, 3)`}
+{`r round(paired_sd, 3)`/\sqrt{`r paired_n`}}
+\approx `r round(paired_t, 2)`,
+\qquad
+df=`r paired_df`.
+$$
+
+Vlera p është `r format_p(paired_p)`, ndërsa intervali i besimit 95% për diferencën mesatare të çiftuar është [`r round(paired_ci[1], 2)`, `r round(paired_ci[2], 2)`]. E refuzojmë $H_0$ në këtë studim të simuluar.
+
+Ky rezultat i çiftuar nuk mund të këmbehet me rezultatin për grupet e pavarura. Testi i çiftuar pyet nëse pjesëmarrësit e grupit të udhëzuar ndryshuan nga pikëzimet e tyre fillestare. Testi i pavarur pyet nëse ndryshimi mesatar dallon mes dy programeve të caktuara.
+
+Para se të fillojë një studim real, studiuesit duhet të pyesin nëse kampioni i planifikuar ka gjasa të zbulojë një efekt që ka kuptim praktik.
+
+---
+
+**Hapi 5: Shqyrto fuqinë e planifikuar**
+
+*E planifikuar* do të thotë e përcaktuar para se të mblidhen të dhënat. Për një ilustrim të thjeshtë planifikimi, le të supozojmë se një procedurë z njëanëshe do të përdorë $\alpha=0.05$ dhe duhet të zbulojë një *efekt të standardizuar* prej $\delta=0.40$, pra një dallim në popullatë të matur në njësi të devijimit standard. Nëse devijimi standard i planifikimit është 10 pikë, $\delta=0.40$ i përgjigjet një dallimi prej 4 pikësh në popullatë.
+
+Simboli $\beta$ është probabiliteti i një gabimi të llojit II nën modelin e përcaktuar të planifikimit, pra probabiliteti që procedura të mos e refuzojë hipotezën zero edhe pse efekti i planifikuar është i pranishëm. Ekuacioni i planifikimit e lidh vlerën e bishtit të poshtëm të shpërndarjes normale standarde për $\beta$ me dizajnin përmes
+
+$$
+z_\beta=z_{1-\alpha}-\sqrt{n}\,\delta,
+\qquad
+\text{Fuqia}=1-\beta.
+$$
+
+Këtu $z_{1-\alpha}$ është kufiri kritik normal standard. Llogaritja është e planifikuar: $\delta$, $\alpha$ dhe drejtimi zgjidhen para se të vrojtohet ndonjë rezultat.
+
+```{r}
+#| label: fig-prospective-power-curve
+#| fig-alt: "Një lakore në ngritje tregon fuqinë statistikore për madhësi kampioni nga 5 deri në 160 në një model planifikimi z njëanësh me alfa 0.05 dhe efekt të standardizuar 0.40. Pikat e etiketuara tregojnë fuqi rreth 0.56 te 20, 0.81 te 40, 0.97 te 80 dhe pothuajse 1.00 te 160."
+#| fig-cap: "Kampione më të mëdha të planifikuara e rrisin fuqinë për të njëjtin efekt të përcaktuar, ndryshueshmëri, alfa dhe drejtim testi."
+#| fig-height: 4.6
+topic3_plotly(
+  p_power_curve,
+  "Lakore ndërvepruese e fuqisë së planifikuar që tregon si ndryshon fuqia me madhësinë e kampionit nën modelin e përcaktuar.",
+  tooltip = "text"
+)
+```
+
+```{r}
+#| label: tbl-prospective-power-plan
+kable(
+  power_plan_tbl,
+  caption = "Fuqia statistikore në disa madhësi kampioni për ilustrimin e planifikimit z njëanësh.",
+  align = c("c", "c")
+)
+```
+
+Lakorja dhe tabela tregojnë të njëjtën llogaritje me nivele të ndryshme hollësie. Lakorja e bën të dukshme rritjen graduale të fuqisë me rritjen e $n$. Tabela jep vlerat e sakta të paraqitura për katër madhësi të planifikuara kampioni. Udhëzuesi horizontal 80% është një synim planifikimi në këtë ilustrim, jo garanci për një vendim të saktë dhe jo rregull universal për çdo studim.
+
+Fuqia e kalon 0.80 pranë një madhësie të planifikuar kampioni prej 40 në këtë model të veçantë. Ky numër nuk është rekomandim universal. Ndryshimi i efektit me interes, ndryshueshmërisë, $\alpha$ ose drejtimit e ndryshon lakoren.
+
+Fuqia e paraqitur 1.000 te $n=160$ është rrumbullakosur nga `r formatC(power_plan_dat$power[power_plan_dat$n == 160], format = "f", digits = 4)` dhe nuk pohon siguri absolute.
+
+Analizat t i ruajtën largësitë fillestare mes pikëzimeve. Tani kalojmë te procedurat që i zëvendësojnë ato largësi me rangje.
+
+---
+
+**Hapi 6: Shih çfarë ruan rangimi**
+
+Tabela vijuese zgjedh gjashtë raste nga secili program dhe i rendit pikëzimet e tyre të ndryshimit nga më i vogli te më i madhi brenda nëngrupit të paraqitur.
+
+```{r}
+#| label: tbl-ranked-change-subset
+kable(
+  rank_subset,
+  caption = "Ilustrim i shndërrimit të dymbëdhjetë pikëzimeve të simuluara të ndryshimit në rangje.",
+  align = c("c", "l", "c", "c")
+)
+```
+
+Lexoje fillimisht kolonën e pikëzimit të ndryshimit dhe pastaj krahasoje me kolonën e rangut. Ndryshimi më i vogël i paraqitur merr rangun 1 dhe më i madhi merr rangun 12, ndërsa vlerat e barabarta, nëse ka, ndajnë pozicionin e tyre mesatar. Etiketat e programit mbeten të bashkangjitura, që një procedurë e pavarur me rangje të mund të krahasojë si shpërndahen rangjet mes dy grupeve. Tabela është qëllimisht ilustrim i shndërrimit, jo një test i përfunduar i rëndësisë statistikore.
+
+Rangimi ruan cilat ndryshime të paraqitura janë më të ulëta ose më të larta. Nuk ruan nëse dy ndryshime fqinje dallojnë me 0.1 pikë apo me 10 pikë. Prandaj një procedurë me rangje i përgjigjet pyetjes së saj duke përdorur më pak informacion për largësitë numerike fillestare.
+
+Këtu nuk llogarisim vlerë p për një test me rangje. Synimi është të kuptojmë parimin e rangjeve dhe të dallojmë procedurat përkatëse të pavarura dhe të çiftuara. Një analizë e plotë do të kishte ende nevojë për një hipotezë dhe supozime që përputhen me dizajnin.
+
+Pyetja e fundit përdor numërime në vend të pikëzimeve sasiore.
+
+---
+
+**Hapi 7: Testo programin dhe përfundimin e planit për pavarësi**
+
+Dy ndryshoret kategorike janë programi i caktuar dhe përfundimi i planit. Hipoteza zero thotë se përfundimi është i pavarur nga programi. Alternativa thotë se ato janë të lidhura.
+
+Për secilën qelizë, numërimi i pritshëm nën pavarësi është
+
+$$
+\text{i pritshmi}
+=
+\frac{\text{totali i rreshtit}\times\text{totali i kolonës}}{160}.
+$$
+
+```{r}
+#| label: tbl-chi-square-cells
+kable(
+  chi_cell_tbl,
+  caption = "Numërimet e vrojtuara, numërimet e pritshme nën pavarësi dhe kontributi hi-katror i secilës qelizë.",
+  align = c("l", "l", "c", "c", "c")
+)
+```
+
+Dy kolonat e para identifikojnë një qelizë. "E vrojtuar" është numri i gjeneruar në atë kombinim program-rezultat. "E pritshme" është numri i parashikuar nga totalet e rreshtave dhe kolonave nëse programi dhe përfundimi do të ishin të pavarur. Kolona e fundit tregon kontributin jonegativ të asaj qelize në $\chi^2$. Qelizat me dallime më të mëdha mes numërimit të vrojtuar dhe të pritshëm kontribuojnë më shumë, sidomos kur numërimi i pritshëm është relativisht i vogël.
+
+Çdo numërim i pritshëm është të paktën `r round(min(chi_expected), 1)`, prandaj kushti i përdorur këtu për numërime të pritshme më të mëdha se 5 plotësohet.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Krahasim i lëvizshëm i numërimeve të vrojtuara dhe atyre të pritshme nën pavarësi"}
+
+```{r}
+#| label: fig-chi-square-observed-expected
+#| fig-alt: "Shtylla të grupuara krahasojnë numërimet e vrojtuara të përfundimit me numërimet e pritshme nën pavarësi në grupin e udhëzuar dhe në grupin e zakonshëm. Planifikimi i udhëzuar ka më shumë përfundime të vrojtuara se sa pritet, ndërsa rutina e zakonshme ka më pak."
+#| fig-cap: "Numërimet e vrojtuara dallojnë nga numërimet që priten nëse programi i caktuar dhe përfundimi i planit janë të pavarur."
+#| fig-height: 4.8
+topic3_plotly(
+  p_chi_counts,
+  "Numërime ndërvepruese të vrojtuara dhe të pritshme sipas pavarësisë për përfundimin e planit në secilin grup programi.",
+  tooltip = "text"
+)
+```
+
+:::
+
+Brenda secilit panel të programit, krahasoji shtyllat për të njëjtën kategori përfundimi. Nëse pavarësia do ta përshkruante mirë tabelën, shtyllat e vrojtuara dhe të pritshme do të ishin afër kudo. Në vend të kësaj, grupi i udhëzuar ka më shumë përfundime dhe më pak mospërfundime nga sa pritet, ndërsa grupi i zakonshëm tregon modelin plotësues. Këto mospërputhje të çiftuara e ndërtojnë statistikën pozitive hi-katror. Drejtimi i shtyllave, jo vetëm $\chi^2$, na tregon si dallon tabela nga pavarësia.
+
+Mbledhja e katër kontributeve të qelizave jep
+
+$$
+\chi^2=`r round(chi_statistic, 2)`,
+\qquad
+df=(`r nrow(completion_table)`-1)(`r ncol(completion_table)`-1)=`r chi_df`.
+$$
+
+Vlera p është `r formatC(chi_p, format = "f", digits = 3)`. E refuzojmë pavarësinë në $\alpha=0.05$ në këtë studim të simuluar. Ky shembull përdor një grup të pandryshueshëm të dhënash, prandaj të njëjtat vlera dhe rezultate shfaqen sa herë ndërtohet faqja. Rezultati thotë se dy ndryshoret kategorike janë të lidhura në këto të dhëna artificiale. Statistika hi-katror nuk jep vetë drejtim, ndaj shqyrtojmë modelin e numërimeve të vrojtuara kundrejt atyre të pritshme për të përshkruar cilat qeliza janë mbi ose nën pritshmëri.
+
+Meqë kjo është një tabelë dy-me-dy, madhësia e saj phi është
+
+$$
+|\phi|
+=
+\sqrt{\frac{`r round(chi_statistic, 4)`}{`r n_total`}}
+\approx `r round(sqrt(chi_statistic / n_total), 3)`.
+$$
+
+Ky numër përshkruan madhësinë e lidhjes binare në tabelën e simuluar. Nuk identifikon një shkak dhe një phi me shenjë do të kërkonte ta shprehnim kodimin numerik të të dy çifteve të kategorive.
+
+---
+
+**Hapi 8: Mbaji përfundimet të ndara**
+
+```{r}
+#| label: tbl-simulated-inference-results
+kable(
+  analysis_results_tbl,
+  caption = "Katër pyetje të veçanta inferenciale të përgjigjura me procedura që përputhen me strukturat e të dhënave të tyre.",
+  align = c("l", "l", "c", "c", "c")
+)
+```
+
+Lexoje këtë tabelë të fundit përgjatë secilit rresht. Kolona e parë shpreh pyetjen, e dyta emërton procedurën që përputhet me dizajnin dhe tri kolonat e fundit raportojnë statistikën e standardizuar, shkallët e lirisë të shpërndarjes së saj të referencës dhe vlerën p. Leximi poshtë i vetëm një kolone numerike do të ftonte një krahasim të rremë, sepse një statistikë $t$ dhe një statistikë hi-katror përdorin shpërndarje të ndryshme reference dhe u përgjigjen pyetjeve të ndryshme.
+
+Këto procedura nuk i përgjigjen të njëjtës pyetje:
+
+- testi për një kampion lidhet me mesataren fillestare të popullatës për kampionin e plotë;
+- testi me variancë të përbashkët për kampione të pavarura krahason ndryshimin mesatar mes grupeve të ndara të caktuara;
+- testi i çiftuar lidhet me ndryshimin brenda personit në grupin e udhëzuar; dhe
+- testi hi-katror lidhet me lidhjen mes dy ndryshoreve kategorike.
+
+Receta e simulimit krijoi qëllimisht dallime mes grupeve, ndryshim të çiftuar dhe probabilitete të pabarabarta përfundimi. Rezultatet tregojnë se llogaritjet i rikuperojnë këta përbërës. Ato nuk e vërtetojnë pikëzimin, nuk vendosin gjetje për studentë realë dhe nuk e heqin nevojën për kampionim përfaqësues, matje të besueshme dhe dizajn etik studimi.
+
+### Gabime të mundshme {.cs-heading}
+
+Simulimi i pandryshueshëm e bën dizajnin më të pastër se shumica e studimeve reale. Analizat reale duhet të shqyrtojnë vrojtimet që mungojnë, cilësinë e matjes, devijimet nga kushtet e modelit dhe nëse procesi i kampionimit ose caktimit e mbështet përfundimin e synuar. Një vlerë e vogël p nuk mund ta ndreqë një dizajn të dobët dhe një vlerë e madhe p nuk mund të provojë se një efekt është saktësisht zero.
+
+- **Zgjedhja e procedurës vetëm nga llojet e kolonave.** Pyetja fillestare përdor një kampion, krahasimi i programeve përdor dy grupe të pavarura, pyetja para-dhe-pas përdor diferenca të çiftuara dhe pyetja për përfundimin përdor numërime kategorike. Mënyra si lidhen vrojtimet e përcakton procedurën.
+- **Trajtimi i një vlere të vogël p si zgjidhje për dizajnin e dobët.** Inferenca nuk mund ta rikuperojë informacionin që kampionimi, matja ose caktimi i dobët nuk e siguroi.
+- **Trajtimi i një vlere të madhe p si provë se nuk ka efekt.** Ajo tregon se procedura e zgjedhur nuk e kaloi pragun e saj të evidencës nën modelin e përcaktuar.
+- **Bashkimi i përfundimeve të ndryshme.** Analiza për një kampion, analiza për grupe të pavarura, analiza e çiftuar, analiza e fuqisë dhe analiza kategorike u përgjigjen pyetjeve të ndryshme dhe duhet të raportohen veçmas.
+
+### Si i bashkon ky shembull idetë e teorisë {.cs-heading}
+
+Shembulli e zbatoi në mënyrë të përsëritur zinxhirin e inferencës nga pjesa Teoria. Secila analizë nisi me një pyetje për popullatën, identifikoi statistikën e kampionit që i përgjigjej, mati pasigurinë e asaj statistike me një gabim standard ose me një shpërndarje të referencës nën hipotezën zero dhe më pas interpretoi intervalin e besimit, statistikën e testit dhe vlerën p brenda kufijve që lejonte dizajni.
+
+Hapat treguan gjithashtu pse zgjedhja e procedurës është pjesë e arsyetimit dhe jo thjesht një zgjedhje nga një listë. Analiza për një kampion lidhej me një mesatare, analiza për kampione të pavarura krahasonte grupe të ndara të caktuara, analiza e çiftuar e reduktonte çdo çift para-dhe-pas në një pikëzim ndryshimi, ndërsa analiza hi-katror krahasonte numërimet e vrojtuara të kategorive me numërimet e pritshme nën pavarësi. Tabela përfundimtare e rezultateve i bashkoi këto rrugë pa pretenduar se statistikat e tyre mund të këmbeheshin. Ky është mësimi qendror i studimit të simuluar: inferenca bëhet koherente vetëm kur pyetja, struktura e të dhënave, supozimet, llogaritja dhe përfundimi i referohen të njëjtit objektiv.
+
+Kjo logjikë inferenciale na shoqëron tani në Temën 4. Deri këtu kemi përdorur mesatare kampioni, dallime mesataresh dhe numërime kategorike për të mësuar rreth madhësive të popullatës. Kovarianca dhe korrelacioni e zhvendosin vëmendjen te dy ndryshore sasiore të regjistruara për të njëjtat raste. Edhe koeficientët e tyre të kampionit ndryshojnë nga një kampion te tjetri. Prandaj mbetet thelbësor dallimi mes një vlerësimi, madhësisë së popullatës që ai synon, një hipoteze zero dhe një vlere p. Tema 4 shton kështu një pyetje të re për lidhjen pa e braktisur kornizën e pasigurisë të ndërtuar këtu.
+
+## Ushtrime dhe zgjidhje
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "sq",
+  course_id = "intro-statistics",
+  topic_number = 3
+)
+```
+
+## Përmbledhje
+
+{{< include ../../_shared/topic-summaries/sq/t03.md >}}
+
+---
+
+### Shkarko përmbledhjen {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "sq",
+  course_id = "intro-statistics",
+  topic_number = 3
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Navigimi i temës"}
+[Tema e mëparshme: Probabiliteti](t02_probability.qmd){.text-link-arrow .previous}
+[Pasqyra e hyrjes](overview-intro-stats-sq.qmd){.text-link-arrow}
+[Tema tjetër: Kovarianca dhe korrelacioni](t04_cov-corr.qmd){.text-link-arrow .next}
+:::

@@ -1,0 +1,14 @@
+---
+title: "Kontakt"
+pagetitle: "Kontakt | Ratiomera"
+title-prefix: ""
+description: "Gemeinsame Kontaktinformationen für Ratiomera und seine Fachbereiche."
+lang: de-CH
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../../../de/pages/contact-ratiomera-de.html">
+---
+
+Der Kontakt wird jetzt gemeinsam für ganz Ratiomera geführt. Weiter zur [Kontaktseite von Ratiomera](../../../de/pages/contact-ratiomera-de.qmd).

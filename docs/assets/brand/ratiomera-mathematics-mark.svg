@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="ratiomera-mathematics-title ratiomera-mathematics-desc" focusable="false">
+  <title id="ratiomera-mathematics-title">Ratiomera Mathematics mark</title>
+  <desc id="ratiomera-mathematics-desc">The geometric Ratiomera R with its measured interval and outward leg in Mathematics copper.</desc>
+  <path d="M16 55V9h17c11 0 18 6.8 18 17s-7 17-18 17H16" fill="none" stroke="#183B56" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="none" stroke="#B46124" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M33 43 52 55" stroke-width="8"/>
+    <path d="M28 26h13" stroke-width="4"/>
+  </g>
+</svg>

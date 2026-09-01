@@ -1,0 +1,14 @@
+---
+title: "Über Ratiomera Mathematics"
+pagetitle: "Über Ratiomera Mathematics"
+title-prefix: ""
+description: "Überblick und Entwicklungsstand von Ratiomera Mathematics."
+lang: de-CH
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../home-mathematics-de.html#overview">
+---
+
+Der Überblick zum Fachbereich befindet sich jetzt auf der Startseite von Ratiomera Mathematics. Weiter zu [Über Ratiomera Mathematics](../home-mathematics-de.qmd#overview).

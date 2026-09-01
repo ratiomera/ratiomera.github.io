@@ -1,0 +1,79 @@
+<script>
+/* Localize Plotly's built-in boxplot statistics, which are not controlled by
+   the learner-facing R trace labels. Q1 and Q3 remain notation in every locale. */
+(function () {
+  'use strict';
+
+  var language = (document.documentElement.lang || 'en').toLowerCase();
+  var locale = language.indexOf('de') === 0
+    ? 'de'
+    : language.indexOf('sq') === 0 ? 'sq' : 'en';
+
+  var labels = {
+    en: {
+      'lower fence': 'lower fence',
+      'upper fence': 'upper fence',
+      median: 'median',
+      min: 'min',
+      max: 'max'
+    },
+    de: {
+      'lower fence': 'Untere Grenze',
+      'upper fence': 'Obere Grenze',
+      median: 'Median',
+      min: 'Minimum',
+      max: 'Maximum'
+    },
+    sq: {
+      'lower fence': 'Kufiri i poshtëm',
+      'upper fence': 'Kufiri i sipërm',
+      median: 'Mediana',
+      min: 'Minimumi',
+      max: 'Maksimumi'
+    }
+  }[locale];
+
+  function replaceStatisticLabel(value) {
+    var output = value;
+    Object.keys(labels).forEach(function (source) {
+      /* Plotly may place the label and number in separate tspans. Match a
+         complete standalone label as well as the usual "label: value" form. */
+      var pattern = new RegExp('(^|\\s)' + source + '(?=\\s*(?:[:=]|$))', 'gi');
+      output = output.replace(pattern, function (_match, space) {
+        return space + labels[source];
+      });
+    });
+    return output;
+  }
+
+  function localizeVisibleHover(plot) {
+    plot.querySelectorAll('.hoverlayer tspan, .hoverlayer text').forEach(function (node) {
+      if (node.children.length) return;
+      var localized = replaceStatisticLabel(node.textContent || '');
+      if (localized !== node.textContent) node.textContent = localized;
+    });
+  }
+
+  function bindPlot(plot) {
+    if (plot.dataset.localizedHoverLocale === locale || typeof plot.on !== 'function') return;
+    plot.dataset.localizedHoverLocale = locale;
+    plot.on('plotly_hover', function () {
+      window.requestAnimationFrame(function () { localizeVisibleHover(plot); });
+      window.setTimeout(function () { localizeVisibleHover(plot); }, 0);
+      window.setTimeout(function () { localizeVisibleHover(plot); }, 40);
+      window.setTimeout(function () { localizeVisibleHover(plot); }, 100);
+    });
+  }
+
+  function bindPlots() {
+    document.querySelectorAll('.plotly.html-widget').forEach(bindPlot);
+  }
+
+  [0, 500, 2000, 5000].forEach(function (delay) {
+    window.setTimeout(bindPlots, delay);
+  });
+  document.addEventListener('shown.bs.tab', function () {
+    window.setTimeout(bindPlots, 0);
+  });
+}());
+</script>

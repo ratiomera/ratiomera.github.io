@@ -1,0 +1,746 @@
+---
+title: "Covariance & Correlation"
+subtitle: "Introduction to Statistics · Topic 4"
+pagetitle: "Covariance and Correlation | Ratiomera Statistics"
+title-prefix: ""
+description: "Covariance, Pearson and Spearman correlation, scatterplots, linear and monotonic association, statistical testing, diagnostic checks, and causal limits."
+lang: en
+aliases:
+  - /stat1/t04_cov-corr.html
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "en"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t04-cov-corr-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Topic sections</h2>
+
+::: {.panel-tabset}
+
+## Theory
+
+### Introduction: Studying Two Variables Together {.cs-heading}
+
+Topic 1 described one variable at a time, and Topic 3 used sample results to ask careful population questions. We now bring two quantitative variables into the same picture. Instead of asking only what study time looks like or what exam scores look like, we ask whether the two measurements have a pattern when they are recorded for the same cases.
+
+Imagine placing one student's weekly study time and exam score at a single point, then doing the same for every student. Would the points tend to rise together, fall together, or form no clear straight-line pattern? Could one unusual point change the impression? These questions matter because many research questions begin with whether two measured quantities vary together before moving to prediction or more complex models.
+
+When higher values of one variable tend to occur with higher or lower values of another, the variables show an *association*. Association means a pattern of joint variation. It does not yet say why the pattern exists. A third variable, the direction of influence, or the way the variables were measured may still matter.
+
+The starting point is a **scatterplot**, a graph in which each point represents one case. The point's horizontal position shows that case's value on one variable, and its vertical position shows the value on the other variable. Because both coordinates belong to the same case, the observations are *paired*.
+
+This topic develops two numerical summaries of a scatterplot. **Covariance** records the direction in which two quantitative variables vary together. **Correlation** standardizes that joint variation so its direction and linear strength can be compared across measurement units. The goal is not to replace the graph with a coefficient. It is to learn how the picture and the number support one careful description.
+
+> **Guiding question:** When two quantities change together, how can we describe the pattern without confusing association with causation?
+
+::: {.callout-tip title="Key idea"}
+
+A coefficient compresses an entire scatterplot into one number. Always inspect the plotted pairs first, because one number can hide a curve, a narrow observed range, separate groups, or an unusual point.
+:::
+
+### Learning Objectives {.cs-heading}
+
+By the end of this topic, you should be able to:
+
+- explain how products of paired deviations determine the sign of covariance;
+- calculate and interpret sample covariance and Pearson's correlation coefficient;
+- connect Pearson's correlation to z-standardization;
+- distinguish positive, negative, strong, weak, and zero *linear* association without relying on universal cutoffs;
+- explain why zero correlation does not prove independence;
+- choose between Pearson and Spearman correlation for the patterns covered here;
+- test the population correlation hypothesis $H_0:\rho=0$ and separate statistical significance from practical importance;
+- recognize sensitivity to outliers, nonlinearity, and range restriction; and
+- explain why correlation alone cannot establish causation.
+
+---
+
+### From One Deviation to Two {.cs-heading}
+
+Variance begins with one variable. For each value $x_i$, it measures the deviation $x_i-\bar{x}$ from the sample mean and squares that deviation. Covariance extends the same idea to two variables. For each paired case $i$, it multiplies the deviation on $X$ by the deviation on $Y$:
+
+$$
+s_{xy}=\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y}).
+$$
+
+Read the formula one step at a time:
+
+- $n$ is the number of paired cases;
+- $x_i$ and $y_i$ are the two values recorded for case $i$;
+- $\bar{x}$ and $\bar{y}$ are the two sample means;
+- $(x_i-\bar{x})(y_i-\bar{y})$ is the *cross-product*, the product of the two deviations for one case; and
+- dividing the sum of cross-products by $n-1$ gives the corrected sample covariance.
+
+The sign of each cross-product has a direct interpretation. A case that lies above both means has two positive deviations, so its product is positive. A case below both means has two negative deviations, whose product is also positive. A case above one mean but below the other has deviations with opposite signs, so its product is negative.
+
+The following newly authored five-case calculation keeps every contribution visible. Both sample means equal 3.
+
+```{r}
+#| label: tbl-worked-covariance
+worked_covariance_table |>
+  mutate(Case = if_else(is.na(case), "Sum", as.character(case))) |>
+  select(Case, x, y, x_deviation, y_deviation, product) |>
+  kable(
+    caption = "Paired deviations and cross-products in a small covariance calculation.",
+    col.names = c("Case", "x", "y", "x - mean(x)", "y - mean(y)", "Cross-product"),
+    align = c("c", "r", "r", "r", "r", "r")
+  )
+```
+
+The cross-products sum to 6. With $n=5$, the sample covariance is
+
+$$
+s_{xy}=\frac{6}{5-1}=`r format_r(worked_covariance_value, 2)`.
+$$
+
+The positive result tells us that larger $x$ values tend to occur with larger $y$ values in this small dataset. The value 1.50 does not yet have a unit-free meaning, so it should not be read as a universal measure of strength.
+
+The table shows the arithmetic row by row. The next figure shows where the signs of those cross-products come from geometrically.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable covariance figure with mean lines, four contribution regions, a five-case calculation table, and one traced case"}
+
+```{r}
+#| label: fig-covariance-geometry
+#| fig-alt: "A scatterplot of five cases is divided by dashed mean lines at x bar equals 3 and y bar equals 3. The upper-right and lower-left regions represent positive covariance contributions because both values lie on the same side of their means. The other two regions represent negative contributions, although no worked case lies there. A table lists both signed deviations and the contribution for every case. Case 5 is traced two units right and one unit up from the mean intersection, giving a contribution of positive two."
+#| fig-cap: "Each point is located relative to both sample means. Points on the same side of both means contribute positively; points on opposite sides would contribute negatively. Case 5 shows the calculation step by step."
+#| fig-width: 11
+#| fig-height: 7.6
+p_covariance_geometry
+```
+
+:::
+
+The dashed vertical line marks $\bar{x}=3$, and the dashed horizontal line marks $\bar{y}=3$. Read each region in words. In the upper-right and lower-left regions, both values lie on the same side of their means, so the case contributes positively. In the other two regions, the values lie on opposite sides of their means, so the case would contribute negatively. No point in this five-case dataset lies in a negative region, but the shaded regions show where a negative contribution would come from.
+
+Case 5 shows the calculation. Start where the two mean lines meet. Move 2 units right to $x_5=5$, so $x_5-\bar{x}=+2$. Then move 1 unit up to $y_5=4$, so $y_5-\bar{y}=+1$. Multiplying the two signed deviations gives $(+2)(+1)=+2$. The table reports the same three quantities for every case. Cases 2 and 3 contribute zero because one coordinate lies exactly on its mean, making one deviation zero.
+
+The background regions determine only whether a contribution is positive or negative. The distances from the mean lines determine its size: farther points can contribute a product with a larger absolute value. Covariance adds the five contributions, $2+0+0+2+2=6$, and then divides by $n-1$. Positive and negative contributions can offset one another in other datasets. The figure describes joint positions relative to the means and makes no causal claim.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable figure comparing positive, negative, and little linear association"}
+
+```{r}
+#| label: fig-covariance-directions
+#| fig-alt: "Three separately framed scatterplots, each with its own visible y-axis, show a rising point cloud with positive correlation, a falling point cloud with negative correlation, and a diffuse cloud with correlation near zero."
+#| fig-cap: "The direction of paired deviations determines the sign of covariance and correlation. A repeated y-axis and border keep each comparison panel visually distinct."
+#| fig-width: 10
+#| fig-height: 4.4
+p_direction_grid
+```
+
+:::
+
+Read each framed panel as its own scatterplot. Its visible y-axis repeats the vertical reference, so you do not have to carry the first panel's axis mentally across the whole row. In the first panel, most cases are above both means or below both means, so positive products dominate. In the second panel, many cases are above one mean and below the other, so negative products dominate. In the third, positive and negative products nearly balance, leaving little linear association. The repeated axes separate the three patterns while all panels retain the same variables and scales.
+
+Covariance has two important properties. First, it is **symmetric**: $s_{xy}=s_{yx}$. Swapping which variable is written first does not change the result. Second, its size depends on the units of both variables. Converting hours to minutes multiplies the covariance by 60 even though the point pattern has not substantively changed. This unit dependence motivates correlation.
+
+---
+
+### Pearson's Correlation Coefficient {.cs-heading}
+
+The *Pearson correlation coefficient* standardizes covariance by the sample standard deviations of both variables:
+
+$$
+r_{xy}=\frac{s_{xy}}{s_xs_y}.
+$$
+
+It is also called the *Bravais-Pearson correlation* or *product-moment correlation*. On this site, we usually write **Pearson's r**.
+
+The denominator $s_xs_y$ removes the original units. Pearson's $r$ is therefore unitless and always lies between $-1$ and $+1$:
+
+- $r=+1$ describes a perfect positive straight-line association;
+- $r=-1$ describes a perfect negative straight-line association;
+- $r=0$ describes no linear association; and
+- values between these endpoints describe imperfect linear associations.
+
+The sign gives direction. The absolute value $|r|$, meaning the distance of $r$ from zero without its sign, describes how closely the points follow a straight-line pattern. Values nearer 1 in absolute value indicate a tighter linear pattern. Values nearer 0 indicate a weaker linear pattern.
+
+Do not turn that continuum into automatic labels such as "weak," "moderate," or "strong" without context. The practical importance of a correlation depends on what was measured, measurement quality, the consequences of the decision, and the scientific question. A numerically small association may matter in one setting, while a larger one may be unimportant in another.
+
+Pearson's $r$ is symmetric like covariance: $r_{xy}=r_{yx}$. It describes association, not an outcome-predictor direction. Changing the origin of a scale or converting to another positive unit leaves $r$ unchanged. If a scale is deliberately reversed with a negative multiplier, the sign of $r$ reverses because the meaning of high and low values has reversed.
+
+---
+
+### Why Standardization Produces Correlation {.cs-heading}
+
+Topic 1 introduced the z-score. For a sample value, $z_{xi}=(x_i-\bar{x})/s_x$ expresses its position in standard-deviation units. The corresponding value for $Y$ is $z_{yi}=(y_i-\bar{y})/s_y$.
+
+Pearson's correlation can be written as the covariance of those standardized values:
+
+$$
+r_{xy}=\frac{1}{n-1}\sum_{i=1}^{n}z_{xi}z_{yi}.
+$$
+
+The connection is exact because each standardized variable has sample mean 0 and sample standard deviation 1. Standardization changes the axis units, but it preserves every case's relative position and the linear point pattern.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable figure comparing one scatterplot in original and standardized units"}
+
+```{r}
+#| label: fig-correlation-standardization
+#| fig-alt: "Two scatterplots show the same constructed cases in original units and in z-standardized units. The axis numbers change but both panels report the same Pearson correlation."
+#| fig-cap: "Pearson's correlation equals the covariance of the two z-standardized variables."
+#| fig-width: 9
+#| fig-height: 4.8
+p_standardization
+```
+
+:::
+
+The left and right panels contain the same cases. Only the labels on the axes change. This is why correlation, unlike covariance, can compare the linear strength of variables measured in different units.
+
+**An alternative calculation from raw sums.** A direct hand-calculation route is useful when a question gives the sums of $X$, $Y$, their squares, and their cross-products. We can keep the expression readable by building it in pieces. First calculate the joint part
+
+$$
+A=n\sum x_i y_i-(\sum x_i)(\sum y_i).
+$$
+
+Then calculate one separate-variation part for each variable:
+
+$$
+B_X=n\sum x_i^2-(\sum x_i)^2,
+\qquad
+B_Y=n\sum y_i^2-(\sum y_i)^2.
+$$
+
+Finally combine them:
+
+$$
+r=\frac{A}{\sqrt{B_XB_Y}}.
+$$
+
+$A$ records joint variation. $B_X$ and $B_Y$ scale that joint variation by the separate variation in the two variables. For the five-case table above, $n=5$, $\sum x=15$, $\sum y=15$, $\sum x^2=55$, $\sum y^2=55$, and $\sum xy=51$. Therefore
+
+$$
+A=5(51)-(15)(15)=30,
+$$
+
+$$
+B_X=B_Y=5(55)-15^2=50,
+$$
+
+and
+
+$$
+r=\frac{30}{\sqrt{50\times50}}=0.60.
+$$
+
+This multi-step route is an algebraically rearranged version of the same Pearson correlation calculation and reaches the same coefficient. On a first reading, focus on what the joint and separate-variation parts do. The arithmetic becomes easier once that structure is familiar.
+
+::: {.callout-note title="Important distinction"}
+
+At this stage, Pearson's $r$ is interpreted directly. The formal proportion-of-variation interpretation arrives with the regression model in Topic 5. We therefore do not treat $r^2$ as a percentage caused by one variable here. Squaring a correlation never turns an observational association into a causal explanation.
+:::
+
+---
+
+### Inspect the Scatterplot Before Interpreting r {.cs-heading}
+
+Pearson's $r$ is designed to summarize a **linear** association, meaning a pattern that can be represented reasonably by a straight line. The calculation itself can produce a number for many datasets, but the number is only a useful summary when the plotted pairs support that interpretation.
+
+Check five features before reporting Pearson's $r$:
+
+1. **Paired quantitative values.** Each case must contribute one value on each variable, and both variables must support meaningful numerical differences.
+2. **A roughly linear pattern.** A clear curve cannot be summarized fully by one straight-line coefficient.
+3. **Influential observations.** An *outlier* is a point unusually far from the rest of the cloud. An *influential point* is one whose inclusion substantially changes the coefficient. One point can be both.
+4. **Adequate range.** If the observed cases occupy only a narrow part of the possible scale, called *range restriction*, $r$ may be smaller than it would be across a broader range.
+5. **Meaningful grouping.** Two subgroups can form one overall association that differs from the patterns inside either subgroup. Plot known groups separately when the design gives a reason to do so.
+
+These checks are about interpretation, not cosmetic presentation. Removing an inconvenient point merely to increase $r$ is not justified. Investigate whether the value is an error, a valid unusual case, or evidence that a single linear summary is inadequate. The simulated example below makes the outlier and range-restriction effects visible.
+
+---
+
+### Zero Correlation Does Not Prove Independence {.cs-heading}
+
+Two variables are *independent* when knowing the value of one provides no information about the distribution of the other. When the required means and variances exist, independence implies zero covariance and therefore zero Pearson correlation. The reverse statement is false.
+
+Pearson's $r=0$ means only that the positive and negative contributions to the **linear** pattern balance. A U-shaped association can be perfectly systematic while its Pearson correlation is near zero. Always look at the scatterplot before translating $r=0$ into "no relationship."
+
+This limitation leads naturally to a second coefficient. Pearson summarizes a straight-line pattern. Spearman summarizes whether the ordering of one variable tends to move consistently with the ordering of the other.
+
+---
+
+### Spearman Rank Correlation {.cs-heading}
+
+The *Spearman rank correlation*, written $r_s$, is Pearson's correlation applied to **ranks** rather than to the original values. A rank records a value's ordered position. The smallest value receives rank 1, the next receives rank 2, and so on.
+
+Spearman's $r_s$ describes a *monotonic association*. Monotonic means that $Y$ tends to move in one consistent direction as $X$ increases:
+
+- in a positive monotonic pattern, $Y$ never systematically turns downward as $X$ increases;
+- in a negative monotonic pattern, $Y$ never systematically turns upward as $X$ increases; and
+- the pattern may be curved rather than straight.
+
+If several cases have the same value, they form a *tie*. Each tied case receives the average of the ranks those cases would have occupied. For example, two values tied for positions 2 and 3 both receive rank 2.5. Software uses these average ranks when it calculates the general Spearman correlation.
+
+When there are **no ties**, a convenient shortcut is available:
+
+$$
+r_s
+=
+1-
+\frac{6\sum_{i=1}^{n}d_i^2}{n(n^2-1)},
+$$
+
+where $d_i=\operatorname{rank}(x_i)-\operatorname{rank}(y_i)$ is the difference between case $i$'s two ranks. Small rank differences keep $r_s$ near $+1$, whereas large disagreements between the two orderings reduce it. With ties, use Pearson's correlation applied to the average ranks rather than treating this shortcut as exact.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable figure comparing a curved monotonic pattern with a U-shaped pattern"}
+
+```{r}
+#| label: fig-pearson-spearman-shapes
+#| fig-alt: "Two scatterplots compare a steadily increasing curved pattern, where Spearman correlation is near one, with a U-shaped pattern, where both Pearson and Spearman correlations are near zero despite a clear curve."
+#| fig-cap: "Pearson summarizes linear association, while Spearman summarizes monotonic ordering. Neither coefficient alone describes a U-shape."
+#| fig-width: 9
+#| fig-height: 4.8
+p_shape_checks
+```
+
+:::
+
+The left panel rises continuously but bends. Its ranks remain almost perfectly ordered, so Spearman is near 1, while Pearson is lower because the pattern is not straight. The right panel first falls and then rises. That U-shape is not monotonic, so neither coefficient summarizes it well even though the plot shows a strong relationship.
+
+| Question | Pearson's $r$ | Spearman's $r_s$ |
+|---|---|---|
+| What pattern is summarized? | Linear association | Monotonic association |
+| What values are correlated? | Original quantitative values | Separate ranks of the two variables |
+| Minimum measurement level used here | Metric | Ordinal |
+| Sensitivity to outliers | Can be highly sensitive | Usually less sensitive because ranks limit numerical distance |
+| Does zero prove independence? | No | No |
+
+: Pearson and Spearman correlations answer related but different questions. {#tbl-pearson-spearman}
+
+Read the table by columns rather than by choosing a universally "better" coefficient. Pearson keeps the original quantitative distances and asks how closely the cases follow a straight line. Spearman replaces values with ranks and asks whether their order moves consistently upward or downward. The last row is deliberately identical: neither a zero Pearson coefficient nor a zero Spearman coefficient proves that the variables are independent.
+
+Spearman is not an automatic repair for every difficult scatterplot. It still misses non-monotonic patterns, can be affected by unusual rank configurations, and does not establish causation. Choose it because the scale level and pattern justify a rank-based monotonic summary, not because it produces a preferred number.
+
+---
+
+### Testing a Population Correlation {.cs-heading}
+
+The sample coefficient $r$ describes the observed paired cases. The Greek letter $\rho$ (rho) denotes the Pearson correlation in the population. The test used here asks whether an observed sample correlation is compatible with the null hypothesis
+
+$$
+H_0:\rho=0,
+$$
+
+meaning that the population has no linear Pearson correlation. For a two-sided question, the alternative is $H_1:\rho\neq0$. The test statistic is
+
+$$
+t=\frac{r\sqrt{n-2}}{\sqrt{1-r^2}},
+\qquad df=n-2.
+$$
+
+Here, $n$ is the number of paired cases and $df$ means *degrees of freedom*, the reference-distribution quantity used to find the p-value. Topic 3 introduced the p-value as the probability, under the null model, of a result at least as incompatible with $H_0$ as the observed result. The direction of the alternative hypothesis determines whether a one-sided or two-sided reference area is used.
+
+The test does not replace the scatterplot. It is designed for the linear Pearson question and relies on the sampling and measurement conditions behind that question. Paired cases must be independent of other paired cases, the observations must support a linear summary, and influential outliers or design problems can invalidate a simple interpretation.
+
+Most importantly, **statistical significance is not association strength**. With a very large sample, a small $r$ can produce a small p-value. With a very small sample, even a large observed $r$ may remain uncertain. Report $r$, $n$, the direction of the test, and the inferential result separately, then discuss practical importance in the study's context.
+
+---
+
+### Correlation Does Not Establish Causation {.cs-heading}
+
+A *causal claim* says that changing one variable would change another. A correlation alone does not justify that claim, especially when the data come from an *observational study*, a study in which researchers measure variables without assigning the conditions being compared.
+
+Two problems remain after an association is observed:
+
+1. **Direction is unresolved.** $X$ may affect $Y$, $Y$ may affect $X$, or both directions may operate. The symmetry $r_{xy}=r_{yx}$ contains no arrow of influence.
+2. **A third variable may be involved.** A *confounding variable* is an alternative factor related to both measured variables that can create or change their observed association.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable diagram showing three causal explanations compatible with one correlation"}
+
+```{r}
+#| label: fig-causal-alternatives
+#| fig-alt: "Three diagrams show study hours pointing to exam score, exam score pointing to study hours, and prior preparation pointing separately to both study hours and exam score."
+#| fig-cap: "One observed correlation can be compatible with opposite directions or with a third-variable explanation."
+#| fig-width: 10
+#| fig-height: 3.8
+p_causal_alternatives
+```
+
+:::
+
+The first panel shows the causal direction people may have in mind when they see the correlation. The second reverses that arrow and is equally compatible with a symmetric coefficient. The third introduces prior preparation as a common cause of both measured variables, which can create an association even without a direct arrow between study time and score. The scatterplot and $r$ alone cannot select among these explanations.
+
+The same logic applies beyond the teaching variables in the diagram. Suppose brain structure and alcohol dependence are correlated. The association alone cannot tell us whether structural differences contributed to dependence, dependence contributed to later structural differences, or both processes occurred. As a second example, reading to children may be associated with their later occupational outcomes, while parental education is related to both how often reading occurs and which educational opportunities the child later receives. These examples do not prove any one causal story. They show why a plausible alternative direction or common cause must be considered before causal language is used.
+
+A *longitudinal design* measures variables at multiple times and can help establish which change came first, although timing alone does not remove every alternative explanation. A *randomized controlled experiment* assigns conditions by chance and holds other procedures as constant as possible. When feasible and ethical, random assignment is a stronger basis for a causal conclusion than an observational correlation.
+
+::: {.callout-note title="Important distinction"}
+
+- The sign of $r$ describes the direction of a linear association.
+- The absolute size of $r$ describes how tightly the points follow a straight line.
+- Neither the sign nor the size identifies a cause.
+:::
+
+---
+
+::: {.callout-warning title="Potential Pitfalls"}
+
+- **Interpreting correlation as causation.** A direction of influence, a common cause, or both may still explain the pattern.
+- **Reporting a coefficient without inspecting the scatterplot.** A curve, separate groups, an unusual point, or a restricted range can make one number incomplete or misleading.
+- **Treating a near-zero Pearson correlation as proof that the variables are unrelated.** Pearson's coefficient summarizes a straight-line pattern, so a strong curved relationship can still produce a value near zero.
+- **Comparing coefficients without checking case selection and observed ranges.** Range restriction can weaken an association even when the underlying process has not changed.
+- **Treating statistical significance as practical importance.** Report the coefficient, sample size, uncertainty, design, and substantive context together.
+:::
+
+### A Reliable Correlation Workflow {.cs-heading}
+
+Use the same order each time:
+
+1. Define the two variables, their scales, and the paired cases.
+2. Plot the pairs and inspect direction, linearity, range, groups, and unusual points.
+3. Choose Pearson for a metric linear summary or Spearman for an ordinal or monotonic rank summary.
+4. Calculate and report the coefficient with its sample size.
+5. If the research question concerns a population, apply the matching inferential procedure and state its assumptions.
+6. Interpret practical importance separately from statistical significance.
+7. Describe design limits and avoid causal language unless the design supports it.
+
+The workflow moves from a visible pattern to a numerical summary and only then to inference. That order makes it harder for one attractive coefficient to hide a problem in the data.
+
+## Simulated Example
+
+### Simulated Study: Study Time and Exam Performance {.cs-heading}
+
+We now apply the complete workflow to a reproducible teaching dataset. *Reproducible* means that the same instructions and fixed seed recreate the same values whenever the page is built, even though the recipe mimics chance variation. Topic 1 introduced simulations and fixed seeds. No real student was measured here.
+
+A rising cloud of points can look persuasive, but a responsible analysis asks what the pattern actually supports before compressing it into one coefficient. In this constructed cohort, meaning the 120 artificial cases studied together, our central question is:
+
+> How are weekly study hours and exam scores associated?
+
+Three smaller questions guide the answer. Does the scatterplot show a roughly straight pattern rather than a curve or separate groups? Do Pearson's and Spearman's coefficients tell a similar story for these data? How much can one unusual point or a restricted study-time range change the numerical summary? These are descriptive and inferential questions about an association. They do not ask whether increasing a real student's study time would cause a particular score change.
+
+The simulation recipe creates three quantitative variables:
+
+1. **Prior preparation** is a constructed score centered near 50.
+2. **Weekly study time** varies partly with prior preparation and partly through additional generated variation.
+3. **Exam score** varies with both study time and prior preparation, plus additional generated variation.
+
+This recipe deliberately includes prior preparation as a third variable. It lets us see why a study-time and exam-score correlation cannot, by itself, isolate a causal effect.
+
+| Variable | Meaning in the simulation | Role in this example |
+|---|---|---|
+| `participant_id` | Anonymous row label | Identifies paired values; not a quantity to average |
+| `prior_preparation` | Constructed 0 to 100 preparation score | Known third variable in the data-generating recipe |
+| `study_hours` | Constructed weekly study time | First variable in the correlation |
+| `exam_score` | Constructed exam result from 0 to 100 | Second variable in the correlation |
+
+: Variables used in the reproducible Topic 4 teaching cohort. {#tbl-simulation-variables}
+
+The table separates bookkeeping from analysis. `participant_id` keeps each row identifiable but has no quantitative interpretation. The next three columns are numerical, yet they play different roles: prior preparation is a known third variable in the recipe, while study hours and exam score form the paired variables whose covariance and correlations we calculate. Keeping those roles visible prevents an identifier or an explanatory background variable from being treated as though it were one of the target measures.
+
+The analysis proceeds from rows to scatterplot, covariance, Pearson and Spearman coefficients, inference, and diagnostic checks.
+
+---
+
+**Step 1: Inspect the Paired Rows**
+
+Each row must keep the three measurements for one case together. Sorting one column without the others would destroy the pairing and create a meaningless correlation. The interactive table contains all `r sim_n` rows. Use the search field, column sorting, and page controls to inspect the constructed cases while preserving each row's pairing.
+
+```{r}
+#| label: tbl-simulated-paired-data
+DT::datatable(
+  sim_data |>
+    select(participant_id, prior_preparation, study_hours, exam_score),
+  colnames = c("Participant ID", "Prior preparation", "Study hours", "Exam score"),
+  caption = "Constructed study-time dataset with all paired cases.",
+  options = topic_dt_options(topic_locale),
+  class = "compact stripe hover",
+  rownames = FALSE
+)
+```
+
+The full cohort contains `r sim_n` paired cases. Observed study time ranges from `r format_r(min(sim_data$study_hours), 1)` to `r format_r(max(sim_data$study_hours), 1)` hours per week, and exam scores range from `r format_r(min(sim_data$exam_score), 1)` to `r format_r(max(sim_data$exam_score), 1)`. These are generated ranges, not estimates about real students.
+
+With the pairing verified, the next step is to inspect all pairs at once.
+
+---
+
+**Step 2: Plot Before Calculating**
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable scatterplot of weekly study time and exam score"}
+
+```{r}
+#| label: fig-simulated-study-score
+#| fig-alt: "Scatterplot of 120 constructed cases showing that higher weekly study time generally occurs with higher exam scores, with noticeable variation around the rising pattern."
+#| fig-cap: "Weekly study time and exam score in the reproducible teaching cohort."
+#| fig-width: 8
+#| fig-height: 5
+t04_plotly(
+  p_sim_scatter,
+  "Interactive scatterplot of weekly study time and exam score for the constructed teaching cohort.",
+  tooltip = "text"
+)
+```
+
+:::
+
+The point cloud rises from left to right, so the association is positive. The pattern is reasonably straight, although the points do not lie on one perfect line. The red line serves only as a visual guide to the linear direction. Topic 5 develops the formal regression line.
+
+```{r}
+#| label: tbl-simulated-correlation-summary
+sim_summary_table |>
+  kable(
+    caption = "Descriptive summaries for the constructed paired data.",
+    col.names = c("Quantity", "Value"),
+    align = c("l", "r")
+  )
+```
+
+Read the summary in three blocks. The number of paired cases confirms the sample size used by every coefficient. The two means and standard deviations describe each variable separately. Covariance, Pearson's $r$, and Spearman's $r_s$ then describe the variables together. Covariance retains the original hour-point units, Pearson standardizes the linear pattern, and Spearman summarizes the ordering of the cases.
+
+Pearson's $r=`r format_r(sim_pearson, 3)`$ describes a substantial positive linear association in this constructed cohort. The word "substantial" refers to the visible point pattern and this teaching context, not to a universal numerical cutoff.
+
+---
+
+**Step 3: See How the Covariance Is Built**
+
+A *cross-product* multiplies one case's study-time deviation by that same case's exam-score deviation. The next table shows the first eight cross-products. The full covariance uses the same calculation for all `r sim_n` cases.
+
+```{r}
+#| label: tbl-simulated-cross-products
+sim_centered_table |>
+  kable(
+    caption = "Illustrative centered values and cross-products for the first eight cases.",
+    col.names = c(
+      "Participant ID",
+      "Study hours",
+      "Exam score",
+      "Study deviation",
+      "Score deviation",
+      "Cross-product"
+    ),
+    align = c("l", "r", "r", "r", "r", "r")
+  )
+```
+
+The middle two deviation columns show where each displayed case sits relative to the two sample means. The final column multiplies those deviations. A positive cross-product places the case on the same side of both means, whereas a negative cross-product places it on opposite sides. The table displays only eight rows for readability, so its visible cross-products must not be added to reproduce the full covariance.
+
+Cases above both sample means or below both means contribute positive products. Cases on opposite sides of the two means contribute negative products. Across the full cohort, the positive contributions dominate, producing
+
+$$
+s_{xy}=`r format_r(sim_covariance, 3)`\ \text{hour-points}.
+$$
+
+The unit "hour-points" reminds us that covariance depends on both measurement scales. We now remove those units with Pearson's correlation.
+
+---
+
+**Step 4: Standardize the Covariance**
+
+For the full cohort,
+
+$$
+r=\frac{s_{xy}}{s_xs_y}
+=\frac{`r format_r(sim_covariance, 3)`}{(`r format_r(sd(sim_data$study_hours), 3)`)(`r format_r(sd(sim_data$exam_score), 3)`)}
+\approx `r format_r(sim_pearson, 3)`.
+$$
+
+Converting study time from hours to minutes changes the covariance but not the correlation:
+
+```{r}
+#| label: tbl-covariance-unit-comparison
+unit_comparison_table |>
+  kable(
+    caption = "The covariance changes after a unit conversion, while Pearson's r remains unchanged.",
+    col.names = c("Measurement units", "Covariance", "Pearson r"),
+    align = c("l", "r", "r")
+  )
+```
+
+Compare the table row by row. The first row measures study time in hours. The second multiplies every study-time value by 60 and therefore measures the same cases in minutes. That conversion multiplies the covariance by 60 because its units changed, while Pearson's $r$ remains fixed because standardization removes that unit change.
+
+The covariance in minutes is 60 times the covariance in hours. Both correlations equal `r format_r(sim_pearson, 3)` after rounding because the cases retain the same relative positions.
+
+The standardized covariance gives the same result:
+
+$$
+s_{z_xz_y}=`r format_r(sim_z_covariance, 3)`=r.
+$$
+
+This numerical equality is the standardization link developed in the Theory tab.
+
+---
+
+**Step 5: Compare Pearson and Spearman**
+
+The constructed variables contain rounded values, so some cases have tied study hours or exam scores. Spearman's method assigns average ranks to those ties and correlates the ranks. It gives
+
+$$
+r_s=`r format_r(sim_spearman, 3)`.
+$$
+
+Pearson's $r=`r format_r(sim_pearson, 3)`$ and Spearman's $r_s=`r format_r(sim_spearman, 3)`$ are close here. That agreement is consistent with the scatterplot's mostly *monotonic*, roughly linear pattern. Monotonic means that the values tend to move in one direction as the other variable increases, even if the pattern is not perfectly straight. It is not a rule that the two coefficients must agree in every dataset.
+
+---
+
+**Step 6: Test the Population Correlation Hypothesis**
+
+The symbol $\rho$ (rho) denotes the Pearson correlation in the population represented by the inferential model. Suppose the inferential question is two-sided:
+
+$$
+H_0:\rho=0
+\qquad\text{versus}\qquad
+H_1:\rho\neq0.
+$$
+
+Substituting the sample correlation and sample size gives
+
+$$
+t=\frac{`r format_r(sim_pearson, 4)`\sqrt{`r sim_n`-2}}{\sqrt{1-`r format_r(sim_pearson, 4)`^2}}
+\approx `r format_r(sim_t, 2)`,
+\qquad df=`r sim_df`.
+$$
+
+Here, $df$ means degrees of freedom and determines the shape of the reference t distribution. The two-sided p-value is less than 0.001. Under the test assumptions, this result is difficult to reconcile with a population Pearson correlation of exactly zero.
+
+That sentence is intentionally narrower than "there is an important effect" or "study time causes exam performance." The test addresses compatibility with $\rho=0$. Association strength comes from $r$ and the scatterplot. Practical importance requires subject-matter context. Causation requires a suitable design.
+
+---
+
+**Step 7: Check Sensitivity to One Point and to the Observed Range**
+
+*Sensitivity* describes how much a result changes when one feature of the analyzed data changes. First, add one deliberately unusual teaching point without changing the original cohort. A point is *influential* when including it noticeably changes the fitted numerical result.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable comparison showing the effect of one added unusual point on Pearson correlation"}
+
+```{r}
+#| label: fig-simulated-outlier-effect
+#| fig-alt: "Two scatterplots compare the original constructed cohort with the same data plus one point at high study time and low exam score. Pearson correlation decreases after the point is added."
+#| fig-cap: "An influential point can change the magnitude of Pearson's r."
+#| fig-width: 9
+#| fig-height: 6
+t04_plotly(
+  p_outlier_comparison,
+  "Interactive comparison of the original cohort and the same cohort with one deliberately unusual point added.",
+  tooltip = "text"
+)
+```
+
+:::
+
+The original correlation is about `r format_r(sim_pearson, 2)`. After the illustrative point is added, it is about `r format_r(first(outlier_data$r_value[outlier_data$version == "One illustrative point added"]), 2)`. The calculation is not wrong in either panel. The data question has changed, which is why the point must be investigated rather than silently removed.
+
+Now compare the full observed study-time range with only cases between 5 and 8 hours. This is *range restriction*: the analysis uses only a narrower portion of the values that were originally observed.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable comparison of the full study-time range and a restricted range"}
+
+```{r}
+#| label: fig-simulated-range-restriction
+#| fig-alt: "Two scatterplots use the same constructed cohort. The full range has Pearson correlation about 0.70, while the subset between five and eight study hours has correlation about 0.33."
+#| fig-cap: "Range restriction can weaken the observed correlation even when the selected cases come from the same cohort."
+#| fig-width: 9
+#| fig-height: 4.8
+t04_plotly(
+  p_range_restriction,
+  "Interactive comparison of the full observed study-time range and the restricted five-to-eight-hour subset.",
+  tooltip = "text"
+)
+```
+
+:::
+
+The restricted subset contains `r nrow(restricted_data)` cases and has $r=`r format_r(restricted_r, 3)`$. The narrower horizontal range makes it harder for a straight-line pattern to separate itself from case-to-case variation. The smaller coefficient describes a different set of observed cases and therefore does not contradict the full-cohort result.
+
+---
+
+**Step 8: State What the Correlation Cannot Establish**
+
+The simulation recipe is known to us. Prior preparation contributes to both study time and exam score, while study time also contributes to the generated score. If we pretended that prior preparation did not exist, the study-time and score correlation would combine more than one path.
+
+A real observational study does not reveal its data-generating recipe. The correlation therefore cannot tell us how much of the pattern reflects study time, prior preparation, another unmeasured variable, reverse direction, or measurement choices. A stronger causal claim would require a design that addresses those alternatives.
+
+The simulation lets us inspect the known third variable directly. The two panels below ask separate questions: does prior preparation vary with study time, and does it also vary with exam score?
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable interactive third-variable figure"}
+
+```{r}
+#| label: fig-simulated-third-variable
+#| fig-alt: "Two scatterplots show that prior preparation is positively associated with both weekly study time and exam score in the constructed cohort."
+#| fig-cap: "A known third variable is related to both variables in the simulated correlation. Hover over a point to follow the same artificial case across the two panels."
+#| fig-width: 9
+#| fig-height: 4.8
+t04_plotly(
+  p_sim_third_variable,
+  "Interactive paired panels showing prior preparation against study time and against exam score for the same constructed cases.",
+  tooltip = "text"
+)
+```
+
+:::
+
+In the first panel, higher prior-preparation scores tend to occur with more weekly study time. In the second panel, higher prior-preparation scores also tend to occur with higher exam scores. The same participant identifier appears in both hover labels, so you can trace one artificial case across the two relationships. This visible two-path pattern explains why the study-time and exam-score correlation combines more than one source of joint variation. The adjustment itself is introduced later when we calculate a partial correlation.
+
+::: {.callout-tip title="Key idea"}
+
+In this constructed cohort, weekly study time and exam score have a positive, roughly linear association. Pearson and Spearman give similar coefficients, and the Pearson test rejects $H_0:\rho=0$ under its assumptions. These statements describe the generated data and the stated inferential model. They do not describe real students and do not establish that changing study time would cause a specific score change.
+:::
+
+### Potential Pitfalls {.cs-heading}
+
+This example is cleaner than real research. It has complete paired values, known measurement rules, a fixed recipe, and one deliberately visible third variable. Real data may contain missing pairs, measurement error, multiple subgroups, nonlinear patterns, and unusual cases whose origins are unclear.
+
+- **Breaking the row pairing.** Sorting or moving one variable without its partner produces a coefficient that no longer describes the observed cases.
+- **Reporting $r$ without the scatterplot.** The coefficient can hide nonlinearity, subgroups, range restriction, and unusual observations.
+- **Equating a small p-value with a large or important association.** Statistical evidence and effect magnitude answer different questions.
+- **Writing a causal conclusion from an observational correlation.** The visible third variable demonstrates one reason the two-variable association cannot establish a causal path.
+
+### How This Example Brings the Theory Together {.cs-heading}
+
+The example followed the Theory section's full reading sequence. We protected the row pairing, inspected the scatterplot, used paired deviations to calculate covariance, standardized that joint movement with Pearson's correlation, and compared the result with the rank-based Spearman coefficient. The population test then addressed compatibility with $\rho=0$, while the unusual-point and restricted-range displays showed why a coefficient must be interpreted alongside the data pattern that produced it.
+
+Correlation has now given us a compact description of a linear relationship. It tells us whether two quantitative variables tend to move in the same direction or in opposite directions, and how closely their points follow a straight-line pattern. Because correlation is unit-free, the value is unchanged if study time is converted from hours to minutes or exam scores are expressed on another linear scale. It is also symmetric: the correlation between study time and exam score is the same as the correlation between exam score and study time. At this stage, neither variable has been assigned a special role.
+
+The next question is directional. Suppose we want to use study time to predict an exam score. We must now name study time as the *predictor* and exam score as the *outcome*. Reversing those roles would answer a different prediction question. Topic 5 turns the cloud of points into a fitted line that expresses the predicted outcome in the variables' original units. Instead of stopping at a unit-free statement such as "the association is positive," we can ask how many score points the fitted model predicts will change when study time increases by one hour.
+
+That fitted line will give every case a *fitted value*, which is the outcome value predicted by the line for that case's predictor value. The vertical difference between the observed outcome and its fitted value is called a *residual*. Residuals show what the line misses, so they help us judge whether a straight-line model summarizes the pattern well and whether unusual cases need attention.
+
+[Topic 5](t05_simple-regression.qmd) develops this next step carefully. It keeps the scatterplot and correlation as the starting point, then adds the predictor-outcome direction, the fitted line in original units, fitted values, residuals, and an honest account of what prediction still cannot establish about causation.
+
+## Exercises and Solutions
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "en",
+  course_id = "intro-statistics",
+  topic_number = 4
+)
+```
+
+## Summary
+
+{{< include ../../_shared/topic-summaries/en/t04.md >}}
+
+---
+
+### Downloadable Summary {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "en",
+  course_id = "intro-statistics",
+  topic_number = 4
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Topic navigation"}
+[Previous: Hypothesis Testing](t03_hypothesis-testing.qmd){.text-link-arrow .previous}
+[Introduction Overview](overview-intro-stats-en.qmd){.text-link-arrow}
+[Next: Simple Linear Regression](t05_simple-regression.qmd){.text-link-arrow .next}
+:::

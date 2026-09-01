@@ -1,0 +1,102 @@
+---
+title: "Kontakti"
+subtitle: "Pika e përbashkët e kontaktit për Ratiomera"
+pagetitle: "Kontakti | Ratiomera"
+title-prefix: ""
+description: "Kontakto Ratiomera për pyetje organizative, ide bashkëpunimi, përmbajtje të degëve, korrigjime, komente ose sugjerime për kurrikulat e ardhshme."
+lang: sq
+toc: false
+---
+
+::: {.section-intro .fade-in}
+Ratiomera zhvillohet dhe mirëmbahet nga vullnetarë. Kjo faqe i ndan pyetjet në mënyrë që mesazhi të arrijë sa më drejtpërdrejt te personat përgjegjës për pjesën e projektit që lidhet me të.
+
+Përdor kontaktin e përgjithshëm për pyetje rreth projektit Ratiomera në tërësi, bashkëpunimit, komunikimit institucional ose ideve që prekin të dyja degët. Përdor kontaktin e një dege për një korrigjim, shpjegim të paqartë, sugjerim për përmbajtjen, vërejtje për qasshmërinë ose pyetje tjetër që lidhet posaçërisht me Statistikën ose Matematikën. Përdor kontaktin për punë vullnetare kur dëshiron të ofrosh kohë, njohuri gjuhësore, ekspertizë lëndore, shqyrtim të qasshmërisë, dizajn ose ndihmë teknike.
+:::
+
+---
+
+## Pyetje të përgjithshme
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Pyetje të përgjithshme</h3>
+<p>Për pyetje organizative, ide bashkëpunimi, komunikim institucional dhe komente të përgjithshme.</p>
+<span class="contact-label">Email</span>
+[{{< var contact.info >}}](mailto:{{< var contact.info >}}){.contact-address}
+</article>
+</div>
+
+---
+
+## Pyetje për degët
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Ratiomera Statistics</h3>
+<p>Për korrigjime, shpjegime të paqarta, komente mbi kurrikulën, vërejtje për qasshmërinë, pyetje rreth burimeve dhe kërkesa të tjera për Ratiomera Statistics.</p>
+<span class="contact-label">Email</span>
+[{{< var contact.statistics >}}](mailto:{{< var contact.statistics >}}){.contact-address}
+</article>
+<article class="contact-card">
+<h3>Ratiomera Mathematics</h3>
+<p>Për sugjerime mbi kurrikulën e ardhshme, interes nga mësimdhënësit ose institucionet dhe pyetje rreth zhvillimit të planifikuar.</p>
+<span class="contact-label">Email</span>
+[{{< var contact.mathematics >}}](mailto:{{< var contact.mathematics >}}){.contact-address}
+</article>
+</div>
+
+---
+
+## Puna vullnetare
+
+<div class="contact-grid">
+<article class="contact-card">
+<h3>Kontribuo në Ratiomera</h3>
+<p>Për oferta për shqyrtim lëndor, mbështetje gjuhësore, punë për qasshmërinë, dizajn, zhvillim, testim ose një kontribut tjetër të përshkruar qartë.</p>
+<span class="contact-label">Email</span>
+[{{< var contact.volunteering >}}](mailto:{{< var contact.volunteering >}}){.contact-address}
+</article>
+</div>
+
+---
+
+## Ekipi
+
+Krenar Sherifi dhe Donat Ismaili aktualisht kontribuojnë në Ratiomera Statistics. Profesionet dhe përfshirja e tyre e tanishme në degë paraqiten më poshtë.
+
+<div class="team-section">
+
+<article class="team-member">
+<div class="team-bio">
+<div class="team-name">Krenar Sherifi</div>
+<div class="team-role">Psikolog</div>
+<div class="team-tags" role="list" aria-label="Përgjegjësia e degës">
+<span class="branch-tag statistics" role="listitem">Ratiomera Statistics</span>
+</div>
+</div>
+</article>
+
+<article class="team-member">
+<div class="team-bio">
+<div class="team-name">Donat Ismaili</div>
+<div class="team-role">Mësues</div>
+<div class="team-tags" role="list" aria-label="Përgjegjësia e degës">
+<span class="branch-tag statistics" role="listitem">Ratiomera Statistics</span>
+</div>
+</div>
+</article>
+
+</div>
+
+---
+
+## Disponueshmëria e vullnetarëve
+
+::: {.contact-note}
+Ratiomera drejtohet nga vullnetarë dhe nuk ka një adresë emaili që monitorohet vazhdimisht ose një afat të garantuar përgjigjeje. Kur të publikohen adresa funksionale kontakti, mesazhet do të lexohen kur vullnetarët përkatës të kenë mundësi. Koha e nevojshme për t'u përgjigjur mund të ndryshojë sipas pyetjes dhe fazës së zhvillimit të secilës degë. Ratiomera nuk është organizuar për kërkesa urgjente, mësim individual ose këshilla për vlerësime që kërkojnë përgjigje brenda një kohe të shkurtër.
+
+Një mesazh i qartë e ndihmon ekipin ta kuptojë kërkesën pa pyetje të panevojshme shtesë. Për një korrigjim ose problem qasshmërie, përfshi lidhjen e saktë të faqes dhe pjesën përkatëse, pastaj përshkruaj çfarë të duket e paqartë ose e pasaktë. Për një problem në paraqitje, përmend edhe pajisjen dhe shfletuesin që përdore. Nëse shkruan për bashkëpunim ose punë vullnetare, shpjego shkurt me çfarë dëshiron të kontribuosh, cilën degë ose gjuhë prek ideja dhe nëse të duhet një përgjigje deri në një datë të caktuar. Mos dërgo të dhëna personale të ndjeshme, të dhëna konfidenciale të studentëve ose materiale të papublikuara të vlerësimit.
+
+Adresat e paraqitura në këtë faqe janë aktive dhe i drejtojnë mesazhet te kutia postare ose dosja përkatëse e projektit. Një përgjigje e vonuar nuk do të thotë se një korrigjim i menduar mirë ose një ofertë ndihme është e parëndësishme. Ajo pasqyron kufijtë praktikë të një ekipi vullnetar që punon me kujdes në disa pjesë të platformës.
+:::

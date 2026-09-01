@@ -1,0 +1,13 @@
+---
+title: "About Ratiomera Mathematics"
+pagetitle: "About Ratiomera Mathematics"
+title-prefix: ""
+description: "Overview and development status for Ratiomera Mathematics."
+toc: false
+include-in-header:
+  text: |
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url=../home-mathematics-en.html#overview">
+---
+
+The branch overview now lives on the Ratiomera Mathematics landing page. Continue to [About Ratiomera Mathematics](../home-mathematics-en.qmd#overview).

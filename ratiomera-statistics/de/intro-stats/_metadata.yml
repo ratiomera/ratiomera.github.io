@@ -1,0 +1,8 @@
+lang: de-CH
+sidebar: intro-stats-de-sidebar
+breadcrumbs: false
+toc-title: "Auf dieser Seite"
+knitr:
+  opts_chunk:
+    fig.align: center
+    dev: ragg_png

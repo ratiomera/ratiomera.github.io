@@ -1,0 +1,6 @@
+sidebar: intro-stats-sidebar
+breadcrumbs: false
+knitr:
+  opts_chunk:
+    fig.align: center
+    dev: ragg_png

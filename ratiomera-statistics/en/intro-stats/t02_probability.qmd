@@ -1,0 +1,1222 @@
+---
+title: "Probability"
+subtitle: "Introduction to Statistics · Topic 2"
+pagetitle: "Probability | Ratiomera Statistics"
+title-prefix: ""
+description: "The mathematical basis for reasoning about uncertainty: probability definitions, rules, distributions, the binomial and normal distributions, and the sampling distribution of the mean."
+lang: en
+aliases:
+  - /stat1/t02_probability.html
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+topic_locale <- "en"
+source("../../_shared/topic-table-options.R", local = knitr::knit_global())
+source("../../_shared/t02-probability-assets.R", local = knitr::knit_global())
+```
+
+<h2 class="visually-hidden">Topic sections</h2>
+
+::: {.panel-tabset}
+
+## Theory
+
+### Introduction: How Statistics Reasons about Chance {.cs-heading}
+
+Topic 1 described the data in front of us. Probability begins when we ask what *could* happen next. If we rolled a die again, selected another person, or repeated a study with a new sample, the result would not be known in advance. *Probability* gives us a careful language for that uncertainty.
+
+We will build that language in small steps. First, we name the possible outcomes and group them into events. Next, we learn rules for questions containing words such as "not," "or," "and," and "given." We then attach probabilities to numerical values through probability distributions. Finally, we consider repeated samples and explain why their means differ even when every sample is drawn in the same way.
+
+You do not need to see the entire path at once. At each stage, begin by translating the question into ordinary words, identify what is being counted or measured, and only then choose a formula.
+
+> **Guiding question:** When an outcome is uncertain, how can we describe what could happen and how likely each possibility is?
+
+::: {.callout-tip title="Key idea"}
+
+Probability is the language used to describe uncertainty. It prepares you to understand why repeated samples differ and how later statistical procedures use those differences.
+:::
+
+### Learning Objectives {.cs-heading}
+
+By the end of this topic, you should be able to:
+
+- explain what a probability describes and identify the event to which it belongs;
+- apply complement, addition, multiplication, and conditional-probability rules;
+- distinguish events that cannot happen together from events that do not change one another's probabilities;
+- use Bayes' theorem while accounting for the starting proportion, also called the base rate;
+- identify when binomial and normal probability models are appropriate; and
+- explain why sample means vary, how a standard error describes that variation, and when their distribution can be approximated by a normal curve.
+
+---
+
+### What Does a Probability Describe? {.cs-heading}
+
+A probability is a number that belongs to an *event*, meaning something that may or may not happen. We write $P(A)$ for "the probability that event $A$ occurs." The letter $P$ stands for probability, and the event is written inside parentheses.
+
+Probabilities range from 0 to 1:
+
+- $P(A)=0$ means that $A$ cannot occur under the stated conditions;
+- $P(A)=1$ means that $A$ must occur; and
+- a value between 0 and 1 describes an uncertain event.
+
+The same probability can be written as a decimal or a percentage. For example, $P(A)=0.50$ and $P(A)=50\%$ mean the same thing. Formulas on this page use decimals.
+
+The words "under the stated conditions" matter. A probability is meaningful only when we know what process is being considered and which outcomes are possible. We will now name those pieces carefully before learning any calculation rules.
+
+::: {.callout-tip title="Key idea"}
+
+**Read the event before the number:** $P(A)=0.25$ means that event $A$ has probability 0.25, or 25%. The number is not interpretable until $A$ has been defined.
+:::
+
+---
+
+### Sample Spaces and Events {.cs-heading}
+
+To calculate probabilities reliably, we first need names for the process, its individual outcomes, and the groups of outcomes that interest us.
+
+A *random experiment* is a repeatable process whose result is not known in advance, such as rolling a die or selecting one person at random. One possible result is called an *elementary outcome*. We use the Greek letter $\omega$ (lowercase omega) for one elementary outcome. The collection of every possible outcome is the *sample space*, written $\Omega$ (uppercase omega). An *event* is a selected group of outcomes from that sample space.
+
+Suppose a random device can return one of the integers 1 through 10. Its sample space is $\Omega = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}$. Curly braces list the outcomes that belong to a set. Let $A = \{1, 2, 3\}$, $B = \{4, 5, 6, 7\}$, and $D = \{2, 3, 7\}$. Each letter names a different event. We can now form four important event operations:
+
+- **Union** ($A \cup D$) means "$A$ or $D$ or both." It contains every outcome that belongs to at least one of the two events: $A \cup D = \{1, 2, 3, 7\}$.
+- **Intersection** ($A \cap D$) means "$A$ and $D$." It contains only outcomes shared by both events: $A \cap D = \{2, 3\}$.
+- **Complement** ($A'$) means "not $A$." It contains every outcome in $\Omega$ that is not in $A$: $A' = \{4, 5, 6, 7, 8, 9, 10\}$.
+- **Empty set** ($\emptyset$) means that no outcome belongs to the event. Because $A$ and $B$ share no outcomes, $A \cap B = \emptyset$. Events with an empty intersection are called *disjoint* or *mutually exclusive*.
+
+A *subset* is a set whose every outcome also belongs to a larger set. We write $C\subseteq D$ when every outcome in $C$ also belongs to $D$. For example, every outcome in $A\cap D=\{2,3\}$ belongs to $D$.
+
+| Notation | Read as | Meaning for the ten-outcome device |
+|---|---|---|
+| $\omega$ | one outcome | One realized number, such as 7 |
+| $\Omega$ | sample space | Every possible number from 1 through 10 |
+| $A \cup D$ | $A$ union $D$ | Outcomes belonging to at least one event |
+| $A \cap D$ | $A$ intersection $D$ | Outcomes belonging to both events |
+| $A'$ | complement of $A$ | Outcomes in $\Omega$ that are not in $A$ |
+| $A \cap D \subseteq D$ | $A$ intersection $D$ is a subset of $D$ | Every shared outcome also belongs to $D$ |
+
+: Event objects and operations. {#tbl-event-notation}
+
+Use the table as a translation guide. The first two rows name the building blocks: one outcome and the full sample space. The next three rows combine or exclude outcomes. The final row describes containment rather than a new event operation. When a formula later feels abstract, return to the ten numbered outcomes and ask which numbers the notation selects.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable event-set figure"}
+
+```{r}
+#| label: fig-event-sets
+#| fig-alt: "Two overlapping outlined circles labeled Event A and Event B, with their shared region labeled as the intersection."
+#| fig-cap: "Set view of two events. The overlap belongs to both events, while the full area covered by either circle is their union."
+#| fig-width: 8
+#| fig-height: 4.4
+p_event_sets
+```
+
+:::
+
+This kind of picture is called a *Venn diagram*. Each circle represents an event, and the overlap represents outcomes that belong to both events. Here, the circle sizes serve only as visual guides and should not be read as numerical probabilities.
+
+The next figure applies every operation to the same ten-outcome sample space. The small letters beneath a number show its original event membership. A tile marked "A, D," for example, belongs to both $A$ and $D$.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollable four-panel figure showing union, intersection, complement, and disjoint events"}
+
+```{r}
+#| label: fig-event-operations
+#| fig-alt: "Four panels use numbered tiles from one through ten to show the union of A and D, their intersection, the complement of A, and the disjoint events A and B."
+#| fig-cap: "Four operations on events in the same sample space. Color identifies the outcomes included by each operation."
+#| fig-width: 10
+#| fig-height: 6.8
+p_event_operations
+```
+
+:::
+
+Read the panels in this order:
+
+1. The **union** highlights 1, 2, 3, and 7 because each belongs to $A$, to $D$, or to both.
+2. The **intersection** highlights only 2 and 3 because these are the outcomes shared by $A$ and $D$.
+3. The **complement** highlights 4 through 10 because those are all outcomes in $\Omega$ that do not belong to $A$.
+4. The **disjoint-events** panel uses one color for $A$ and another for $B$. No tile belongs to both, so their intersection is the empty set.
+
+These set operations tell us which outcomes an event contains. The next step is to calculate the probability attached to those outcomes.
+
+The **complement rule** states:
+
+$$P(A') = 1 - P(A)$$
+
+If 68% of students pass a module, then 32% do not pass. The complement rule is particularly useful when computing the probability of an event directly is difficult but computing its opposite is straightforward.
+
+The complement handles "not." We now turn to questions containing "or," which require the addition rule.
+
+---
+
+### The Addition Rule {.cs-heading}
+
+When we want the probability that at least one of two events occurs, we use the *addition rule*. Two events are *mutually exclusive* (disjoint) if they cannot both occur at the same time, so their intersection is the empty set. For mutually exclusive events:
+
+$$P(A \cup B) = P(A) + P(B)$$
+
+Because there is no overlap, no correction is needed. When events are not mutually exclusive, adding their probabilities without a correction counts the overlap twice. The *general addition rule* corrects for this:
+
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+
+Subtracting $P(A \cap B)$ removes the double-counting of outcomes belonging to both events.
+
+In both formulas, $A\cup B$ is the event "$A$ or $B$ or both," while $A\cap B$ is the overlap "$A$ and $B$." The general formula is the safe starting point. The shorter formula is available only after we have established that the overlap has probability 0.
+
+Example
+:   Suppose 40% of students report high anxiety and 30% report poor sleep, and 12% report both. The probability of reporting at least one of these is $0.40 + 0.30 - 0.12 = 0.58$.
+
+The addition rule extends to more than two disjoint events in a straightforward way. If $A_1, A_2, \ldots, A_k$ are all mutually exclusive, their union has probability:
+
+$$P(A_1 \cup A_2 \cup \cdots \cup A_k) = P(A_1) + P(A_2) + \cdots + P(A_k)$$
+
+This applies only when all pairs of events are disjoint. If any two events share outcomes, the general addition rule must be used.
+
+::: {.callout-note title="Important distinction"}
+
+**Mutual exclusivity and independence answer different questions.** If two events with nonzero probability are mutually exclusive, knowing that one occurred tells you with certainty that the other did not, which makes the events dependent. Mutual exclusivity asks whether events can occur together. Independence asks whether the occurrence of one changes the probability of the other.
+:::
+
+The addition rule answers an "or" question. An "and" question requires multiplication, and a "given that" question requires conditional probability. Those two ideas are developed next.
+
+---
+
+### Conditional Probability and Independence {.cs-heading}
+
+*Conditional probability* is the probability of one event occurring after we restrict attention to cases where another event has occurred. The vertical bar in $P(A\mid B)$ is read as "given." Thus, $P(A\mid B)$ means "the probability of $A$, given that $B$ has occurred."
+
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$
+
+Where:
+
+- $P(A \mid B)$ = the probability of $A$ given that $B$ has occurred
+- $P(A \cap B)$ = the probability that both $A$ and $B$ occur
+- $P(B)$ = the probability that $B$ occurs (must be greater than zero)
+
+The denominator $P(B)$ is crucial because $B$ becomes the new reference group. Within that smaller group, the numerator $P(A\cap B)$ identifies the cases that also belong to $A$. The condition $P(B)>0$ means that the reference group cannot be empty.
+
+The complement rule also works inside a condition, but the condition must stay the same:
+
+$$P(A'\mid B)=1-P(A\mid B).$$
+
+If 60% of the cases in group $B$ belong to $A$, then the remaining 40% of that same group belong to $A'$. Changing $B$ would change the reference group and answer a different question.
+
+Rearranging the definition gives the **multiplication rule** (general form):
+
+$$P(A \cap B) = P(A \mid B) \cdot P(B)$$
+
+For three successive events, apply the same reasoning one stage at a time:
+
+$$P(A \cap B \cap C) = P(A)P(B \mid A)P(C \mid A \cap B).$$
+
+Suppose the probability of locating an eligible archive record is 0.72. Among the records that are located, the probability of obtaining a usable scan is 0.80. Among the records that are both located and usable, the probability of verifying the metadata is 0.85. The probability of completing the full chain is $0.72 \times 0.80 \times 0.85 = 0.4896$. Each probability is interpreted within the group that reached the preceding stage.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable conditional-probability chain figure"}
+
+```{r}
+#| label: fig-probability-chain
+#| fig-alt: "A left-to-right three-stage probability chain from start to record located, usable scan, and metadata verified, with conditional probabilities 0.72, 0.80, and 0.85 above the arrows."
+#| fig-cap: "Three-stage chain rule. Each arrow is interpreted within the group that reached the preceding stage."
+#| fig-width: 10
+#| fig-height: 3.2
+p_probability_chain
+```
+
+:::
+
+Read the arrows from left to right. Multiplying all three values follows one complete path. Replacing the final success probability by $1-0.85$ would describe success at the first two stages followed by failure at the third.
+
+When two events are *independent*, knowing that one has occurred provides no information about whether the other will occur. The general definition is:
+
+$$P(A \cap B) = P(A) \cdot P(B)$$
+
+When the relevant conditions have positive probability, independence also means $P(B\mid A)=P(B)$. In words, restricting attention to the cases in $A$ does not change the probability of $B$.
+
+Example
+:   Consider two separate tosses of a fair coin. The result of the first toss does not change the probability of heads on the second toss. If $A$ means "heads on the first toss" and $B$ means "heads on the second toss," then $P(B\mid A)=P(B)=0.50$.
+
+#### One table, several probability questions
+
+The table below records tutorial format and whether a practice set was submitted. It lets us compare three kinds of probability. A *marginal probability* uses a row or column total and describes one event without an added condition. A *joint probability* describes two events occurring together. A *conditional probability* restricts the denominator to one row or column group.
+
+| Tutorial format | Submitted | Not submitted | Total |
+|---|---:|---:|---:|
+| Live | 30 | 20 | 50 |
+| Recorded | 20 | 30 | 50 |
+| Total | 50 | 50 | 100 |
+
+: Tutorial format and practice-set submission in an illustrative sample. {#tbl-contingency-probabilities}
+
+Start with the question, then choose the denominator. The marginal probability of submission is $50/100=0.50$ because all 100 students form the reference group. The joint probability of live tutorial and submission is $30/100=0.30$, again using all 100 students. The conditional probability of submission given a live tutorial is $30/50=0.60$ because only the 50 live-tutorial students now form the reference group. For recorded tutorials it is $20/50=0.40$. Because the conditional probabilities differ, tutorial format and submission are not independent in this table. They are also not disjoint because 30 students belong to both the live and submitted events.
+
+The symbols $A\subseteq B$ mean that every outcome in $A$ also belongs to $B$. In that case, $P(A)\leq P(B)$: a smaller event cannot be more probable than the event that contains it. For example, "a record has both a missing creator and a missing date" is contained within "a record has a missing creator." Adding a requirement can only keep the probability the same or make it smaller.
+
+| Words in the question | Event notation | Main rule to consider |
+|---|---|---|
+| not $A$ | $A'$ | Complement |
+| $A$ or $B$ or both | $A\cup B$ | Addition |
+| $A$ and $B$ | $A\cap B$ | Multiplication |
+| $A$, given $B$ | $P(A\mid B)$ | Conditional probability |
+
+: Translating common question wording into event notation. {#tbl-event-question-language}
+
+These rules move from known probabilities to a new probability in the same direction as the question. Sometimes, however, we know $P(B\mid A)$ and need the reverse probability $P(A\mid B)$. Bayes' theorem handles that reversal.
+
+---
+
+### Bayes' Theorem {.cs-heading}
+
+Bayes' theorem connects two conditional probabilities that point in opposite directions. It is useful when we know $P(B\mid A)$ but the question asks for $P(A\mid B)$.
+
+$$P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B \mid A) \cdot P(A) + P(B \mid A') \cdot P(A')}$$
+
+Read the formula one piece at a time:
+
+- $P(A)$ is the probability of $A$ before we use the information that $B$ occurred;
+- $P(B\mid A)$ is the probability of $B$ among cases where $A$ occurs;
+- $P(B\mid A')$ is the probability of $B$ among cases where $A$ does not occur; and
+- $P(A\mid B)$ is the probability we want: the probability of $A$ among cases where $B$ occurred.
+
+The denominator includes every way that $B$ can occur. It adds the path through $A$ and the path through $A'$. This addition is called the *law of total probability*. The numerator keeps only the path where both $A$ and $B$ occur.
+
+A standard application in psychology and medicine uses the terminology of diagnostic testing. Let $A$ = "disorder is present" and $B$ = "test is positive."
+
+- $P(A)$ is the *prevalence*: the proportion of the population that has the disorder before testing;
+- $P(B \mid A)$ is the *sensitivity*: the proportion of people with the disorder who receive a positive result;
+- $P(B' \mid A')$ is the *specificity*: the proportion of people without the disorder who receive a negative result; and
+- $P(B \mid A')=1-P(B'\mid A')$ is the *false-positive probability*: the proportion of people without the disorder who nevertheless receive a positive result.
+
+Suppose prevalence is 3%, sensitivity is 90%, and specificity is 85%. The probability of the "disorder present and positive" path is $0.03\times0.90=0.027$. The probability of the "disorder absent and positive" path is $0.97\times0.15=0.1455$. Therefore,
+
+$$P(A\mid B)=\frac{0.027}{0.027+0.1455}\approx0.157.$$
+
+Among people with a positive result, about 15.7% are expected to have the disorder under these assumptions. The answer is much lower than the 90% sensitivity because the disorder is rare and the much larger disorder-absent group also produces some positive results.
+
+The same calculation becomes concrete with 10 000 hypothetical people. The counts below are expected frequencies under the stated rates, not observed clinical data.
+
+| Condition status | Positive result | Negative result | Total |
+|---|---:|---:|---:|
+| Present | 270 | 30 | 300 |
+| Absent | 1 455 | 8 245 | 9 700 |
+| Total | 1 725 | 8 275 | 10 000 |
+
+: Natural-frequency representation of the Bayes example. {#tbl-bayes-natural-frequencies}
+
+The table expresses the same calculation as counts. Out of 10 000 hypothetical people, 300 are expected to have the disorder and $0.90\times300=270$ of them are expected to test positive. Of the 9 700 people without the disorder, $0.15\times9700=1455$ are expected to test positive. There are therefore $270+1455=1725$ positive results in total, and $P(A\mid B)=270/1725\approx0.1565$.
+
+The table gives all four counts, but Bayes' theorem becomes easier to remember when we also follow how those counts were produced. The next diagram turns the denominator into a visible set of paths.
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollable Bayes tree from a hypothetical population through condition status and test result"}
+
+```{r}
+#| label: fig-bayes-tree
+#| fig-alt: "A branching diagram starts with ten thousand hypothetical people, separates three hundred with the condition from nine thousand seven hundred without it, and then separates positive and negative results. The two positive branches contain two hundred seventy true positives and one thousand four hundred fifty-five false positives, which combine into one thousand seven hundred twenty-five positive results."
+#| fig-cap: "Every route to a positive result belongs in the Bayes denominator; the numerator keeps only the condition-present positive route."
+#| fig-width: 11
+#| fig-height: 6.2
+p_bayes_tree
+```
+
+:::
+
+Begin at the leftmost box. The first pair of arrows uses prevalence to divide the 10 000 people into 300 with the condition and 9 700 without it. The next arrows apply sensitivity within the condition-present group and specificity within the condition-absent group. Each percentage is therefore read inside the group that reached that branch, not as a percentage of all 10 000 people.
+
+Now follow only the two orange positive-result boxes. They contain 270 true positives and 1 455 false positives. Both routes must enter the denominator because both produce the observed information, a positive result. The numerator keeps the 270 people who reached a positive result through the condition-present route. Thus the final comparison is $270/(270+1455)=270/1725\approx0.157$.
+
+The boxes show why a high sensitivity does not guarantee a high probability of having the condition after a positive result. They do not describe an actual screening program or prove that these rates apply to any real population. Changing the prevalence, sensitivity, or specificity would change the branch counts and the final probability.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable Bayes base-rate figure"}
+
+```{r}
+#| label: fig-bayes-base-rates
+#| fig-alt: "Bar chart comparing 270 expected true-positive results with 1455 expected false-positive results among ten thousand hypothetical people."
+#| fig-cap: "Positive results by condition status in the natural-frequency Bayes example."
+#| fig-width: 8
+#| fig-height: 5
+p_bayes_base_rates
+```
+
+:::
+
+The false-positive bar is taller not because sensitivity is low, but because the disorder-absent group is much larger. The two bars together form the denominator of Bayes' theorem: every positive result, regardless of which path produced it.
+
+::: {.callout-tip title="Key idea"}
+
+**The base rate matters:** Here, the prevalence is the starting or *base-rate* probability. Sensitivity alone cannot answer "How likely is the disorder after a positive result?" Prevalence, sensitivity, and specificity must all be used.
+:::
+
+Up to this point, events have been collections such as "positive result" or "high anxiety." We now move from event labels to numerical outcomes. That requires the idea of a random variable.
+
+---
+
+### Random Variables {.cs-heading}
+
+In probability theory, a *random variable* assigns a number to each possible outcome of a random experiment. For a coin toss, we might code heads as 1 and tails as 0. For a die roll, the number on the upward face can be the random variable's value. We use the capital letter $X$ for the random variable and a lowercase $x$ for one possible numerical value it can take.
+
+**Discrete random variables** can take only separate, countable values. The number of successes in several trials is discrete: it can be 0, 1, 2, 3, and so on, but not 2.7. Each possible value can have its own positive probability, and all of those probabilities add to 1.
+
+**Continuous random variables** can, in principle, take any value within a range, including values between two displayed numbers. Their probabilities are assigned to intervals rather than to single exact points. We will return to this distinction after studying discrete variables.
+
+Every random variable has a *probability distribution*. A distribution is an idealized description of which values are possible and how probability is allocated across them. For a discrete variable, we list probabilities for separate values. For a continuous variable, we use a density curve and calculate areas.
+
+We begin with the discrete case because its probabilities can be displayed value by value.
+
+---
+
+### Discrete Random Variables: Expected Value, Variance, and Distribution Function {.cs-heading}
+
+For a discrete random variable $X$, three quantities are especially important.
+
+The *expected value* (or mean) of $X$, written $E(X)$, is the probability-weighted average of all possible values:
+
+$$E(X) = \sum_{x} x \cdot P(X = x)$$
+
+Read the formula as follows:
+
+- $\sum_x$ means "add one term for every possible value $x$";
+- $x$ is one possible value of $X$; and
+- $P(X=x)$ is the probability assigned to that value.
+
+The expected value describes the long-run average outcome across many repetitions of the experiment. It does not need to be a value $X$ can actually take: if a fair die is rolled, $E(X) = 3.5$, even though the die never lands on 3.5.
+
+The *variance* of $X$ measures how spread out the distribution is around its expected value:
+
+$$\text{Var}(X) = \sum_{x} (x - E(X))^2 \cdot P(X = x)$$
+
+For each possible value, $x-E(X)$ is its distance from the expected value. Squaring this distance makes negative and positive distances contribute positively. Multiplying by $P(X=x)$ gives more weight to values that occur more often, and $\sum_x$ adds the weighted squared distances. The standard deviation is $\text{SD}(X)=\sqrt{\text{Var}(X)}$, which returns the spread to the original units of $X$.
+
+A *probability mass function* (PMF) assigns a probability to each separate value of a discrete random variable. A *cumulative distribution function* (CDF) instead adds the probabilities up to a chosen value. The word *cumulative* means "built up as we move from smaller to larger values." The CDF is written
+
+$$F(x) = P(X \leq x)$$
+
+Here, $F(x)$ is the cumulative probability at $x$, and the symbol $\leq$ means "less than or equal to." A CDF cannot decrease because moving to a larger $x$ keeps all earlier probability and may add more.
+
+Consider a newly authored example in which $X$ is the number of follow-up requests attached to a randomly selected archive case.
+
+| $x$ | 0 | 1 | 2 | 4 |
+|---|---:|---:|---:|---:|
+| $P(X=x)$ | 0.10 | 0.35 | 0.40 | 0.15 |
+| $F(x)=P(X\leq x)$ | 0.10 | 0.45 | 0.85 | 1.00 |
+
+: Worked probability mass function and cumulative distribution function. {#tbl-discrete-worked-example}
+
+The PMF row contains nonnegative probabilities that sum to 1. The CDF row is built from left to right: for example, $F(2)=0.10+0.35+0.40=0.85$. The expected value is
+
+$$E(X)=0(0.10)+1(0.35)+2(0.40)+4(0.15)=1.75.$$
+
+For a shorter variance calculation, first compute the expected squared value:
+
+$$E(X^2)=0^2(0.10)+1^2(0.35)+2^2(0.40)+4^2(0.15)=4.35.$$
+
+Then use $\operatorname{Var}(X)=E(X^2)-[E(X)]^2$, which gives $4.35-1.75^2=1.2875$. This shortcut is algebraically equivalent to the variance formula above.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable probability-mass and cumulative-distribution figure"}
+
+```{r}
+#| label: fig-pmf-cdf
+#| fig-alt: "Two panels for the same discrete distribution: separate probability masses at zero, one, two, and four, and a cumulative step function rising to one."
+#| fig-cap: "Probability mass and cumulative probability for the worked discrete distribution."
+#| fig-width: 9
+#| fig-height: 4.8
+p_pmf_cdf
+```
+
+:::
+
+Compare the height at $x=2$ across panels. The PMF height 0.40 is the probability of exactly two requests, while the CDF height 0.85 is the probability of at most two requests. A CDF can never decrease because it retains all probability accumulated earlier.
+
+The next distribution is a special discrete model for repeated trials with only two possible outcomes per trial.
+
+---
+
+### The Binomial Distribution {.cs-heading}
+
+The *binomial distribution* models a count of successes across repeated trials. A *trial* is one repetition of the process, such as one coin toss or one question answered. Here, "success" simply names the outcome we decide to count and need not describe something desirable.
+
+The notation $X\sim B(n,\pi)$ is read as "$X$ follows a binomial distribution with parameters $n$ and $\pi$." Here:
+
+- $X$ is the total number of successes;
+- $n$ is the fixed number of trials; and
+- $\pi$ (the Greek letter pi) is the probability of success on each trial.
+
+The probability of obtaining exactly $x$ successes in $n$ trials is:
+
+$$P(X = x) = \binom{n}{x} \pi^x (1-\pi)^{n-x}$$
+
+The formula combines three pieces:
+
+- $\binom{n}{x}$, called the *binomial coefficient*, counts how many different arrangements contain exactly $x$ successes among $n$ trials;
+- $\pi^x$ is the probability contribution from the $x$ successes; and
+- $(1-\pi)^{n-x}$ is the probability contribution from the remaining $n-x$ failures.
+
+The coefficient is $\binom{n}{x}=\dfrac{n!}{x!(n-x)!}$. The exclamation mark denotes a *factorial*: $n!=n\cdot(n-1)\cdots2\cdot1$, and $0!=1$. You do not need to list every possible ordering by hand because the coefficient counts them for you.
+
+Worked calculation
+:   Let $X\sim B(4,0.25)$. For exactly two successes,
+
+    $$P(X=2)=\binom{4}{2}(0.25)^2(0.75)^2=6(0.0625)(0.5625)\approx0.211.$$
+
+    The symbol $\approx$ shows that the displayed result has been rounded. For "at least one success," the complement is shorter than adding four separate probabilities:
+
+    $$P(X\geq1)=1-P(X=0)=1-(0.75)^4\approx0.684.$$
+
+    The event "no successes" is the complement of "at least one success."
+
+The expected value and variance of a binomial random variable are:
+
+$$E(X) = n\pi \qquad \text{Var}(X) = n\pi(1-\pi)$$
+
+A single trial has two categories, success and failure. The binomial random variable is the *count across all trials*, so it can take the values $0,1,\ldots,n$. For example, across two coin tosses, the count of heads can be 0, 1, or 2.
+
+Example
+:   A university exam has 10 multiple-choice questions, each with four options, only one correct. A student guessing randomly on every question has $\pi = 0.25$ per question. The number of correct answers follows $B(10, 0.25)$. The expected number of correct answers is $E(X) = 10 \times 0.25 = 2.5$, and $\text{Var}(X) = 10 \times 0.25 \times 0.75 = 1.875$.
+
+::: {.callout-note title="Important distinction"}
+
+**Check four conditions before using the binomial model:** (1) the number of trials $n$ is fixed in advance; (2) every trial is classified into exactly two outcomes, success or failure; (3) the success probability $\pi$ stays the same from trial to trial; and (4) trials are independent, meaning that one trial's result does not change another trial's success probability.
+
+One common warning concerns selection from a small, limited population. *Sampling without replacement* means that, once a unit has been selected, it cannot be selected again. Each selection then changes who remains available. The success probability can change, and the selections are no longer independent. A binomial model should not be used unless those changes are negligible for the situation being modeled.
+:::
+
+| Question wording | Probability statement | Efficient calculation |
+|---|---|---|
+| Exactly $k$ | $P(X=k)$ | One binomial mass |
+| At most $k$ | $P(X\leq k)$ | Cumulative sum from 0 through $k$ |
+| Fewer than $k$ | $P(X<k)$ | $P(X\leq k-1)$ |
+| At least $k$ | $P(X\geq k)$ | $1-P(X\leq k-1)$ |
+| More than $k$ | $P(X>k)$ | $1-P(X\leq k)$ |
+
+: Translating common binomial question language into probability statements. {#tbl-binomial-question-language}
+
+Read the five rows by checking both the side of the boundary and whether the boundary is included. **Exactly $k$** selects only the single count $k$. **At most $k$** is the lower side including $k$, so the cumulative sum runs from 0 through $k$. **Fewer than $k$** is the lower side excluding $k$, so it stops at $k-1$. **At least $k$** is the upper side including $k$; its complement contains only values below $k$, from 0 through $k-1$. **More than $k$** is the upper side excluding $k$; its complement includes all values through $k$. These wording differences determine whether the boundary count belongs in the probability.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable binomial-shape figure"}
+
+```{r}
+#| label: fig-binomial-shape-grid
+#| fig-alt: "Three binomial probability bar charts for twelve trials with success probabilities 0.20, 0.50, and 0.80, showing right skew, symmetry, and left skew respectively."
+#| fig-cap: "Binomial shape for a fixed number of trials and three success probabilities."
+#| fig-width: 10
+#| fig-height: 4.5
+p_binomial_shape
+```
+
+:::
+
+All three panels use $n=12$, so every horizontal axis runs from 0 through 12 successes. When $\pi=0.20$, small counts are most likely and the bars trail toward larger counts. When $\pi=0.50$, the distribution is symmetric around 6. When $\pi=0.80$, large counts are most likely. The expected count $n\pi$ moves from 2.4 to 6 to 9.6 as the success probability increases.
+
+The binomial distribution describes separate counts. We now move to continuous values, where probability is represented by area rather than by individual bars.
+
+---
+
+### Continuous Random Variables and the Normal Distribution {.cs-heading}
+
+Continuous random variables can take any value within a range. Because there are infinitely many possible values, we do not assign positive probability to one exact point. Instead, a *density function* $f(x)$ draws a curve, and probability is represented by area under that curve over an interval.
+
+| Distribution object | Discrete variable | Continuous variable |
+|---|---|---|
+| Basic function | PMF $p(x)=P(X=x)$ | Density $f(x)$ |
+| Probability at one exact value | May be positive | $P(X=x)=0$ |
+| Interval probability | Sum of included masses | Area $\int_a^b f(x)\,dx$ |
+| Total probability | $\sum_x p(x)=1$ | $\int_{-\infty}^{\infty} f(x)\,dx=1$ |
+| CDF | $F(x)=\sum_{t\leq x}p(t)$ | $F(x)=\int_{-\infty}^{x}f(t)\,dt$ |
+
+: Probability functions for discrete and continuous variables. {#tbl-distribution-objects}
+
+Read the two columns side by side. In the discrete column, probability sits on separate possible values and can be added. In the continuous column, probability is spread across an interval and must be read as area. Both columns still obey the same two requirements: total probability is 1, and the CDF records how much probability has accumulated at or below a chosen boundary.
+
+The integral sign $\int$ means "accumulate area." In $\int_a^b f(x)\,dx$, the values $a$ and $b$ are the lower and upper interval boundaries, $f(x)$ gives the curve's height, and $dx$ indicates that the area is accumulated across values of $x$. The expression $\int_{-\infty}^{\infty}f(x)\,dx=1$ says that the total area under a density curve is 1. Here, $-\infty$ and $\infty$ mean that the entire possible range is included.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable continuous-density figure"}
+
+```{r}
+#| label: fig-density-interval
+#| fig-alt: "A symmetric bell-shaped density curve with the area between minus 0.75 and 1.25 shaded and both interval boundaries marked by dashed lines."
+#| fig-cap: "A continuous probability is represented by shaded area over an interval."
+#| fig-width: 8
+#| fig-height: 4.6
+p_density_interval
+```
+
+:::
+
+The curve's height shows where values are more densely concentrated, but height alone is not probability. The shaded *area* is the probability. Changing an interval boundary changes the area. Including or excluding one exact endpoint does not change a continuous probability because a single point has probability 0.
+
+For a continuous distribution, the symbol $\mu$ (mu) denotes the expected value and $\sigma^2$ (sigma squared) denotes the variance. The CDF $F(x)=P(X\leq x)$ gives the area to the left of $x$. A *quantile* reverses that question: it starts with a cumulative proportion, such as 0.99, and asks for the boundary with that proportion of area to its left.
+
+The expected value and variance use the same ideas as for a discrete variable, but a continuous density requires areas instead of separate probability masses:
+
+$$E(X)=\int_{-\infty}^{\infty}x f(x)\,dx$$
+
+$$\operatorname{Var}(X)=\int_{-\infty}^{\infty}[x-E(X)]^2 f(x)\,dx.$$
+
+In the first formula, every possible value $x$ is weighted by the density around that value. In the second, every squared distance from the expected value is weighted in the same way. The integrals combine those weighted contributions across the full range of the variable.
+
+The *normal distribution* is the main continuous probability model used here. It is symmetric, has one peak, and has the familiar bell shape. The notation $X\sim N(\mu,\sigma^2)$ means that $X$ follows a normal distribution with expected value $\mu$ and variance $\sigma^2$.
+
+Its density function is
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\!\left(-\frac{(x - \mu)^2}{2\sigma^2}\right).$$
+
+You are not expected to calculate this density by hand here, but each symbol has a role. The value $x$ is the point on the horizontal scale, $\mu$ sets the center, and $\sigma$ sets the spread. The squared distance $(x-\mu)^2$ makes the curve fall as values move away from the center. The expression $\exp(\cdot)$ is an exponential function that creates the smooth bell shape. In this formula, $\pi$ is the mathematical constant approximately equal to 3.1416. The same Greek letter represented the binomial success probability earlier, so the context determines its meaning.
+
+::: {.callout-note title="Important distinction"}
+
+**A normal distribution is a model:** It is an idealized description, not a claim that every real dataset is perfectly bell-shaped. Before using it, ask whether a symmetric, single-peaked curve is a reasonable description of the quantity being modeled.
+:::
+
+---
+
+### The Standard Normal Distribution and Z-Scores {.cs-heading}
+
+Normal distributions can have different centers and spreads. The *z-transformation* places them on one common reference scale:
+
+$$z = \frac{x - \mu}{\sigma}.$$
+
+Here, $x$ is the original value, $\mu$ is the population mean, and $\sigma$ is the population standard deviation. First subtracting $\mu$ measures the value's distance from the mean. Dividing by $\sigma$ expresses that distance in standard-deviation units. The resulting number $z$ is called a *z-score*.
+
+Topic 1 standardized values inside an observed sample with $z=(x-\bar{x})/s$. Here we standardize a population probability model with $z=(x-\mu)/\sigma$. The purpose is the same in both cases: express a value as a distance from its mean in standard-deviation units. Standardization changes the center and units, but it does not change the basic shape of the distribution.
+
+A z-score of 0 is exactly at the mean. A positive z-score is above the mean, and a negative z-score is below it. For example, under the illustrative model with $\mu=100$ and $\sigma=15$, a value of 130 has
+
+$$z=\frac{130-100}{15}=2,$$
+
+so it lies two standard deviations above the mean.
+
+After the z-transformation, a normally distributed variable follows the *standard normal distribution*, written $Z\sim N(0,1)$. The capital $Z$ names the standardized random variable, 0 is its mean, and 1 is its variance and therefore also its standard deviation. A standard-normal table gives the area to the left of selected z-scores. This one reference table can be used for any normal distribution after standardization.
+
+Now that values on any normal scale can be converted to z-scores, we can solve four recurring types of normal-probability questions.
+
+---
+
+### Four Question Types for the Normal Distribution {.cs-heading}
+
+Before calculating anything, identify whether the question gives a boundary and asks for area, or gives an area and asks for a boundary. The four combinations below cover the recurring question types. We use the illustrative model $X\sim N(100,15^2)$, meaning $\mu=100$, $\sigma=15$, and $\sigma^2=225$.
+
+Type 1: Probability below a threshold
+:   What proportion lies at or below 110? Standardize the boundary: $z=(110-100)/15\approx0.67$. Using the nearby table entry $z=0.67$ gives a cumulative area of approximately 0.75. Thus, about 75% of the model distribution lies at or below 110.
+
+Type 2: Value at a given percentile
+:   Which boundary has 99% of the area to its left? The table gives $z\approx2.33$ for cumulative area 0.99. Reverse the z-transformation: $x=\mu+z\sigma=100+2.33(15)=134.95$. The requested boundary is therefore approximately 135.
+
+Type 3: Probability above a threshold
+:   What proportion lies above 110? Type 1 found approximately 0.75 at or below 110. The area above is its complement: $P(X>110)\approx1-0.75=0.25$.
+
+Type 4: Probability within an interval
+:   What proportion lies between 100 and 110? The area at or below 110 is approximately 0.75, and symmetry places 0.50 at or below the mean of 100. Subtract the smaller cumulative area from the larger one: $P(100\leq X\leq110)\approx0.75-0.50=0.25$.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable normal-distribution question-types figure"}
+
+```{r}
+#| label: fig-normal-question-types
+#| fig-alt: "Four normal curves with shaded regions respectively below a cutoff, below an unknown cutoff associated with ninety-nine percent cumulative probability, above a cutoff, and between two cutoffs."
+#| fig-cap: "Four common normal-distribution questions. Forward questions start with boundaries; an inverse question starts with an area and seeks its boundary."
+#| fig-width: 9
+#| fig-height: 6.8
+p_normal_questions
+```
+
+:::
+
+The figure follows the same order as the four explanations. In the first and third panels, one known boundary divides the curve. In the fourth panel, two boundaries enclose the requested area. The second panel reverses the usual direction: the area 0.99 is known, and the boundary is the unknown quantity. Pointing to the requested region before calculating helps prevent left-tail and right-tail errors.
+
+So far, the normal model has described values within a population. Statistical research usually observes only a sample from that population. The next section asks what happens when the act of sampling itself is repeated.
+
+---
+
+### Populations, Samples, and Sampling Distributions {.cs-heading}
+
+The *population* is the complete group of units that the research question concerns. A unit may be a person, record, school, or another object being studied. A *sample* is the smaller group that is actually observed. We use a sample because measuring every population unit is often impractical.
+
+A *simple random sample* of a fixed size gives every possible sample of that size the same probability of being selected. As a result, every population unit has the same chance of being included. This random selection rule matters because it connects what we observe in the sample to the population we want to describe.
+
+A numerical feature of a population is called a *parameter*. A parameter is fixed for that population but is usually unknown. A numerical feature calculated from the observed sample is called a *statistic*. A statistic can describe the sample and can also serve as an *estimator*, meaning a sample-based quantity used to estimate an unknown population parameter.
+
+| Quantity | Population parameter | Sample statistic used to estimate it |
+|---|---|---|
+| Mean | $\mu$ | $\bar{x}$ |
+| Variance | $\sigma^2$ | $s^2$ |
+
+: Population quantities and their sample-based estimators. {#tbl-parameter-statistic-notation}
+
+The Greek symbols $\mu$ and $\sigma^2$ refer to the population. The symbols $\bar{x}$ and $s^2$ refer to one observed sample. Keeping these symbols distinct helps us remember which quantities are known from data and which remain population targets.
+
+Now imagine repeating the same random-sampling procedure many times. Each time, draw a new sample of size $n$ and calculate its mean. The means will differ because the samples contain different units. The probability distribution of all those possible means is the *sampling distribution of the mean*. It is a theoretical description of how the sample mean varies across repeated random samples.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable process figure from a population through repeated samples to a sampling distribution"}
+
+```{r}
+#| label: fig-sampling-process
+#| fig-alt: "A top-to-bottom process begins with a population, draws many random samples of size n, calculates one mean from each sample, and collects those means into the sampling distribution of the sample mean."
+#| fig-cap: "How repeated random sampling produces a sampling distribution."
+#| fig-width: 10
+#| fig-height: 5.6
+p_sampling_process
+```
+
+:::
+
+Read the figure from top to bottom. The population is the source. Repeated random samples are drawn using the same sample size and selection rule. One mean is calculated from each sample. Collecting those possible means produces the sampling distribution.
+
+Three related distributions must remain separate:
+
+| Distribution | What its values represent | One example |
+|---|---|---|
+| Population distribution | The variable's values across all population units | Every person's score in the population |
+| Sample distribution | The observed values in one selected sample | The scores of the people selected once |
+| Sampling distribution | One statistic from each possible repeated sample | The mean score from each repeated sample |
+
+: Population, sample, and sampling distributions describe different collections of values. {#tbl-three-distributions}
+
+The word *sampling* in "sampling distribution" refers to repeated samples, not to the observations inside one sample. Other statistics, such as a median or variance, can also have sampling distributions. This topic focuses on the sample mean.
+
+Two key properties of the sampling distribution of the mean:
+
+$$E(\bar{X}) = \mu, \qquad \operatorname{Var}(\bar{X})=\frac{\sigma^2}{n}, \qquad \text{SD}(\bar{X}) = \frac{\sigma}{\sqrt{n}}.$$
+
+The capital expression $\bar{X}$ represents the sample mean before a particular sample has been drawn, so it can vary from sample to sample. The observed value from one actual sample is written $\bar{x}$. The first formula says that the sampling distribution is centered at the population mean $\mu$. The second gives its variance, and the third gives its standard deviation. That standard deviation is called the *standard error of the mean*.
+
+#### Sampling frames, selection, and nonresponse
+
+A random-sampling formula is useful only if the selection process can reach the population of interest. The *target population* is the full group named by the research question. The *sampling frame* is the list or practical procedure used to reach potential participants. The *achieved sample* is the group that ultimately provides usable data. These three groups may differ.
+
+If some members of the target population cannot appear in the sampling frame, the frame has *undercoverage*. If the people who respond differ systematically from those who do not respond, *nonresponse bias* can occur. Here, *bias* means a systematic tendency for an estimate to miss its population target in one direction. A very large sample can still be biased when it repeatedly draws from the wrong frame or depends on selective response.
+
+The following teaching simulation makes the difference visible. It creates a target population of 10 000 interest scores. A random sample gives every population unit the same selection chance. A voluntary-response sample instead makes units with higher interest more likely to respond. Both samples contain `r bias_response_n` units, so the comparison changes the selection method rather than the sample size.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable sampling-bias figure"}
+
+```{r}
+#| label: fig-sampling-bias-comparison
+#| fig-alt: "Three bars compare the simulated mean interest score in the target population, an equally sized random sample, and voluntary respondents whose response probability rises with interest. The random-sample mean is close to the target, while the respondent mean is higher."
+#| fig-cap: "In this simulation, random selection stays near the target mean, while interest-related response shifts the voluntary-respondent mean upward."
+#| fig-width: 8
+#| fig-height: 5
+p_sampling_bias_theory
+```
+
+:::
+
+The target-population mean is `r round(bias_plot_data$mean[1], 1)`. The equally sized random sample has mean `r round(bias_plot_data$mean[2], 1)`, while the voluntary respondents have mean `r round(bias_plot_data$mean[3], 1)`. The random-sample difference is ordinary chance variation. The respondent mean is systematically higher because high-interest units respond more often. Adding more respondents through the same selective process would make that mean more stable, but it would not make it representative of the target population.
+
+This separates two questions. *Precision* asks how much an estimate would vary across repeated samples. *Representativeness* asks whether the selection process allows the estimate to describe the intended population. We now study precision through the standard error.
+
+---
+
+### The Standard Error and the Central Limit Theorem {.cs-heading}
+
+The *standard error of the mean* describes how much sample means vary across repeated random samples of the same size. A smaller standard error means that the possible sample means are more tightly concentrated around the population mean.
+
+$$\text{SE} = \frac{\sigma}{\sqrt{n}}$$
+
+Where:
+
+- $\sigma$ = population standard deviation
+- $n$ = sample size
+
+In the formula, $\sigma$ is the population standard deviation, $n$ is the number of observations in each sample, and $\sqrt{n}$ is the square root of the sample size. Usually, $\sigma$ is unknown. We then insert the sample standard deviation $s$ in its place:
+
+$$\widehat{\text{SE}}=\frac{s}{\sqrt{n}}.$$
+
+The hat over $\widehat{\text{SE}}$ marks an estimate. This substitution is called a *plug-in estimate* because the known sample value $s$ is plugged into the formula where the unknown population value $\sigma$ would otherwise appear.
+
+Two consequences follow directly from the formula:
+
+1. **Larger samples produce more precise estimates:** as $n$ increases, SE decreases. Quadrupling the sample size halves the standard error.
+2. **More variable populations produce less precise estimates:** higher $\sigma$ means higher SE.
+
+The shape of the sampling distribution depends first on the population. If the population itself is normally distributed, then the sampling distribution of $\bar{X}$ is normal for every positive sample size $n$:
+
+$$\bar{X}\sim N\!\left(\mu,\frac{\sigma^2}{n}\right).$$
+
+If the population is not normal, the *central limit theorem* explains what happens as $n$ grows. The version used here assumes observations are *independent*, meaning one observation does not determine another, and *identically distributed*, meaning every observation comes from the same population distribution. It also assumes that the population has a defined, finite variance, so its spread can be represented by a finite value $\sigma^2$. Under these conditions, the sampling distribution of the mean becomes increasingly well approximated by a normal distribution:
+
+$$\bar{X} \approx N\!\left(\mu,\, \frac{\sigma^2}{n}\right)$$
+
+The symbol $\approx$ means "is approximately distributed as." There is no single sample size at which the approximation suddenly becomes correct. The supplied course material sometimes uses $n>30$ as a rough classroom heuristic, not as a model condition or guarantee. The examples show why adequacy depends on the original population shape: a strongly skewed population generally needs a larger $n$ than a shape already close to normal.
+
+::: {.callout-note title="Important distinction"}
+
+**What becomes approximately normal?** The theorem concerns the distribution of *sample means across repeated samples*. It does not say that the individual observations in the population become normal.
+:::
+
+::: {.topic-figure-scroll .topic-figure-scroll-extra-wide tabindex="0" role="region" aria-label="Scrollable sampling-distribution comparison figure"}
+
+```{r}
+#| label: fig-sampling-distribution-grid
+#| fig-alt: "A three-by-three grid of histograms for sample means from normal, uniform, and right-skewed standardized source populations at sample sizes one, five, and thirty. Finer bins keep the shapes visible as the distributions narrow and become more bell-shaped."
+#| fig-cap: "Sampling distributions of the mean across source shapes and sample sizes, shown on common horizontal and density scales."
+#| fig-width: 10
+#| fig-height: 8
+p_sampling_grid
+```
+
+:::
+
+Each row starts from a different population shape. Read from left to right as sample size increases from 1 to 5 to 30. Every panel uses the same horizontal and vertical scales, so widths and density heights can be compared directly. At $n=1$, every "mean" contains only one observation, so the sampling distribution has the same shape as the population. As $n$ grows, the sample means become less spread out. Because the total area of every density remains 1, that narrowing also makes the central bars taller. The normal-population row remains normal throughout. The uniform and right-skewed rows become progressively more bell-shaped, illustrating a gradual approximation rather than an abrupt cutoff.
+
+---
+
+::: {.callout-warning title="Potential Pitfalls"}
+
+- **Confusing $P(A \mid B)$ and $P(B \mid A)$.** These address different questions. The probability of a positive test given that a person has the disorder is not the same as the probability of having the disorder given a positive test. Reversing the conditioning leads to large and consequential errors.
+- **Treating mutually exclusive events as independent.** Mutually exclusive events with nonzero probability cannot both occur: knowing one occurred tells you the other did not. They are dependent, not independent.
+- **Ignoring the base rate.** Prevalence, also called the base rate, is the proportion of the population that has the condition before testing. When a condition is rare, the large group without the condition can produce many false-positive results even when the test performs well. Sensitivity alone therefore cannot tell us the probability of having the disorder after a positive result. We must use prevalence, sensitivity, and specificity together.
+- **Using the binomial when its assumptions are violated.** The binomial requires a fixed number of trials $n$, two possible outcomes per trial, the same success probability $\pi$ on every trial, and independent trials. If one trial changes the probability of success on another trial, or if the success probability changes from trial to trial, the binomial model does not apply.
+- **Reading density as probability.** For continuous distributions, the height of the curve at a point is a density value, not a probability. Probabilities correspond to areas over intervals, and the probability of any single exact value is zero.
+- **Confusing standard deviation and standard error.** The standard deviation ($s$ or $\sigma$) describes the spread of individual observations. The standard error ($s/\sqrt{n}$) describes the precision of the sample mean as an estimate. As $n$ grows, SE shrinks but $s$ stays roughly constant.
+:::
+
+---
+
+### From Probability to Statistical Inference {.cs-heading}
+
+Topic 1 taught us to describe one observed dataset. This topic added a second layer: a model for what could vary if an event or a sampling process were repeated. Event rules organize uncertainty, probability distributions describe random numerical outcomes, and sampling distributions describe how a statistic such as the sample mean changes from sample to sample.
+
+That last connection opens the door to [Hypothesis Testing and Confidence Intervals](t03_hypothesis-testing.qmd). As in Topic 1, a sample mean describes one sample. Its sampling distribution tells us how much that mean would ordinarily vary under repeated random sampling, and the standard error summarizes that variation. Topic 3 uses this foundation to judge whether an observed result is surprising under a stated hypothesis and to express the uncertainty around an estimated population value.
+
+The logic is cumulative: describe the observed data first, state the probability model second, and reason from the sample toward the population only when the sampling process and model assumptions justify that step. Probability does not make uncertainty disappear. It makes the uncertainty visible and measurable.
+
+## Simulated Example
+
+### Simulated Study: Exam Anxiety in a First-Year Cohort {.cs-heading}
+
+A researcher wants to study exam anxiety among first-year psychology students and compare students in two self-reported stress groups. A *cohort* is a group studied together. The data on this page are entirely computer-created. No real person was measured.
+
+As [Topic 1's simulated study](t01_descriptive.qmd#simulated-study) explained, a simulation follows a stated computer recipe, and a fixed seed lets everyone rebuild the same artificial data. This page reuses that setup, so its 160 cases, tables, figures, and calculations remain consistent whenever the page is rebuilt.
+
+There are two kinds of number to keep separate from the beginning. The recipe contains probabilities and distribution settings chosen before the cases are created. The completed artificial cohort contains the counts and relative frequencies actually produced. Those generated values will usually be close to the recipe values, but they need not match exactly because this cohort contains only 160 chance-like outcomes rather than every outcome the recipe could produce.
+
+Begin by imagining that one row is selected at random from this fixed artificial cohort. How likely is a high-anxiety outcome, and how does that probability change once the selected case's stress group is known? This is the central question for the cohort analysis. The later repeated-sampling demonstrations widen the setting and will be labeled separately.
+
+The recipe has three parts:
+
+1. Create 160 cases.
+2. Assign each case to the low-stress group with probability 0.55 or the high-stress group with probability 0.45.
+3. Generate an exam-anxiety score from a normal distribution. The low-stress distribution has mean 18, the high-stress distribution has mean 24, and both have standard deviation 5. Round the score to the nearest whole number and keep it between 0 and 40.
+
+Each row contains four useful variables. Participant ID identifies the row but is not a measured amount. Stress group is *categorical* because it records a group label rather than an amount. Although the words "low" and "high" have an everyday order, this example uses them as two nominal grouping categories: the labels separate the cases into two groups, and we do not calculate with the group codes as if they were measured stress values. Exam anxiety is *quantitative* because it records a numerical score. We treat score differences as meaningful, while not claiming that a score of 24 represents twice as much anxiety as a score of 12. Finally, anxiety level is *binary categorical*: it records only one of two possibilities, score 23 or above versus score below 23.
+
+The boundary at 23 exists only to teach event probabilities. It must not be used to diagnose or classify a person's health. The simulation deliberately gives the high-stress group a higher score center, so finding that pattern later only confirms the recipe. It does not provide evidence about real students.
+
+The first part follows one cohort from event counts through complement, addition, joint, conditional, independence, and binomial calculations. We then return to the continuous score model before moving to a simpler population that isolates sampling distributions. A final comparison separates random sampling from selective response.
+
+Three questions connect those stages:
+
+> When the wording changes from "anxiety" to "anxiety given high stress," which group belongs in the denominator? How do probability models describe outcomes that have not yet been observed? Why can a larger random sample improve precision while a larger selective sample can remain systematically unrepresentative?
+
+Keeping those questions visible prevents one probability from being used as though it answered every kind of uncertainty.
+
+---
+
+**Step 1: Inspecting the Simulated Rows**
+
+Start with the rows before calculating probabilities. The table is interactive: you can search it, sort a column, and move through its pages.
+
+```{r}
+#| label: tbl-simulated-anxiety-data
+datatable(
+  display_dat,
+  options = topic_dt_options(topic_locale),
+  class    = "compact stripe hover",
+  rownames = FALSE,
+  caption  = "Simulated data: 160 cases with stress group, exam anxiety score, and derived anxiety level."
+)
+```
+
+Each row represents one simulated case. Sorting by exam-anxiety score shows the lowest and highest observed scores. The anxiety-level column shows the category derived from that rounded score. Looking down the stress-group column confirms that both groups are present. Because the recipe intentionally used a higher mean for the high-stress group, many of its scores appear farther up the score scale.
+
+We now turn these rows into event counts and proportions.
+
+---
+
+**Step 2: Turning Counts into Event Probabilities**
+
+A *relative frequency* is an event count divided by the total number of cases. If one case is selected uniformly from this fixed cohort, meaning that every row has the same selection chance, the relative frequency is the exact probability of obtaining the event:
+
+$$\text{relative frequency of event }A=\frac{\text{number of cases in }A}{160}.$$
+
+For this teaching example, a score of 23 or above belongs to the event called "high anxiety," and a score below 23 belongs to its opposite, "low anxiety."
+
+```{r}
+#| label: tbl-empirical-event-probabilities
+kable(
+  prob_tbl,
+  col.names = c("Event", "Count", "Probability (relative frequency)"),
+  align     = c("l", "c", "c"),
+  caption   = "Event counts and rounded decimal probabilities for uniform selection from the fixed simulated cohort."
+)
+```
+
+The probability that a randomly selected simulated case has high anxiety is exactly `r n_high_anx`/`r n_total`, which is approximately `r round(p_ha, 3)` after rounding the displayed decimal. The probability of selecting a case from the high-stress group is `r n_high_s`/`r n_total` $=$ `r round(p_hs, 3)`. The recipe assigned high stress with probability 0.45, but this one generated cohort contains `r round(p_hs * 100, 1)`% high-stress cases. That difference is **simulation variability**, the ordinary chance difference between a generating probability and one finite set of generated outcomes. These are exact probabilities for this fixed artificial cohort, not estimates from real students.
+
+With these event probabilities in hand, we can ask about "not" and "or."
+
+---
+
+**Step 3: Applying the Complement and Addition Rules**
+
+The complement rule answers a "not" question. Because low anxiety is defined here as not high anxiety, the two events cover all 160 cases without overlap:
+
+$$P(\text{low anxiety}) = 1 - P(\text{high anxiety}) = \frac{`r n_low_anx`}{`r n_total`} \approx `r round(1 - p_ha, 3)`$$
+
+Approximately `r round((1 - p_ha) * 100, 1)`% of the simulated cases fall in the lower-anxiety range.
+
+The addition rule answers an "or" question. Let $H_S$ mean high stress and $H_A$ mean high anxiety. The union $H_S\cup H_A$ contains cases with high stress, high anxiety, or both:
+
+$$P(H_S \cup H_A)=\frac{`r n_high_s`+`r n_high_anx`-`r n_both`}{`r n_total`}=`r round(p_union, 4)`.$$
+
+Adding the first two counts includes the `r n_both` cases that belong to both events twice. Subtracting that shared count once corrects the double-counting. The union contains approximately `r round(100 * p_union, 1)`% of the cohort.
+
+---
+
+**Step 4: Finding a Joint Probability**
+
+We now move from "or" to "and." A *joint probability* describes two events occurring together. The table shows every combination of stress group and anxiety category. A table that cross-classifies cases by two categorical variables is called a *two-way count table*. The totals at the end of each row and column show how the 160 cases are distributed.
+
+```{r}
+#| label: tbl-stress-anxiety-contingency
+kable(
+  cont_tbl,
+  caption = "Two-way count table: stress group by high-anxiety classification.",
+  align   = c("l", "c", "c", "c")
+)
+```
+
+The joint probability is:
+
+$$P(\text{high anxiety} \cap \text{high stress}) = \frac{`r n_both`}{`r n_total`} \approx `r round(p_both, 3)`$$
+
+The denominator is still all `r n_total` cases because no condition has restricted the reference group. Approximately `r round(p_both * 100, 1)`% of the cohort belongs to both events.
+
+The next question supplies information about the selected case, so the denominator must change.
+
+---
+
+**Step 5: Restricting the Reference Group with Conditional Probability**
+
+A conditional probability changes the denominator. Once we are told that a case belongs to the high-stress group, only the `r n_high_s` high-stress cases remain in the reference group. Of those, `r n_both` also have high anxiety:
+
+$$P(\text{high anxiety} \mid \text{high stress}) = \frac{`r n_both`}{`r n_high_s`} \approx `r round(p_ha_given_hs, 3)`$$
+
+```{r}
+#| label: tbl-conditional-anxiety-probabilities
+kable(
+  cond_tbl,
+  caption = "Conditional probability of each anxiety level within each stress group.",
+  align   = c("l", "c", "c")
+)
+```
+
+```{r}
+#| label: fig-conditional-probability
+#| fig-alt: "Two horizontal bars compare the probability of high anxiety within the high-stress group and within the low-stress group. The percentages are printed beside the bars."
+#| fig-cap: "Probability of high anxiety after restricting the reference group to each stress group."
+#| fig-height: 3.4
+accessible_plotly(
+  p_cond_bar,
+  "Two horizontal bars compare the probability of high anxiety within the high-stress group and within the low-stress group. The percentages are printed beside the bars."
+)
+```
+
+Within the high-stress group, `r round(p_ha_given_hs * 100, 1)`% of cases have high anxiety. Within the low-stress group, `r round(p_ha_given_ls * 100, 1)`% do. The bars show the same two row-based proportions as the table.
+
+The reverse conditional asks a different question: among cases with high anxiety, what proportion are in the high-stress group? Directly from the table, it is `r n_both`/`r n_high_anx` $\approx$ `r round(p_hs_given_ha, 3)`. Bayes' theorem reaches the same value:
+
+$$
+\begin{aligned}
+P(H_S\mid H_A)
+&=\frac{P(H_A\mid H_S)P(H_S)}{P(H_A)}\\
+&=\frac{(`r n_both`/`r n_high_s`)(`r n_high_s`/`r n_total`)}{`r n_high_anx`/`r n_total`}\\
+&\approx `r round(p_hs_given_ha, 3)`.
+\end{aligned}
+$$
+
+The conditioning direction determines the denominator. The first conditional uses all high-stress cases. The reverse conditional uses all high-anxiety cases. They answer different questions, even though they use the same table.
+
+We can now use these conditional values to check whether the two events are independent in the simulated cohort.
+
+---
+
+**Step 6: Checking Independence within the Simulated Cohort**
+
+Two events are independent when learning that one occurred does not change the probability of the other. We can check that idea in two equivalent ways.
+
+First compare the overall, or *marginal*, probability of high anxiety with the conditional probabilities. Marginal means that no stress group has been imposed as a condition:
+
+- Unconditional: $P(\text{high anxiety}) \approx `r round(p_ha, 3)`$
+- Conditional: $P(\text{high anxiety} \mid \text{high stress}) \approx `r round(p_ha_given_hs, 3)`$
+- Also: $P(\text{high anxiety} \mid \text{low stress}) \approx `r round(p_ha_given_ls, 3)`$
+
+The conditional probabilities differ from the marginal probability. We can also compare the product required by independence with the observed joint probability:
+
+$$P(H_A)P(H_S)=`r round(p_ha, 3)`\times`r round(p_hs, 3)`\approx`r round(p_ha * p_hs, 3)`,$$
+
+while $P(H_A\cap H_S)\approx`r round(p_both, 3)`$. These values are not equal, so high stress and high anxiety are not independent within this simulated cohort. That result is expected because the simulation recipe deliberately used different score centers for the two stress groups.
+
+All calculations so far have treated the anxiety score as a two-category event. We can now count how often that event occurs across a fixed number of independent draws.
+
+---
+
+**Step 7: Counting High-Anxiety Cases with a Binomial Model**
+
+We now ask a new kind of question: if the same two-outcome process were repeated `r n_binom` times, how many high-anxiety outcomes might we count? To answer it with a binomial model, every repetition must begin with the same probability and must not affect any other repetition.
+
+We first *fit* the model, meaning that we use the artificial cohort's high-anxiety proportion as the model's success probability. We then make `r n_binom` independent draws from that model. You can picture this as **sampling with replacement**: select one case, record whether it has high anxiety, return it, and only then select again. Returning the case keeps the possible pool and the success probability unchanged. This is a probability experiment, not a claim about ten different students being removed from a real cohort.
+
+We use the cohort proportion
+
+$$\widehat{\pi}=\frac{`r n_high_anx`}{`r n_total`}\approx`r round(p_ha, 4)`.$$
+
+The hat over $\widehat{\pi}$ is a reminder that this probability was obtained from the artificial cohort. In Steps 2 through 6, the same fraction described selection from the fixed 160 rows. Here it becomes the success probability in a model for new repetitions. Let $X$ count how many of the `r n_binom` independent draws produce the high-anxiety outcome. Under the stated assumptions,
+
+$$X\sim B\!\left(`r n_binom`,\frac{`r n_high_anx`}{`r n_total`}\right).$$
+
+The expected count is
+
+$$E(X) = n\hat{\pi} = `r n_binom` \times \frac{`r n_high_anx`}{`r n_total`} = `r round(binom_ev, 4)`$$
+
+The variance is $n\widehat{\pi}(1-\widehat{\pi})\approx`r round(binom_var, 4)`$, and its square root gives the standard deviation $\text{SD}(X)\approx`r round(binom_sd, 2)`$.
+
+```{r}
+#| label: fig-binomial-anxiety
+#| fig-alt: "Bar chart showing the binomial probability for every possible number of high-anxiety outcomes in ten independent draws from the fitted two-outcome model."
+#| fig-cap: "Binomial count across ten independent draws with a constant fitted probability."
+accessible_plotly(
+  p_binom,
+  "Bar chart showing the binomial probability for every possible number of high-anxiety outcomes in ten independent draws from the fitted two-outcome model."
+)
+```
+
+The chart shows the full probability distribution: the probability of each possible count from 0 to `r n_binom`. The probability of exactly 4 high-anxiety outcomes in `r n_binom` independent draws is $P(X = 4) \approx `r round(p_binom_4, 3)`$. The probability of more than 5 is $P(X > 5) \approx `r round(p_binom_over5, 3)`$.
+
+Read the horizontal axis as a count, not as an anxiety score. A bar above 4 shows the probability that exactly four of the `r n_binom` model draws are classified as high anxiety. The bars together include every possible count, so their probabilities sum to 1. The highest bars mark the counts that are most plausible under the fitted probability without predicting one guaranteed result.
+
+```{r}
+#| label: tbl-binomial-pmf-cdf
+binom_dat |>
+  mutate(
+    probability = round(probability, 4),
+    cumulative_probability = round(cumulative_probability, 4)
+  ) |>
+  kable(
+    caption = "Binomial probability mass and cumulative probability for every possible count.",
+    col.names = c("Count x", "P(X = x)", "F(x) = P(X <= x)"),
+    align = c("c", "c", "c")
+  )
+```
+
+Read the middle column for an exact count and the right column for an "at most" question. For example, the cumulative entry at 5 is $P(X\leq5)$, so its complement is $P(X>5)$. The final cumulative value is 1 because every possible count has been included.
+
+Here, $\widehat{\pi}\approx`r round(p_ha, 3)`$ is below 0.50, so the bars are not perfectly symmetric. The distribution places more probability on the smaller counts than it would if the success probability were 0.50.
+
+The binomial random variable is a count formed from the two-category outcome. We now return to the full quantitative score and use the continuous model that generated it before rounding.
+
+---
+
+**Step 8: Using a Normal Model for the Full Score**
+
+The data-creation recipe uses a separate normal distribution for each stress group. Focus on the *continuous* high-stress model before scores are rounded. Continuous means that, in the model, a value can fall anywhere along an interval of the score scale rather than only at separate whole-number points. Let $X$ denote a value from that model:
+
+$$X\sim N(24,5^2).$$
+
+This notation says that the model has mean 24, standard deviation 5, and variance $5^2=25$. A *model* is a simplified probability description of possible values. The recorded binary event uses the rounded score: high anxiety means a rounded score of at least 23. Under the rounding rule used to create the data, continuous values above 22.5 round to 23 or higher. The matching continuous-model event is therefore $X>22.5$, not $X\geq23$.
+
+To find that probability, first convert the continuous boundary to a z-score. A z-score states how many standard deviations a value lies above or below the mean:
+
+$$z=\frac{22.5-24}{5}=-0.30.$$
+
+Let $Z$ denote the standard normal distribution, which has mean 0 and standard deviation 1. It then gives
+
+$$P(X>22.5)=P(Z>-0.30)\approx `r round(p_theor, 3)`.$$
+
+For a continuous model, the probability of obtaining exactly 22.5 is zero. Therefore $P(X>22.5)=P(X\geq22.5)$ even though the rounding instruction treats the boundary value itself separately.
+
+```{r}
+#| label: fig-anxiety-normal-fit
+#| fig-alt: "A normal density curve centered at 24. A dashed line marks the pre-rounding boundary at 22.5, and the visible area beyond that boundary is shaded."
+#| fig-cap: "Continuous-model area beyond the boundary for rounded scores of 23 or higher."
+#| fig-height: 4.6
+accessible_plotly(
+  p_norm,
+  "A normal density curve centered at 24. A dashed line marks the pre-rounding boundary at 22.5, and the visible area beyond that boundary is shaded."
+)
+```
+
+The shaded region is the area requested by the probability question. Its probability, about `r round(p_theor, 3)`, describes a new draw from the continuous high-stress generator before rounding. By comparison, the fixed simulated cohort contains `r n_both` high-anxiety cases among `r n_high_s` generated high-stress cases, so uniform selection within that subgroup gives `r n_both`/`r n_high_s` $\approx`r round(n_both / n_high_s, 3)`$. The small difference is simulation variability: one generated cohort does not have to match the probability specified by its data-creation recipe exactly.
+
+This is a *forward* question because the boundary 22.5 is known and the area is unknown. The curve is drawn across eight standard deviations, so its unshown tails are extremely small. The normal model itself extends without a hard endpoint.
+
+An inverse question starts with an area and asks for its boundary. The standard-normal boundary with 90% of the area below it is approximately $z=1.28$. Transforming back to the anxiety-score scale gives
+
+$$x_{0.90}=24+1.28(5)\approx `r round(normal_q90, 1)`.$$
+
+The model therefore places about 90% of its continuous high-stress values at or below `r round(normal_q90, 1)`, and about 10% above it. This is a boundary in the teaching model before rounding. It must not be used to classify a person's health.
+
+The binomial section studied a count, and the normal section studied one continuous value. The next step studies a third random quantity: a mean calculated from an entire sample.
+
+---
+
+**Step 9: Building a Sampling Distribution of the Mean**
+
+To isolate the sampling-distribution idea, this step uses a simpler imagined population. Let individual scores in that population follow
+
+$$X\sim N(`r sampling_population_mean`,`r sampling_population_sd`^2).$$
+
+The population mean is therefore `r sampling_population_mean`, and the population standard deviation is `r sampling_population_sd`. Each repetition follows the same three actions:
+
+1. Draw a fresh random sample of $n=`r sample_n`$ independent scores from the stated population. Independent here means that one drawn score does not determine another.
+2. Calculate that sample's mean $\bar{x}$.
+3. Repeat the first two actions 1 000 times and collect the 1 000 means.
+
+::: {.topic-figure-scroll .topic-figure-scroll-wide tabindex="0" role="region" aria-label="Scrollable process figure showing how repeated samples produce a sampling distribution in the simulated example"}
+
+```{r}
+#| label: fig-sampling-example-process
+#| fig-alt: "A top-to-bottom process begins with a population, draws many random samples of size n, calculates one mean from each sample, and collects those means into the sampling distribution of the sample mean."
+#| fig-cap: "The repeated actions used to create the simulated sampling distribution."
+#| fig-width: 10
+#| fig-height: 7.2
+accessible_plotly(
+  p_sampling_process,
+  "Interactive top-to-bottom process diagram moving from a population through repeated random samples and sample means to a sampling distribution.",
+  tooltip = "label"
+)
+```
+
+:::
+
+The distribution formed by the collected means is the *sampling distribution of the mean*. Because the population itself is normal, this sampling distribution is normal for the stated sample size:
+
+$$\bar{X}\sim N\!\left(`r sampling_population_mean`,\frac{`r sampling_population_sd`^2}{`r sample_n`}\right).$$
+
+Its standard deviation is the *standard error*, the typical sample-to-sample spread of the means around the population mean under this repeated random-sampling process:
+
+$$\text{SE}=\frac{`r sampling_population_sd`}{\sqrt{`r sample_n`}}\approx`r round(se_theoretical, 2)`.$$
+
+```{r}
+#| label: fig-sampling-distribution
+#| fig-alt: "Histogram of one thousand means from fresh random samples of thirty scores drawn from a normal population with mean twenty and standard deviation six. The exact normal sampling density is overlaid."
+#| fig-cap: "Simulated sampling distribution of the mean for samples of thirty scores."
+#| fig-height: 4.6
+accessible_plotly(
+  p_sampling,
+  "Histogram of one thousand means from fresh random samples of thirty scores drawn from a normal population with mean twenty and standard deviation six. The exact normal sampling density is overlaid."
+)
+```
+
+The simulation produced a mean of means of `r round(mean(sample_means), 2)` and a standard deviation of means of `r round(sd(sample_means), 2)`. These are close to the theoretical center `r sampling_population_mean` and standard error `r round(se_theoretical, 2)`. The small differences occur because the figure contains 1 000 simulated samples rather than every possible sample.
+
+```{r}
+#| label: tbl-sampling-precision-plan
+kable(
+  sampling_precision_tbl,
+  caption = "Theoretical standard errors for three sample sizes when the population standard deviation is 6.",
+  col.names = c("Sample size", "Standard error"),
+  align = c("c", "c")
+)
+```
+
+The table keeps the population standard deviation fixed at 6 and changes only $n$. Increasing the sample size from 10 to 90 multiplies $n$ by nine. Because $\sqrt{9}=3$, the standard error is divided by three.
+
+Individual scores have standard deviation `r sampling_population_sd`, while the sample means for $n=`r sample_n`$ have standard error only about `r round(se_theoretical, 2)`. Means vary less than individual observations because each mean combines `r sample_n` scores.
+
+The shrinking standard error depends on the stated random-sampling model. A final comparison shows why precision and representative selection are different questions.
+
+---
+
+**Step 10: Comparing Random Sampling with Selective Response**
+
+The **intended population** is the full group named by the research question. For this last demonstration, we create an artificial population of 10 000 interest scores. We then obtain two samples of the same size, `r bias_response_n`:
+
+1. A random sample gives every population unit the same chance to be selected.
+2. A voluntary-response sample makes people with higher interest more likely to respond.
+
+::: {.topic-figure-scroll tabindex="0" role="region" aria-label="Scrollable comparison of equal-sized random and voluntary-response samples"}
+
+```{r}
+#| label: fig-simulated-sampling-bias
+#| fig-alt: "Three bars compare the mean interest score in a simulated target population, an equally sized random sample, and voluntary respondents whose response probability rises with interest. The random-sample mean is close to the target, while the respondent mean is higher."
+#| fig-cap: "In this simulation, equal sample sizes do not guarantee equal quality: random selection stays near the target, while selective response shifts the mean."
+#| fig-width: 8
+#| fig-height: 7
+accessible_plotly(
+  p_sampling_bias,
+  "Interactive bars comparing the mean in a simulated target population, a random sample, and selective voluntary respondents.",
+  tooltip = "text"
+)
+```
+
+:::
+
+The population mean is `r round(bias_plot_data$mean[1], 1)`. The random-sample mean is `r round(bias_plot_data$mean[2], 1)`, a small chance difference from the target. The voluntary-respondent mean is `r round(bias_plot_data$mean[3], 1)`, which is higher because response depends on interest. This systematic shift is **selection bias**: the way cases enter the sample repeatedly pushes the result away from the population target.
+
+A larger sample reduces random variation when the sampling process is appropriate. It does not repair a process that repeatedly overrepresents particular values. The full example therefore separates three ideas: exact probabilities within a fixed cohort, model probabilities used for new independent draws, and population estimates whose quality depends on how the sample was selected.
+
+---
+
+### Potential Pitfalls {.cs-heading}
+
+The generated cohort cannot stand in for a real population. Its probabilities and model ingredients were constructed for teaching, so they are not evidence about actual students. Increasing a sample size can reduce random variation under a suitable sampling process, but it cannot repair selective response or missing coverage.
+
+- **Mixing denominators.** A conditional probability restricts attention to the named group, so its denominator must match that group.
+- **Treating a fixed-cohort proportion as a new-trial probability.** The observed proportion describes selection from these 160 constructed rows; a binomial model describes new independent repetitions with a constant success probability.
+- **Reading a normal density height as probability.** The normal-model probability is an area over a continuous interval before rounding.
+- **Confusing a sampling distribution with a distribution of people.** A sampling distribution describes how a statistic varies across repeated samples, not how individual observations are distributed.
+- **Equating precision with representativeness.** A larger sample can reduce random sampling variation while remaining systematically unrepresentative.
+
+### How This Example Brings the Theory Together {.cs-heading}
+
+The ten steps form one connected journey. We began with rows, converted counts into event probabilities, changed denominators for conditional questions, and checked independence. We then used the same two-category outcome in a binomial count model, returned to the full score with a normal model, and finally studied the variation of sample means. The final sampling comparison showed why a precise estimate can still be systematically wrong when cases enter through a selective process.
+
+Every numerical pattern here was built into an artificial example. The results therefore show that the calculations recover the stated recipe and make no claim about how common anxiety is among real students, whether stress causes anxiety, or whether a score boundary has clinical meaning. A real analysis would need a justified target population, a defensible sampling frame, valid measurements, and a study design suited to the intended conclusion.
+
+The most useful habit to carry forward is to name the probability's reference group. Ask: probability among whom, under which process, and over which possible outcomes? That question keeps complements, conditional probabilities, model probabilities, and population estimates from being mistaken for one another.
+
+## Exercises and Solutions
+
+```{r}
+#| label: topic-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_topic_resources(
+  "../../_shared/downloads.yml",
+  "en",
+  course_id = "intro-statistics",
+  topic_number = 2
+)
+```
+
+## Summary
+
+{{< include ../../_shared/topic-summaries/en/t02.md >}}
+
+---
+
+### Downloadable Summary {.cs-heading}
+
+```{r}
+#| label: summary-resources
+#| echo: false
+#| results: asis
+source("../../_shared/render-downloads.R")
+render_summary_resources(
+  "../../_shared/downloads.yml",
+  "en",
+  course_id = "intro-statistics",
+  topic_number = 2
+)
+```
+
+:::
+
+::: {.lesson-navigation role="navigation" aria-label="Topic navigation"}
+[Previous: Descriptive Statistics](t01_descriptive.qmd){.text-link-arrow .previous}
+[Introduction Overview](overview-intro-stats-en.qmd){.text-link-arrow}
+[Next: Hypothesis Testing](t03_hypothesis-testing.qmd){.text-link-arrow .next}
+:::

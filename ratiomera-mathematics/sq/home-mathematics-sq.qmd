@@ -1,0 +1,41 @@
+---
+pagetitle: "Ratiomera Mathematics | Mësim i planifikuar nga shkolla fillore deri në gjimnaz"
+title-prefix: ""
+description: "Ratiomera Mathematics është dega e planifikuar e matematikës në Ratiomera, me një rrugë të ardhshme mësimore nga shkolla fillore deri në nivelin e gjimnazit zviceran."
+lang: sq
+toc: false
+---
+
+::: {.section-intro .branch-hero .branch-hero-mathematics .fade-in}
+<span class="branch-status branch-status-mathematics">{{< var status_sq.planned >}}</span>
+
+# Ratiomera Mathematics
+
+Arsimim i planifikuar në matematikë nga shkolla fillore deri në nivelin e gjimnazit.
+:::
+
+::: {.landing-prose}
+## Përmbledhje {#overview}
+
+Ratiomera Mathematics është dega e planifikuar e matematikës në Ratiomera. Qëllimi i saj afatgjatë është të ofrojë një rrugë koherente mësimore nga matematika e shkollës fillore deri në nivelin e gjimnazit zviceran.
+
+Struktura e planifikuar mbështetet në biseda me mësimdhënës nga rajone të ndryshme të Zvicrës dhe në krahasimin e kurrikulave përkatëse shkollore. Synimi është të zhvillohen shpjegime, shembuj të udhëzuar, detyra praktike dhe zgjidhje që mbështesin si kuptimin konceptual, ashtu edhe sigurinë në zbatimin e procedurave.
+
+Zhvillimi ende nuk ka filluar. Ratiomera Mathematics do të hyjë në zhvillim aktiv pasi kurrikula në anglisht e degës Ratiomera Statistics të ketë arritur një gjendje të qëndrueshme dhe me cilësi të lartë.
+:::
+
+---
+
+::: {.development-panel .development-panel-mathematics}
+## Gjendja e zhvillimit {#development-status}
+
+<span class="status-badge planned">{{< var status_sq.planned >}}</span>
+
+Aktualisht nuk ka mësime ose faqe kursesh të matematikës. Dega do të mbetet në fazën e planifikimit derisa të përfundojë dhe shqyrtohet kurrikula aktive e statistikës në gjuhën angleze.
+:::
+
+::: {.btn-row}
+[Shiko gjendjen e zhvillimit](#development-status){.dl-btn .mathematics}
+[Mbështet zhvillimin e ardhshëm](../../sq/pages/support-ratiomera-sq.qmd){.dl-btn .secondary .mathematics}
+[Kthehu te Ratiomera](../../sq/home-ratiomera-sq.qmd){.text-link-arrow}
+:::

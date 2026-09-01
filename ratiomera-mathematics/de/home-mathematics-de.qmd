@@ -1,0 +1,41 @@
+---
+pagetitle: "Ratiomera Mathematics | Geplantes Lernen von der Primarschule bis zum Gymnasium"
+title-prefix: ""
+description: "Ratiomera Mathematics ist der geplante Mathematik-Fachbereich von Ratiomera mit einem künftigen Lernpfad von der Primarschule bis zur Schweizer Gymnasialstufe."
+lang: de-CH
+toc: false
+---
+
+::: {.section-intro .branch-hero .branch-hero-mathematics .fade-in}
+<span class="branch-status branch-status-mathematics">{{< var status_de.planned >}}</span>
+
+# Ratiomera Mathematics
+
+Geplante Mathematikbildung von der Primarschule bis zur Gymnasialstufe.
+:::
+
+::: {.landing-prose}
+## Überblick {#overview}
+
+Ratiomera Mathematics ist der geplante Mathematik-Fachbereich von Ratiomera. Das langfristige Ziel besteht darin, einen zusammenhängenden Lernpfad von der Primarschulmathematik bis zur Schweizer Gymnasialstufe anzubieten.
+
+Die geplante Struktur stützt sich auf Gespräche mit Lehrpersonen aus verschiedenen Regionen der Schweiz und auf den Vergleich relevanter Schullehrpläne. Erklärungen, angeleitete Beispiele, Übungsaufgaben und Lösungen sollen sowohl das konzeptuelle Verständnis als auch die Sicherheit bei der Anwendung von Verfahren fördern.
+
+Die Entwicklung hat noch nicht begonnen. Ratiomera Mathematics wird in die aktive Entwicklung eintreten, sobald der englischsprachige Lehrplan von Ratiomera Statistics einen stabilen und qualitativ hochwertigen Stand erreicht hat.
+:::
+
+---
+
+::: {.development-panel .development-panel-mathematics}
+## Entwicklungsstand {#development-status}
+
+<span class="status-badge planned">{{< var status_de.planned >}}</span>
+
+Derzeit sind keine Mathematiklektionen oder Kursseiten verfügbar. Der Fachbereich bleibt in der Planungsphase, während der aktive englischsprachige Statistiklehrplan fertiggestellt und geprüft wird.
+:::
+
+::: {.btn-row}
+[Entwicklungsstand ansehen](#development-status){.dl-btn .mathematics}
+[Künftige Entwicklung unterstützen](../../de/pages/support-ratiomera-de.qmd){.dl-btn .secondary .mathematics}
+[Zurück zu Ratiomera](../../de/home-ratiomera-de.qmd){.text-link-arrow}
+:::
