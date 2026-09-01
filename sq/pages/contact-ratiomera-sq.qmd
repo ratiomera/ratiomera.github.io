@@ -22,7 +22,6 @@ Përdor kontaktin e përgjithshëm për pyetje rreth projektit Ratiomera në të
 <article class="contact-card">
 <h3>Pyetje të përgjithshme</h3>
 <p>Për pyetje organizative, ide bashkëpunimi, komunikim institucional dhe komente të përgjithshme.</p>
-<span class="contact-label">Email</span>
 [{{< var contact.info >}}](mailto:{{< var contact.info >}}){.contact-address}
 </article>
 </div>
@@ -35,13 +34,11 @@ Përdor kontaktin e përgjithshëm për pyetje rreth projektit Ratiomera në të
 <article class="contact-card">
 <h3>Ratiomera Statistics</h3>
 <p>Për korrigjime, shpjegime të paqarta, komente mbi kurrikulën, vërejtje për qasshmërinë, pyetje rreth burimeve dhe kërkesa të tjera për Ratiomera Statistics.</p>
-<span class="contact-label">Email</span>
 [{{< var contact.statistics >}}](mailto:{{< var contact.statistics >}}){.contact-address}
 </article>
 <article class="contact-card">
 <h3>Ratiomera Mathematics</h3>
 <p>Për sugjerime mbi kurrikulën e ardhshme, interes nga mësimdhënësit ose institucionet dhe pyetje rreth zhvillimit të planifikuar.</p>
-<span class="contact-label">Email</span>
 [{{< var contact.mathematics >}}](mailto:{{< var contact.mathematics >}}){.contact-address}
 </article>
 </div>
@@ -54,7 +51,6 @@ Përdor kontaktin e përgjithshëm për pyetje rreth projektit Ratiomera në të
 <article class="contact-card">
 <h3>Kontribuo në Ratiomera</h3>
 <p>Për oferta për shqyrtim lëndor, mbështetje gjuhësore, punë për qasshmërinë, dizajn, zhvillim, testim ose një kontribut tjetër të përshkruar qartë.</p>
-<span class="contact-label">Email</span>
 [{{< var contact.volunteering >}}](mailto:{{< var contact.volunteering >}}){.contact-address}
 </article>
 </div>
@@ -67,7 +63,6 @@ Përdor kontaktin e përgjithshëm për pyetje rreth projektit Ratiomera në të
 <article class="contact-card">
 <h3>Ndiq Ratiomera</h3>
 <p>Ndiq Ratiomera në LinkedIn për njoftime rreth projektit, të publikuara në anglisht, gjermanisht dhe shqip. Për pyetje, korrigjime ose kërkesa për bashkëpunim, përdor adresat e emailit në këtë faqe.</p>
-<span class="contact-label">Faqja zyrtare</span>
 [Vizito Ratiomera në LinkedIn]({{< var social.linkedin >}}){.contact-channel-link target="_blank" rel="noopener noreferrer" aria-label="Vizito Ratiomera në LinkedIn (hapet në një skedë të re)"}
 </article>
 </div>

@@ -21,7 +21,6 @@ Use the general contact for questions about Ratiomera as a project, collaboratio
 <article class="contact-card">
 <h3>General inquiries</h3>
 <p>For organizational questions, collaboration ideas, institutional communication, and general feedback.</p>
-<span class="contact-label">Email</span>
 [{{< var contact.info >}}](mailto:{{< var contact.info >}}){.contact-address}
 </article>
 </div>
@@ -34,13 +33,11 @@ Use the general contact for questions about Ratiomera as a project, collaboratio
 <article class="contact-card">
 <h3>Ratiomera Statistics</h3>
 <p>For corrections, unclear explanations, curriculum feedback, accessibility observations, source questions, and other inquiries about Ratiomera Statistics.</p>
-<span class="contact-label">Email</span>
 [{{< var contact.statistics >}}](mailto:{{< var contact.statistics >}}){.contact-address}
 </article>
 <article class="contact-card">
 <h3>Ratiomera Mathematics</h3>
 <p>For future curriculum suggestions, interest from teachers or institutions, and questions about planned development.</p>
-<span class="contact-label">Email</span>
 [{{< var contact.mathematics >}}](mailto:{{< var contact.mathematics >}}){.contact-address}
 </article>
 </div>
@@ -53,7 +50,6 @@ Use the general contact for questions about Ratiomera as a project, collaboratio
 <article class="contact-card">
 <h3>Volunteer with Ratiomera</h3>
 <p>For offers of subject review, language support, accessibility work, design, development, testing, or another clearly described contribution.</p>
-<span class="contact-label">Email</span>
 [{{< var contact.volunteering >}}](mailto:{{< var contact.volunteering >}}){.contact-address}
 </article>
 </div>
@@ -66,7 +62,6 @@ Use the general contact for questions about Ratiomera as a project, collaboratio
 <article class="contact-card">
 <h3>Follow Ratiomera</h3>
 <p>Follow Ratiomera on LinkedIn for project updates published in English, German, and Albanian. For questions, corrections, or collaboration inquiries, use the email routes on this page.</p>
-<span class="contact-label">Official page</span>
 [Visit Ratiomera on LinkedIn]({{< var social.linkedin >}}){.contact-channel-link target="_blank" rel="noopener noreferrer" aria-label="Visit Ratiomera on LinkedIn (opens in a new tab)"}
 </article>
 </div>

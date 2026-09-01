@@ -1459,9 +1459,29 @@ if (is.null(linkedin_channel)) {
           fail(sprintf("%s lacks required LinkedIn link semantics: %s.", contact_path, token))
         }
       }
+      if (grepl("contact-label", contact_text, fixed = TRUE)) {
+        fail(sprintf("%s contains a redundant visible contact-channel label.", contact_path))
+      }
       if (grepl(canonical_linkedin_url, contact_text, fixed = TRUE)) {
         fail(sprintf("%s hardcodes the LinkedIn URL instead of using the shared variable.", contact_path))
       }
+    }
+  }
+
+  contact_styles_path <- "styles/site.css"
+  if (!file.exists(contact_styles_path)) {
+    fail(sprintf("Missing contact stylesheet: %s", contact_styles_path))
+  } else {
+    contact_styles <- paste(readLines(contact_styles_path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+    contact_layout_patterns <- c(
+      "\\.contact-card\\s*\\{[^}]*display:\\s*flex;[^}]*flex-direction:\\s*column;",
+      "\\.contact-address\\s*\\{[^}]*align-self:\\s*flex-start;[^}]*max-width:\\s*100%;[^}]*margin-top:\\s*auto;[^}]*color:\\s*var\\(--color-link\\);",
+      "\\.contact-channel-link\\s*\\{[^}]*align-self:\\s*flex-start;[^}]*max-width:\\s*100%;[^}]*margin-top:\\s*auto;[^}]*color:\\s*var\\(--color-link\\);"
+    )
+    if (!all(vapply(contact_layout_patterns, function(pattern) {
+      grepl(pattern, contact_styles, perl = TRUE)
+    }, logical(1)))) {
+      fail("Contact cards must bottom-align email and LinkedIn links and use the shared link color.")
     }
   }
 }

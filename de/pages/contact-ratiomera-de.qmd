@@ -22,7 +22,6 @@ Nutze die allgemeine Kontaktstelle für Fragen zum Gesamtprojekt Ratiomera, zur 
 <article class="contact-card">
 <h3>Allgemeine Anfragen</h3>
 <p>Für organisatorische Fragen, Ideen zur Zusammenarbeit, die Kommunikation mit Institutionen und allgemeine Rückmeldungen.</p>
-<span class="contact-label">E-Mail</span>
 [{{< var contact.info >}}](mailto:{{< var contact.info >}}){.contact-address}
 </article>
 </div>
@@ -35,13 +34,11 @@ Nutze die allgemeine Kontaktstelle für Fragen zum Gesamtprojekt Ratiomera, zur 
 <article class="contact-card">
 <h3>Ratiomera Statistics</h3>
 <p>Für Korrekturen, unklare Erklärungen, Rückmeldungen zum Lehrplan, Hinweise zur Barrierefreiheit, Quellenfragen und weitere Anliegen zu Ratiomera Statistics.</p>
-<span class="contact-label">E-Mail</span>
 [{{< var contact.statistics >}}](mailto:{{< var contact.statistics >}}){.contact-address}
 </article>
 <article class="contact-card">
 <h3>Ratiomera Mathematics</h3>
 <p>Für Vorschläge zum künftigen Lehrplan, Interesse von Lehrpersonen oder Institutionen und Fragen zur geplanten Entwicklung.</p>
-<span class="contact-label">E-Mail</span>
 [{{< var contact.mathematics >}}](mailto:{{< var contact.mathematics >}}){.contact-address}
 </article>
 </div>
@@ -54,7 +51,6 @@ Nutze die allgemeine Kontaktstelle für Fragen zum Gesamtprojekt Ratiomera, zur 
 <article class="contact-card">
 <h3>Bei Ratiomera mitwirken</h3>
 <p>Für Angebote zur fachlichen Prüfung, sprachlichen Unterstützung, Barrierefreiheit, Gestaltung, Entwicklung, zum Testen oder für einen anderen klar beschriebenen Beitrag.</p>
-<span class="contact-label">E-Mail</span>
 [{{< var contact.volunteering >}}](mailto:{{< var contact.volunteering >}}){.contact-address}
 </article>
 </div>
@@ -67,7 +63,6 @@ Nutze die allgemeine Kontaktstelle für Fragen zum Gesamtprojekt Ratiomera, zur 
 <article class="contact-card">
 <h3>Ratiomera folgen</h3>
 <p>Folge Ratiomera auf LinkedIn, um Neuigkeiten zum Projekt auf Englisch, Deutsch und Albanisch zu erhalten. Nutze für Fragen, Korrekturen oder Anfragen zur Zusammenarbeit die E-Mail-Adressen auf dieser Seite.</p>
-<span class="contact-label">Offizielle Seite</span>
 [Ratiomera auf LinkedIn besuchen]({{< var social.linkedin >}}){.contact-channel-link target="_blank" rel="noopener noreferrer" aria-label="Ratiomera auf LinkedIn besuchen (öffnet sich in einem neuen Tab)"}
 </article>
 </div>

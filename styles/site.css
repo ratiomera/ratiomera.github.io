@@ -3874,6 +3874,11 @@ caption {
   box-shadow: var(--shadow-subtle);
 }
 
+.contact-card {
+  display: flex;
+  flex-direction: column;
+}
+
 .contact-card h3,
 .support-card h3 {
   margin-top: 0;
@@ -3881,8 +3886,11 @@ caption {
 
 .contact-address {
   display: block;
-  margin-top: var(--space-2);
-  color: var(--ratiomera-navy);
+  align-self: flex-start;
+  max-width: 100%;
+  margin-top: auto;
+  padding-top: var(--space-2);
+  color: var(--color-link);
   font-family: "JetBrains Mono", ui-monospace, monospace;
   font-size: 0.82rem;
   font-weight: 620;
@@ -3891,15 +3899,17 @@ caption {
 
 .contact-channel-link {
   display: inline-flex;
-  margin-top: var(--space-2);
+  align-self: flex-start;
+  max-width: 100%;
+  margin-top: auto;
+  padding-top: var(--space-2);
   align-items: center;
-  color: var(--ratiomera-navy);
+  color: var(--color-link);
   font-size: 0.9rem;
   font-weight: 680;
   overflow-wrap: anywhere;
 }
 
-.contact-label,
 .placeholder-label {
   display: inline-flex;
   width: fit-content;
